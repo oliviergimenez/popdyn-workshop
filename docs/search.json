@@ -1,0 +1,21 @@
+{
+  "articles": [
+    {
+      "path": "about.html",
+      "title": "About this site",
+      "description": "Some additional details about the website",
+      "author": [],
+      "contents": "\n\n\n\n",
+      "last_modified": "2021-12-23T10:52:43+02:00"
+    },
+    {
+      "path": "index.html",
+      "title": "popdyn-workshop",
+      "description": "Welcome to the website. I hope you enjoy it!\n",
+      "author": [],
+      "contents": "\n\n\n\n",
+      "last_modified": "2021-12-23T10:52:44+02:00"
+    }
+  ],
+  "collections": []
+}
