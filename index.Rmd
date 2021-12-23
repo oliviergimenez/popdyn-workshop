@@ -18,7 +18,9 @@ knitr::opts_chunk$set(echo = FALSE)
 
 **When**: March 21-22, 2022
 
-**Where**: Online
+**Where**: On YouTube     
+Day 1: <https://youtu.be/iqlqc5a4r7w>    
+Day 2: <https://youtu.be/b08d1BBqf5E>
 
 ### Program 
 
