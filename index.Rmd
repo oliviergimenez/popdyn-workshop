@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 **What**: Quantifying population dynamics is crucial for the conservation and management of animal and plant species. This workshop deals with the analysis and modelling of population dynamics. In this introductory workshop, we will cover population projection matrix models, the estimation of demographic parameters (e.g. survival, dispersal) using capture-recapture models and the estimation of population density and abundance using capture-recapture, N-mixture and distance sampling models. Our hope is to provide you with what you need to go your own path. The event is free of charge, and video-recorded. 
 
-**For whom**: This is a workshop for ecologists. Basic knowledge of `R` is required. 
+**For whom**: This is a workshop for ecologists. Basic knowledge of `R` is required. See [R for beginners](https://cran.r-project.org/doc/contrib/Paradis-rdebuts_en.pdf) by E. Paradis for an introduction.
 
 **How**: The format of the workshop will be a combination of lectures and live demonstrations in R with packages `popbio`, `RMark` and `unmarked`.
 
@@ -45,7 +45,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ### Requirements
 
-+ Install [`R`](https://cloud.r-project.org/) and [`RStudio`](https://rstudio.com/products/rstudio/download/#download). 
++ Install [`R`](https://cloud.r-project.org/) and [`RStudio`](https://rstudio.com/products/rstudio/download/#download). `RStudio` is recommended but not mandatory. 
 
 + Install the R package `Rmark` following the steps described at <http://www.phidot.org/software/mark/rmark/>.
 
