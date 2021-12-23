@@ -47,9 +47,12 @@ knitr::opts_chunk$set(echo = FALSE)
 
 + Install [`R`](https://cloud.r-project.org/) and [`RStudio`](https://rstudio.com/products/rstudio/download/#download). 
 
-+ Install the R packages `unmarked` and `popbio`. 
-
 + Install the R package `Rmark` following the steps described at <http://www.phidot.org/software/mark/rmark/>.
+
++ Install the R packages `unmarked` and `popbio` directly from the console with
+```{r eval = FALSE, echo = TRUE}
+install.packages(c("unmarked", "popbio"))
+```
 
 ### Reuse {.appendix}
 
