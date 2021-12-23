@@ -1,12 +1,22 @@
 name: "."
-title: "popdyn-workshop"
+title: "Quantitative methods for population dynamics in R"
 description: |
   popdyn-workshop
+theme: "theme.css"
 output_dir: "docs"
 navbar:
+  left:
   right:
     - text: "Home"
       href: index.html
-    - text: "About"
-      href: about.html
+    - text: "Lectures"
+      menu:
+        - text: "Class 1: blabla"
+          href: slides/class1.pptx
+    - text: "Live demos"
+      menu:
+        - text: "Demo 1: blabla"
+          href: worksheets/tp4-marked-survival.pdf
+    - icon: fab fa-github
+      href: https://github.com/oliviergimenez/popdyn-workshop    
 output: distill::distill_article
