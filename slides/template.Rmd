@@ -1,0 +1,193 @@
+---
+title: "Slides template"
+author: "The team"
+date: "last updated: `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: [default, "slides-theme.css"]
+    lib_dir: libs
+    nature:
+      ratio: '16:9' 
+      highlightStyle: github
+      highlightLines: true
+      slideNumberFormat: ''
+      titleSlideClass: [center, middle]
+---
+
+```{r setup, include=FALSE, echo=FALSE, cache = FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(comment = "")
+library(tidyverse)
+theme_set(theme_light())
+update_geom_defaults("point", list(size = 2)) 
+```
+
+# my first slide
+
+## sub-title
+
+### sub-subtitle
+
+Du texte normal : faire un lien dynamique vers [une page web](https://human-animal-interactions.github.io/). 
+
+Pour commencer une nouvelle diapo, on utilise trois tirets dans le R Markdown. 
+
+---
+
+# Part 1 of the slides
+
+Some blabla. Pour animer ses diapos, utiliser deux tirets pour faire apparaître les différentes parties de la diapo au fur et à mesure. 
+
+--
+
+Part 2
+
+--
+
+Part 3
+
+--
+
+A list. 
++ item 1
++ item 2
++ item 3
+
+---
+
+# Math Expressions
+
+You can write LaTeX math expressions inside a pair of dollar signs, e.g. &#36;\alpha+\beta$ renders $\alpha+\beta$. You can use center your equations with double dollar signs. For example, the following line
+
+```
+$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
+```
+
+gives that:
+
+$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
+
+
+---
+
+# R Code
+
+```{r}
+# a boring regression
+fit = lm(dist ~ 1 + speed, data = cars)
+coef(summary(fit))
+```
+
+---
+
+# R Code
+
+La même chose qu'à la diapo précédente, mais le code n'est pas évalué. On utilise eval = FALSE dans le chunk. 
+
+```{r eval = FALSE}
+# a boring regression
+fit = lm(dist ~ 1 + speed, data = cars)
+coef(summary(fit))
+```
+
+---
+
+# R Code
+
+La même chose qu'à la diapo précédente, mais on ne rend que la sortie, sans montrer le code. On utilise echo = FALSE dans le chunk. 
+
+```{r echo = FALSE}
+# a boring regression
+fit = lm(dist ~ 1 + speed, data = cars)
+coef(summary(fit))
+```
+
+
+---
+
+# Figure créée avec R
+
+```{r, fig.height=4, dev='svg', fig.align='center'}
+par(mar = c(4, 4, 1, .1))
+plot(cars, pch = 19, col = 'darkgray', las = 1)
+abline(fit, lwd = 2)
+```
+
+---
+
+# Même chose, sans le code
+
+```{r, fig.height=4, dev='svg', fig.align='center', echo = FALSE}
+par(mar = c(4, 4, 1, .1))
+plot(cars, pch = 19, col = 'darkgray', las = 1)
+abline(fit, lwd = 2)
+```
+
+---
+
+# Insert an image
+
+![](mojito.png)
+
+---
+
+# Resize and center an image
+
+```{r, echo=FALSE, out.width="50%", fig.align='center'}
+knitr::include_graphics("mojito.png")
+```
+
+---
+
+# Tables
+
+If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,
+
+```{r}
+knitr::kable(head(iris), format = 'html')
+```
+
+
+---
+
+# Some Tips
+
+An example of using the trailing comment `#<<` to highlight lines:
+
+````markdown
+`r ''````{r tidy=FALSE}
+library(ggplot2)
+geom_point() +   #<<
+```
+````
+
+Output:
+```{r tidy=FALSE, eval=FALSE}
+library(ggplot2)
+  geom_point() +   #<<
+```
+
+---
+
+# Text on two columns
+
+.pull-left[
+- One bullet.
+
+- Another bullet.
+]
+
+.pull-right[
+- *Text in italic*.
+
+- **Bold font**.
+]
+
+
+---
+
+# More about making slides w/ R Markdown
+
++ [A short course](https://oliviergimenez.github.io/reproducible-science-workshop/slides/2_markdown.html#1)
+
++ [R Markdown cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/)
