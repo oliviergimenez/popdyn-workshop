@@ -17,6 +17,10 @@ navbar:
       menu:
         - text: "Demo 1: blabla"
 #          href: worksheets/tp4-marked-survival.pdf
+    - text: "Tutorials"
+      menu:
+        - text: "Install RMark on a Mac"
+          href: tutorials/rmark-mac.html
     - icon: fab fa-github
       href: https://github.com/oliviergimenez/popdyn-workshop    
 output: distill::distill_article

@@ -2410,6 +2410,16 @@ Live demos
 <span class="nav-dropdown-header">Demo 1: blabla</span>
 </div>
 </div>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Tutorials
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="tutorials/rmark-mac.html">Install RMark on a Mac</a>
+</div>
+</div>
 <a href="https://github.com/oliviergimenez/popdyn-workshop">
 <i class="fab fa-github" aria-hidden="true"></i>
 </a>
@@ -2440,39 +2450,37 @@ Day 1: <a href="https://youtu.be/iqlqc5a4r7w" class="uri">https://youtu.be/iqlqc
 Day 2: <a href="https://youtu.be/b08d1BBqf5E" class="uri">https://youtu.be/b08d1BBqf5E</a></p>
 <h3 id="program">Program</h3>
 <ul>
-<li><strong>Population projection matrix models</strong></li>
-</ul>
-<ol type="1">
-<li>Introduction to matrix models</li>
-<li>Age- and stage-structured models</li>
-<li>Leslie models as a particular case; sensitivity analysis.</li>
-<li>Introduction to <code>popbio</code></li>
-<li>Further analysis issues: density-dependence; random environment; demographic stochasticity / branching processes; multisite and multistage models</li>
-</ol>
-<ul>
-<li><strong>Estimation of survival, transition between reproductive states, productivity using capture-recapture and generalized linear models</strong></li>
-</ul>
-<ol type="1">
-<li>Survival estimation from capture-recapture data</li>
-<li>Multiple group, age and cohort models</li>
-<li>Incorporation of external covariates</li>
-<li>Introduction to <code>RMark</code></li>
-<li>Further analysis issues: estimation of recruitment and population growth rate by reversing capture histories; multi-state models allowing estimation of transitions (including movements)</li>
-</ol>
-<ul>
 <li><strong>Estimating abundance and density of populations</strong></li>
 </ul>
 <ol type="1">
 <li>Introduction to counting methods</li>
 <li>Conventional methods and the detectability issue</li>
 <li>Capture-recapture, N-mixture and line transect samplings</li>
-<li>Introduction to <code>unmarked</code></li>
-<li>Further analysis issues: introducing covariates; heterogeneity</li>
+<li>Introduction to <code>unmarked</code> <!-- 5. Further analysis issues: introducing covariates; heterogeneity --></li>
+</ol>
+<ul>
+<li><strong>Estimation of survival and productivity using capture-recapture and generalized linear models</strong></li>
+</ul>
+<ol type="1">
+<li>Survival estimation from capture-recapture data</li>
+<li>Multiple group, age and cohort models</li>
+<li>Incorporation of external covariates</li>
+<li>Introduction to <code>RMark</code></li>
+<li>Productivity estimation <!-- 5. Further analysis issues: estimation of recruitment and population growth rate by reversing capture histories; multi-state models allowing estimation of transitions (including movements) --></li>
+</ol>
+<ul>
+<li><strong>Population projection matrix models</strong></li>
+</ul>
+<ol type="1">
+<li>Introduction to matrix models</li>
+<li>Age- and stage-structured models</li>
+<li>Leslie models as a particular case; sensitivity analyses.</li>
+<li>Introduction to <code>popbio</code> <!-- 5. Further analysis issues: density-dependence; random environment; demographic stochasticity / branching processes; multisite and multistage models --></li>
 </ol>
 <h3 id="requirements">Requirements</h3>
 <ul>
 <li><p>Install <a href="https://cloud.r-project.org/"><code>R</code></a> and <a href="https://rstudio.com/products/rstudio/download/#download"><code>RStudio</code></a>. <code>RStudio</code> is recommended but not mandatory.</p></li>
-<li><p>Install the R package <code>Rmark</code> following the steps described at <a href="http://www.phidot.org/software/mark/rmark/" class="uri">http://www.phidot.org/software/mark/rmark/</a>.</p></li>
+<li><p>Install the R package <code>RMark</code> following the steps described at <a href="http://www.phidot.org/software/mark/rmark/" class="uri">http://www.phidot.org/software/mark/rmark/</a>. For Mac users, the installation is a bit tricky, check out the procedure <a href="tutorials/rmark-mac.html">here</a>.</p></li>
 <li><p>Install the R packages <code>unmarked</code> and <code>popbio</code> directly from the console with</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">

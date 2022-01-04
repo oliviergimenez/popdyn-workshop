@@ -1,0 +1,63 @@
+---
+title: "Install RMark on a Mac"
+date: "January 2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# How to install program MARK and package RMark on a Mac
+
+The `R` package `RMark` requires that program `MARK` be on your Mac (just the Mark.exe file). You won't have to run `MARK` directly, we will call it from `R`. Here are the steps to follow from [here](http://www.phidot.org/forum/viewtopic.php?f=21&t=3233) and updated [there](www.gilbertresearch.org/s/Directions-for-installing-program-MARK-and-package-RMark-on-a-mac.docx).
+
+1.	Install the `RMark` package in `R`, then load the library with:
+
+```{r eval = FALSE}
+library(RMark)
+```
+
+2.	Install Xcode from the App Store if not already installed on your computer.
+
+3.	Install GCC builds and gfortran from http://hpc.sourceforge.net/ by downloading the appropriate pair of tar.gz binary files. For OS X El Capitan & Sierra these would be gcc-7.1-bin.tar.gz & gfortran-7.1-bin.tar.gz. These binaries will download into your 'Downloads' folder. 
+
+4.	From here, run the following lines of code (copy and paste) in Terminal (Terminal is a command line interface that is akin to the Command Prompt in Microsoft Windows; it can be found in the Utilities folder located within your Applications folder). Be sure to pay attention to spaces, and you may be asked for your app installation password.
+
+    cd ~/Downloads
+
+    gunzip gfortran-7.1-bin.tar.gz
+
+    gunzip gcc-7.1-bin.tar.gz
+
+    sudo tar -xvf gfortran-7.1-bin.tar -C /
+
+    sudo tar -xvf gcc-7.1-bin.tar -C /
+
+5.	Now you are ready to download the zipped file containing the build MARK at this link http://www.phidot.org/software/mark/downloads/files/mark.osx.zip.
+
+6.	Extract the file mark.64.osx from mark.osx.zip (by clicking on the downloaded zip file).
+
+7.	Next, rename the file “mark” by deleting the .64.osx extension of the file name.
+
+8.	Copy the renamed mark file to the hidden folder /usr/local/bin on your computer. This folder can be accessed by opening your Terminal and copy and pasting:
+
+    open -a Finder /usr/local/bin
+
+9.	In Terminal, simply type “mark” (without the quotes) to make sure the file is executable. If you get the message “No input file was specified, so MARK job is done”, then everything worked!
+
+10.	Now, make sure that RMark in program R can find/use Mark, by running the following lines of code:
+
+```{r eval = FALSE}
+data(dipper)
+dipper.model <- mark(dipper)
+```
+
+11.	You should get some model outputs, that start something like this:
+
+```{r eval = FALSE}
+Output summary for CJS model    
+Name : Phi(~1)p(~1) 
+```
+
+12.	If you do, you are good to go! If not, try to google the error message you probably got earlier.
