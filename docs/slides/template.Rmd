@@ -14,7 +14,7 @@ output:
       titleSlideClass: [center, middle]
 ---
 
-```{r setup, include=FALSE, echo=FALSE, cache = TRUE}
+```{r setup, include=FALSE, echo=FALSE, cache = FALSE}
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(comment = "")
 library(tidyverse)
