@@ -1,0 +1,852 @@
+---
+title: "Estimation of survival and productivity using capture-recapture and generalized linear models"
+author: "The team"
+date: "last updated: `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: [default, "slides-theme.css"]
+    lib_dir: libs
+    nature:
+      ratio: '16:9' 
+      highlightStyle: github
+      highlightLines: true
+      slideNumberFormat: ''
+      titleSlideClass: [center, middle]
+---
+
+```{r setup, include=FALSE, echo=FALSE, cache = FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(comment = "")
+library(tidyverse)
+theme_set(theme_light())
+update_geom_defaults("point", list(size = 2)) 
+```
+
+# On our plate
+
++ Survival estimation from capture-recapture data
++ Multiple group, age and cohort models
++ Incorporation of external covariates
++ Introduction to RMark
++ Productivity estimation 
+
+---
+
+![](img/lebreton.png)
+
+
+---
+### History of the Cormack-Jolly-Seber (CJS) model
+
+--
+
+<font size="5">S.T. Buckland (2016). A Conversation with Richard M. Cormack. Statistical Science 31: 142-150.</font>
+
+--
+
+.pull-left[
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("img/cormack-left.png")
+```
+]
+
+--
+
+.pull-right[
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("img/cormack-right.png")
+```
+]
+
+
+---
+### Capture, mark and recapture
+
+.pull-left[
+```{r, echo=FALSE, out.width="90%"}
+knitr::include_graphics("img/gull.jpg")
+```
+]
+
+.pull-right[
+```{r, echo=FALSE, out.width="110%"}
+knitr::include_graphics("img/bighorn.png")
+```
+]
+
+Artificial marks
+
+
+---
+### Capture, mark and recapture
+
+.pull-left[
+```{r, echo=FALSE, out.width="90%"}
+knitr::include_graphics("img/lynx.png")
+```
+]
+
+.pull-right[
+```{r, echo=FALSE, out.width="120%"}
+knitr::include_graphics("img/bearscat.png")
+```
+]
+
+Natural marks
+
+
+---
+## The famous Dipper example
+
+.center[
+.pull-left[
+```{r, echo=FALSE, out.width="60%", fig.cap="White-throated Dipper (Cinclus cinclus)"}
+knitr::include_graphics("img/Marzo_BaguesMance.jpg")
+```
+]
+]
+
+--
+
+.pull-right[
+```{r, echo=FALSE, fig.cap="Gilbert Marzolin", out.width="60%"}
+knitr::include_graphics("img/Marzocuissardes.jpg")
+```
+]
+
+---
+## 294 dippers captured and recaptured between 1981 and 1987 with known sex and wing length
+
+.center.nogap[
+```{r echo = FALSE, message=FALSE, warning=FALSE}
+dipper <- read_csv("dat/dipper.csv")
+dipper %>%  
+  kableExtra::kable() %>%
+  kableExtra::scroll_box(width = "100%", height = "400px")
+y <- dipper %>%
+  select(year_1981:year_1987) %>%
+  as.matrix()
+```
+]
+
+
+---
+class: middle
+
+## How to select a best model?
+
+---
+# Model selection
+
+--
+
++ Which of the four models above is best supported by the data?
+
+--
+
++ The proportion of explained variance $R^2$ is problematic, because the more variables you have, the bigger $R^2$ is.
+
+--
+
++ The idea is to penalize models with too many parameters.
+
+---
+## Akaike information criterion (AIC)
+
+$$AIC = - 2 \log(L(\hat{\theta}_1,\ldots,\hat{\theta}_K)) + 2 K$$
+
+with $L$ the likelihood and $K$ the number of parameters $\theta_i$.
+
+---
+## Akaike information criterion (AIC)
+
+$$\text{AIC} = {\color{purple}{- 2 \log(L(\hat{\theta}_1,\ldots,\hat{\theta}_K))}} + 2 K$$
+
+<span style="color: purple;">A measure of goodness-of-fit of the model to the data</span>: the more parameters you have, the smaller the deviance is (or the bigger the likelihood is).
+
+---
+## Akaike information criterion (AIC)
+
+$$\text{AIC} = - 2 \log(L(\hat{\theta}_1,\ldots,\hat{\theta}_K)) + {\color{purple}{2 K}}$$
+
+<span style="color: purple;">A penalty</span>: twice the number of parameters $K$
+
+---
+## Akaike information criterion (AIC)
+
++ AIC makes the balance between *quality of fit* and *complexity* of a model.
+
++ Best model is the one with lowest AIC value.
+
++ Two models are difficult to distinguish if $\Delta \text{AIC} < 2$.
+
+
+---
+background-color: #234f66
+## <span style="color:white">Live demo</span>
+
+.center[
+![](img/b5b086f9cc403008ba7be5dd508cfed2.gif)
+]
+
+
+
+---
+class: middle
+
+## Can we explain time variation?
+
+---
+# Embrace heterogeneity
+
+--
+
++ Include temporal covariates, say $x_t$.
+
+--
+
++ $\text{logit}(\phi_t) = \beta_1 + \beta_2 x_t$.
+
+--
+
++ Let's investigate the effect of water flow on dipper survival ([Marzolin 2002](https://doi.org/10.2307/3802934)).
+
+
+
+---
+# Embrace heterogeneity
+
+
++ Include temporal covariates, say $x_t$
+
++ $\text{logit}(\phi_t) = \beta_1 + \beta_2 x_t$
+
+--
+
++ If temporal variation not fully explained by covariates, add random effects
+
+--
+
++ $\text{logit}(\phi_t) = \beta_1 + \beta_2 x_t + \varepsilon_t, \; \varepsilon_t \sim N(0,\sigma^2)$
+
+
+
+---
+# What about individual heterogeneity?
+
+--
+
++ Discrete covariate like, e.g., sex
+
+--
+
++ Continuous covariate like, e.g., mass or size
+
+---
+## Sex and wing length in Dipper
+
+.center.nogap[
+```{r echo = FALSE, message=FALSE, warning=FALSE}
+dipper %>%  
+  kableExtra::kable() %>%
+  kableExtra::scroll_box(width = "100%", height = "400px")
+```
+]
+
+---
+# Sex effect
+
+--
+
++ Let's use a covariate $\text{sex}$ that takes value 0 if male, and 1 if female
+
+--
+
++ And write $\text{logit}(\phi_i) = \beta_1 + \beta_2 \; \text{sex}_i$ for bird $i$
+
+--
+
++ Then male survival is 
+
+$$\text{logit}(\phi_i) = \beta_1$$
+
+--
+
++ And female survival is 
+
+$$\text{logit}(\phi_i) = \beta_1 + \beta_2$$
+
+
+---
+## What if covariates vary with individual and time?
+
+--
+
++ Think of age for example (see exercises in Worksheets); covariate or nested indexing works fine.
+
+--
+
++ Now, think of body size across life.
+
+--
+
++ Problem is we cannot record size when animal is non-detected.
+
+--
+
++ Discretize in small, medium and large and treat as a state <span>&#8212;</span> more later.
+
+--
+
++ Assume a model for covariate and fill in missing values (imputation).
+
+
+---
+background-color: black
+# <span style="color:white">Live demo</span>
+
+<br>
+<br>
+
+.center[
+![](img/r_1051694_ifmHZ.gif)
+]
+
+
+
+---
+## Capture-recapture models rely on assumptions
+
+--
+
++ Design
+    + No mark lost
+    + Identity of individuals recorded without error (no false positives)
+    + Captured individuals are a random sample
+
+--
+
++ Model
+    + Homogeneity of survival and recapture probabilities
+    + Independence between individuals (overdispersion)
+
+--
+
++ Test validity of assumptions
+    + These assumptions should be valid, whatever inferential framework
+    + Use goodness-of-fit tests <span>&#8212;</span> Pradel et al. (2005)
+    + `R` implementation with [package `R2ucare`](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.13014)
+    + Posterior predictive checks can also be used (not covered; [Gelman et al. 2020](https://arxiv.org/pdf/2011.01808.pdf))
+
+
+
+---
+## What does survival actually mean in capture-recapture ?
+
+--
+
++ Survival refers to the study area.
+
+--
+
++ Mortality and permanent emigration are confounded.
+
+--
+
++ Therefore we estimate apparent survival, not true survival.
+
+--
+
++ Apparent survival probability = true survival × study area fidelity.
+
+--
+
++ Consequently, apparent survival < true survival unless study area fidelity = 1.
+
+--
+
++ Use caution with interpretation. If possible, combine with ring-recovery data, or go spatial to get closer to true survival.
+
+---
+class: middle
+
+## On the move: Transition estimation
+
+---
+
+<style>
+
+.center2 {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+</style>
+
+.center2[
+![](img/arnason1973.png)
+]
+
+
+---
+
+<style>
+
+.center2 {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+</style>
+
+.center2[
+![](img/schwarz1993.png)
+]
+
+
+---
+class: middle, center
+background-color: #230404
+
+## <span style="color: white;">Thank you Canada!</span>
+
+
+![](img/deadpool.gif)
+
+---
+background-image: url(https://media.giphy.com/media/26BRGxMMN3Pn1MMdG/source.gif)
+background-size: cover
+
+---
+
+.center[
+![](img/nichols.png)
+]
+
+
+
+---
+background-image: url("img/geese.png")
+background-size: cover
+
+## <span style="color: white;">Wintering site fidelity in Canada Geese</span>
+
+---
+### 3 sites Carolinas, Chesapeake, Mid-Atlantic, with 21277 banded geese, data kindly provided by Jay Hestbeck ([Hestbeck et al. 1991](https://esajournals.onlinelibrary.wiley.com/doi/10.2307/2937193))
+
+.center.nogap[
+```{r echo = FALSE, message=FALSE, warning=FALSE}
+geese <- read_csv("dat/geese.csv")
+geese %>%  
+  kableExtra::kable() %>%
+  kableExtra::scroll_box(width = "100%", height = "400px")
+y <- geese %>%
+  as.matrix()
+```
+]
+
+???
+
+(large areas along East coast of US)
+
+---
+class: middle
+### Biological inference
+
+.center.nogap[
+```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE}
+ggplot() + 
+  geom_point(aes(1, 1), size = 2.5, alpha = .7) + 
+  geom_point(aes(1, 1.5), size = 2.5, alpha = .7) + 
+  geom_point(aes(1, 2), size = 2.5, alpha = .7) + 
+  geom_text(aes(1, 2, label = 'non-detection'), nudge_x = -0.6, size = 7) + 
+  geom_text(aes(1, 1.5, label = 'detection in site A'), nudge_x = -0.6, size = 7) + 
+  geom_text(aes(1, 1, label = 'detection in site B'), nudge_x = -0.6, size = 7) +
+  geom_point(aes(2, 1), size = 2.5, alpha = .7) + 
+  geom_point(aes(2, 1.5), size = 2.5, alpha = .7) + 
+  geom_point(aes(2, 2), size = 2.5, alpha = .7) + 
+  geom_text(aes(2, 2, label = 'alive in site A'), nudge_x = 0.5, size = 7) + 
+  geom_text(aes(2, 1.5, label = 'alive in site B'), nudge_x = 0.5, size = 7) + 
+  geom_text(aes(2, 1, label = 'dead'), nudge_x = 0.5, size = 7) + 
+  xlim(0, 3) + 
+  ylim(0.5, 3) + 
+  annotate('text', x = 1, y = 2.6, label = 'Observations', size = 10) + 
+  annotate('text', x = 2, y = 2.6, label = 'States', size = 10) +
+  theme_void()
+```
+]
+
+??? 
+
++ Observations and states are closely related, but not entirely.
+
+
+---
+class: middle
+### Biological inference
+
+.center.nogap[
+```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE}
+ggplot() + 
+  geom_point(aes(1, 1), size = 2.5, alpha = .7) + 
+  geom_point(aes(1, 1.5), size = 2.5, alpha = .7) + 
+  geom_point(aes(1, 2), size = 2.5, alpha = .7) + 
+  geom_text(aes(1, 2, label = 'non-detection'), nudge_x = -0.6, size = 7) + 
+  geom_text(aes(1, 1.5, label = 'detection in site A'), nudge_x = -0.6, size = 7) + 
+  geom_text(aes(1, 1, label = 'detection in site B'), nudge_x = -0.6, size = 7) +
+  geom_point(aes(2, 1), size = 2.5, alpha = .7) + 
+  geom_point(aes(2, 1.5), size = 2.5, alpha = .7) + 
+  geom_point(aes(2, 2), size = 2.5, alpha = .7) + 
+  geom_text(aes(2, 2, label = 'alive in site A'), nudge_x = 0.5, size = 7) + 
+  geom_text(aes(2, 1.5, label = 'alive in site B'), nudge_x = 0.5, size = 7) + 
+  geom_text(aes(2, 1, label = 'dead'), nudge_x = 0.5, size = 7) + 
+  xlim(0, 3) + 
+  ylim(0.5, 3) + 
+  annotate('text', x = 1, y = 2.6, label = 'Observations', size = 10) + 
+  annotate('text', x = 2, y = 2.6, label = 'States', size = 10) +
+  geom_segment(aes(x = 1, y = 1.5, xend = 2, yend = 2), alpha = 0.7, arrow = arrow(length = unit(0.02, "npc"))) + 
+  theme_void()
+```
+]
+
+
+---
+class: middle
+### Biological inference
+
+.center.nogap[
+```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE}
+ggplot() + 
+  geom_point(aes(1, 1), size = 2.5, alpha = .7) + 
+  geom_point(aes(1, 1.5), size = 2.5, alpha = .7) + 
+  geom_point(aes(1, 2), size = 2.5, alpha = .7) + 
+  geom_text(aes(1, 2, label = 'non-detection'), nudge_x = -0.6, size = 7) + 
+  geom_text(aes(1, 1.5, label = 'detection in site A'), nudge_x = -0.6, size = 7) + 
+  geom_text(aes(1, 1, label = 'detection in site B'), nudge_x = -0.6, size = 7) +
+  geom_point(aes(2, 1), size = 2.5, alpha = .7) + 
+  geom_point(aes(2, 1.5), size = 2.5, alpha = .7) + 
+  geom_point(aes(2, 2), size = 2.5, alpha = .7) + 
+  geom_text(aes(2, 2, label = 'alive in site A'), nudge_x = 0.5, size = 7) + 
+  geom_text(aes(2, 1.5, label = 'alive in site B'), nudge_x = 0.5, size = 7) + 
+  geom_text(aes(2, 1, label = 'dead'), nudge_x = 0.5, size = 7) + 
+  xlim(0, 3) + 
+  ylim(0.5, 3) + 
+  annotate('text', x = 1, y = 2.6, label = 'Observations', size = 10) + 
+  annotate('text', x = 2, y = 2.6, label = 'States', size = 10) +
+  geom_segment(aes(x = 1, y = 1.5, xend = 2, yend = 2), alpha = 0.7, arrow = arrow(length = unit(0.02, "npc"))) + 
+  geom_segment(aes(x = 1, y = 1, xend = 2, yend = 1.5), alpha = 0.7, arrow = arrow(length = unit(0.02, "npc"))) + 
+  theme_void()
+```
+]
+
+
+---
+class: middle
+### Biological inference
+
+.center.nogap[
+```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE}
+ggplot() + 
+  geom_point(aes(1, 1), size = 2.5, alpha = .7) + 
+  geom_point(aes(1, 1.5), size = 2.5, alpha = .7) + 
+  geom_point(aes(1, 2), size = 2.5, alpha = .7) + 
+  geom_text(aes(1, 2, label = 'non-detection'), nudge_x = -0.6, size = 7) + 
+  geom_text(aes(1, 1.5, label = 'detection in site A'), nudge_x = -0.6, size = 7) + 
+  geom_text(aes(1, 1, label = 'detection in site B'), nudge_x = -0.6, size = 7) +
+  geom_point(aes(2, 1), size = 2.5, alpha = .7) + 
+  geom_point(aes(2, 1.5), size = 2.5, alpha = .7) + 
+  geom_point(aes(2, 2), size = 2.5, alpha = .7) + 
+  geom_text(aes(2, 2, label = 'alive in site A'), nudge_x = 0.5, size = 7) + 
+  geom_text(aes(2, 1.5, label = 'alive in site B'), nudge_x = 0.5, size = 7) + 
+  geom_text(aes(2, 1, label = 'dead'), nudge_x = 0.5, size = 7) + 
+  xlim(0, 3) + 
+  ylim(0.5, 3) + 
+  annotate('text', x = 1, y = 2.6, label = 'Observations', size = 10) + 
+  annotate('text', x = 2, y = 2.6, label = 'States', size = 10) +
+  geom_segment(aes(x = 1, y = 2, xend = 2, yend = 2), alpha = 0.7, arrow = arrow(length = unit(0.02, "npc"))) + 
+  geom_segment(aes(x = 1, y = 2, xend = 2, yend = 1.5), alpha = 0.7, arrow = arrow(length = unit(0.02, "npc"))) + 
+  geom_segment(aes(x = 1, y = 2, xend = 2, yend = 1), alpha = 0.7, arrow = arrow(length = unit(0.02, "npc"))) + 
+  geom_segment(aes(x = 1, y = 1.5, xend = 2, yend = 2), alpha = 0.7, arrow = arrow(length = unit(0.02, "npc"))) + 
+  geom_segment(aes(x = 1, y = 1, xend = 2, yend = 1.5), alpha = 0.7, arrow = arrow(length = unit(0.02, "npc"))) + 
+  theme_void()
+```
+]
+
+
+---
+class: middle
+### The model construction: How we should think. 
+
+.center.nogap[
+```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE}
+ggplot() + 
+  geom_point(aes(1, 1), size = 2.5, alpha = .7) + 
+  geom_point(aes(1, 1.5), size = 2.5, alpha = .7) + 
+  geom_point(aes(1, 2), size = 2.5, alpha = .7) + 
+  geom_text(aes(2, 2, label = 'non-detection'), nudge_x = 0.5, size = 7) + 
+  geom_text(aes(2, 1.5, label = 'detection in site A'), nudge_x = 0.6, size = 7) + 
+  geom_text(aes(2, 1, label = 'detection in site B'), nudge_x = 0.6, size = 7) +
+  geom_point(aes(2, 1), size = 2.5, alpha = .7) + 
+  geom_point(aes(2, 1.5), size = 2.5, alpha = .7) + 
+  geom_point(aes(2, 2), size = 2.5, alpha = .7) + 
+  geom_text(aes(1, 2, label = 'alive in site A'), nudge_x = -0.6, size = 7) + 
+  geom_text(aes(1, 1.5, label = 'alive in site B'), nudge_x = -0.6, size = 7) + 
+  geom_text(aes(1, 1, label = 'dead'), nudge_x = -0.6, size = 7) + 
+  xlim(0, 3) + 
+  ylim(0.5, 3) + 
+  annotate('text', x = 1, y = 2.6, label = 'States', size = 10) + 
+  annotate('text', x = 2, y = 2.6, label = 'Observations', size = 10) + 
+  theme_void()
+```
+]
+
+
+??? Generative model. States generate observations. 
+
+
+---
+class: middle
+### The model construction: How we should think. 
+
+.center.nogap[
+```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE}
+ggplot() + 
+  geom_point(aes(1, 1), size = 2.5, alpha = .7) + 
+  geom_point(aes(1, 1.5), size = 2.5, alpha = .7) + 
+  geom_point(aes(1, 2), size = 2.5, alpha = .7) + 
+  geom_text(aes(2, 2, label = 'non-detection'), nudge_x = 0.5, size = 7) + 
+  geom_text(aes(2, 1.5, label = 'detection in site A'), nudge_x = 0.6, size = 7) + 
+  geom_text(aes(2, 1, label = 'detection in site B'), nudge_x = 0.6, size = 7) +
+  geom_point(aes(2, 1), size = 2.5, alpha = .7) + 
+  geom_point(aes(2, 1.5), size = 2.5, alpha = .7) + 
+  geom_point(aes(2, 2), size = 2.5, alpha = .7) + 
+  geom_text(aes(1, 2, label = 'alive in site A'), nudge_x = -0.6, size = 7) + 
+  geom_text(aes(1, 1.5, label = 'alive in site B'), nudge_x = -0.6, size = 7) + 
+  geom_text(aes(1, 1, label = 'dead'), nudge_x = -0.6, size = 7) + 
+  xlim(0, 3) + 
+  ylim(0.5, 3) + 
+  annotate('text', x = 1, y = 2.6, label = 'States', size = 10) + 
+  annotate('text', x = 2, y = 2.6, label = 'Observations', size = 10) + 
+    geom_segment(aes(x = 1, y = 1, xend = 2, yend = 2), alpha = 0.7, arrow = arrow(length = unit(0.02, "npc"))) + 
+  theme_void()
+```
+]
+
+
+
+---
+class: middle
+### The model construction: How we should think. 
+
+.center.nogap[
+```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE}
+ggplot() + 
+  geom_point(aes(1, 1), size = 2.5, alpha = .7) + 
+  geom_point(aes(1, 1.5), size = 2.5, alpha = .7) + 
+  geom_point(aes(1, 2), size = 2.5, alpha = .7) + 
+  geom_text(aes(2, 2, label = 'non-detection'), nudge_x = 0.5, size = 7) + 
+  geom_text(aes(2, 1.5, label = 'detection in site A'), nudge_x = 0.6, size = 7) + 
+  geom_text(aes(2, 1, label = 'detection in site B'), nudge_x = 0.6, size = 7) +
+  geom_point(aes(2, 1), size = 2.5, alpha = .7) + 
+  geom_point(aes(2, 1.5), size = 2.5, alpha = .7) + 
+  geom_point(aes(2, 2), size = 2.5, alpha = .7) + 
+  geom_text(aes(1, 2, label = 'alive in site A'), nudge_x = -0.6, size = 7) + 
+  geom_text(aes(1, 1.5, label = 'alive in site B'), nudge_x = -0.6, size = 7) + 
+  geom_text(aes(1, 1, label = 'dead'), nudge_x = -0.6, size = 7) + 
+  xlim(0, 3) + 
+  ylim(0.5, 3) + 
+  annotate('text', x = 1, y = 2.6, label = 'States', size = 10) + 
+  annotate('text', x = 2, y = 2.6, label = 'Observations', size = 10) + 
+    geom_segment(aes(x = 1, y = 2, xend = 2, yend = 2), alpha = 0.7, arrow = arrow(length = unit(0.02, "npc"))) + 
+  geom_segment(aes(x = 1, y = 2, xend = 2, yend = 1.5), alpha = 0.7, arrow = arrow(length = unit(0.02, "npc"))) + 
+  geom_segment(aes(x = 1, y = 1, xend = 2, yend = 2), alpha = 0.7, arrow = arrow(length = unit(0.02, "npc"))) + 
+  theme_void()
+```
+]
+
+
+
+---
+class: middle
+### The model construction: How we should think. 
+
+.center.nogap[
+```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE}
+ggplot() + 
+  geom_point(aes(1, 1), size = 2.5, alpha = .7) + 
+  geom_point(aes(1, 1.5), size = 2.5, alpha = .7) + 
+  geom_point(aes(1, 2), size = 2.5, alpha = .7) + 
+  geom_text(aes(2, 2, label = 'non-detection'), nudge_x = 0.5, size = 7) + 
+  geom_text(aes(2, 1.5, label = 'detection in site A'), nudge_x = 0.6, size = 7) + 
+  geom_text(aes(2, 1, label = 'detection in site B'), nudge_x = 0.6, size = 7) +
+  geom_point(aes(2, 1), size = 2.5, alpha = .7) + 
+  geom_point(aes(2, 1.5), size = 2.5, alpha = .7) + 
+  geom_point(aes(2, 2), size = 2.5, alpha = .7) + 
+  geom_text(aes(1, 2, label = 'alive in site A'), nudge_x = -0.6, size = 7) + 
+  geom_text(aes(1, 1.5, label = 'alive in site B'), nudge_x = -0.6, size = 7) + 
+  geom_text(aes(1, 1, label = 'dead'), nudge_x = -0.6, size = 7) + 
+  xlim(0, 3) + 
+  ylim(0.5, 3) + 
+  annotate('text', x = 1, y = 2.6, label = 'States', size = 10) + 
+  annotate('text', x = 2, y = 2.6, label = 'Observations', size = 10) + 
+    geom_segment(aes(x = 1, y = 2, xend = 2, yend = 2), alpha = 0.7, arrow = arrow(length = unit(0.02, "npc"))) + 
+  geom_segment(aes(x = 1, y = 2, xend = 2, yend = 1.5), alpha = 0.7, arrow = arrow(length = unit(0.02, "npc"))) + 
+  geom_segment(aes(x = 1, y = 1.5, xend = 2, yend = 2), alpha = 0.7, arrow = arrow(length = unit(0.02, "npc"))) + 
+  geom_segment(aes(x = 1, y = 1.5, xend = 2, yend = 1), alpha = 0.7, arrow = arrow(length = unit(0.02, "npc"))) + 
+  geom_segment(aes(x = 1, y = 1, xend = 2, yend = 2), alpha = 0.7, arrow = arrow(length = unit(0.02, "npc"))) + 
+  theme_void()
+```
+]
+
+
+---
+class: middle, center
+
+## Sites may be states.
+
+---
+## Examples of multistate models
+
++ *Epidemiological or disease states*: sick/healthy, uninfected/infected/recovered.
+
+--
+
++ *Morphological states*: small/medium/big,  light/medium/heavy.
+
+--
+
++ *Breeding states*: e.g. breeder/non-breeder,  failed breeder, first-time breeder. 
+
+--
+
++ *Developmental or life-history states*: e.g. juvenile/subadult/adult.
+
+--
+
++ *Social states*: e.g. solitary/group-living,  subordinate/dominant.
+
+--
+
++ *Death states*: e.g. alive, dead from harvest, dead from natural causes. 
+
+--
+
+&nbsp;
+
+**States = individual, time-specific categorical covariates.**
+
+---
+background-image: url("img/sooty.jpg")
+background-size: cover
+
+### <span style="color: white;">Sooty shearwater (David Boyle)</span>
+
+
+---
+## Sooty shearwaters and life-history tradeoffs
+
+--
+
++ We consider data collected between 1940 and 1957 by Lance Richdale on Sooty shearwaters (aka titis). 
+
+--
+
++ These data were reanalyzed with multistate models by [Scofield et al. (2001)](https://link.springer.com/article/10.1198/108571101750524607) who kindly provided us with the data. 
+
+--
+
++ Following the way the data were collected, four states were originally considered:
+    + Alive breeder;
+    + Accompanied by another bird in a burrow;
+    + Alone in a burrow;
+    + On the surface;
+    + Dead.
+    
+---
+## Sooty shearwaters and life-history tradeoffs
+
++ Because of numerical issues, we pooled all alive states but breeder together in a non-breeder state (NB) that includes:
+
+    + failed breeders (birds that had bred previously – skip reproduction or divorce) and pre-breeders (birds that had yet to breed). 
+    
+    + Note that because burrows were not checked before hatching, some birds in the category NB might have already failed. 
+    
+    + We therefore regard those birds in the B state as successful breeders, and those in the NB state as nonbreeders plus prebreeders and failed breeders.
+
+--
+
++ Observations are non-detections, and detections as breeder and non-breeder
+
+--
+
++ Does breeding affect survival? Does breeding in current year affect breeding next year?
+
+
+---
+
+<br>
+<br>
+
+.center.nogap[
+```{r echo = FALSE, message=FALSE, warning=FALSE}
+titis <- read_csv2("dat/titis.csv", col_names = FALSE)
+titis %>%
+  rename(year_1942 = X1,
+         year_1943 = X2,
+         year_1944 = X3,
+         year_1949 = X4,
+         year_1952 = X5,
+         year_1953 = X6,
+         year_1956 = X7) %>%
+  kableExtra::kable() %>%
+  kableExtra::scroll_box(width = "100%", height = "400px")
+```
+]
+
+
+---
+## Multistate models are very flexible
+
++ Access to reproduction
+
++ Temporary emigration
+
++ Combination of life and dead encounters
+
+
+---
+background-color: black
+# <span style="color:white">Live demo</span>
+
+<br>
+<br>
+
+.center[
+![](img/r_1051694_ifmHZ.gif)
+]
+
+
+
+---
+## Further reading
+
++ CJS state-space formulation [Gimenez et al. (2007)](https://oliviergimenez.github.io/pubs/Gimenezetal2007EcologicalModelling.pdf) and [Royle (2008)](https://onlinelibrary.wiley.com/doi/10.1111/j.1541-0420.2007.00891.x).
+
++ Work on missing values by [Bonner et al. (2006)](https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1541-0420.2005.00399.x) and [Langrock and King (2013)](https://projecteuclid.org/journals/annals-of-applied-statistics/volume-7/issue-3/Maximum-likelihood-estimation-of-markrecapturerecovery-models-in-the-presence-of/10.1214/13-AOAS644.full) and [Worthington et al. (2015)](https://link.springer.com/article/10.1007/s13253-014-0184-z).
+
++ The example on how to incorporate prior information is in [McCarthy and Masters (2005)](https://besjournals.onlinelibrary.wiley.com/doi/abs/10.1111/j.1365-2664.2005.01101.x).
+
++ Combine live recapture w/ dead recoveries by [Lebreton et al. (1999)](https://www.tandfonline.com/doi/pdf/10.1080/00063659909477230) and go spatial to account for emigration [Gilroy et al. (2012)](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1890/12-0124.1) and [Schaub & Royle (2014)](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.12134).
+
++ Non-identifiability in a Bayesian framework, see [Gimenez et al. (2009)](https://oliviergimenez.github.io/pubs/Gimenezetal2009-weakidentifiability.pdf) and [book by Cole (2020)](https://www.routledge.com/Parameter-Redundancy-and-Identifiability/Cole/p/book/9781498720878). 
+
++ Lebreton, J.-D., J. D. Nichols, R. J. Barker, R. Pradel and J. A. Spendelow (2009). [Modeling Individual Animal Histories with Multistate Capture–Recapture Models](https://multievent.sciencesconf.org/conference/multievent/pages/Lebretonetal2009AER.pdf). Advances in Ecological Research, 41:87-173.
+
