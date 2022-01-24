@@ -1,0 +1,1032 @@
+Espece;Action;ID ind;Sexe;Age;Poids (g);Longueur dossiere (cm);Commune;site capture;Jour;Mois;Annee
+Emys orbicularis;Marquage;2;F;ND;ND;ND;Arles;Ligagneau;19;3;1988
+Emys orbicularis;Recapture;2;F;ND;ND;145;Arles;Ligagneau;5;4;1988
+Emys orbicularis;Marquage;3;M;ND;480;148;Arles;Laune des Irudes;5;4;1988
+Emys orbicularis;Marquage;4;M;ND;370;134;Arles;Bois Rescapé;6;4;1988
+Emys orbicularis;Marquage;5;F;ND;770;166;Arles;Bois Rescapé;6;4;1988
+Emys orbicularis;Marquage;6;M;ND;370;141;Arles;Bois Rescapé;20;4;1988
+Emys orbicularis;Marquage;7;ind;ND;4,5;29;Arles;Bois Rescapé;20;4;1988
+Emys orbicularis;Marquage;8;M;ND;470;144;Arles;Bois Rescapé;20;4;1988
+Emys orbicularis;Marquage;9;F;ND;34;63;Arles;Bois Rescapé;29;4;1988
+Emys orbicularis;Marquage;10;M;ND;320;133;Arles;Bois Rescapé;5;5;1988
+Emys orbicularis;Marquage;11;M;ND;410;144;Arles;Rizières;5;5;1988
+Emys orbicularis;Marquage;12;F;ND;610;148;Arles;Marais du Vigueirat;22;5;1988
+Emys orbicularis;Marquage;13;F;ND;810;159;Arles;Bois Rescapé;23;5;1988
+Emys orbicularis;Marquage;14;F;ND;920;173;Arles;Clos des Montures;2;7;1988
+Emys orbicularis;Recapture;3;M;ND;510;148;Arles;Mar Sud - Roubine;4;8;1988
+Emys orbicularis;Marquage;15;M;ND;390;140;Arles;Mar Sud - Roubine;4;8;1988
+Emys orbicularis;Marquage;16;F;ND;630;157;Arles;Mar Sud - Roubine;4;8;1988
+Emys orbicularis;Marquage;17;M;ND;460;145;Arles;Mar Sud - Roubine;4;8;1988
+Emys orbicularis;Marquage;18;F;ND;650;159;Arles;Mar Sud - Roubine;4;8;1988
+Emys orbicularis;Marquage;19;F;ND;700;157;Arles;Mar Sud - Roubine;4;8;1988
+Emys orbicularis;Marquage;20;M;ND;420;147;Arles;Mar Sud - Roubine;4;8;1988
+Emys orbicularis;Marquage;21;M;ND;410;145;Arles;Mar Sud - Roubine;4;8;1988
+Emys orbicularis;Marquage;22;F;ND;720;168;Arles;Bois Rescapé;8;8;1988
+Emys orbicularis;Recapture;5;F;ND;770;166;Arles;Clos des Montures;15;8;1988
+Emys orbicularis;Marquage;23;M;ND;500;145;Arles;Mar Nord - Roubine;30;8;1988
+Emys orbicularis;Marquage;25;F;ND;550;161;Arles;Mar Nord;30;8;1988
+Emys orbicularis;Marquage;24;M;ND;425;145;Arles;Mar Nord;31;8;1988
+Emys orbicularis;Marquage;26;F;ND;500;144;Arles;Bois Rescapé;1;11;1988
+Emys orbicularis;Marquage;30;F;ND;900;173;Arles;Rizières;26;5;1989
+Emys orbicularis;Marquage;31;F;ND;750;158;Arles;Rizières Etourneau;31;5;1989
+Emys orbicularis;Recapture;2;F;ND;585;151;Arles;Clos Nord;29;6;1989
+Emys orbicularis;Marquage;32;F;ND;665;167;Arles;Mar Nord;6;7;1989
+Emys orbicularis;Marquage;33;F;ND;915;142;Arles;Clos des Montures;28;9;1989
+Emys orbicularis;Recapture;33;F;ND;940;167;Arles;Bois Rescapé;8;10;1989
+Emys orbicularis;Marquage;34;M;ND;13,5;48;Arles;Marais du Vigueirat;21;10;1989
+Emys orbicularis;Marquage;35;M;ND;17;52;Arles;Marais du Vigueirat;21;10;1989
+Emys orbicularis;Marquage;37;M;ND;350;140;Arles;Franc-Bord Etourneau;14;3;1990
+Emys orbicularis;Marquage;38;F;ND;530;146;Arles;Franc-Bord Rizières Etourneau;10;5;1990
+Emys orbicularis;Marquage;39;F;ND;750;171;Arles;Mas Ligagneau;15;5;1990
+Emys orbicularis;Marquage;40;F;ND;770;158;Arles;Woodstoc;16;5;1990
+Emys orbicularis;Marquage;41;F;ND;320;124;Arles;Bois Rescapé;25;5;1990
+Emys orbicularis;Marquage;42;F;ND;620;150;Arles;Ligagneau;26;5;1990
+Emys orbicularis;Marquage;43;M;ND;34;65;Arles;Pompe Ligagneau;29;7;1990
+Emys orbicularis;Marquage;44;M;ND;350;134;Arles;Marais du Vigueirat;9;3;1991
+Emys orbicularis;Marquage;45;F;ND;800;167;Arles;Rizières;10;3;1991
+Emys orbicularis;Marquage;46;M;ND;330;133;Arles;Baisse des Marcels;29;3;1991
+Emys orbicularis;Recapture;4;M;ND;340;134;Arles;Pompe Ligagneau;26;5;1991
+Emys orbicularis;Marquage;36;F;ND;850;166;Arles;Franc-Bord Palunette Ligagneau;28;5;1991
+Emys orbicularis;Marquage;47;F;ND;800;165;Arles;Trincanière;29;5;1991
+Emys orbicularis;Marquage;48;F;ND;720;171;Arles;Piste Principale - En face du Pylone Quatre Pieds;29;5;1991
+Emys orbicularis;Recapture;25;F;ND;ND;ND;Arles;Cabanon du Rendez-Vous;2;6;1991
+Emys orbicularis;Marquage;49;F;ND;500;149;Arles;Mas Ligagneau;8;7;1991
+Emys orbicularis;Marquage;50;F;ND;670;164;Arles;Cabane du Ligagneau;7;9;1991
+Emys orbicularis;Recapture;5;F;ND;800;165;Arles;Mas Ligagneau;11;9;1991
+Emys orbicularis;Recapture;49;F;ND;500;149;Arles;Mas Ligagneau;11;9;1991
+Emys orbicularis;Marquage;51;F;ND;650;161;Arles;Baisse des Oies - Roubine;29;2;1992
+Emys orbicularis;Marquage;52;F;ND;600;133;Arles;Laune des Irudes;17;3;1992
+Emys orbicularis;Marquage;53;F;ND;50;71;Arles;Franc-Bord Demi-Lune;24;4;1992
+Emys orbicularis;Marquage;54;M;ND;350;147;Arles;Digue des Piscis;11;5;1992
+Emys orbicularis;Recapture;5;F;ND;ND;ND;Arles;Mas Ligagneau;1;6;1992
+Emys orbicularis;Marquage;57;M;ND;140;97;Arles;Pompe Etourneau;9;6;1992
+Emys orbicularis;Marquage;55;F;ND;960;172;Arles;Mas-Thibert;18;6;1992
+Emys orbicularis;Recapture;13;F;ND;ND;ND;Arles;Mas Ligagneau;23;6;1992
+Emys orbicularis;Recapture;30;F;ND;ND;ND;Arles;Pompe Ligagneau;23;7;1992
+Emys orbicularis;Marquage;56;F;ND;675;171;Arles;Pompe Ligagneau;5;8;1992
+Emys orbicularis;Marquage;58;F;ND;600;156;Arles;Cour des Bœufs;21;8;1992
+Emys orbicularis;Marquage;59;F;ND;675;167;Arles;Cabane du Ligagneau;10;9;1992
+Emys orbicularis;Marquage;60;F;ND;780;163;Arles;Piste Principale - En face du Clos des Bissouninques;12;9;1992
+Emys orbicularis;Marquage;61;M;ND;410;137;Arles;Franc-Bord Demi-Lune;29;5;1993
+Emys orbicularis;Marquage;62;F;ND;510;145;Arles;Piste Principale - En face des Friches;2;6;1993
+Emys orbicularis;Marquage;63;F;ND;860;178;Arles;Cabane du Ligagneau;6;6;1993
+Emys orbicularis;Marquage;64;F;ND;630;152;Arles;Les Friches - B6;14;6;1993
+Emys orbicularis;Marquage;65;F;ND;760;173;Arles;Digue des Piscis - En face de Fangassier;19;6;1993
+Emys orbicularis;Marquage;66;F;ND;670;167;Arles;Pompe Etourneau;10;12;1993
+Emys orbicularis;Marquage;1;M;ND;500;154;Arles;Quatre Martelières;29;12;1993
+Emys orbicularis;Recapture;1;M;ND;ND;156;Arles;Bois Rescapé;13;2;1994
+Emys orbicularis;Marquage;80;M;ND;450;150;Arles;Digue des Piscis;15;3;1994
+Emys orbicularis;Marquage;67;F;ND;520;158;Arles;Piste Principale - En face de Woodstoc;6;6;1994
+Emys orbicularis;Marquage;68;F;ND;ND;159;Arles;Franc-Bord Palunette Ligagneau;1;10;1994
+Emys orbicularis;Marquage;71;M;ND;350;158;Arles;Le Mazet;20;5;1995
+Emys orbicularis;Recapture;13;F;ND;ND;ND;Arles;Mas Ligagneau;25;5;1995
+Emys orbicularis;Recapture;5;F;ND;ND;ND;Arles;Mas Ligagneau;2;6;1995
+Emys orbicularis;Marquage;70;F;ND;ND;151;Arles;Piste Principale;16;6;1995
+Emys orbicularis;Recapture;36;F;ND;ND;ND;Arles;Franc-Bord Palunette Ligagneau;4;7;1995
+Emys orbicularis;Marquage;72;F;ND;ND;166;Arles;Franc-Bord Demi-Lune;24;10;1995
+Emys orbicularis;Marquage;73;M;ND;ND;151;Arles;Baisse du Hangar - Mirador;5;11;1995
+Emys orbicularis;Marquage;74;F;ND;820;167;Arles;Rizières Etourneau;12;11;1995
+Emys orbicularis;Marquage;206;M;ND;ND;ND;Arles;Woodstoc;1;5;1996
+Emys orbicularis;Recapture;44;f;ND;ND;ND;Arles;Piste Principale - En face des Friches;6;5;1996
+Emys orbicularis;Marquage;82;F;ND;535;162;Arles;Cabane du Ligagneau;29;5;1996
+Emys orbicularis;Marquage;83;F;ND;ND;159;Arles;Haie Sud;31;5;1996
+Emys orbicularis;Marquage;84;F;ND;ND;172;Arles;Haie Sud;31;5;1996
+Emys orbicularis;Marquage;85;F;ND;ND;162;Arles;Haie Sud;31;5;1996
+Emys orbicularis;Marquage;86;F;ND;ND;158;Arles;Haie Sud - Trois Martelières;3;6;1996
+Emys orbicularis;Marquage;87;F;ND;ND;154;Arles;Drain des Piscis - en face POS;4;6;1996
+Emys orbicularis;Marquage;88;F;ND;ND;167;Arles;Pompe Ligagneau;23;6;1996
+Emys orbicularis;Marquage;89;F;ND;475;150;Arles;Haie Sud;25;6;1996
+Emys orbicularis;Marquage;27;F;ND;ND;145;Arles;Haie Sud - Roubine des 3 martelières;26;6;1996
+Emys orbicularis;Marquage;75;F;ND;ND;178;Arles;Piste Principale - Portail;28;6;1996
+Emys orbicularis;Recapture;89;F;ND;475;150;Arles;Haie Sud;28;6;1996
+Emys orbicularis;Recapture;58;F;ND;600;159;Arles;Pompe Ligagneau;29;6;1996
+Emys orbicularis;Marquage;28;ind;ND;235;119;Arles;Marais du Vigueirat;1;7;1996
+Emys orbicularis;Marquage;29;F;ND;ND;157;Arles;Pompe Ligagneau;7;7;1996
+Emys orbicularis;Marquage;69;F;ND;ND;149;Arles;Haie Sud;23;7;1996
+Emys orbicularis;Marquage;76;F;ND;ND;150;Arles;Cabane du Ligagneau;28;11;1996
+Emys orbicularis;Marquage;90;M;ND;455;146;Arles;Woodstoc;31;3;1997
+Emys orbicularis;Marquage;91;F;ND;749;166;Arles;Bois Rescapé;30;4;1997
+Emys orbicularis;Marquage;92;F;ND;535;160;Arles;Pradelles;6;5;1997
+Emys orbicularis;Marquage;93;M;ND;499;157;Arles;Bergerie;13;5;1997
+Emys orbicularis;Marquage;94;F;ND;686;163;Arles;Bergerie;13;5;1997
+Emys orbicularis;Marquage;95;F;ND;748;161;Arles;Bergerie;14;5;1997
+Emys orbicularis;Marquage;96;M;ND;413;140;Arles;Bergerie;15;5;1997
+Emys orbicularis;Marquage;97;M;ND;362;135;Arles;Bois Rescapé;21;5;1997
+Emys orbicularis;Marquage;98;F;ND;674;152;Arles;Canisson;23;5;1997
+Emys orbicularis;Recapture;30;F;ND;ND;ND;Arles;Rizières;24;5;1997
+Emys orbicularis;Marquage;99;F;ND;648;160;Arles;Bergerie;28;5;1997
+Emys orbicularis;Marquage;100;F;ND;484;148;Arles;Bergerie;28;5;1997
+Emys orbicularis;Recapture;93;M;ND;480;ND;Arles;Bergerie;30;5;1997
+Emys orbicularis;Recapture;99;F;ND;ND;ND;Arles;Bergerie;30;5;1997
+Emys orbicularis;Marquage;101;F;ND;246;113;Arles;Bergerie;30;5;1997
+Emys orbicularis;Marquage;102;F;ND;670;161;Arles;Bergerie;31;5;1997
+Emys orbicularis;Marquage;103;F;ND;858;180;Arles;Bergerie;31;5;1997
+Emys orbicularis;Marquage;104;F;ND;653;156;Arles;Bergerie;31;5;1997
+Emys orbicularis;Marquage;105;M;ND;422;143;Arles;Baisse Garde-Manger;3;6;1997
+Emys orbicularis;Marquage;106;F;ND;718;165;Arles;Trincanière;6;6;1997
+Emys orbicularis;Marquage;107;M;ND;419;140;Arles;Trincanière;6;6;1997
+Emys orbicularis;Marquage;108;M;ND;484;147;Arles;Trincanière;6;6;1997
+Emys orbicularis;Recapture;49;F;ND;ND;ND;Arles;Mas Ligagneau;7;6;1997
+Emys orbicularis;Recapture;75;F;ND;920;182;Arles;Bergerie;10;6;1997
+Emys orbicularis;Recapture;96;M;ND;ND;ND;Arles;Bergerie;10;6;1997
+Emys orbicularis;Marquage;109;M;ND;384;134;Arles;Bergerie;10;6;1997
+Emys orbicularis;Marquage;110;F;ND;655;162;Arles;Bergerie;10;6;1997
+Emys orbicularis;Marquage;111;M;ND;534;152;Arles;Bergerie;10;6;1997
+Emys orbicularis;Marquage;112;ind;ND;ND;ND;Arles;Marais du Vigueirat;10;6;1997
+Emys orbicularis;Marquage;113;F;ND;689;161;Arles;Bergerie;11;6;1997
+Emys orbicularis;Marquage;114;F;ND;490;144;Arles;Bergerie;11;6;1997
+Emys orbicularis;Marquage;115;F;ND;710;162;Arles;Bergerie;11;6;1997
+Emys orbicularis;Marquage;116;F;ND;630;159;Arles;Bergerie;11;6;1997
+Emys orbicularis;Marquage;117;F;ND;736;161;Arles;Bergerie;11;6;1997
+Emys orbicularis;Recapture;94;F;ND;ND;ND;Arles;Bergerie;12;6;1997
+Emys orbicularis;Recapture;114;F;ND;ND;ND;Arles;Bergerie;12;6;1997
+Emys orbicularis;Marquage;118;M;ND;418;145;Arles;Haie Sud - Roubine;12;6;1997
+Emys orbicularis;Marquage;119;F;ND;520;151;Arles;Bergerie;12;6;1997
+Emys orbicularis;Marquage;120;ind;ND;183;104;Arles;Bergerie;12;6;1997
+Emys orbicularis;Marquage;121;F;ND;724;164;Arles;Bergerie;12;6;1997
+Emys orbicularis;Recapture;57;F;ND;ND;ND;Arles;Pompe Ligagneau;13;6;1997
+Emys orbicularis;Recapture;117;F;ND;ND;ND;Arles;Bergerie;13;6;1997
+Emys orbicularis;Marquage;122;F;ND;621;149;Arles;Haie Sud - Roubine;13;6;1997
+Emys orbicularis;Marquage;123;F;ND;872;166;Arles;Etang Redon - Roubine;13;6;1997
+Emys orbicularis;Marquage;124;F;ND;619;156;Arles;Bergerie;13;6;1997
+Emys orbicularis;Marquage;125;F;ND;643;164;Arles;Bergerie;13;6;1997
+Emys orbicularis;Marquage;126;F;ND;748;168;Arles;Bergerie;13;6;1997
+Emys orbicularis;Marquage;127;F;ND;632;157;Arles;Bergerie;13;6;1997
+Emys orbicularis;Marquage;128;F;ND;632;168;Arles;Bergerie;13;6;1997
+Emys orbicularis;Marquage;129;F;ND;764;158;Arles;Haie Sud - Roubine;14;6;1997
+Emys orbicularis;Marquage;130;M;ND;364;139;Arles;Haie Sud - Roubine;14;6;1997
+Emys orbicularis;Marquage;131;F;ND;649;153;Arles;Etang Redon - Roubine;14;6;1997
+Emys orbicularis;Marquage;132;F;ND;770;159;Arles;Piste Principale - En face de Woodstoc;15;6;1997
+Emys orbicularis;Marquage;133;F;ND;718;168;Arles;Cabanes de l'Etourneau;16;6;1997
+Emys orbicularis;Marquage;134;ind;ND;535;141;Arles;Bois Rescapé;16;6;1997
+Emys orbicularis;Marquage;135;F;ND;507;144;Arles;Trincanière;17;6;1997
+Emys orbicularis;Marquage;136;F;ND;655;164;Arles;Digue des Piscis - En face de Pisci Sud;18;6;1997
+Emys orbicularis;Marquage;137;F;ND;534;156;Arles;Trincanière;18;6;1997
+Emys orbicularis;Marquage;138;M;ND;458;143;Arles;Haie Sud - Roubine;19;6;1997
+Emys orbicularis;Marquage;139;F;ND;698;159;Arles;Haie Sud - Roubine;19;6;1997
+Emys orbicularis;Marquage;140;M;ND;466;143;Arles;Trincanière;19;6;1997
+Emys orbicularis;Marquage;141;F;ND;819;175;Arles;Haie Sud - Roubine;20;6;1997
+Emys orbicularis;Marquage;142;F;ND;847;177;Arles;Trincanière;20;6;1997
+Emys orbicularis;Recapture;94;F;ND;ND;ND;Arles;Bergerie;25;6;1997
+Emys orbicularis;Recapture;96;M;ND;ND;ND;Arles;Bergerie;25;6;1997
+Emys orbicularis;Marquage;143;F;ND;478;141;Arles;Bergerie;25;6;1997
+Emys orbicularis;Marquage;144;F;ND;792;170;Arles;Bergerie;25;6;1997
+Emys orbicularis;Marquage;145;M;ND;435;143;Arles;Palunette Etourneau;25;6;1997
+Emys orbicularis;Marquage;146;F;ND;504;156;Arles;Piste Principale;25;6;1997
+Emys orbicularis;Marquage;147;F;ND;696;161;Arles;Piste Principale;25;6;1997
+Emys orbicularis;Marquage;148;F;ND;568;147;Arles;Bois Rescapé;26;6;1997
+Emys orbicularis;Recapture;101;F;ND;256;118;Arles;Bergerie;27;6;1997
+Emys orbicularis;Marquage;149;F;ND;596;151;Arles;Bergerie;27;6;1997
+Emys orbicularis;Marquage;150;F;ND;882;174;Arles;Bergerie;27;6;1997
+Emys orbicularis;Marquage;151;F;ND;469;142;Arles;Palunette Etourneau;27;6;1997
+Emys orbicularis;Marquage;152;F;ND;758;158;Arles;Etang Redon - Roubine;27;6;1997
+Emys orbicularis;Recapture;113;F;ND;750;164;Arles;Bois des Cabanes;29;6;1997
+Emys orbicularis;Marquage;153;F;ND;746;162;Arles;Bois Rescapé;30;6;1997
+Emys orbicularis;Marquage;154;F;ND;445;146;Arles;Piscis;30;6;1997
+Emys orbicularis;Recapture;153;F;ND;782;ND;Arles;Bois Rescapé;1;7;1997
+Emys orbicularis;Marquage;155;F;ND;665;148;Arles;Palunette Etourneau;1;7;1997
+Emys orbicularis;Marquage;156;F;ND;991;180;Arles;Palunette Etourneau;1;7;1997
+Emys orbicularis;Marquage;157;F;ND;812;166;Arles;Trincanière;2;7;1997
+Emys orbicularis;Marquage;158;F;ND;778;ND;Arles;Trincanière;2;7;1997
+Emys orbicularis;Marquage;159;F;ND;784;170;Arles;Trincanière;2;7;1997
+Emys orbicularis;Marquage;160;M;ND;288;130;Arles;Bois Rescapé;2;7;1997
+Emys orbicularis;Recapture;153;F;ND;694;ND;Arles;Bois Rescapé;9;7;1997
+Emys orbicularis;Marquage;161;ind;ND;347;127;Arles;Bois Rescapé;9;7;1997
+Emys orbicularis;Marquage;162;F;ND;592;147;Arles;Bois Rescapé;9;7;1997
+Emys orbicularis;Marquage;163;F;ND;652;159;Arles;Bois Rescapé;9;7;1997
+Emys orbicularis;Marquage;164;F;ND;767;173;Arles;Bois Rescapé;9;7;1997
+Emys orbicularis;Marquage;165;F;ND;886;174;Arles;Piste Principale - En face de Woodstoc;9;7;1997
+Emys orbicularis;Marquage;166;F;ND;724;169;Arles;Trincanière;22;7;1997
+Emys orbicularis;Marquage;167;M;ND;422;147;Arles;Trincanière;22;7;1997
+Emys orbicularis;Marquage;168;F;ND;707;182;Arles;Haie Sud - Roubine;24;7;1997
+Emys orbicularis;Marquage;169;F;ND;701;159;Arles;Clos Nord;24;7;1997
+Emys orbicularis;Marquage;170;F;ND;577;157;Arles;Clos Nord;24;7;1997
+Emys orbicularis;Recapture;139;F;ND;679;ND;Arles;Haie Sud - Roubine;28;7;1997
+Emys orbicularis;Marquage;171;F;ND;559;147;Arles;Haie Sud - Roubine;29;7;1997
+Emys orbicularis;Marquage;172;F;ND;727;169;Arles;Haie Sud - Roubine;29;7;1997
+Emys orbicularis;Marquage;173;M;ND;440;142;Arles;Haie Sud - Roubine;29;7;1997
+Emys orbicularis;Marquage;174;F;ND;715;163;Arles;Haie Sud - Roubine;29;7;1997
+Emys orbicularis;Marquage;175;M;ND;447;140;Arles;Haie Sud - Roubine;29;7;1997
+Emys orbicularis;Marquage;176;F;ND;860;181;Arles;Trincanière;29;7;1997
+Emys orbicularis;Marquage;177;F;ND;572;153;Arles;Haie Sud - Roubine;1;8;1997
+Emys orbicularis;Marquage;178;F;ND;804;166;Arles;Haie Sud - Roubine;1;8;1997
+Emys orbicularis;Marquage;179;F;ND;768;157;Arles;Haie Sud - Roubine;1;8;1997
+Emys orbicularis;Marquage;180;M;ND;549;158;Arles;Haie Sud - Roubine;1;8;1997
+Emys orbicularis;Recapture;98;F;ND;654;151;Arles;Haie Sud - Roubine;2;8;1997
+Emys orbicularis;Recapture;107;M;ND;417;143;Arles;Trincanière;2;8;1997
+Emys orbicularis;Recapture;107;M;ND;ND;143;Arles;Trincanière;2;8;1997
+Emys orbicularis;Marquage;181;F;ND;650;159;Arles;Haie Sud - Roubine;2;8;1997
+Emys orbicularis;Marquage;182;ind;ND;200;102;Arles;Haie Sud - Roubine;2;8;1997
+Emys orbicularis;Marquage;183;M;ND;490;143;Arles;Haie Sud - Roubine;2;8;1997
+Emys orbicularis;Marquage;184;F;ND;741;151;Arles;Haie Sud - Roubine;2;8;1997
+Emys orbicularis;Marquage;185;M;ND;380;131;Arles;Haie Sud - Roubine;2;8;1997
+Emys orbicularis;Marquage;186;F;ND;491;146;Arles;Etang Redon - Roubine;5;8;1997
+Emys orbicularis;Marquage;187;F;ND;896;172;Arles;Etang Redon - Roubine;5;8;1997
+Emys orbicularis;Marquage;188;M;ND;286;123;Arles;Bois Rescapé;5;8;1997
+Emys orbicularis;Marquage;189;M;ND;264;113;Arles;Bois Rescapé;5;8;1997
+Emys orbicularis;Marquage;190;F;ND;835;167;Arles;Bois Rescapé;5;8;1997
+Emys orbicularis;Marquage;191;M;ND;270;122;Arles;Palunette Etourneau;5;8;1997
+Emys orbicularis;Recapture;148;F;ND;578;ND;Arles;Bois Rescapé;6;8;1997
+Emys orbicularis;Recapture;91;F;ND;730;ND;Arles;Bois Rescapé;7;8;1997
+Emys orbicularis;Recapture;91;F;ND;730;ND;Arles;Bois Rescapé;7;8;1997
+Emys orbicularis;Recapture;187;F;ND;871;ND;Arles;Etang Redon - Roubine;7;8;1997
+Emys orbicularis;Recapture;190;F;ND;835;ND;Arles;Bois Rescapé;7;8;1997
+Emys orbicularis;Recapture;190;F;ND;835;ND;Arles;Bois Rescapé;7;8;1997
+Emys orbicularis;Marquage;192;F;ND;705;153;Arles;Bois Rescapé;7;8;1997
+Emys orbicularis;Marquage;193;M;ND;277;123;Arles;Bois Rescapé;7;8;1997
+Emys orbicularis;Marquage;194;M;ND;428;135;Arles;Bois Rescapé;7;8;1997
+Emys orbicularis;Marquage;195;M;ND;315;136;Arles;Bois Rescapé;7;8;1997
+Emys orbicularis;Marquage;196;M;ND;326;129;Arles;Bois Rescapé;7;8;1997
+Emys orbicularis;Recapture;187;F;ND;ND;ND;Arles;Etang Redon - Roubine;8;8;1997
+Emys orbicularis;Marquage;197;M;ND;330;128;Arles;Palunette Etourneau;9;5;1998
+Emys orbicularis;Marquage;77;F;ND;690;155;Arles;Bois des Cabanes;18;5;1998
+Emys orbicularis;Recapture;56;F;ND;ND;ND;Arles;Mas Ligagneau;29;5;1998
+Emys orbicularis;Marquage;78;F;ND;810;169;Arles;Bois des Cabanes;29;5;1998
+Emys orbicularis;Marquage;79;F;ND;530;153;Arles;Bois des Cabanes;1;6;1998
+Emys orbicularis;Recapture;124;F;ND;580;154;Arles;Bois des Cabanes;2;6;1998
+Emys orbicularis;Marquage;198;F;ND;680;163;Arles;Bois des Cabanes;3;6;1998
+Emys orbicularis;Marquage;199;F;ND;ND;153;Arles;Clos des Montures;9;6;1998
+Emys orbicularis;Recapture;99;F;ND;680;160;Arles;Bergerie;13;6;1998
+Emys orbicularis;Marquage;200;F;ND;670;161;Arles;Bergerie;13;6;1998
+Emys orbicularis;Recapture;179;F;ND;ND;ND;Arles;Baisse du Hangar - Mirador;22;6;1998
+Emys orbicularis;Marquage;201;F;ND;809;173;Arles;Cabane du Ligagneau;22;6;1998
+Emys orbicularis;Marquage;202;M;ND;346;130;Arles;Haie Sud - Trois Martelières;22;6;1998
+Emys orbicularis;Recapture;14;F;ND;860;170;Arles;Bois Rescapé;17;10;1998
+Emys orbicularis;Marquage;203;F;ND;811;169;Arles;Bois des Cabanes;13;3;1999
+Emys orbicularis;Marquage;204;M;ND;368;135;Arles;Pisci Nord;20;4;1999
+Emys orbicularis;Recapture;157;F;ND;790;164;Arles;Pisci Nord;21;4;1999
+Emys orbicularis;Marquage;205;F;ND;644;152;Arles;Franc-Bord Friches;22;4;1999
+Emys orbicularis;Recapture;206;M;ND;401;138;Arles;Bois des Cabanes;22;4;1999
+Emys orbicularis;Recapture;5;F;ND;ND;ND;Arles;Mas Ligagneau;26;4;1999
+Emys orbicularis;Recapture;5;F;ND;ND;ND;Arles;Mas Ligagneau;27;4;1999
+Emys orbicularis;Marquage;207;F;ND;687;155;Arles;Franc-Bord Friches;28;4;1999
+Emys orbicularis;Recapture;5;F;ND;ND;ND;Arles;Mas Ligagneau;1;5;1999
+Emys orbicularis;Marquage;211;F;ND;477;133;Arles;Baisse des Tritons;1;5;1999
+Emys orbicularis;Recapture;77;F;ND;ND;ND;Arles;Bois des Cabanes;3;6;1999
+Emys orbicularis;Marquage;208;F;ND;630;162;Arles;Bergerie;7;6;1999
+Emys orbicularis;Marquage;209;F;ND;241;114;Arles;Piste Principale - En face de Woodstoc;8;6;1999
+Emys orbicularis;Recapture;95;F;ND;ND;ND;Arles;Piste Principale - En face de Woodstoc;17;6;1999
+Emys orbicularis;Recapture;75;F;ND;ND;ND;Arles;Piste Principale - Portail;18;6;1999
+Emys orbicularis;Recapture;153;f;ND;ND;ND;Arles;Cabanon du Rendez-Vous;7;7;1999
+Emys orbicularis;Recapture;75;F;ND;ND;ND;Arles;Etourneau Nord;16;7;1999
+Emys orbicularis;Marquage;212;F;ND;845;165;Arles;Haie Sud;18;7;1999
+Emys orbicularis;Marquage;213;F;ND;612;156;Arles;Haie Sud;18;7;1999
+Emys orbicularis;Recapture;5;F;ND;ND;ND;Arles;Mas Ligagneau;2;10;1999
+Emys orbicularis;Marquage;301;F;ND;923;183;Arles;Piste Principale - En face de Woodstoc;27;10;1999
+Emys orbicularis;Marquage;214;F;ND;635;150;Arles;Etang Redon - Tour Redon;25;3;2000
+Emys orbicularis;Marquage;215;M;ND;337;125;Arles;Pisci Nord;14;4;2000
+Emys orbicularis;Marquage;216;F;ND;633;156;Arles;Bergerie;14;4;2000
+Emys orbicularis;Recapture;216;F;ND;656;ND;Arles;Woodstoc;28;4;2000
+Emys orbicularis;Recapture;115;F;ND;ND;ND;Arles;Sentier Ludo;1;5;2000
+Emys orbicularis;Marquage;218;F;ND;186;108;Arles;Palunette Ligagneau - Baie des cochons;11;5;2000
+Emys orbicularis;Marquage;219;F;ND;649;159;Arles;Cabanes de l'Etourneau - Maison des gardes;22;5;2000
+Emys orbicularis;Marquage;220;F;ND;ND;178;Arles;Mar Nord;31;5;2000
+Emys orbicularis;Marquage;221;F;ND;684;158;Arles;Baisse du Hangar;3;6;2000
+Emys orbicularis;Marquage;222;F;ND;880;169;Arles;Mar Nord - Roubine;17;6;2000
+Emys orbicularis;Marquage;223;M;ND;454;145;Arles;Mar Nord - Roubine;17;6;2000
+Emys orbicularis;Marquage;224;F;ND;563;155;Arles;Palunette Etourneau;26;6;2000
+Emys orbicularis;Marquage;225;F;ND;660;163;Arles;Sentier Ludo;5;7;2000
+Emys orbicularis;Marquage;226;F;ND;842;169;Arles;Cabanon du Rendez-Vous;5;7;2000
+Emys orbicularis;Marquage;228;F;ND;300;123;Aubagne;Aubagne;26;8;2000
+Emys orbicularis;Marquage;229;F;ND;249;121;Aubagne;Aubagne;26;8;2000
+Emys orbicularis;Marquage;230;ind;ND;123;93;Aubagne;Aubagne;26;8;2000
+Emys orbicularis;Marquage;231;F;ND;113;88;Aubagne;Aubagne;26;8;2000
+Emys orbicularis;Recapture;223;M;ND;ND;ND;Arles;Mar Nord;11;3;2001
+Emys orbicularis;Recapture;29;F;ND;ND;160;Arles;Mas-Thibert;23;9;2001
+Emys orbicularis;Marquage;232;F;ND;ND;162;Arles;Sentier Ludo;20;10;2001
+Emys orbicularis;Recapture;120;m;ND;340;134;Arles;Sentier Ludo;29;3;2002
+Emys orbicularis;Marquage;210;F;ND;ND;51,1;Arles;Sentier Ludo;29;3;2002
+Emys orbicularis;Recapture;214;F;ND;ND;ND;Arles;Etang Redon - Tour Redon;14;6;2002
+Emys orbicularis;Recapture;56;F;ND;ND;ND;Arles;Mas Ligagneau;15;6;2002
+Emys orbicularis;Recapture;186;f;ND;ND;ND;Arles;Etang Redon - Observatoire;25;7;2002
+Emys orbicularis;Marquage;233;F;ND;ND;151;Arles;Piste Principale - Portail;1;8;2002
+Emys orbicularis;Recapture;200;F;ND;ND;ND;Arles;Clos des Juments;29;8;2002
+Emys orbicularis;Marquage;234;F;ND;ND;134;Arles;Piste Principale - En face des Piscis;15;10;2002
+Emys orbicularis;Recapture;136;F;ND;633;164;Arles;Pompe Etourneau;30;11;2002
+Emys orbicularis;Recapture;115;F;ND;ND;ND;Arles;Sentier Ludo;28;3;2003
+Emys orbicularis;Recapture;115;F;ND;ND;ND;Arles;Sentier Ludo;5;5;2003
+Emys orbicularis;Recapture;222;F;ND;ND;ND;Arles;Mar Nord;16;5;2003
+Emys orbicularis;Recapture;209;F;ND;ND;ND;Arles;Sentier Ludo;5;6;2003
+Emys orbicularis;Recapture;155;F;ND;ND;ND;Arles;Palunette Etourneau;16;6;2003
+Emys orbicularis;Marquage;235;F;ND;584;154;Arles;Etourneau Nord;25;9;2003
+Emys orbicularis;Marquage;236;M;ND;296;125;Arles;Sentier Ludo;28;3;2004
+Emys orbicularis;Marquage;237;M;ND;456;146;Arles;Sentier Ludo;28;3;2004
+Emys orbicularis;Recapture;36;F;ND;ND;ND;Arles;Palunette Etourneau;12;4;2004
+Emys orbicularis;Marquage;238;F;ND;410;145;Arles;Mas de l'Oule;15;4;2004
+Emys orbicularis;Marquage;239;M;ND;431;141;Arles;Clos des Bissouninques;22;4;2004
+Emys orbicularis;Marquage;240;M;ND;ND;131;Arles;Piste Principale - En face du Clos des Montures;2;5;2004
+Emys orbicularis;Recapture;176;f;ND;ND;ND;Arles;Pisci Nord;9;5;2004
+Emys orbicularis;Marquage;241;M;ND;519;144;Arles;Piste Principale - En face de Woodstoc;10;6;2004
+Emys orbicularis;Marquage;242;M;ND;440;145;Arles;Les Friches - A4;21;4;2005
+Emys orbicularis;Recapture;117;M;ND;ND;ND;Arles;Piste Principale - En face de Woodstoc;18;5;2005
+Emys orbicularis;Marquage;243;F;ND;693;162;Arles;Clos des Bissouninques;26;5;2005
+Emys orbicularis;Recapture;200;F;ND;ND;ND;Arles;Cabanes de l'Etourneau - Déchetterie;29;5;2005
+Emys orbicularis;Recapture;224;F;ND;ND;ND;Arles;Palunette Etourneau;7;6;2005
+Emys orbicularis;Marquage;244;F;ND;698;157;Arles;Haie Sud - Trois Martelières;26;8;2005
+Emys orbicularis;Marquage;245;F;ND;685;154;Arles;Haie Sud - Trois Martelières;27;8;2005
+Emys orbicularis;Recapture;95;F;ND;ND;ND;Arles;Marais du Vigueirat;28;8;2005
+Emys orbicularis;Marquage;246;M;ND;382;137;Arles;Cabanes de l'Etourneau - Aire de Pique-Nique;2;9;2005
+Emys orbicularis;Marquage;247;F;ND;424;135;Arles;Marais du Vigueirat;6;9;2005
+Emys orbicularis;Marquage;248;M;ND;412;138;Arles;Marais du Vigueirat;6;9;2005
+Emys orbicularis;Marquage;249;F;ND;728;158;Arles;Cabanes de l'Etourneau - Aire de Pique-Nique;7;9;2005
+Emys orbicularis;Marquage;251;F;ND;508;151;Arles;Bois du Cheval Mort;10;9;2005
+Emys orbicularis;Recapture;249;F;ND;ND;ND;Arles;Cabanes de l'Etourneau - Aire de Pique-Nique;12;9;2005
+Emys orbicularis;Marquage;252;F;ND;557;149;Arles;Cabanes de l'Etourneau - Aire de Pique-Nique;12;9;2005
+Emys orbicularis;Marquage;253;F;ND;568;146;Arles;Palunette Ligagneau - Baie des cochons;20;9;2005
+Emys orbicularis;Marquage;254;M;ND;365;136;Arles;Palunette Ligagneau - Baie des cochons;20;9;2005
+Emys orbicularis;Marquage;255;M;ND;260;124;Arles;Palunette Ligagneau - Baie des cochons;20;9;2005
+Emys orbicularis;Marquage;256;M;ND;437;140;Arles;Palunette Ligagneau - Baie des cochons;20;9;2005
+Emys orbicularis;Marquage;257;M;ND;409;143;Arles;Palunette Ligagneau - Baie des cochons;20;9;2005
+Emys orbicularis;Marquage;258;M;ND;353;137;Arles;Palunette Ligagneau - Baie des cochons;20;9;2005
+Emys orbicularis;Marquage;259;M;ND;395;136;Arles;Palunette Ligagneau - Baie des cochons;20;9;2005
+Emys orbicularis;Marquage;260;F;ND;682;164;Arles;Palunette Ligagneau - Baie des cochons;21;9;2005
+Emys orbicularis;Marquage;261;M;ND;334;129;Arles;Palunette Ligagneau - Baie des cochons;21;9;2005
+Emys orbicularis;Recapture;261;M;ND;332;ND;Arles;Palunette Ligagneau - Baie des cochons;22;9;2005
+Emys orbicularis;Marquage;262;F;ND;580;153;Arles;Palunette Ligagneau - Baie des cochons;22;9;2005
+Emys orbicularis;Marquage;263;M;ND;324;130;Arles;Palunette Ligagneau - Baie des cochons;22;9;2005
+Emys orbicularis;Marquage;264;F;ND;321;121;Arles;Cabanes de l'Etourneau - Aire de Pique-Nique;23;9;2005
+Emys orbicularis;Marquage;265;F;ND;778;164;Arles;Palunette Ligagneau - Baie des cochons;23;9;2005
+Emys orbicularis;Recapture;134;F;ND;567;146;Arles;Bois Rescapé;24;9;2005
+Emys orbicularis;Recapture;255;M;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;24;9;2005
+Emys orbicularis;Recapture;256;M;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;24;9;2005
+Emys orbicularis;Recapture;259;M;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;24;9;2005
+Emys orbicularis;Recapture;260;F;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;24;9;2005
+Emys orbicularis;Recapture;264;F;ND;ND;ND;Arles;Cabanes de l'Etourneau - Aire de Pique-Nique;24;9;2005
+Emys orbicularis;Marquage;266;F;ND;612;150;Arles;Palunette Ligagneau - Baie des cochons;24;9;2005
+Emys orbicularis;Marquage;267;F;ND;747;158;Arles;Palunette Ligagneau - Baie des cochons;24;9;2005
+Emys orbicularis;Marquage;268;M;ND;443;148;Arles;Palunette Ligagneau - Baie des cochons;24;9;2005
+Emys orbicularis;Recapture;253;F;ND;558;ND;Arles;Palunette Ligagneau - Baie des cochons;26;9;2005
+Emys orbicularis;Recapture;255;M;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;26;9;2005
+Emys orbicularis;Recapture;257;M;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;26;9;2005
+Emys orbicularis;Recapture;263;M;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;26;9;2005
+Emys orbicularis;Marquage;269;F;ND;573;146;Arles;Palunette Ligagneau - Baie des cochons;26;9;2005
+Emys orbicularis;Marquage;270;F;ND;697;160;Arles;Palunette Ligagneau - Baie des cochons;26;9;2005
+Emys orbicularis;Marquage;271;F;ND;509;147;Arles;Palunette Ligagneau - Baie des cochons;26;9;2005
+Emys orbicularis;Recapture;253;F;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;27;9;2005
+Emys orbicularis;Recapture;261;M;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;27;9;2005
+Emys orbicularis;Recapture;263;M;ND;342;ND;Arles;Palunette Ligagneau - Baie des cochons;27;9;2005
+Emys orbicularis;Recapture;269;F;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;27;9;2005
+Emys orbicularis;Marquage;272;F;ND;482;145;Arles;Palunette Ligagneau - Baie des cochons;27;9;2005
+Emys orbicularis;Recapture;13;F;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;29;9;2005
+Emys orbicularis;Recapture;254;M;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;29;9;2005
+Emys orbicularis;Recapture;259;M;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;29;9;2005
+Emys orbicularis;Recapture;270;F;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;29;9;2005
+Emys orbicularis;Marquage;273;F;ND;811;165;Arles;Palunette Ligagneau - Baie des cochons;6;10;2005
+Emys orbicularis;Marquage;274;F;ND;559;148;Arles;Bois Rescapé;9;10;2005
+Emys orbicularis;Marquage;275;M;ND;275;119;Arles;Palunette Ligagneau - Baie des cochons;11;10;2005
+Emys orbicularis;Recapture;255;M;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;12;10;2005
+Emys orbicularis;Recapture;257;M;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;12;10;2005
+Emys orbicularis;Recapture;275;M;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;12;10;2005
+Emys orbicularis;Recapture;259;M;ND;414;ND;Arles;Palunette Ligagneau - Baie des cochons;13;10;2005
+Emys orbicularis;Recapture;262;F;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;14;10;2005
+Emys orbicularis;Recapture;273;F;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;14;10;2005
+Emys orbicularis;Marquage;276;M;ND;355;134;Arles;Palunette Ligagneau - Baie des cochons;14;10;2005
+Emys orbicularis;Recapture;246;M;ND;371;ND;Arles;Cabanes de l'Etourneau - Aire de Pique-Nique;20;10;2005
+Emys orbicularis;Recapture;258;M;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;21;10;2005
+Emys orbicularis;Recapture;262;F;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;22;10;2005
+Emys orbicularis;Marquage;277;F;ND;644;165;Arles;Palunette Etourneau;22;10;2005
+Emys orbicularis;Marquage;278;M;ND;ND;150;Arles;Demi-Lune;27;3;2006
+Emys orbicularis;Marquage;279;M;ND;303;133;Arles;Longuette;31;3;2006
+Emys orbicularis;Marquage;280;F;ND;915;181;Arles;Demi-Lune;5;4;2006
+Emys orbicularis;Recapture;30;F;ND;882;ND;Arles;Clos des Montures;4;5;2006
+Emys orbicularis;Marquage;281;F;ND;704;162;Arles;Clos des Montures;4;5;2006
+Emys orbicularis;Marquage;282;F;ND;516;147;Arles;Pisci Nord;4;5;2006
+Emys orbicularis;Marquage;283;M;ND;462;147;Arles;Pisci Nord;6;5;2006
+Emys orbicularis;Marquage;284;M;ND;426;144;Arles;Pisci Nord;6;5;2006
+Emys orbicularis;Marquage;285;F;ND;601;154;Arles;Marais du Vigueirat;16;5;2006
+Emys orbicularis;Marquage;286;F;ND;826;174;Arles;Pisci Nord;17;5;2006
+Emys orbicularis;Marquage;287;M;ND;409;144;Arles;Pisci Nord;17;5;2006
+Emys orbicularis;Marquage;288;F;ND;745;163;Arles;Digue des Piscis;18;5;2006
+Emys orbicularis;Marquage;289;F;ND;619;158;Arles;Palunette Ligagneau - Baie des cochons;18;5;2006
+Emys orbicularis;Marquage;290;M;ND;376;147;Arles;Clos des Montures;19;5;2006
+Emys orbicularis;Recapture;284;M;ND;446;ND;Arles;Pisci Nord;23;5;2006
+Emys orbicularis;Marquage;291;F;ND;833;162;Arles;Pisci Nord;23;5;2006
+Emys orbicularis;Marquage;292;F;ND;676;160;Arles;Pisci Nord;23;5;2006
+Emys orbicularis;Marquage;293;F;ND;667;159;Arles;Pisci Nord;23;5;2006
+Emys orbicularis;Marquage;294;F;ND;772;164;Arles;Pisci Nord;23;5;2006
+Emys orbicularis;Marquage;295;M;ND;320;131;Arles;Clos des Montures;23;5;2006
+Emys orbicularis;Marquage;296;M;ND;387;138;Arles;Clos des Montures;23;5;2006
+Emys orbicularis;Marquage;297;M;ND;429;143;Arles;Clos des Montures;23;5;2006
+Emys orbicularis;Marquage;298;F;ND;625;155;Arles;Clos des Montures;23;5;2006
+Emys orbicularis;Marquage;299;M;ND;367;138;Arles;Pisci Nord;23;5;2006
+Emys orbicularis;Marquage;300;F;ND;664;160;Arles;Pisci Nord;23;5;2006
+Emys orbicularis;Marquage;500;F;ND;727;162;Arles;Pisci Nord;23;5;2006
+Emys orbicularis;Marquage;302;M;ND;383;139;Arles;Clos des Montures;24;5;2006
+Emys orbicularis;Recapture;208;F;ND;ND;ND;Arles;Pisci Nord;1;6;2006
+Emys orbicularis;Recapture;200;F;ND;ND;ND;Arles;Sentier Ludo;2;6;2006
+Emys orbicularis;Recapture;195;M;ND;331;ND;Arles;Clos des Montures;5;6;2006
+Emys orbicularis;Recapture;240;M;ND;415;ND;Arles;Clos des Montures;5;6;2006
+Emys orbicularis;Recapture;300;F;ND;688;ND;Arles;Clos des Montures;5;6;2006
+Emys orbicularis;Marquage;303;F;ND;613;155;Arles;Clos des Montures;5;6;2006
+Emys orbicularis;Marquage;304;F;ND;724;157;Arles;Clos des Montures;5;6;2006
+Emys orbicularis;Recapture;175;M;ND;400;ND;Arles;Clos des Montures;6;6;2006
+Emys orbicularis;Recapture;299;M;ND;359;ND;Arles;Clos des Montures;6;6;2006
+Emys orbicularis;Recapture;303;F;ND;604;ND;Arles;Clos des Montures;6;6;2006
+Emys orbicularis;Marquage;305;F;ND;571;153;Arles;Clos des Montures;6;6;2006
+Emys orbicularis;Marquage;306;F;ND;833;165;Arles;Clos des Montures;6;6;2006
+Emys orbicularis;Marquage;307;F;ND;684;153;Arles;Clos des Montures;6;6;2006
+Emys orbicularis;Recapture;292;F;ND;721;ND;Arles;Clos des Montures;7;6;2006
+Emys orbicularis;Marquage;308;F;ND;675;160;Arles;Clos des Montures;7;6;2006
+Emys orbicularis;Marquage;309;F;ND;728;160;Arles;Clos des Montures;7;6;2006
+Emys orbicularis;Marquage;310;F;ND;591;153;Arles;Sentier Ludo;8;6;2006
+Emys orbicularis;Recapture;30;F;ND;912;ND;Arles;Clos des Montures;15;6;2006
+Emys orbicularis;Recapture;14;F;ND;866;ND;Arles;Palunette Ligagneau - Baie des cochons;22;6;2006
+Emys orbicularis;Recapture;270;F;ND;708;ND;Arles;Palunette Ligagneau - Baie des cochons;22;6;2006
+Emys orbicularis;Recapture;275;M;ND;301;ND;Arles;Palunette Ligagneau - Baie des cochons;22;6;2006
+Emys orbicularis;Recapture;289;F;ND;586;ND;Arles;Palunette Ligagneau - Baie des cochons;22;6;2006
+Emys orbicularis;Marquage;311;M;ND;382;135;Arles;Haie Sud - Roubine des 3 martelières;22;6;2006
+Emys orbicularis;Marquage;312;F;ND;711;164;Arles;Haie Sud - Roubine des 3 martelières;22;6;2006
+Emys orbicularis;Marquage;313;F;ND;600;157;Arles;Haie Sud - Roubine des 3 martelières;22;6;2006
+Emys orbicularis;Marquage;314;F;ND;711;160;Arles;Palunette Ligagneau - Baie des cochons;22;6;2006
+Emys orbicularis;Marquage;315;F;ND;663;155;Arles;Palunette Ligagneau - Baie des cochons;22;6;2006
+Emys orbicularis;Marquage;317;F;ND;546;149;Arles;Palunette Ligagneau - Baie des cochons;22;6;2006
+Emys orbicularis;Recapture;292;F;ND;675;ND;Arles;Pisci Nord;23;6;2006
+Emys orbicularis;Marquage;316;M;ND;340;130;Arles;Pisci Nord;23;6;2006
+Emys orbicularis;Marquage;320;F;ND;510;ND;Arles;Pisci Nord;23;6;2006
+Emys orbicularis;Recapture;172;F;ND;756;ND;Arles;Ligagneau;28;6;2006
+Emys orbicularis;Marquage;319;M;ND;419;142;Arles;Baisse des Marcels;29;6;2006
+Emys orbicularis;Recapture;59;F;ND;700;ND;Arles;Baisse des Marcels;30;6;2006
+Emys orbicularis;Recapture;172;F;ND;ND;ND;Arles;Baisse des Marcels;30;6;2006
+Emys orbicularis;Marquage;318;F;ND;688;158;Arles;Baisse des Marcels;30;6;2006
+Emys orbicularis;Marquage;321;M;ND;314;129;Arles;Baisse des Marcels;30;6;2006
+Emys orbicularis;Marquage;322;M;ND;341;130;Arles;Baisse des Marcels;30;6;2006
+Emys orbicularis;Marquage;323;F;ND;565;146;Arles;Baisse des Marcels;30;6;2006
+Emys orbicularis;Marquage;324;F;ND;671;159;Arles;Baisse des Marcels;30;6;2006
+Emys orbicularis;Marquage;325;F;ND;583;158;Arles;Haie Sud - Roubine des 3 martelières;4;7;2006
+Emys orbicularis;Marquage;326;F;ND;699;164;Arles;Haie Sud - Roubine des 3 martelières;4;7;2006
+Emys orbicularis;Marquage;327;F;ND;739;162;Arles;Haie Sud - Roubine des 3 martelières;4;7;2006
+Emys orbicularis;Recapture;50;F;ND;691;ND;Arles;Haie Sud - Roubine des 3 martelières;5;7;2006
+Emys orbicularis;Recapture;326;F;ND;ND;ND;Arles;Haie Sud - Roubine des 3 martelières;5;7;2006
+Emys orbicularis;Marquage;328;F;ND;758;165;Arles;Haie Sud - Roubine des 3 martelières;5;7;2006
+Emys orbicularis;Marquage;329;M;ND;450;ND;Arles;Haie Sud - Roubine des 3 martelières;5;7;2006
+Emys orbicularis;Marquage;330;F;ND;789;165;Arles;Haie Sud - Roubine des 3 martelières;5;7;2006
+Emys orbicularis;Marquage;331;F;ND;730;158;Arles;Baisse des Marcels;6;7;2006
+Emys orbicularis;Recapture;140;M;ND;653;ND;Arles;Marais du Vigueirat;12;7;2006
+Emys orbicularis;Recapture;196;M;ND;331;ND;Arles;Franc-Bord Clos des Montures;12;7;2006
+Emys orbicularis;Recapture;246;F;ND;615;ND;Arles;Franc-Bord Clos des Montures;12;7;2006
+Emys orbicularis;Recapture;253;F;ND;604;ND;Arles;Cabanes de l'Etourneau - Maison des gardes;12;7;2006
+Emys orbicularis;Recapture;267;F;ND;746;ND;Arles;Marais du Vigueirat;12;7;2006
+Emys orbicularis;Recapture;307;F;ND;538;ND;Arles;Marais du Vigueirat;12;7;2006
+Emys orbicularis;Marquage;332;M;ND;384;132;Arles;Palunette Ligagneau - Baie des cochons;12;7;2006
+Emys orbicularis;Marquage;333;F;ND;518;152;Arles;Palunette Ligagneau - Baie des cochons;12;7;2006
+Emys orbicularis;Marquage;334;F;ND;609;159;Arles;Franc-Bord Clos des Montures;12;7;2006
+Emys orbicularis;Marquage;335;M;ND;441;136;Arles;Franc-Bord Clos des Montures;12;7;2006
+Emys orbicularis;Marquage;336;F;ND;650;159;Arles;Franc-Bord Clos des Montures;12;7;2006
+Emys orbicularis;Marquage;337;M;ND;364;133;Arles;Franc-Bord Clos des Montures;12;7;2006
+Emys orbicularis;Marquage;338;F;ND;645;156;Arles;Franc-Bord Clos des Montures;12;7;2006
+Emys orbicularis;Marquage;501;F;ND;505;141;Arles;Palunette Ligagneau - Baie des cochons;12;7;2006
+Emys orbicularis;Recapture;14;F;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;13;7;2006
+Emys orbicularis;Recapture;57;F;ND;538;154;Arles;Franc-Bord Clos des Montures;13;7;2006
+Emys orbicularis;Recapture;261;M;ND;339;ND;Arles;Franc-Bord Clos des Montures;13;7;2006
+Emys orbicularis;Recapture;276;F;ND;616;ND;Arles;Franc-Bord Clos des Montures;13;7;2006
+Emys orbicularis;Recapture;338;F;ND;ND;ND;Arles;Franc-Bord Clos des Montures;13;7;2006
+Emys orbicularis;Marquage;339;F;ND;576;155;Arles;Franc-Bord Clos des Montures;13;7;2006
+Emys orbicularis;Recapture;83;F;ND;715;164;Arles;Haie Sud;18;7;2006
+Emys orbicularis;Recapture;141;F;ND;824;174;Arles;Haie Sud;18;7;2006
+Emys orbicularis;Recapture;161;F;ND;660;164;Arles;Bois Rescapé;18;7;2006
+Emys orbicularis;Recapture;317;F;ND;548;ND;Arles;Bois Rescapé;18;7;2006
+Emys orbicularis;Recapture;324;F;ND;707;ND;Arles;Haie Sud;18;7;2006
+Emys orbicularis;Marquage;340;F;ND;605;152;Arles;Clos des Bissouninques;18;7;2006
+Emys orbicularis;Marquage;341;F;ND;143;95;Arles;Bois Rescapé;18;7;2006
+Emys orbicularis;Marquage;342;F;ND;834;163;Arles;Bois Rescapé;18;7;2006
+Emys orbicularis;Marquage;343;M;ND;586;153;Arles;Clos des Bissouninques;18;7;2006
+Emys orbicularis;Marquage;344;F;ND;552;143;Arles;Clos des Bissouninques;18;7;2006
+Emys orbicularis;Marquage;345;F;ND;508;144;Arles;Clos des Bissouninques;18;7;2006
+Emys orbicularis;Marquage;346;F;ND;520;159;Arles;Clos des Bissouninques;18;7;2006
+Emys orbicularis;Marquage;347;F;ND;651;158;Arles;Clos des Bissouninques;18;7;2006
+Emys orbicularis;Marquage;348;F;ND;729;168;Arles;Clos des Bissouninques;18;7;2006
+Emys orbicularis;Marquage;349;M;ND;515;149;Arles;Haie Sud;18;7;2006
+Emys orbicularis;Marquage;350;F;ND;509;141;Arles;Bois Rescapé;18;7;2006
+Emys orbicularis;Marquage;351;M;ND;437;146;Arles;Bois Rescapé;18;7;2006
+Emys orbicularis;Recapture;266;F;ND;621;149;Arles;Franc-Bord Clos des Montures;19;7;2006
+Emys orbicularis;Recapture;267;F;ND;749;159;Arles;Bois Rescapé;19;7;2006
+Emys orbicularis;Recapture;317;F;ND;542;ND;Arles;Bois Rescapé;19;7;2006
+Emys orbicularis;Recapture;331;F;ND;734;ND;Arles;Haie Sud;19;7;2006
+Emys orbicularis;Recapture;334;F;ND;605;ND;Arles;Franc-Bord Clos des Montures;19;7;2006
+Emys orbicularis;Recapture;337;M;ND;386;ND;Arles;Franc-Bord Clos des Montures;19;7;2006
+Emys orbicularis;Recapture;343;M;ND;570;ND;Arles;Clos des Bissouninques;19;7;2006
+Emys orbicularis;Recapture;350;F;ND;507;ND;Arles;Bois Rescapé;19;7;2006
+Emys orbicularis;Marquage;352;F;ND;876;168;Arles;Bois Rescapé;19;7;2006
+Emys orbicularis;Marquage;353;F;ND;643;158;Arles;Clos des Bissouninques;19;7;2006
+Emys orbicularis;Recapture;14;F;ND;900;169;Arles;Palunette Ligagneau - Baie des cochons;20;7;2006
+Emys orbicularis;Recapture;39;F;ND;839;174;Arles;Palunette Ligagneau - Baie des cochons;20;7;2006
+Emys orbicularis;Recapture;134;F;ND;545;ND;Arles;Palunette Ligagneau - Baie des cochons;20;7;2006
+Emys orbicularis;Recapture;249;F;ND;671;ND;Arles;Cabanon du Rendez-Vous;20;7;2006
+Emys orbicularis;Recapture;267;F;ND;741;ND;Arles;Bois Rescapé;20;7;2006
+Emys orbicularis;Recapture;343;M;ND;572;ND;Arles;Clos des Bissouninques;20;7;2006
+Emys orbicularis;Recapture;348;F;ND;715;ND;Arles;Cabanon du Rendez-Vous;20;7;2006
+Emys orbicularis;Recapture;350;F;ND;510;ND;Arles;Palunette Ligagneau - Baie des cochons;20;7;2006
+Emys orbicularis;Recapture;353;F;ND;625;ND;Arles;Clos des Bissouninques;20;7;2006
+Emys orbicularis;Marquage;354;F;ND;500;148;Arles;Palunette Ligagneau - Baie des cochons;20;7;2006
+Emys orbicularis;Recapture;188;F;ND;688;159;Arles;Bois Rescapé;21;7;2006
+Emys orbicularis;Recapture;249;F;ND;ND;ND;Arles;Cabanon du Rendez-Vous;21;7;2006
+Emys orbicularis;Recapture;261;F;ND;653;ND;Arles;Palunette Ligagneau - Baie des cochons;21;7;2006
+Emys orbicularis;Recapture;262;F;ND;654;ND;Arles;Palunette Ligagneau - Baie des cochons;21;7;2006
+Emys orbicularis;Recapture;266;F;ND;618;ND;Arles;Cabanon du Rendez-Vous;21;7;2006
+Emys orbicularis;Recapture;317;F;ND;535;ND;Arles;Palunette Ligagneau - Baie des cochons;21;7;2006
+Emys orbicularis;Recapture;340;F;ND;590;ND;Arles;Bois Rescapé;21;7;2006
+Emys orbicularis;Recapture;343;M;ND;565;ND;Arles;Clos des Bissouninques;21;7;2006
+Emys orbicularis;Recapture;350;F;ND;500;ND;Arles;Palunette Ligagneau - Baie des cochons;21;7;2006
+Emys orbicularis;Marquage;355;F;ND;577;152;Arles;Bois Rescapé;21;7;2006
+Emys orbicularis;Marquage;356;F;ND;396;136;Arles;Bois Rescapé;21;7;2006
+Emys orbicularis;Recapture;346;F;ND;532;ND;Arles;Clos des Bissouninques;8;8;2006
+Emys orbicularis;Recapture;341;F;ND;149;ND;Arles;Palunette Ligagneau - Baie des cochons;9;8;2006
+Emys orbicularis;Recapture;344;F;ND;526;ND;Arles;Clos des Bissouninques;9;8;2006
+Emys orbicularis;Recapture;353;F;ND;631;ND;Arles;Clos des Bissouninques;9;8;2006
+Emys orbicularis;Marquage;357;F;ND;581;152;Arles;Clos des Bissouninques;9;8;2006
+Emys orbicularis;Marquage;358;F;ND;516;145;Arles;Clos des Bissouninques;9;8;2006
+Emys orbicularis;Recapture;271;F;ND;538;ND;Arles;Clos des Bissouninques;10;8;2006
+Emys orbicularis;Recapture;342;F;ND;831;ND;Arles;Palunette Ligagneau - Baie des cochons;10;8;2006
+Emys orbicularis;Recapture;344;F;ND;533;ND;Arles;Clos des Bissouninques;10;8;2006
+Emys orbicularis;Recapture;347;F;ND;650;ND;Arles;Palunette Ligagneau - Baie des cochons;10;8;2006
+Emys orbicularis;Recapture;353;F;ND;655;ND;Arles;Clos des Bissouninques;10;8;2006
+Emys orbicularis;Recapture;357;F;ND;579;ND;Arles;Clos des Bissouninques;10;8;2006
+Emys orbicularis;Recapture;271;F;ND;515;ND;Arles;Clos des Bissouninques;11;8;2006
+Emys orbicularis;Recapture;282;F;ND;504;ND;Arles;Clos des Bissouninques;11;8;2006
+Emys orbicularis;Recapture;343;M;ND;581;ND;Arles;Clos des Bissouninques;11;8;2006
+Emys orbicularis;Recapture;358;F;ND;509;ND;Arles;Clos des Bissouninques;11;8;2006
+Emys orbicularis;Marquage;359;F;ND;661;154;Arles;Clos des Bissouninques;11;8;2006
+Emys orbicularis;Recapture;14;F;ND;861;ND;Arles;Bois Rescapé;14;8;2006
+Emys orbicularis;Recapture;341;F;ND;150;ND;Arles;Bois Rescapé;14;8;2006
+Emys orbicularis;Recapture;345;F;ND;520;ND;Arles;Clos des Bissouninques;14;8;2006
+Emys orbicularis;Recapture;353;F;ND;617;ND;Arles;Clos des Bissouninques;14;8;2006
+Emys orbicularis;Marquage;360;F;ND;591;160;Arles;Boutardière;14;8;2006
+Emys orbicularis;Recapture;143;F;ND;ND;ND;Arles;Sentier Ludo;15;8;2006
+Emys orbicularis;Marquage;361;F;ND;121;88;Arles;Boutardière;15;8;2006
+Emys orbicularis;Recapture;350;F;ND;504;ND;Arles;Boutardière;17;8;2006
+Emys orbicularis;Marquage;362;F;ND;744;168;Arles;Cabanes de l'Etourneau;17;8;2006
+Emys orbicularis;Marquage;363;F;ND;568;158;Arles;Boutardière;17;8;2006
+Emys orbicularis;Marquage;364;M;ND;411;138;Arles;Palunette Ligagneau - Baie des cochons;17;8;2006
+Emys orbicularis;Recapture;268;M;ND;427;ND;Arles;Palunette Ligagneau - Baie des cochons;18;8;2006
+Emys orbicularis;Marquage;365;F;ND;633;154;Arles;Bois Rescapé;22;8;2006
+Emys orbicularis;Recapture;347;F;ND;626;ND;Arles;Bois Rescapé;23;8;2006
+Emys orbicularis;Recapture;365;F;ND;ND;ND;Arles;Bois Rescapé;23;8;2006
+Emys orbicularis;Marquage;366;M;ND;437;142;Arles;Bois Rescapé;23;8;2006
+Emys orbicularis;Recapture;343;M;ND;586;ND;Arles;Boutardière;24;8;2006
+Emys orbicularis;Recapture;360;F;ND;574;ND;Arles;Boutardière;24;8;2006
+Emys orbicularis;Marquage;367;M;ND;439;143;Arles;Boutardière;24;8;2006
+Emys orbicularis;Marquage;368;F;ND;648;159;Arles;Boutardière;25;8;2006
+Emys orbicularis;Recapture;347;F;ND;628;ND;Arles;Bois Rescapé;28;8;2006
+Emys orbicularis;Recapture;360;F;ND;570;ND;Arles;Boutardière;28;8;2006
+Emys orbicularis;Recapture;350;F;ND;502;ND;Arles;Bois Rescapé;29;8;2006
+Emys orbicularis;Recapture;361;F;ND;125;ND;Arles;Boutardière;29;8;2006
+Emys orbicularis;Recapture;317;F;ND;529;ND;Arles;Palunette Ligagneau - Baie des cochons;31;8;2006
+Emys orbicularis;Recapture;347;F;ND;637;ND;Arles;Palunette Ligagneau - Baie des cochons;31;8;2006
+Emys orbicularis;Marquage;369;M;ND;381;138;Arles;Boutardière;31;8;2006
+Emys orbicularis;Recapture;254;M;ND;377;ND;Arles;Palunette Ligagneau - Baie des cochons;1;9;2006
+Emys orbicularis;Recapture;255;M;ND;282;ND;Arles;Palunette Ligagneau - Baie des cochons;1;9;2006
+Emys orbicularis;Recapture;332;M;ND;367;ND;Arles;Palunette Ligagneau - Baie des cochons;1;9;2006
+Emys orbicularis;Recapture;364;M;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;1;9;2006
+Emys orbicularis;Recapture;271;F;ND;474;ND;Arles;Cabanes de l'Etourneau;2;9;2006
+Emys orbicularis;Recapture;317;F;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;2;9;2006
+Emys orbicularis;Recapture;364;M;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;2;9;2006
+Emys orbicularis;Recapture;347;F;ND;624;ND;Arles;Palunette Ligagneau - Baie des cochons;4;9;2006
+Emys orbicularis;Recapture;161;F;ND;633;ND;Arles;Palunette Ligagneau - Baie des cochons;5;9;2006
+Emys orbicularis;Marquage;370;F;ND;699;159;Arles;Demi-Lune;7;9;2006
+Emys orbicularis;Marquage;371;F;ND;509;145;Arles;Les Friches - Porteau principal;8;9;2006
+Emys orbicularis;Recapture;255;M;ND;281;ND;Arles;Palunette Ligagneau - Baie des cochons;12;9;2006
+Emys orbicularis;Recapture;270;F;ND;701;ND;Arles;Palunette Ligagneau - Baie des cochons;12;9;2006
+Emys orbicularis;Recapture;347;F;ND;657;ND;Arles;Palunette Ligagneau - Baie des cochons;12;9;2006
+Emys orbicularis;Recapture;161;F;ND;648;ND;Arles;Palunette Ligagneau - Baie des cochons;15;9;2006
+Emys orbicularis;Recapture;254;M;ND;365;ND;Arles;Palunette Ligagneau - Baie des cochons;15;9;2006
+Emys orbicularis;Recapture;270;F;ND;687;ND;Arles;Palunette Ligagneau - Baie des cochons;15;9;2006
+Emys orbicularis;Recapture;332;M;ND;364;ND;Arles;Palunette Ligagneau - Baie des cochons;15;9;2006
+Emys orbicularis;Recapture;347;F;ND;635;ND;Arles;Palunette Ligagneau - Baie des cochons;15;9;2006
+Emys orbicularis;Recapture;370;F;ND;696;ND;Arles;Les Friches - Porteau principal;15;9;2006
+Emys orbicularis;Marquage;372;F;ND;99,5;80;Arles;Palunette Ligagneau - Baie des cochons;15;9;2006
+Emys orbicularis;Recapture;161;F;ND;661;ND;Arles;Palunette Ligagneau - Baie des cochons;22;9;2006
+Emys orbicularis;Marquage;373;F;ND;696;163;Arles;Etourneau Nord;25;9;2006
+Emys orbicularis;Marquage;374;M;ND;354;133;Arles;Palunette Ligagneau - Baie des cochons;2;10;2006
+Emys orbicularis;Marquage;375;F;ND;689;166;Arles;Sentier Ludo;8;10;2006
+Emys orbicularis;Recapture;255;M;ND;279;ND;Arles;Palunette Ligagneau - Baie des cochons;10;10;2006
+Emys orbicularis;Recapture;263;M;ND;347;ND;Arles;Palunette Ligagneau - Baie des cochons;12;10;2006
+Emys orbicularis;Marquage;376;M;ND;387;138;Arles;Les Friches - Porteau principal;12;10;2006
+Emys orbicularis;Recapture;256;M;ND;430;ND;Arles;Palunette Ligagneau - Baie des cochons;16;10;2006
+Emys orbicularis;Marquage;377;F;ND;348;136;Arles;Palunette Ligagneau - Baie des cochons;16;10;2006
+Emys orbicularis;Recapture;163;F;ND;665;ND;Arles;Bois Rescapé;18;10;2006
+Emys orbicularis;Recapture;257;M;ND;415;ND;Arles;Bois Rescapé;18;10;2006
+Emys orbicularis;Recapture;263;M;ND;356;ND;Arles;Palunette Ligagneau - Baie des cochons;18;10;2006
+Emys orbicularis;Marquage;378;F;ND;682;168;Arles;Bois Rescapé;18;10;2006
+Emys orbicularis;Marquage;379;F;ND;684;159;Arles;Cabanes de l'Etourneau - Aire de Pique-Nique;19;10;2006
+Emys orbicularis;Marquage;380;F;ND;486;145;Arles;Baisse des Oies - Piste;20;10;2006
+Emys orbicularis;Marquage;381;F;ND;520;147;Arles;Les Friches;20;10;2006
+Emys orbicularis;Marquage;382;F;ND;892;177;Arles;Palunette Ligagneau - Baie des cochons;20;10;2006
+Emys orbicularis;Marquage;383;F;ND;503;145;Arles;Les Friches - Porteau principal;23;10;2006
+Emys orbicularis;Marquage;384;ind;ND;307;122;Arles;Franc-Bord Demi-Lune;1;11;2006
+Emys orbicularis;Marquage;385;M;ND;254;122;Arles;Franc-Bord Demi-Lune;1;11;2006
+Emys orbicularis;Marquage;386;M;ND;406;147;Arles;Franc-Bord Demi-Lune;1;11;2006
+Emys orbicularis;Marquage;387;M;Ad;462;143;Arles;Les Friches;2;11;2006
+Emys orbicularis;Marquage;388;M;Ad;405;139;Arles;Les Friches;2;11;2006
+Emys orbicularis;Marquage;389;M;Ad;416;148;Arles;Franc-Bord Friches;5;11;2006
+Emys orbicularis;Marquage;390;F;Ad;701;158;Arles;Piste Principale - En face de Demi-Lune;14;11;2006
+Emys orbicularis;Marquage;391;M;Ad;416;140;Arles;Piste Principale - En face de Demi-Lune;16;11;2006
+Emys orbicularis;Marquage;392;M;Ad;324;138;Arles;Piste Principale - En face de Demi-Lune;17;11;2006
+Emys orbicularis;Marquage;393;M;Ad;361;138;Arles;Franc-Bord Friches;4;12;2006
+Emys orbicularis;Marquage;394;F;Ad;820;165;Arles;Franc-Bord Friches;4;12;2006
+Emys orbicularis;Recapture;391;M;Ad;412;141;Arles;Franc-Bord Demi-Lune;17;2;2007
+Emys orbicularis;Recapture;263;M;ND;344;ND;Arles;Palunette Ligagneau - Baie des cochons;20;2;2007
+Emys orbicularis;Marquage;395;F;ND;728;163;Arles;Franc-Bord Friches;20;2;2007
+Emys orbicularis;Marquage;396;F;ND;517;146;Arles;Franc-Bord Friches;20;2;2007
+Emys orbicularis;Marquage;398;F;ND;809;169;Arles;Franc-Bord Demi-Lune;21;2;2007
+Emys orbicularis;Marquage;502;F;ND;510;139;Arles;Franc-Bord Palunette Ligagneau;21;2;2007
+Emys orbicularis;Recapture;263;M;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;22;2;2007
+Emys orbicularis;Recapture;391;ind;ND;ND;ND;Arles;Franc-Bord Demi-Lune;22;2;2007
+Emys orbicularis;Recapture;259;M;Ad;393;138;Arles;Palunette Ligagneau - Baie des cochons;23;2;2007
+Emys orbicularis;Marquage;797;F;Ad;737;157;Arles;Franc-Bord Demi-Lune;23;2;2007
+Emys orbicularis;Recapture;391;M;ND;ND;ND;Arles;Franc-Bord Demi-Lune;25;2;2007
+Emys orbicularis;Marquage;397;M;ND;ND;143;Arles;Franc-Bord Demi-Lune;25;2;2007
+Emys orbicularis;Marquage;399;F;ND;718;159;Arles;Franc-Bord Demi-Lune;26;2;2007
+Emys orbicularis;Recapture;797;F;Ad;703;ND;Arles;Franc-Bord Demi-Lune;13;3;2007
+Emys orbicularis;Marquage;400;M;Ad;317;128;Arles;Franc-Bord Demi-Lune;14;3;2007
+Emys orbicularis;Marquage;401;M;Ad;466;148;Arles;Haie Sud - Trois Martelières;14;3;2007
+Emys orbicularis;Marquage;402;M;Ad;456;140;Arles;Haie Sud - Trois Martelières;14;3;2007
+Emys orbicularis;Marquage;403;M;ND;219;113,5;Arles;Franc-Bord Palunette Ligagneau;14;3;2007
+Emys orbicularis;Marquage;404;F;ND;730;160;Arles;Franc-Bord Palunette Ligagneau;14;3;2007
+Emys orbicularis;Marquage;405;F;Ad;855;173;Arles;Franc-Bord Demi-Lune;15;3;2007
+Emys orbicularis;Marquage;406;M;ND;366;138;Arles;Prise d'eau Vigueirat Etourneau;16;3;2007
+Emys orbicularis;Marquage;407;F;ND;752;163;Arles;Franc-Bord Demi-Lune;16;3;2007
+Emys orbicularis;Recapture;313;F;ND;576;ND;Arles;Haie Sud - Trois Martelières;16;3;2007
+Emys orbicularis;Recapture;325;F;ND;581;ND;Arles;Haie Sud - Trois Martelières;16;3;2007
+Emys orbicularis;Recapture;265;F;ND;704;ND;Arles;Palunette Ligagneau - Baie des cochons;19;3;2007
+Emys orbicularis;Recapture;257;M;ND;416;ND;Arles;Palunette Ligagneau - Baie des cochons;19;3;2007
+Emys orbicularis;Marquage;408;F;ND;554;153;Arles;Franc-Bord Demi-Lune;19;3;2007
+Emys orbicularis;Marquage;409;M;Ad;345;133;Arles;Franc-Bord Demi-Lune;26;3;2007
+Emys orbicularis;Recapture;408;F;ND;556;ND;Arles;Franc-Bord Demi-Lune;26;3;2007
+Emys orbicularis;Recapture;393;M;ND;349;132;Arles;Franc-Bord Demi-Lune;27;3;2007
+Emys orbicularis;Recapture;405;F;ND;851;ND;Arles;Franc-Bord Demi-Lune;27;3;2007
+Emys orbicularis;Recapture;194;M;ND;427;ND;Arles;Franc-Bord Demi-Lune;27;3;2007
+Emys orbicularis;Marquage;503;F;Ad;798;170;Arles;Franc-Bord Demi-Lune;27;3;2007
+Emys orbicularis;Marquage;410;M;Ad;431;142;Arles;Franc-Bord Palunette Ligagneau;27;3;2007
+Emys orbicularis;Marquage;411;F;Ad;653;157;Arles;Franc-Bord Demi-Lune;27;3;2007
+Emys orbicularis;Marquage;412;F;Ad;688;155;Arles;Franc-Bord Demi-Lune;27;3;2007
+Emys orbicularis;Marquage;413;M;Ad;361;138;Arles;Franc-Bord Demi-Lune;27;3;2007
+Emys orbicularis;Marquage;414;F;Ad;641;157;Arles;Franc-Bord Demi-Lune;27;3;2007
+Emys orbicularis;Recapture;384;M;ND;277;125;Arles;Franc-Bord Demi-Lune;28;3;2007
+Emys orbicularis;Recapture;389;M;ND;408;142;Arles;Franc-Bord Demi-Lune;28;3;2007
+Emys orbicularis;Recapture;385;M;ND;249;123;Arles;Franc-Bord Demi-Lune;28;3;2007
+Emys orbicularis;Recapture;387;M;ND;409;142;Arles;Franc-Bord Demi-Lune;28;3;2007
+Emys orbicularis;Recapture;503;F;ND;791;ND;Arles;Franc-Bord Demi-Lune;28;3;2007
+Emys orbicularis;Recapture;194;M;ND;422;ND;Arles;Franc-Bord Demi-Lune;28;3;2007
+Emys orbicularis;Recapture;259;M;ND;397;137;Arles;Palunette Ligagneau - Baie des cochons;28;3;2007
+Emys orbicularis;Marquage;415;F;Ad;871;172;Arles;Franc-Bord Demi-Lune;28;3;2007
+Emys orbicularis;Marquage;416;F;Ad;735;157;Arles;Franc-Bord Demi-Lune;28;3;2007
+Emys orbicularis;Marquage;417;F;ND;791;162;Arles;Franc-Bord Demi-Lune;29;3;2007
+Emys orbicularis;Recapture;413;M;ND;365;ND;Arles;Franc-Bord Demi-Lune;29;3;2007
+Emys orbicularis;Recapture;391;M;ND;420;ND;Arles;Franc-Bord Demi-Lune;29;3;2007
+Emys orbicularis;Recapture;408;F;ND;558;ND;Arles;Franc-Bord Demi-Lune;29;3;2007
+Emys orbicularis;Recapture;194;M;ND;420;ND;Arles;Franc-Bord Demi-Lune;29;3;2007
+Emys orbicularis;Recapture;389;M;ND;407;ND;Arles;Franc-Bord Demi-Lune;29;3;2007
+Emys orbicularis;Recapture;386;M;ND;400;ND;Arles;Franc-Bord Demi-Lune;29;3;2007
+Emys orbicularis;Recapture;409;M;ND;346;ND;Arles;Franc-Bord Demi-Lune;29;3;2007
+Emys orbicularis;Recapture;384;M;ND;277;ND;Arles;Franc-Bord Demi-Lune;29;3;2007
+Emys orbicularis;Recapture;259;M;ND;388;ND;Arles;Franc-Bord Palunette Ligagneau;29;3;2007
+Emys orbicularis;Marquage;418;F;ND;861;167;Arles;Franc-Bord Demi-Lune;30;3;2007
+Emys orbicularis;Recapture;259;M;ND;393;ND;Arles;Franc-Bord Palunette Ligagneau;30;3;2007
+Emys orbicularis;Recapture;377;F;4 ans;351;135;Arles;Franc-Bord Palunette Ligagneau;30;3;2007
+Emys orbicularis;Recapture;329;M;ND;427;142;Arles;Haie Sud - Trois Martelières;30;3;2007
+Emys orbicularis;Recapture;411;F;ND;641;ND;Arles;Franc-Bord Demi-Lune;30;3;2007
+Emys orbicularis;Recapture;390;F;ND;699;156;Arles;Franc-Bord Demi-Lune;30;3;2007
+Emys orbicularis;Recapture;387;M;ND;406;141;Arles;Franc-Bord Demi-Lune;30;3;2007
+Emys orbicularis;Recapture;384;ind;5 ans;276;ND;Arles;Franc-Bord Demi-Lune;30;3;2007
+Emys orbicularis;Recapture;393;M;ND;347;ND;Arles;Franc-Bord Demi-Lune;30;3;2007
+Emys orbicularis;Recapture;412;F;ND;682;ND;Arles;Franc-Bord Demi-Lune;30;3;2007
+Emys orbicularis;Recapture;405;F;ND;830;ND;Arles;Franc-Bord Demi-Lune;30;3;2007
+Emys orbicularis;Recapture;413;M;ND;364;ND;Arles;Franc-Bord Demi-Lune;30;3;2007
+Emys orbicularis;Recapture;337;M;ND;361;ND;Arles;Franc-Bord Demi-Lune;30;3;2007
+Emys orbicularis;Recapture;389;M;ND;406;ND;Arles;Franc-Bord Demi-Lune;2;4;2007
+Emys orbicularis;Recapture;415;M;ND;830;ND;Arles;Franc-Bord Demi-Lune;2;4;2007
+Emys orbicularis;Recapture;413;F;ND;358;ND;Arles;Franc-Bord Demi-Lune;2;4;2007
+Emys orbicularis;Recapture;388;M;ND;396;ND;Arles;Franc-Bord Demi-Lune;2;4;2007
+Emys orbicularis;Marquage;419;M;ND;392;140;Arles;Palunette Ligagneau - Baie des cochons;3;4;2007
+Emys orbicularis;Marquage;420;F;ND;609;165;Arles;Franc-Bord Palunette Ligagneau;3;4;2007
+Emys orbicularis;Marquage;421;F;ND;653;163;Arles;Franc-Bord Demi-Lune;3;4;2007
+Emys orbicularis;Recapture;257;M;ND;401;ND;Arles;Palunette Ligagneau - Baie des cochons;3;4;2007
+Emys orbicularis;Recapture;391;M;ND;417;ND;Arles;Franc-Bord Demi-Lune;3;4;2007
+Emys orbicularis;Recapture;387;M;ND;410;ND;Arles;Franc-Bord Demi-Lune;3;4;2007
+Emys orbicularis;Recapture;400;M;ND;318;ND;Arles;Franc-Bord Demi-Lune;3;4;2007
+Emys orbicularis;Recapture;503;F;ND;799;ND;Arles;Franc-Bord Demi-Lune;3;4;2007
+Emys orbicularis;Recapture;393;M;ND;346;ND;Arles;Franc-Bord Demi-Lune;3;4;2007
+Emys orbicularis;Recapture;337;M;ND;362;ND;Arles;Franc-Bord Demi-Lune;3;4;2007
+Emys orbicularis;Marquage;422;F;ND;593;152;Arles;Franc-Bord Demi-Lune;4;4;2007
+Emys orbicularis;Marquage;423;F;Ad;669;177;Arles;Franc-Bord Demi-Lune;4;4;2007
+Emys orbicularis;Recapture;321;M;ND;305;ND;Arles;Haie Sud - Trois Martelières;4;4;2007
+Emys orbicularis;Recapture;261;M;ND;324;130;Arles;Palunette Ligagneau - Baie des cochons;4;4;2007
+Emys orbicularis;Recapture;421;F;ND;659;ND;Arles;Franc-Bord Demi-Lune;4;4;2007
+Emys orbicularis;Recapture;407;F;ND;747;ND;Arles;Franc-Bord Demi-Lune;4;4;2007
+Emys orbicularis;Recapture;416;F;ND;738;ND;Arles;Franc-Bord Demi-Lune;4;4;2007
+Emys orbicularis;Recapture;389;M;ND;408;142;Arles;Franc-Bord Demi-Lune;4;4;2007
+Emys orbicularis;Recapture;384;ind;ND;288;ND;Arles;Franc-Bord Demi-Lune;5;4;2007
+Emys orbicularis;Recapture;337;M;ND;359;ND;Arles;Franc-Bord Demi-Lune;5;4;2007
+Emys orbicularis;Marquage;424;M;4 ans;188;104;Arles;Franc-Bord Palunette Ligagneau;5;4;2007
+Emys orbicularis;Recapture;374;M;ND;344;ND;Arles;Palunette Ligagneau - Baie des cochons;6;4;2007
+Emys orbicularis;Recapture;387;M;ND;442;ND;Arles;Franc-Bord Demi-Lune;6;4;2007
+Emys orbicularis;Recapture;400;M;ND;323;ND;Arles;Franc-Bord Demi-Lune;6;4;2007
+Emys orbicularis;Recapture;415;F;ND;833;ND;Arles;Franc-Bord Demi-Lune;6;4;2007
+Emys orbicularis;Recapture;391;M;ND;421;ND;Arles;Franc-Bord Demi-Lune;6;4;2007
+Emys orbicularis;Marquage;425;F;ND;579;152;Arles;Franc-Bord Demi-Lune;6;4;2007
+Emys orbicularis;Marquage;426;F;ND;653;159;Arles;Franc-Bord Demi-Lune;6;4;2007
+Emys orbicularis;Recapture;327;F;ND;703;ND;Arles;Haie Sud - Trois Martelières;10;4;2007
+Emys orbicularis;Recapture;390;F;ND;706;ND;Arles;Franc-Bord Demi-Lune;10;4;2007
+Emys orbicularis;Recapture;385;M;ND;249;ND;Arles;Franc-Bord Demi-Lune;10;4;2007
+Emys orbicularis;Recapture;400;M;ND;316;ND;Arles;Franc-Bord Demi-Lune;10;4;2007
+Emys orbicularis;Recapture;393;M;ND;341;ND;Arles;Franc-Bord Demi-Lune;10;4;2007
+Emys orbicularis;Recapture;413;M;ND;362;ND;Arles;Franc-Bord Demi-Lune;10;4;2007
+Emys orbicularis;Recapture;337;M;ND;369;ND;Arles;Franc-Bord Demi-Lune;10;4;2007
+Emys orbicularis;Marquage;427;F;ND;651;162;Arles;Clos des Montures;10;4;2007
+Emys orbicularis;Marquage;428;F;ND;612;157;Arles;Franc-Bord Demi-Lune;10;4;2007
+Emys orbicularis;Marquage;429;F;ND;748;165;Arles;Franc-Bord Demi-Lune;10;4;2007
+Emys orbicularis;Marquage;430;M;ND;432;144;Arles;Franc-Bord Demi-Lune;10;4;2007
+Emys orbicularis;Marquage;431;F;ND;774;169;Arles;Franc-Bord Demi-Lune;10;4;2007
+Emys orbicularis;Recapture;403;M;ND;217;ND;Arles;Franc-Bord Palunette Ligagneau;11;4;2007
+Emys orbicularis;Recapture;382;F;ND;871;ND;Arles;Palunette Ligagneau - Baie des cochons;11;4;2007
+Emys orbicularis;Recapture;261;M;ND;319;ND;Arles;Palunette Ligagneau - Baie des cochons;11;4;2007
+Emys orbicularis;Recapture;390;F;ND;690;ND;Arles;Franc-Bord Demi-Lune;11;4;2007
+Emys orbicularis;Recapture;430;M;ND;430;ND;Arles;Franc-Bord Demi-Lune;11;4;2007
+Emys orbicularis;Marquage;432;M;ND;378;137;Arles;Haie Sud - Trois Martelières;11;4;2007
+Emys orbicularis;Marquage;433;F;ND;703;161;Arles;Franc-Bord Palunette Ligagneau;11;4;2007
+Emys orbicularis;Marquage;434;F;ND;796;165;Arles;Franc-Bord Demi-Lune;11;4;2007
+Emys orbicularis;Marquage;435;F;ND;752;167;Arles;Boutardière;12;4;2007
+Emys orbicularis;Marquage;436;M;ND;342;128;Arles;Palunette Ligagneau - Baie des cochons;12;4;2007
+Emys orbicularis;Recapture;407;F;ND;752;ND;Arles;Franc-Bord Demi-Lune;13;4;2007
+Emys orbicularis;Recapture;413;M;ND;366;ND;Arles;Franc-Bord Demi-Lune;13;4;2007
+Emys orbicularis;Recapture;399;F;ND;741;ND;Arles;Franc-Bord Demi-Lune;13;4;2007
+Emys orbicularis;Recapture;416;F;ND;636;ND;Arles;Franc-Bord Demi-Lune;13;4;2007
+Emys orbicularis;Recapture;249;F;ND;712;ND;Arles;Cabanes de l'Etourneau - Maison des gardes;16;4;2007
+Emys orbicularis;Recapture;275;M;ND;284;ND;Arles;Franc-Bord Palunette Ligagneau;16;4;2007
+Emys orbicularis;Recapture;282;F;ND;483;ND;Arles;Palunette Ligagneau - Baie des cochons;16;4;2007
+Emys orbicularis;Recapture;337;M;ND;352;ND;Arles;Franc-Bord Demi-Lune;16;4;2007
+Emys orbicularis;Recapture;357;F;ND;591;ND;Arles;Cabanes de l'Etourneau - Maison des gardes;16;4;2007
+Emys orbicularis;Recapture;390;F;ND;685;ND;Arles;Franc-Bord Demi-Lune;16;4;2007
+Emys orbicularis;Recapture;392;M;ND;313;ND;Arles;Franc-Bord Demi-Lune;16;4;2007
+Emys orbicularis;Recapture;398;F;ND;791;ND;Arles;Franc-Bord Demi-Lune;16;4;2007
+Emys orbicularis;Recapture;400;M;ND;315;ND;Arles;Franc-Bord Demi-Lune;16;4;2007
+Emys orbicularis;Recapture;405;F;ND;804;ND;Arles;Franc-Bord Demi-Lune;16;4;2007
+Emys orbicularis;Recapture;412;F;ND;681;ND;Arles;Franc-Bord Demi-Lune;16;4;2007
+Emys orbicularis;Recapture;413;M;ND;363;ND;Arles;Franc-Bord Demi-Lune;16;4;2007
+Emys orbicularis;Recapture;414;F;ND;613;ND;Arles;Franc-Bord Demi-Lune;16;4;2007
+Emys orbicularis;Recapture;430;M;ND;436;ND;Arles;Franc-Bord Demi-Lune;16;4;2007
+Emys orbicularis;Marquage;437;ind;3 ans;27,5;52;Arles;Franc-Bord Demi-Lune;16;4;2007
+Emys orbicularis;Recapture;400;M;ND;314;ND;Arles;Franc-Bord Demi-Lune;17;4;2007
+Emys orbicularis;Recapture;393;M;ND;345;ND;Arles;Franc-Bord Demi-Lune;17;4;2007
+Emys orbicularis;Recapture;430;M;ND;433;ND;Arles;Franc-Bord Demi-Lune;17;4;2007
+Emys orbicularis;Recapture;399;M;ND;729;ND;Arles;Franc-Bord Demi-Lune;17;4;2007
+Emys orbicularis;Recapture;267;F;ND;ND;ND;Arles;Pesquier;17;4;2007
+Emys orbicularis;Recapture;282;F;ND;494;146;Arles;Palunette Ligagneau - Baie des cochons;18;4;2007
+Emys orbicularis;Recapture;262;F;ND;555;155;Arles;Palunette Ligagneau - Baie des cochons;18;4;2007
+Emys orbicularis;Recapture;335;M;ND;391;137;Arles;Clos des Montures;18;4;2007
+Emys orbicularis;Recapture;162;F;ND;586;152;Arles;Clos des Montures;18;4;2007
+Emys orbicularis;Recapture;267;F;ND;726;160;Arles;Palunette Ligagneau - Baie des cochons;18;4;2007
+Emys orbicularis;Recapture;434;F;ND;780;ND;Arles;Franc-Bord Demi-Lune;18;4;2007
+Emys orbicularis;Recapture;337;M;ND;347;ND;Arles;Franc-Bord Demi-Lune;18;4;2007
+Emys orbicularis;Marquage;438;ind;ND;4,4;25;Arles;Sentier Ludo;18;4;2007
+Emys orbicularis;Recapture;153;F;ND;700;ND;Arles;Clos des Montures;19;4;2007
+Emys orbicularis;Recapture;263;M;ND;333;ND;Arles;Clos des Montures;19;4;2007
+Emys orbicularis;Recapture;296;M;ND;356;ND;Arles;Clos des Montures;19;4;2007
+Emys orbicularis;Recapture;431;F;ND;794;ND;Arles;Franc-Bord Demi-Lune;19;4;2007
+Emys orbicularis;Recapture;418;F;ND;873;ND;Arles;Franc-Bord Demi-Lune;19;4;2007
+Emys orbicularis;Recapture;400;M;ND;319;ND;Arles;Franc-Bord Demi-Lune;19;4;2007
+Emys orbicularis;Recapture;797;F;Ad;755;ND;Arles;Franc-Bord Demi-Lune;19;4;2007
+Emys orbicularis;Recapture;425;F;ND;574;ND;Arles;Franc-Bord Demi-Lune;19;4;2007
+Emys orbicularis;Recapture;431;F;ND;794;ND;Arles;Franc-Bord Demi-Lune;19;4;2007
+Emys orbicularis;Recapture;390;F;ND;689;ND;Arles;Franc-Bord Demi-Lune;19;4;2007
+Emys orbicularis;Marquage;439;F;ND;564;152;Arles;Franc-Bord Demi-Lune;19;4;2007
+Emys orbicularis;Marquage;440;F;ND;636;158;Arles;Clos des Montures;19;4;2007
+Emys orbicularis;Marquage;441;M;ND;464;146;Arles;Clos des Montures;19;4;2007
+Emys orbicularis;Marquage;504;F;ND;851;178;Arles;Clos des Montures;19;4;2007
+Emys orbicularis;Recapture;387;M;ND;431;ND;Arles;Franc-Bord Demi-Lune;20;4;2007
+Emys orbicularis;Recapture;430;M;ND;440;ND;Arles;Franc-Bord Demi-Lune;20;4;2007
+Emys orbicularis;Recapture;431;F;ND;793;ND;Arles;Franc-Bord Demi-Lune;20;4;2007
+Emys orbicularis;Recapture;418;F;ND;859;ND;Arles;Franc-Bord Demi-Lune;20;4;2007
+Emys orbicularis;Recapture;411;F;ND;663;ND;Arles;Franc-Bord Demi-Lune;20;4;2007
+Emys orbicularis;Recapture;390;M;ND;386;ND;Arles;Clos des Montures;20;4;2007
+Emys orbicularis;Recapture;305;F;ND;636;ND;Arles;Clos des Montures;20;4;2007
+Emys orbicularis;Recapture;263;M;ND;323;ND;Arles;Clos des Montures;20;4;2007
+Emys orbicularis;Recapture;419;M;ND;374;ND;Arles;Clos des Montures;20;4;2007
+Emys orbicularis;Recapture;382;F;ND;873;ND;Arles;Clos des Montures;20;4;2007
+Emys orbicularis;Recapture;335;M;ND;406;ND;Arles;Clos des Montures;20;4;2007
+Emys orbicularis;Recapture;91;F;ND;755;163;Arles;Palunette Ligagneau - Baie des cochons;23;4;2007
+Emys orbicularis;Recapture;275;M;ND;286;ND;Arles;Palunette Ligagneau - Baie des cochons;23;4;2007
+Emys orbicularis;Recapture;265;F;ND;755;ND;Arles;Palunette Ligagneau - Baie des cochons;23;4;2007
+Emys orbicularis;Recapture;254;M;ND;365;ND;Arles;Palunette Ligagneau - Baie des cochons;23;4;2007
+Emys orbicularis;Recapture;436;M;ND;322;ND;Arles;Palunette Ligagneau - Baie des cochons;23;4;2007
+Emys orbicularis;Recapture;256;M;ND;415;ND;Arles;Palunette Ligagneau - Baie des cochons;23;4;2007
+Emys orbicularis;Recapture;439;F;ND;558;ND;Arles;Franc-Bord Demi-Lune;23;4;2007
+Emys orbicularis;Recapture;797;F;Ad;741;ND;Arles;Franc-Bord Demi-Lune;23;4;2007
+Emys orbicularis;Recapture;411;F;ND;659;ND;Arles;Franc-Bord Demi-Lune;23;4;2007
+Emys orbicularis;Recapture;393;M;ND;349;ND;Arles;Franc-Bord Demi-Lune;23;4;2007
+Emys orbicularis;Marquage;442;F;ND;594;158;Arles;Palunette Ligagneau - Baie des cochons;23;4;2007
+Emys orbicularis;Marquage;443;M;ND;275;123;Arles;Palunette Ligagneau - Baie des cochons;23;4;2007
+Emys orbicularis;Recapture;265;F;ND;755;ND;Arles;Palunette Ligagneau - Baie des cochons;25;4;2007
+Emys orbicularis;Recapture;351;M;ND;419;ND;Arles;Franc-Bord Palunette Ligagneau;25;4;2007
+Emys orbicularis;Recapture;352;F;ND;879;ND;Arles;Palunette Ligagneau - Baie des cochons;25;4;2007
+Emys orbicularis;Recapture;421;F;ND;661;ND;Arles;Franc-Bord Demi-Lune;25;4;2007
+Emys orbicularis;Recapture;391;M;ND;416;ND;Arles;Franc-Bord Demi-Lune;25;4;2007
+Emys orbicularis;Recapture;408;F;ND;557;ND;Arles;Franc-Bord Demi-Lune;25;4;2007
+Emys orbicularis;Recapture;337;M;ND;345;ND;Arles;Franc-Bord Demi-Lune;25;4;2007
+Emys orbicularis;Marquage;444;F;ND;665;153;Arles;Etourneau Nord;25;4;2007
+Emys orbicularis;Recapture;439;F;ND;562;ND;Arles;Franc-Bord Demi-Lune;26;4;2007
+Emys orbicularis;Recapture;421;F;ND;665;ND;Arles;Franc-Bord Demi-Lune;26;4;2007
+Emys orbicularis;Recapture;393;M;ND;348;ND;Arles;Franc-Bord Demi-Lune;27;4;2007
+Emys orbicularis;Recapture;418;F;ND;877;ND;Arles;Franc-Bord Demi-Lune;27;4;2007
+Emys orbicularis;Recapture;351;M;ND;430;ND;Arles;Franc-Bord Palunette Ligagneau;27;4;2007
+Emys orbicularis;Recapture;341;F;ND;159;ND;Arles;Franc-Bord Palunette Ligagneau;27;4;2007
+Emys orbicularis;Recapture;134;F;ND;582;ND;Arles;Palunette Ligagneau - Baie des cochons;27;4;2007
+Emys orbicularis;Recapture;259;M;ND;392;ND;Arles;Palunette Ligagneau - Baie des cochons;27;4;2007
+Emys orbicularis;Recapture;257;M;ND;405;ND;Arles;Palunette Ligagneau - Baie des cochons;27;4;2007
+Emys orbicularis;Recapture;424;ind;ND;191;ND;Arles;Franc-Bord Palunette Ligagneau;28;4;2007
+Emys orbicularis;Recapture;254;M;ND;372;ND;Arles;Palunette Ligagneau - Baie des cochons;4;5;2007
+Emys orbicularis;Recapture;259;M;ND;391;ND;Arles;Palunette Ligagneau - Baie des cochons;7;5;2007
+Emys orbicularis;Recapture;341;F;ND;166;ND;Arles;Franc-Bord Palunette Ligagneau;7;5;2007
+Emys orbicularis;Marquage;445;M;ND;279;121;Arles;Franc-Bord Palunette Ligagneau;7;5;2007
+Emys orbicularis;Recapture;273;F;ND;ND;ND;Arles;Etourneau Nord;8;5;2007
+Emys orbicularis;Recapture;350;F;ND;506;ND;Arles;Franc-Bord Palunette Ligagneau;9;5;2007
+Emys orbicularis;Recapture;267;F;ND;782;ND;Arles;Palunette Ligagneau - Baie des cochons;9;5;2007
+Emys orbicularis;Recapture;352;F;ND;914;ND;Arles;Palunette Ligagneau - Baie des cochons;9;5;2007
+Emys orbicularis;Recapture;421;F;ND;ND;ND;Arles;Piste Principale - En face de Demi-Lune;9;5;2007
+Emys orbicularis;Recapture;292;F;ND;684;ND;Arles;Pisci Nord - Pâturé;14;5;2007
+Emys orbicularis;Recapture;283;M;ND;437;ND;Arles;Pisci Nord - Pâturé;14;5;2007
+Emys orbicularis;Recapture;445;M;ND;279;ND;Arles;Palunette Ligagneau - Baie des cochons;15;5;2007
+Emys orbicularis;Marquage;446;ind;4 ANS;220;115;Arles;Franc-Bord Palunette Ligagneau;15;5;2007
+Emys orbicularis;Recapture;445;M;ND;271;ND;Arles;Palunette Ligagneau - Baie des cochons;16;5;2007
+Emys orbicularis;Recapture;175;M;ND;423;137;Arles;Clos des Montures;18;5;2007
+Emys orbicularis;Marquage;447;F;AD;848;169;Arles;Franc-Bord Palunette Ligagneau;18;5;2007
+Emys orbicularis;Marquage;505;M;ND;343;127;Arles;Clos des Montures;18;5;2007
+Emys orbicularis;Recapture;350;F;ND;500;142;Arles;Franc-Bord Palunette Ligagneau;21;5;2007
+Emys orbicularis;Marquage;448;F;AD;755;165;Arles;Franc-Bord Palunette Ligagneau;21;5;2007
+Emys orbicularis;Marquage;449;F;ND;748;161;Arles;Pisci Nord - Pâturé;22;5;2007
+Emys orbicularis;Marquage;450;F;ND;642;152;Arles;Pisci Nord - Pâturé;22;5;2007
+Emys orbicularis;Marquage;451;F;ND;451;149;Arles;Franc-Bord Palunette Ligagneau;22;5;2007
+Emys orbicularis;Marquage;507;M;ND;412;139;Arles;Clos des Montures;22;5;2007
+Emys orbicularis;Recapture;424;M;ND;199;ND;Arles;Franc-Bord Palunette Ligagneau;23;5;2007
+Emys orbicularis;Recapture;443;M;ND;276;ND;Arles;Franc-Bord Palunette Ligagneau;23;5;2007
+Emys orbicularis;Recapture;440;F;ND;602;ND;Arles;Franc-Bord Palunette Ligagneau;23;5;2007
+Emys orbicularis;Recapture;382;F;ND;860;ND;Arles;Palunette Ligagneau - Baie des cochons;23;5;2007
+Emys orbicularis;Recapture;56;F;ND;747;159;Arles;Clos des Montures;23;5;2007
+Emys orbicularis;Recapture;351;M;ND;435;ND;Arles;Franc-Bord Palunette Ligagneau;24;5;2007
+Emys orbicularis;Recapture;374;M;ND;357;ND;Arles;Palunette Ligagneau - Baie des cochons;24;5;2007
+Emys orbicularis;Recapture;57;F;ND;546;ND;Arles;Clos des Montures;24;5;2007
+Emys orbicularis;Recapture;261;M;ND;320;ND;Arles;Clos des Montures;24;5;2007
+Emys orbicularis;Marquage;452;F;ND;642;158;Arles;Franc-Bord Palunette Ligagneau;24;5;2007
+Emys orbicularis;Marquage;453;F;5 ANS;212;108;Arles;Franc-Bord Palunette Ligagneau;24;5;2007
+Emys orbicularis;Marquage;454;F;ND;660;160;Arles;Franc-Bord Palunette Ligagneau;24;5;2007
+Emys orbicularis;Recapture;259;M;ND;401;ND;Arles;Palunette Ligagneau - Baie des cochons;25;5;2007
+Emys orbicularis;Recapture;315;F;ND;643;155;Arles;Bois Rescapé;25;5;2007
+Emys orbicularis;Recapture;404;F;ND;779;ND;Arles;Bois Rescapé;25;5;2007
+Emys orbicularis;Marquage;455;F;5 ANS;269;115;Arles;Bois Rescapé;25;5;2007
+Emys orbicularis;Marquage;456;F;ND;624;150;Arles;Clos des Montures;25;5;2007
+Emys orbicularis;Marquage;457;F;ND;642;159;Arles;Franc-Bord Palunette Ligagneau;25;5;2007
+Emys orbicularis;Recapture;501;F;ND;511;ND;Arles;Bois Rescapé;28;5;2007
+Emys orbicularis;Recapture;39;F;ND;848;174;Arles;Palunette Ligagneau - Baie des cochons;28;5;2007
+Emys orbicularis;Recapture;265;F;ND;768;ND;Arles;Palunette Ligagneau - Baie des cochons;28;5;2007
+Emys orbicularis;Recapture;350;F;ND;523;ND;Arles;Franc-Bord Palunette Ligagneau;28;5;2007
+Emys orbicularis;Recapture;502;F;ND;520;ND;Arles;Franc-Bord Palunette Ligagneau;28;5;2007
+Emys orbicularis;Recapture;351;M;ND;423;ND;Arles;Franc-Bord Palunette Ligagneau;28;5;2007
+Emys orbicularis;Marquage;458;F;ND;703;153;Arles;Franc-Bord Palunette Ligagneau;28;5;2007
+Emys orbicularis;Recapture;39;F;ND;829;ND;Arles;Palunette Ligagneau - Baie des cochons;29;5;2007
+Emys orbicularis;Marquage;459;F;ND;533;144;Arles;Pisci Nord;29;5;2007
+Emys orbicularis;Marquage;460;F;ND;604;156;Arles;Pisci Nord;29;5;2007
+Emys orbicularis;Recapture;153;F;ND;780;ND;Arles;Palunette Ligagneau - Baie des cochons;30;5;2007
+Emys orbicularis;Recapture;377;F;ND;388;ND;Arles;Bois Rescapé;30;5;2007
+Emys orbicularis;Recapture;309;F;ND;722;ND;Arles;Clos des Montures;30;5;2007
+Emys orbicularis;Recapture;320;F;ND;ND;ND;Arles;Piste Principale - En face de Pradelles;30;5;2007
+Emys orbicularis;Recapture;56;F;ND;797;ND;Arles;Clos des Montures;31;5;2007
+Emys orbicularis;Recapture;353;F;ND;779;ND;Arles;Palunette Ligagneau - Baie des cochons;1;6;2007
+Emys orbicularis;Marquage;461;M;ND;325;134;Arles;Franc-Bord Palunette Ligagneau;1;6;2007
+Emys orbicularis;Marquage;462;F;ND;621;155;Arles;Franc-Bord Palunette Ligagneau;1;6;2007
+Emys orbicularis;Recapture;309;F;ND;733;ND;Arles;Clos des Montures;4;6;2007
+Emys orbicularis;Recapture;302;M;ND;417;ND;Arles;Palunette Ligagneau - Baie des cochons;4;6;2007
+Emys orbicularis;Recapture;260;F;ND;688;ND;Arles;Franc-Bord Palunette Ligagneau;4;6;2007
+Emys orbicularis;Recapture;458;F;ND;709;ND;Arles;Franc-Bord Palunette Ligagneau;4;6;2007
+Emys orbicularis;Recapture;378;F;ND;671;ND;Arles;Franc-Bord Palunette Ligagneau;4;6;2007
+Emys orbicularis;Recapture;155;F;ND;613;150;Arles;Franc-Bord Palunette Ligagneau;4;6;2007
+Emys orbicularis;Recapture;50;F;ND;ND;ND;Arles;Haie Sud - Trois Martelières;4;6;2007
+Emys orbicularis;Recapture;50;F;ND;ND;ND;Arles;Haie Sud - Trois Martelières;4;6;2007
+Emys orbicularis;Marquage;463;F;ND;621;151;Arles;Bois Rescapé;4;6;2007
+Emys orbicularis;Recapture;281;F;ND;714;ND;Arles;Clos des Montures;5;6;2007
+Emys orbicularis;Recapture;436;M;ND;344;ND;Arles;Franc-Bord Palunette Ligagneau;5;6;2007
+Emys orbicularis;Recapture;333;M;ND;559;ND;Arles;Franc-Bord Palunette Ligagneau;5;6;2007
+Emys orbicularis;Marquage;464;F;ND;806;167;Arles;Piste Principale - En face de Woodstoc;5;6;2007
+Emys orbicularis;Marquage;465;M;ND;372;135;Arles;Pisci Nord;5;6;2007
+Emys orbicularis;Marquage;466;F;ND;671;157;Arles;Pisci Nord;5;6;2007
+Emys orbicularis;Marquage;467;F;ND;586;158;Arles;Pisci Nord;5;6;2007
+Emys orbicularis;Recapture;442;F;ND;607;ND;Arles;Franc-Bord Palunette Ligagneau;6;6;2007
+Emys orbicularis;Recapture;282;F;ND;526;ND;Arles;Franc-Bord Palunette Ligagneau;6;6;2007
+Emys orbicularis;Recapture;457;F;ND;657;ND;Arles;Franc-Bord Palunette Ligagneau;6;6;2007
+Emys orbicularis;Marquage;468;M;ND;424;131;Arles;Pisci Nord;6;6;2007
+Emys orbicularis;Recapture;440;F;ND;649;ND;Arles;Palunette Ligagneau - Baie des cochons;7;6;2007
+Emys orbicularis;Marquage;469;F;ND;783;170;Arles;Pisci Nord;7;6;2007
+Emys orbicularis;Recapture;307;F;ND;673;ND;Arles;Clos des Montures;8;6;2007
+Emys orbicularis;Recapture;91;F;ND;783;162;Arles;Franc-Bord Palunette Ligagneau;8;6;2007
+Emys orbicularis;Marquage;470;F;ND;653;158;Arles;Franc-Bord Palunette Ligagneau;8;6;2007
+Emys orbicularis;Recapture;257;M;ND;426;ND;Arles;Palunette Ligagneau - Baie des cochons;11;6;2007
+Emys orbicularis;Recapture;91;F;ND;756;ND;Arles;Franc-Bord Palunette Ligagneau;11;6;2007
+Emys orbicularis;Marquage;471;F;ND;660;156;Arles;Franc-Bord Palunette Ligagneau;11;6;2007
+Emys orbicularis;Recapture;143;F;ND;ND;ND;Arles;Cabanes de l'Etourneau - Parking visiteurs;12;6;2007
+Emys orbicularis;Recapture;333;F;ND;564;ND;Arles;Franc-Bord Palunette Ligagneau;13;6;2007
+Emys orbicularis;Recapture;468;M;ND;ND;ND;Arles;Pisci Nord;13;6;2007
+Emys orbicularis;Recapture;30;F;ND;894;ND;Arles;Clos des Montures;13;6;2007
+Emys orbicularis;Recapture;106;F;ND;708;164;Arles;Pisci Nord;14;6;2007
+Emys orbicularis;Recapture;348;F;ND;777;ND;Arles;Franc-Bord Palunette Ligagneau;14;6;2007
+Emys orbicularis;Marquage;472;F;ND;805;ND;Arles;Pisci Nord;14;6;2007
+Emys orbicularis;Recapture;30;F;ND;ND;ND;Arles;Clos des Montures;16;6;2007
+Emys orbicularis;Recapture;298;F;ND;644;158;Arles;Pisci Nord;18;6;2007
+Emys orbicularis;Recapture;287;F;ND;720;ND;Arles;Pisci Nord;18;6;2007
+Emys orbicularis;Recapture;448;F;ND;763;ND;Arles;Franc-Bord Palunette Ligagneau;18;6;2007
+Emys orbicularis;Recapture;22;F;ND;713;159;Arles;Franc-Bord Palunette Ligagneau;18;6;2007
+Emys orbicularis;Marquage;473;M;AD;460;141;Arles;Pisci Nord;18;6;2007
+Emys orbicularis;Marquage;474;F;Ad;591;147;Arles;Pisci Nord;18;6;2007
+Emys orbicularis;Marquage;475;F;Ad;551;150;Arles;Franc-Bord Palunette Ligagneau;18;6;2007
+Emys orbicularis;Recapture;475;F;ND;556;ND;Arles;Franc-Bord Palunette Ligagneau;19;6;2007
+Emys orbicularis;Recapture;367;M;ND;478;ND;Arles;Pisci Nord;19;6;2007
+Emys orbicularis;Recapture;56;F;ND;781;ND;Arles;Clos des Montures;20;6;2007
+Emys orbicularis;Recapture;447;F;ND;802;ND;Arles;Franc-Bord Palunette Ligagneau;20;6;2007
+Emys orbicularis;Recapture;410;M;ND;443;ND;Arles;Palunette Ligagneau - Baie des cochons;20;6;2007
+Emys orbicularis;Recapture;351;M;ND;430;ND;Arles;Palunette Ligagneau - Baie des cochons;20;6;2007
+Emys orbicularis;Recapture;39;F;ND;818;ND;Arles;Palunette Ligagneau - Baie des cochons;20;6;2007
+Emys orbicularis;Recapture;352;F;ND;890;ND;Arles;Palunette Ligagneau - Baie des cochons;20;6;2007
+Emys orbicularis;Recapture;350;F;ND;501;ND;Arles;Bois Rescapé;21;6;2007
+Emys orbicularis;Recapture;148;F;ND;657;ND;Arles;Bois Rescapé;21;6;2007
+Emys orbicularis;Recapture;347;F;ND;623;ND;Arles;Bois Rescapé;21;6;2007
+Emys orbicularis;Recapture;289;F;ND;575;ND;Arles;Palunette Ligagneau - Baie des cochons;21;6;2007
+Emys orbicularis;Recapture;452;F;ND;651;ND;Arles;Franc-Bord Palunette Ligagneau;21;6;2007
+Emys orbicularis;Recapture;267;F;ND;700;ND;Arles;Palunette Ligagneau - Baie des cochons;21;6;2007
+Emys orbicularis;Recapture;366;M;ND;ND;ND;Arles;Clos des Montures;22;6;2007
+Emys orbicularis;Recapture;472;F;ND;ND;ND;Arles;Pisci Nord;22;6;2007
+Emys orbicularis;Recapture;101;F;ND;644;160;Arles;Sentier Ludo - Drain;22;6;2007
+Emys orbicularis;Recapture;305;F;ND;ND;ND;Arles;Pompe Ligagneau;24;6;2007
+Emys orbicularis;Recapture;30;F;ND;858;169;Arles;Clos des Montures;25;6;2007
+Emys orbicularis;Recapture;446;ind;ND;269;115;Arles;Franc-Bord Palunette Ligagneau;25;6;2007
+Emys orbicularis;Recapture;433;F;ND;700;ND;Arles;Franc-Bord Palunette Ligagneau;25;6;2007
+Emys orbicularis;Recapture;294;F;ND;803;ND;Arles;Pisci Nord;25;6;2007
+Emys orbicularis;Recapture;41;F;ND;666;158;Arles;Franc-Bord Palunette Ligagneau;26;6;2007
+Emys orbicularis;Recapture;350;F;ND;502;ND;Arles;Bois Rescapé;26;6;2007
+Emys orbicularis;Recapture;283;M;ND;452;ND;Arles;Pisci Nord;26;6;2007
+Emys orbicularis;Recapture;101;F;ND;591;159;Arles;Bergerie - Baisse de la bergerie;26;6;2007
+Emys orbicularis;Recapture;354;F;6 ans;554;154;Arles;Franc-Bord Palunette Ligagneau;27;6;2007
+Emys orbicularis;Recapture;204;M;AD;389;131;Arles;Pisci Nord;27;6;2007
+Emys orbicularis;Recapture;161;F;ND;680;159;Arles;Bois Rescapé;28;6;2007
+Emys orbicularis;Recapture;304;F;ND;715;ND;Arles;Clos des Montures;28;6;2007
+Emys orbicularis;Recapture;30;F;ND;860;ND;Arles;Clos des Montures;28;6;2007
+Emys orbicularis;Recapture;285;F;ND;601;ND;Arles;Pisci Nord;28;6;2007
+Emys orbicularis;Recapture;78;F;ND;707;ND;Arles;Bergerie - Baisse de la bergerie;28;6;2007
+Emys orbicularis;Recapture;372;F;ND;ND;ND;Arles;Pisci Nord - Non pâturé;29;6;2007
+Emys orbicularis;Recapture;265;F;ND;747;ND;Arles;Palunette Ligagneau - Baie des cochons;2;7;2007
+Emys orbicularis;Recapture;347;F;ND;666;ND;Arles;Bois Rescapé;2;7;2007
+Emys orbicularis;Recapture;274;F;ND;677;ND;Arles;Bois Rescapé;2;7;2007
+Emys orbicularis;Recapture;354;F;ND;551;ND;Arles;Franc-Bord Palunette Ligagneau;2;7;2007
+Emys orbicularis;Recapture;30;F;ND;869;ND;Arles;Clos des Montures;3;7;2007
+Emys orbicularis;Recapture;333;F;ND;519;ND;Arles;Franc-Bord Palunette Ligagneau;3;7;2007
+Emys orbicularis;Recapture;161;F;ND;677;ND;Arles;Palunette Ligagneau - Baie des cochons;4;7;2007
+Emys orbicularis;Recapture;283;M;ND;429;ND;Arles;Pisci Nord;4;7;2007
+Emys orbicularis;Recapture;287;M;ND;418;ND;Arles;Pisci Nord;4;7;2007
+Emys orbicularis;Recapture;148;F;ND;572;ND;Arles;Palunette Ligagneau - Baie des cochons;4;7;2007
+Emys orbicularis;Marquage;476;F;ND;744;163;Arles;Franc-Bord Palunette Ligagneau;4;7;2007
+Emys orbicularis;Marquage;478;F;ND;563;152;Arles;Pisci Nord;4;7;2007
+Emys orbicularis;Marquage;479;F;ND;692;169;Arles;Pisci Nord;4;7;2007
+Emys orbicularis;Marquage;477;F;ND;851;175;Arles;Palunette Ligagneau - Baie des cochons;5;7;2007
+Emys orbicularis;Recapture;233;F;ND;666;ND;Arles;Piste Principale - En face de Woodstoc;9;7;2007
+Emys orbicularis;Recapture;379;F;ND;645;ND;Arles;Piste Principale - En face de Woodstoc;9;7;2007
+Emys orbicularis;Recapture;265;F;ND;738;ND;Arles;Palunette Ligagneau - Baie des cochons;9;7;2007
+Emys orbicularis;Recapture;148;F;ND;606;ND;Arles;Palunette Ligagneau - Baie des cochons;9;7;2007
+Emys orbicularis;Recapture;303;F;ND;571;ND;Arles;Clos des Montures;9;7;2007
+Emys orbicularis;Marquage;480;F;AD;613;153;Arles;Clos des Montures;9;7;2007
+Emys orbicularis;Recapture;303;F;ND;562;ND;Arles;Clos des Montures;10;7;2007
+Emys orbicularis;Marquage;481;F;AD;695;156;Arles;Pisci Nord;11;7;2007
+Emys orbicularis;Recapture;333;F;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;16;7;2007
+Emys orbicularis;Recapture;161;F;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;16;7;2007
+Emys orbicularis;Recapture;302;M;ND;427;ND;Arles;Palunette Ligagneau - Baie des cochons;17;7;2007
+Emys orbicularis;Recapture;501;F;ND;503;ND;Arles;Palunette Ligagneau - Baie des cochons;19;7;2007
+Emys orbicularis;Recapture;333;F;ND;517;ND;Arles;Palunette Ligagneau - Baie des cochons;19;7;2007
+Emys orbicularis;Marquage;483;F;ND;765;170;Arles;Pisci Nord;19;7;2007
+Emys orbicularis;Recapture;257;M;ND;ND;ND;Arles;Palunette Ligagneau - Baie des cochons;20;7;2007
+Emys orbicularis;Recapture;340;F;ND;556;ND;Arles;Clos des Bissouninques;16;8;2007
+Emys orbicularis;Recapture;344;F;ND;527;148;Arles;Clos des Bissouninques;4;9;2007
+Emys orbicularis;Recapture;358;F;ND;492;146;Arles;Clos des Bissouninques;4;9;2007
+Emys orbicularis;Recapture;358;F;ND;494;ND;Arles;Clos des Bissouninques;10;9;2007
+Emys orbicularis;Recapture;340;F;ND;587;ND;Arles;Clos des Bissouninques;10;9;2007
+Emys orbicularis;Recapture;357;F;ND;ND;ND;Arles;Clos des Bissouninques;10;9;2007
+Emys orbicularis;Recapture;340;F;ND;ND;ND;Arles;Clos des Bissouninques;10;9;2007
+Emys orbicularis;Recapture;287;M;ND;430;ND;Arles;Clos des Bissouninques;18;9;2007
+Emys orbicularis;Recapture;357;F;ND;623;ND;Arles;Clos des Bissouninques;18;9;2007
+Emys orbicularis;Marquage;482;M;ND;389;140;Arles;Pisci Sud;6;10;2007
+Emys orbicularis;Recapture;398;ind;ND;ND;ND;Arles;Franc-Bord Demi-Lune;24;2;2008
+Emys orbicularis;Recapture;234;F;ND;ND;158;Arles;Pisci Sud;6;4;2008
+Emys orbicularis;Marquage;506;M;Ad;345;131;Arles;Pisci Sud;10;4;2008
+Emys orbicularis;Recapture;428;F;ND;ND;ND;Arles;Piste Principale - En face des Friches;21;6;2008
+Emys orbicularis;Recapture;74;F;ND;ND;ND;Arles;Rizières Etourneau;3;7;2008
+Emys orbicularis;Recapture;335;ind;ND;ND;ND;Arles;Piste Principale - En face du Clos des Montures;28;10;2008
+Emys orbicularis;Recapture;373;F;ND;ND;160;Arles;Piste Principale - En face du Clos des Bissouninques;15;3;2009
+Emys orbicularis;Recapture;115;F;ND;ND;ND;Arles;Sentier Ludo;7;5;2009
+Emys orbicularis;Recapture;24;F;ND;ND;ND;Arles;Sentier Ludo;7;5;2009
+Emys orbicularis;Recapture;204;M;ND;ND;ND;Arles;Boutardière;1;10;2009
+Emys orbicularis;Recapture;329;M;ND;ND;ND;Arles;Baisse des Tritons;12;12;2009
+Emys orbicularis;Recapture;209;F;ND;ND;ND;Arles;Piste Principale - Portail;27;5;2010
+Emys orbicularis;Recapture;209;F;ND;ND;ND;Arles;Piste Principale - En face du Clos des Bissouninques;3;7;2010
+Emys orbicularis;Recapture;170;F;ND;ND;ND;Arles;Clos Nord;3;9;2010
+Emys orbicularis;Recapture;379;F;ND;ND;ND;Arles;Sentier Ludo;17;3;2011
+Emys orbicularis;Recapture;102;F;ND;ND;ND;Arles;Sentier Ludo;2;5;2009
+Emys orbicularis;Recapture;105;F;ND;ND;ND;Arles;Woodstoc;29;6;2016
+Emys orbicularis;Recapture;188;ind;ND;ND;ND;Arles;Pisci Sud;28;5;2011
+Emys orbicularis;Recapture;200;ind;ND;ND;Nd;Arles;Sentier Ludo;22;4;2015
+Emys orbicularis;Recapture;234;ind;ND;ND;ND;Arles;Pisci Sud;21;5;2014
+Emys orbicularis;Recapture;450;ind;ND;ND;ND;Arles;Piste Principale - En face des Piscis;5;7;2011

@@ -21,7 +21,11 @@ navbar:
           href: slides/template.html
     - text: "Live demos"
       menu:
-        - text: "Demo 1: blabla"
+        - text: "Demo 1: abundance"
+#          href: worksheets/tp4-marked-survival.pdf
+        - text: "Demo 2: survival"
+          href: worksheets/survival_practical.html
+        - text: "Demo 3: matrix"
 #          href: worksheets/tp4-marked-survival.pdf
     - text: "Tutorials"
       menu:
