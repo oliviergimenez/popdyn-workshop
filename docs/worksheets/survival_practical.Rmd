@@ -1,8 +1,19 @@
 ---
 title: "Estimation of survival and productivity using capture-recapture and generalized linear models"
 output:
-  html_document: default
-  pdf_document: default
+  html_document:
+    code_download: true
+    df_print: paged
+    highlight: tango
+    number_sections: yes
+    theme: united
+    toc: yes
+    toc_float: TRUE
+    toc_depth: 2
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
+date: "January 2022"
 ---
 
 ```{r setup, include=FALSE}
