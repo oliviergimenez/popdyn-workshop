@@ -25,10 +25,11 @@ update_geom_defaults("point", list(size = 2))
 # On our plate
 
 + Survival estimation from capture-recapture data
-+ Multiple group, age and cohort models
-+ Incorporation of external covariates
++ Discrete and continuous covariates (including age)
 + Introduction to RMark
-+ Productivity estimation 
++ Productivity estimation
+
++ âge sur la survie et fécondité, et mentionner l’accession à la repro dans le mutliétat
 
 ---
 
@@ -76,7 +77,6 @@ knitr::include_graphics("img/bighorn.png")
 
 Artificial marks
 
-
 ---
 ### Capture, mark and recapture
 
@@ -93,6 +93,282 @@ knitr::include_graphics("img/bearscat.png")
 ]
 
 Natural marks
+
+---
+### Exemple histoire à 3 occasions
+
+
+---
+### Définir les paramètres
+
+```{r, echo=FALSE, out.width="60%", fig.cap="", fig.align='center'}
+knitr::include_graphics("img/cjs-param.png")
+```
+
+---
+### Binary tree
+
+```{r, echo=FALSE, out.width="60%", fig.cap="", fig.align='center'}
+knitr::include_graphics("img/cjs-binarytree.png")
+```
+
+
+---
+
+<center>
+```{r echo = FALSE}
+gv <- DiagrammeR::grViz("
+digraph dot {
+
+graph [layout = dot,
+       rankdir = LR]
+
+node [shape = plaintext,
+      label = '']
+
+node [label = 'first captured,\n marked\n and released', fontcolor = 'blue']
+a
+
+node [label = 'alive \n and present', fontcolor = 'orange']
+b
+
+node [label = 'dead \n or emigrated', fontcolor = 'orange']
+c
+
+node [label = 'detected', fontcolor = 'orange']
+d
+
+node [label = 'non-detected', fontcolor = 'orange']
+e
+
+node [label = 'alive \n and present', fontcolor = 'green']
+f
+
+node [label = 'dead \n or emigrated', fontcolor = 'green']
+g
+
+node [label = 'alive \n and present', fontcolor = 'green']
+h
+
+node [label = 'dead \n or emigrated', fontcolor = 'green']
+i
+
+node [label = 'detected', fontcolor = 'green']
+j
+
+node [label = 'non-detected', fontcolor = 'green']
+k
+
+node [label = 'detected', fontcolor = 'green']
+l
+
+node [label = 'non-detected', fontcolor = 'green']
+m
+
+node [label = '111', fontcolor = 'black']
+n
+
+node [label = '100', fontcolor = 'black']
+t r q 
+
+node [label = '110', fontcolor = 'black']
+s o 
+
+node [label = '101', fontcolor = 'black']
+p
+
+
+edge [color = grey]
+a -> {b} [label = '$\\\\phi_1$']
+a -> {c} [label = '$1 - \\\\phi_1$']
+b -> {d} [label = '$p_2$']
+b -> {e} [label = '$1 - p_2$']
+d -> {f} [label = '$\\\\phi_2$']
+d -> {g} [label = '$1 - \\\\phi_2$']
+e -> {h} [label = '$\\\\phi_2$']
+e -> {i} [label = '$1 - \\\\phi_2$']
+f -> {j} [label = '$p_3$']
+f -> {k} [label = '$1 - p_3$']
+h -> {l} [label = '$p_3$']
+h -> {m} [label = '$1 - p_3$']
+j -> {n} 
+k -> {o} 
+l -> {p} 
+m -> {q} 
+i -> {r} 
+g -> {s}
+c -> {t}
+
+{ rank = same; n; o; p; q; r; s; t}
+{ rank = same; b; c}
+{ rank = same; d; e}
+{ rank = same; f; g; h; i}
+{ rank = same; j; k; l; m}
+
+}", width = 1000, height = 600)
+
+DiagrammeR::add_mathjax(gv)
+```
+</center>
+
+
+---
+### Ecrire les probas
+
+```{r, echo=FALSE, out.width="60%", fig.cap="", fig.align='center'}
+knitr::include_graphics("img/prob.png")
+```
+
+---
+### La vraisemblance
+
+Exemple Montana.
+
+---
+### CJS
+
+
+---
+### Likelihood
+
+```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE,fig.align='center'}
+# From Jay Rotella Univ of Montana 
+
+# Define parameter values
+n.occasions <- 3     # Number of capture occasions
+n.mark <- 150
+marked <- c(n.mark, 0)  # Number of newly marked individuals each year
+
+# Vectors of values for phi and p for each year
+# Each vector needs to have (n.occasions - 1) values or fewer and have values 
+#  between 0 and 1. If it's fewer, the values will be recycled
+# Here, we just give 1 value and it's used in every year
+phi <- 0.8 # or, for example, could use phi <- c(0.6, 0.9)
+p <- 0.6   # or, for example,  could use p <- c(0.3, 0.5)
+
+# Define matrices with survival and recapture probabilities 
+PHI <- matrix(phi, ncol = n.occasions-1, nrow = sum(marked), byrow = TRUE)
+P <- matrix(p, ncol = n.occasions-1, nrow = sum(marked), byrow = TRUE)
+
+# Define function to simulate a capture-history (CH) matrix
+simul.cjs <- function(PHI, P, marked){
+  n.occasions <- dim(PHI)[2] + 1
+  CH <- matrix(0, ncol = n.occasions, nrow = sum(marked))
+  # Define a vector with the occasion of marking
+  # note: length(marked) is the number of marking occasions
+  # so this next line indicates which occasion each individual was 1st marked on
+  mark.occ <- rep(1:length(marked), marked[1:length(marked)])
+  # Fill the CH matrix
+  for (i in 1:sum(marked)) {
+    CH[i, mark.occ[i]] <- 1       # Write a 1 at the release occasion
+    if (mark.occ[i] == n.occasions) next # ignore animals 1st caught on last occasion
+    for (t in (mark.occ[i] + 1):n.occasions) {
+      # Bernoulli trial: does individual survive occasion?
+      sur <- rbinom(1, 1, PHI[i, t - 1])
+      if (sur == 0)
+        break		# If dead, move to next individual
+      # Bernoulli trial: is individual recaptured?
+      rp <- rbinom(1, 1, P[i, t - 1])
+      if (rp == 1) CH[i,t] <- 1
+    } #t
+  } #i
+  return(CH)
+}
+
+# Simulate capture-histories
+set.seed(2022)
+CH <- simul.cjs(PHI, P, marked)
+
+# collapse the numbers in each row into character data
+ch <- apply(CH, 1, paste, collapse = "")
+
+# Store the numbers of animals with each of the 4 histories
+x111 <- sum(ch == "111")
+x101 <- sum(ch == "101")
+x110 <- sum(ch == "110")
+x100 <- sum(ch == "100")
+
+# Make a data frame with a grid of combinations of 
+#  possible parameter combinations 
+# Look up `expand.grid` in R's help if the function is new to you
+parms <- expand.grid(phi = seq(0.01, 0.99, by = 0.01),
+                     p = seq(0.01, 0.99, by = 0.01))
+# calculate the probability of each capture history 
+#  for each combination of parameter values in the data frame
+parms$p111 <- with(parms, phi*p*phi*p)
+parms$p101 <- with(parms, phi*(1-p)*phi*p)
+parms$p110 <- with(parms, phi*p*(1-phi*p))
+parms$p100 <- with(parms, 1-p111-p101-p110)                 
+                   
+# work out the multinomial pdf value (log scale) for each pair of 
+# possible parameter values GIVEN the data and the model
+#  structure (contstant phi and p over time)
+parms$log.lik <- NA
+for (i in 1:nrow(parms)) {
+  parms$log.lik[i] <- dmultinom(x = c(x111, x101, x110, x100), 
+                            size = n.mark,
+                            prob = c(parms$p111[i], 
+                                     parms$p101[i], 
+                                     parms$p110[i], 
+                                     parms$p100[i]),
+                            log = TRUE)
+}
+
+# print out values of phi and p associated with highest pdf value
+#parms$phi[parms$log.lik == max(parms$log.lik)]
+#parms$p[parms$log.lik == max(parms$log.lik)]
+
+# make a contour plot of log-likelihood values
+ggplot(parms, aes(x = p, y = phi, z = log.lik)) + 
+  geom_contour_filled(bins = 30) +
+#  # add green contour line as a form of 95% CI
+#  stat_contour(breaks=c(max(parms$log.lik) - 1.92), color = "green") +
+  # add black point to show estimates
+  geom_point(data = data.frame(x = parms$p[parms$log.lik == max(parms$log.lik)],
+                               y = parms$phi[parms$log.lik == max(parms$log.lik)]),
+             aes(x = x, y = y, z = 0),
+             color = "black") +
+  
+  # add red point to show the true parameter values
+  geom_point(data = data.frame(x = p,
+                               y = phi),
+             aes(x = x, y = y, z = 0),
+             color = "red") +
+  scale_x_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
+  scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
+  labs(x = "detection", y = "survival") + 
+  theme(legend.position = "none") + 
+  annotate(
+    geom = "curve", 
+    x = parms$p[parms$log.lik == max(parms$log.lik)] + .1, 
+    y = parms$phi[parms$log.lik == max(parms$log.lik)] - .2, 
+    xend = parms$p[parms$log.lik == max(parms$log.lik)], 
+    yend = parms$phi[parms$log.lik == max(parms$log.lik)], 
+    curvature = .3, 
+    arrow = arrow(length = unit(2, "mm"))
+  ) +
+  annotate(geom = "text", 
+           x = parms$p[parms$log.lik == max(parms$log.lik)] + .1, 
+           y = parms$phi[parms$log.lik == max(parms$log.lik)] - .25, 
+           label = "max-lik estimate", 
+           hjust = "left") + 
+  annotate(
+    geom = "curve", 
+    color = "red",
+    x = p - .1, 
+    y = phi - .2, 
+    xend = p, 
+    yend = phi, 
+    curvature = -.3, 
+    arrow = arrow(length = unit(2, "mm"))
+  ) +
+  annotate(geom = "text", 
+           color = "red",
+           x = p - .1, 
+           y = phi - .25, 
+           label = "true value", 
+           hjust = "right")
+```
 
 
 ---
@@ -130,55 +406,62 @@ y <- dipper %>%
 ]
 
 
----
-class: middle
 
-## How to select a best model?
 
----
-# Model selection
 
---
 
-+ Which of the four models above is best supported by the data?
 
---
 
-+ The proportion of explained variance $R^2$ is problematic, because the more variables you have, the bigger $R^2$ is.
 
---
+<!-- --- -->
+<!-- class: middle -->
 
-+ The idea is to penalize models with too many parameters.
+<!-- ## How to select a best model? -->
 
----
-## Akaike information criterion (AIC)
+<!-- --- -->
+<!-- # Model selection -->
 
-$$AIC = - 2 \log(L(\hat{\theta}_1,\ldots,\hat{\theta}_K)) + 2 K$$
+<!-- -- -->
 
-with $L$ the likelihood and $K$ the number of parameters $\theta_i$.
+<!-- + Which of the four models above is best supported by the data? -->
 
----
-## Akaike information criterion (AIC)
+<!-- -- -->
 
-$$\text{AIC} = {\color{purple}{- 2 \log(L(\hat{\theta}_1,\ldots,\hat{\theta}_K))}} + 2 K$$
+<!-- + The proportion of explained variance $R^2$ is problematic, because the more variables you have, the bigger $R^2$ is. -->
 
-<span style="color: purple;">A measure of goodness-of-fit of the model to the data</span>: the more parameters you have, the smaller the deviance is (or the bigger the likelihood is).
+<!-- -- -->
 
----
-## Akaike information criterion (AIC)
+<!-- + The idea is to penalize models with too many parameters. -->
 
-$$\text{AIC} = - 2 \log(L(\hat{\theta}_1,\ldots,\hat{\theta}_K)) + {\color{purple}{2 K}}$$
+<!-- --- -->
+<!-- ## Akaike information criterion (AIC) -->
 
-<span style="color: purple;">A penalty</span>: twice the number of parameters $K$
+<!-- $$AIC = - 2 \log(L(\hat{\theta}_1,\ldots,\hat{\theta}_K)) + 2 K$$ -->
 
----
-## Akaike information criterion (AIC)
+<!-- with $L$ the likelihood and $K$ the number of parameters $\theta_i$. -->
 
-+ AIC makes the balance between *quality of fit* and *complexity* of a model.
+<!-- --- -->
+<!-- ## Akaike information criterion (AIC) -->
 
-+ Best model is the one with lowest AIC value.
+<!-- $$\text{AIC} = {\color{purple}{- 2 \log(L(\hat{\theta}_1,\ldots,\hat{\theta}_K))}} + 2 K$$ -->
 
-+ Two models are difficult to distinguish if $\Delta \text{AIC} < 2$.
+<!-- <span style="color: purple;">A measure of goodness-of-fit of the model to the data</span>: the more parameters you have, the smaller the deviance is (or the bigger the likelihood is). -->
+
+<!-- --- -->
+<!-- ## Akaike information criterion (AIC) -->
+
+<!-- $$\text{AIC} = - 2 \log(L(\hat{\theta}_1,\ldots,\hat{\theta}_K)) + {\color{purple}{2 K}}$$ -->
+
+<!-- <span style="color: purple;">A penalty</span>: twice the number of parameters $K$ -->
+
+<!-- --- -->
+<!-- ## Akaike information criterion (AIC) -->
+
+<!-- + AIC makes the balance between *quality of fit* and *complexity* of a model. -->
+
+<!-- + Best model is the one with lowest AIC value. -->
+
+<!-- + Two models are difficult to distinguish if $\Delta \text{AIC} < 2$. -->
 
 
 ---
@@ -210,25 +493,6 @@ class: middle
 --
 
 + Let's investigate the effect of water flow on dipper survival ([Marzolin 2002](https://doi.org/10.2307/3802934)).
-
-
-
----
-# Embrace heterogeneity
-
-
-+ Include temporal covariates, say $x_t$
-
-+ $\text{logit}(\phi_t) = \beta_1 + \beta_2 x_t$
-
---
-
-+ If temporal variation not fully explained by covariates, add random effects
-
---
-
-+ $\text{logit}(\phi_t) = \beta_1 + \beta_2 x_t + \varepsilon_t, \; \varepsilon_t \sim N(0,\sigma^2)$
-
 
 
 ---
@@ -282,7 +546,7 @@ $$\text{logit}(\phi_i) = \beta_1 + \beta_2$$
 
 --
 
-+ Think of age for example (see exercises in Worksheets); covariate or nested indexing works fine.
++ Think of age for example (see exercises in Worksheets); covariate or nested indexing works fine. **Faire un focus sur l'âge ici!**
 
 --
 
@@ -336,7 +600,6 @@ background-color: black
     + These assumptions should be valid, whatever inferential framework
     + Use goodness-of-fit tests <span>&#8212;</span> Pradel et al. (2005)
     + `R` implementation with [package `R2ucare`](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.13014)
-    + Posterior predictive checks can also be used (not covered; [Gelman et al. 2020](https://arxiv.org/pdf/2011.01808.pdf))
 
 
 
@@ -431,6 +694,19 @@ background-size: cover
 ![](img/nichols.png)
 ]
 
+
+---
+
+```{r, echo=FALSE, out.width="60%", fig.cap="", fig.align='center'}
+knitr::include_graphics("img/multistate-cycle.png")
+```
+
+
+---
+
+```{r, echo=FALSE, out.width="60%", fig.cap=""}
+knitr::include_graphics("img/multistate-binarytree.png")
+```
 
 
 ---
