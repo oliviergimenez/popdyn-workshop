@@ -107,8 +107,8 @@ knitr::include_graphics("img/cjs-param.png")
 
 
 ---
+### 3 occasions
 
-<center>
 ```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE,fig.align='center'}
 gv <- DiagrammeR::grViz("
 digraph dot {
@@ -202,7 +202,6 @@ c -> {t}
 
 DiagrammeR::add_mathjax(gv)
 ```
-</center>
 
 ---
 ### Ecrire les probas
