@@ -106,8 +106,8 @@ Natural marks
 ---
 
 &lt;center&gt;
-<div id="htmlwidget-efedd9f7bb1089b75c44" style="width:1000px;height:600px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-efedd9f7bb1089b75c44">{"x":{"diagram":"\ndigraph dot {\n\ngraph [layout = dot,\n       rankdir = LR]\n\nnode [shape = plaintext,\n      label = \"\"]\n\nnode [label = \"first captured,\n marked\n and released\", fontcolor = \"blue\"]\na\n\nnode [label = \"alive \n and present\", fontcolor = \"orange\"]\nb\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"orange\"]\nc\n\nnode [label = \"detected\", fontcolor = \"orange\"]\nd\n\nnode [label = \"non-detected\", fontcolor = \"orange\"]\ne\n\nnode [label = \"alive \n and present\", fontcolor = \"green\"]\nf\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"green\"]\ng\n\nnode [label = \"alive \n and present\", fontcolor = \"green\"]\nh\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"green\"]\ni\n\nnode [label = \"detected\", fontcolor = \"green\"]\nj\n\nnode [label = \"non-detected\", fontcolor = \"green\"]\nk\n\nnode [label = \"detected\", fontcolor = \"green\"]\nl\n\nnode [label = \"non-detected\", fontcolor = \"green\"]\nm\n\nnode [label = \"111\", fontcolor = \"black\"]\nn\n\nnode [label = \"100\", fontcolor = \"black\"]\nt r q \n\nnode [label = \"110\", fontcolor = \"black\"]\ns o \n\nnode [label = \"101\", fontcolor = \"black\"]\np\n\n\nedge [color = grey]\na -> {b} [label = \"$\\\\phi_1$\"]\na -> {c} [label = \"$1 - \\\\phi_1$\"]\nb -> {d} [label = \"$p_2$\"]\nb -> {e} [label = \"$1 - p_2$\"]\nd -> {f} [label = \"$\\\\phi_2$\"]\nd -> {g} [label = \"$1 - \\\\phi_2$\"]\ne -> {h} [label = \"$\\\\phi_2$\"]\ne -> {i} [label = \"$1 - \\\\phi_2$\"]\nf -> {j} [label = \"$p_3$\"]\nf -> {k} [label = \"$1 - p_3$\"]\nh -> {l} [label = \"$p_3$\"]\nh -> {m} [label = \"$1 - p_3$\"]\nj -> {n} \nk -> {o} \nl -> {p} \nm -> {q} \ni -> {r} \ng -> {s}\nc -> {t}\n\n{ rank = same; n; o; p; q; r; s; t}\n{ rank = same; b; c}\n{ rank = same; d; e}\n{ rank = same; f; g; h; i}\n{ rank = same; j; k; l; m}\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-f2f7e67ce7fc38be9744" style="width:1000px;height:600px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f2f7e67ce7fc38be9744">{"x":{"diagram":"\ndigraph dot {\n\ngraph [layout = dot,\n       rankdir = LR]\n\nnode [shape = plaintext,\n      label = \"\"]\n\nnode [label = \"first captured,\n marked\n and released\", fontcolor = \"blue\"]\na\n\nnode [label = \"alive \n and present\", fontcolor = \"orange\"]\nb\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"orange\"]\nc\n\nnode [label = \"detected\", fontcolor = \"orange\"]\nd\n\nnode [label = \"non-detected\", fontcolor = \"orange\"]\ne\n\nnode [label = \"alive \n and present\", fontcolor = \"green\"]\nf\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"green\"]\ng\n\nnode [label = \"alive \n and present\", fontcolor = \"green\"]\nh\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"green\"]\ni\n\nnode [label = \"detected\", fontcolor = \"green\"]\nj\n\nnode [label = \"non-detected\", fontcolor = \"green\"]\nk\n\nnode [label = \"detected\", fontcolor = \"green\"]\nl\n\nnode [label = \"non-detected\", fontcolor = \"green\"]\nm\n\nnode [label = \"111\", fontcolor = \"black\"]\nn\n\nnode [label = \"100\", fontcolor = \"black\"]\nt r q \n\nnode [label = \"110\", fontcolor = \"black\"]\ns o \n\nnode [label = \"101\", fontcolor = \"black\"]\np\n\n\nedge [color = grey]\na -> {b} [label = \"$\\\\phi_1$\"]\na -> {c} [label = \"$1 - \\\\phi_1$\"]\nb -> {d} [label = \"$p_2$\"]\nb -> {e} [label = \"$1 - p_2$\"]\nd -> {f} [label = \"$\\\\phi_2$\"]\nd -> {g} [label = \"$1 - \\\\phi_2$\"]\ne -> {h} [label = \"$\\\\phi_2$\"]\ne -> {i} [label = \"$1 - \\\\phi_2$\"]\nf -> {j} [label = \"$p_3$\"]\nf -> {k} [label = \"$1 - p_3$\"]\nh -> {l} [label = \"$p_3$\"]\nh -> {m} [label = \"$1 - p_3$\"]\nj -> {n} \nk -> {o} \nl -> {p} \nm -> {q} \ni -> {r} \ng -> {s}\nc -> {t}\n\n{ rank = same; n; o; p; q; r; s; t}\n{ rank = same; b; c}\n{ rank = same; d; e}\n{ rank = same; f; g; h; i}\n{ rank = same; j; k; l; m}\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_SVG"></script>
 <script>
 HTMLWidgets.addPostRenderHandler(function() {
@@ -3414,65 +3414,6 @@ Exemple Montana.
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
 ]
-
-
-
-
-
-
-
-
-
-&lt;!-- --- --&gt;
-&lt;!-- class: middle --&gt;
-
-&lt;!-- ## How to select a best model? --&gt;
-
-&lt;!-- --- --&gt;
-&lt;!-- # Model selection --&gt;
-
-&lt;!-- -- --&gt;
-
-&lt;!-- + Which of the four models above is best supported by the data? --&gt;
-
-&lt;!-- -- --&gt;
-
-&lt;!-- + The proportion of explained variance `\(R^2\)` is problematic, because the more variables you have, the bigger `\(R^2\)` is. --&gt;
-
-&lt;!-- -- --&gt;
-
-&lt;!-- + The idea is to penalize models with too many parameters. --&gt;
-
-&lt;!-- --- --&gt;
-&lt;!-- ## Akaike information criterion (AIC) --&gt;
-
-&lt;!-- `$$AIC = - 2 \log(L(\hat{\theta}_1,\ldots,\hat{\theta}_K)) + 2 K$$` --&gt;
-
-&lt;!-- with `\(L\)` the likelihood and `\(K\)` the number of parameters `\(\theta_i\)`. --&gt;
-
-&lt;!-- --- --&gt;
-&lt;!-- ## Akaike information criterion (AIC) --&gt;
-
-&lt;!-- `$$\text{AIC} = {\color{purple}{- 2 \log(L(\hat{\theta}_1,\ldots,\hat{\theta}_K))}} + 2 K$$` --&gt;
-
-&lt;!-- &lt;span style="color: purple;"&gt;A measure of goodness-of-fit of the model to the data&lt;/span&gt;: the more parameters you have, the smaller the deviance is (or the bigger the likelihood is). --&gt;
-
-&lt;!-- --- --&gt;
-&lt;!-- ## Akaike information criterion (AIC) --&gt;
-
-&lt;!-- `$$\text{AIC} = - 2 \log(L(\hat{\theta}_1,\ldots,\hat{\theta}_K)) + {\color{purple}{2 K}}$$` --&gt;
-
-&lt;!-- &lt;span style="color: purple;"&gt;A penalty&lt;/span&gt;: twice the number of parameters `\(K\)` --&gt;
-
-&lt;!-- --- --&gt;
-&lt;!-- ## Akaike information criterion (AIC) --&gt;
-
-&lt;!-- + AIC makes the balance between *quality of fit* and *complexity* of a model. --&gt;
-
-&lt;!-- + Best model is the one with lowest AIC value. --&gt;
-
-&lt;!-- + Two models are difficult to distinguish if `\(\Delta \text{AIC} &lt; 2\)`. --&gt;
-
 
 ---
 background-color: #234f66
