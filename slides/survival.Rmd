@@ -105,13 +105,104 @@ Natural marks
 knitr::include_graphics("img/cjs-param.png")
 ```
 
+
 ---
-### Binary tree
 
-```{r, echo=FALSE, out.width="60%", fig.cap="", fig.align='center'}
-knitr::include_graphics("img/cjs-binarytree.png")
+<center>
+```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE,fig.align='center'}
+gv <- DiagrammeR::grViz("
+digraph dot {
+
+graph [layout = dot,
+       rankdir = LR]
+
+node [shape = plaintext,
+      label = '']
+
+node [label = 'first captured,\n marked\n and released', fontcolor = 'blue']
+a
+
+node [label = 'alive \n and present', fontcolor = 'orange']
+b
+
+node [label = 'dead \n or emigrated', fontcolor = 'orange']
+c
+
+node [label = 'detected', fontcolor = 'orange']
+d
+
+node [label = 'non-detected', fontcolor = 'orange']
+e
+
+node [label = 'alive \n and present', fontcolor = 'green']
+f
+
+node [label = 'dead \n or emigrated', fontcolor = 'green']
+g
+
+node [label = 'alive \n and present', fontcolor = 'green']
+h
+
+node [label = 'dead \n or emigrated', fontcolor = 'green']
+i
+
+node [label = 'detected', fontcolor = 'green']
+j
+
+node [label = 'non-detected', fontcolor = 'green']
+k
+
+node [label = 'detected', fontcolor = 'green']
+l
+
+node [label = 'non-detected', fontcolor = 'green']
+m
+
+node [label = '111', fontcolor = 'black']
+n
+
+node [label = '100', fontcolor = 'black']
+t r q 
+
+node [label = '110', fontcolor = 'black']
+s o 
+
+node [label = '101', fontcolor = 'black']
+p
+
+
+edge [color = grey]
+a -> {b} [label = '$\\\\phi_1$']
+a -> {c} [label = '$1 - \\\\phi_1$']
+b -> {d} [label = '$p_2$']
+b -> {e} [label = '$1 - p_2$']
+d -> {f} [label = '$\\\\phi_2$']
+d -> {g} [label = '$1 - \\\\phi_2$']
+e -> {h} [label = '$\\\\phi_2$']
+e -> {i} [label = '$1 - \\\\phi_2$']
+f -> {j} [label = '$p_3$']
+f -> {k} [label = '$1 - p_3$']
+h -> {l} [label = '$p_3$']
+h -> {m} [label = '$1 - p_3$']
+j -> {n} 
+k -> {o} 
+l -> {p} 
+m -> {q} 
+i -> {r} 
+g -> {s}
+c -> {t}
+
+{ rank = same; n; o; p; q; r; s; t}
+{ rank = same; b; c}
+{ rank = same; d; e}
+{ rank = same; f; g; h; i}
+{ rank = same; j; k; l; m}
+
+}", width = 1000, height = 600)
+
+DiagrammeR::add_mathjax(gv)
 ```
-
+</center>
 
 ---
 ### Ecrire les probas
