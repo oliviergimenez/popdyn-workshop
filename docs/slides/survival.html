@@ -6,11 +6,6 @@
     <meta name="author" content="The team" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
-    <script src="libs/htmlwidgets/htmlwidgets.js"></script>
-    <script src="libs/viz/viz.js"></script>
-    <link href="libs/DiagrammeR-styles/styles.css" rel="stylesheet" />
-    <script src="libs/grViz-binding/grViz.js"></script>
-    <script src="https://cdn.rawgit.com/timelyportfolio/svg_mathjax2/master/svg_mathjax2.js"></script>
     <script src="libs/kePrint/kePrint.js"></script>
     <link href="libs/lightable/lightable.css" rel="stylesheet" />
     <link rel="stylesheet" href="slides-theme.css" type="text/css" />
@@ -104,20 +99,6 @@ Natural marks
 
 
 ---
-
-&lt;center&gt;
-<div id="htmlwidget-f2f7e67ce7fc38be9744" style="width:1000px;height:600px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f2f7e67ce7fc38be9744">{"x":{"diagram":"\ndigraph dot {\n\ngraph [layout = dot,\n       rankdir = LR]\n\nnode [shape = plaintext,\n      label = \"\"]\n\nnode [label = \"first captured,\n marked\n and released\", fontcolor = \"blue\"]\na\n\nnode [label = \"alive \n and present\", fontcolor = \"orange\"]\nb\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"orange\"]\nc\n\nnode [label = \"detected\", fontcolor = \"orange\"]\nd\n\nnode [label = \"non-detected\", fontcolor = \"orange\"]\ne\n\nnode [label = \"alive \n and present\", fontcolor = \"green\"]\nf\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"green\"]\ng\n\nnode [label = \"alive \n and present\", fontcolor = \"green\"]\nh\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"green\"]\ni\n\nnode [label = \"detected\", fontcolor = \"green\"]\nj\n\nnode [label = \"non-detected\", fontcolor = \"green\"]\nk\n\nnode [label = \"detected\", fontcolor = \"green\"]\nl\n\nnode [label = \"non-detected\", fontcolor = \"green\"]\nm\n\nnode [label = \"111\", fontcolor = \"black\"]\nn\n\nnode [label = \"100\", fontcolor = \"black\"]\nt r q \n\nnode [label = \"110\", fontcolor = \"black\"]\ns o \n\nnode [label = \"101\", fontcolor = \"black\"]\np\n\n\nedge [color = grey]\na -> {b} [label = \"$\\\\phi_1$\"]\na -> {c} [label = \"$1 - \\\\phi_1$\"]\nb -> {d} [label = \"$p_2$\"]\nb -> {e} [label = \"$1 - p_2$\"]\nd -> {f} [label = \"$\\\\phi_2$\"]\nd -> {g} [label = \"$1 - \\\\phi_2$\"]\ne -> {h} [label = \"$\\\\phi_2$\"]\ne -> {i} [label = \"$1 - \\\\phi_2$\"]\nf -> {j} [label = \"$p_3$\"]\nf -> {k} [label = \"$1 - p_3$\"]\nh -> {l} [label = \"$p_3$\"]\nh -> {m} [label = \"$1 - p_3$\"]\nj -> {n} \nk -> {o} \nl -> {p} \nm -> {q} \ni -> {r} \ng -> {s}\nc -> {t}\n\n{ rank = same; n; o; p; q; r; s; t}\n{ rank = same; b; c}\n{ rank = same; d; e}\n{ rank = same; f; g; h; i}\n{ rank = same; j; k; l; m}\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_SVG"></script>
-<script>
-HTMLWidgets.addPostRenderHandler(function() {
-setTimeout(function(){new Svg_MathJax().install()}, 4000);
-});
-</script>
-&lt;/center&gt;
-
-
----
 ### Ecrire les probas
 
 &lt;img src="img/prob.png" width="60%" style="display: block; margin: auto;" /&gt;
@@ -134,7 +115,7 @@ Exemple Montana.
 ---
 ### Likelihood
 
-&lt;img src="survival_files/figure-html/unnamed-chunk-11-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="survival_files/figure-html/unnamed-chunk-10-1.svg" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -10937,12 +10918,21 @@ class: middle
 ### Biological inference
 
 .center.nogap[
-![](survival_files/figure-html/unnamed-chunk-19-1.svg)&lt;!-- --&gt;
+![](survival_files/figure-html/unnamed-chunk-18-1.svg)&lt;!-- --&gt;
 ]
 
 ??? 
 
 + Observations and states are closely related, but not entirely.
+
+
+---
+class: middle
+### Biological inference
+
+.center.nogap[
+![](survival_files/figure-html/unnamed-chunk-19-1.svg)&lt;!-- --&gt;
+]
 
 
 ---
@@ -10965,11 +10955,14 @@ class: middle
 
 ---
 class: middle
-### Biological inference
+### The model construction: How we should think. 
 
 .center.nogap[
 ![](survival_files/figure-html/unnamed-chunk-22-1.svg)&lt;!-- --&gt;
 ]
+
+
+??? Generative model. States generate observations. 
 
 
 ---
@@ -10980,8 +10973,6 @@ class: middle
 ![](survival_files/figure-html/unnamed-chunk-23-1.svg)&lt;!-- --&gt;
 ]
 
-
-??? Generative model. States generate observations. 
 
 
 ---
@@ -11000,16 +10991,6 @@ class: middle
 
 .center.nogap[
 ![](survival_files/figure-html/unnamed-chunk-25-1.svg)&lt;!-- --&gt;
-]
-
-
-
----
-class: middle
-### The model construction: How we should think. 
-
-.center.nogap[
-![](survival_files/figure-html/unnamed-chunk-26-1.svg)&lt;!-- --&gt;
 ]
 
 
