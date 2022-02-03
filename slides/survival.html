@@ -6,6 +6,11 @@
     <meta name="author" content="The team" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets/htmlwidgets.js"></script>
+    <script src="libs/viz/viz.js"></script>
+    <link href="libs/DiagrammeR-styles/styles.css" rel="stylesheet" />
+    <script src="libs/grViz-binding/grViz.js"></script>
+    <script src="https://cdn.rawgit.com/timelyportfolio/svg_mathjax2/master/svg_mathjax2.js"></script>
     <script src="libs/kePrint/kePrint.js"></script>
     <link href="libs/lightable/lightable.css" rel="stylesheet" />
     <link rel="stylesheet" href="slides-theme.css" type="text/css" />
@@ -16,7 +21,7 @@ class: center, middle, title-slide
 
 # Estimation of survival and productivity using capture-recapture and generalized linear models
 ### The team
-### last updated: 2022-01-24
+### last updated: 2022-02-03
 
 ---
 
@@ -26,10 +31,11 @@ class: center, middle, title-slide
 # On our plate
 
 + Survival estimation from capture-recapture data
-+ Multiple group, age and cohort models
-+ Incorporation of external covariates
++ Discrete and continuous covariates (including age)
 + Introduction to RMark
-+ Productivity estimation 
++ Productivity estimation
+
++ âge sur la survie et fécondité, et mentionner l’accession à la repro dans le mutliétat
 
 ---
 
@@ -69,7 +75,6 @@ class: center, middle, title-slide
 
 Artificial marks
 
-
 ---
 ### Capture, mark and recapture
 
@@ -82,6 +87,54 @@ Artificial marks
 ]
 
 Natural marks
+
+---
+### Exemple histoire à 3 occasions
+
+
+---
+### Définir les paramètres
+
+&lt;img src="img/cjs-param.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+### Binary tree
+
+&lt;img src="img/cjs-binarytree.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+&lt;center&gt;
+<div id="htmlwidget-efedd9f7bb1089b75c44" style="width:1000px;height:600px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-efedd9f7bb1089b75c44">{"x":{"diagram":"\ndigraph dot {\n\ngraph [layout = dot,\n       rankdir = LR]\n\nnode [shape = plaintext,\n      label = \"\"]\n\nnode [label = \"first captured,\n marked\n and released\", fontcolor = \"blue\"]\na\n\nnode [label = \"alive \n and present\", fontcolor = \"orange\"]\nb\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"orange\"]\nc\n\nnode [label = \"detected\", fontcolor = \"orange\"]\nd\n\nnode [label = \"non-detected\", fontcolor = \"orange\"]\ne\n\nnode [label = \"alive \n and present\", fontcolor = \"green\"]\nf\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"green\"]\ng\n\nnode [label = \"alive \n and present\", fontcolor = \"green\"]\nh\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"green\"]\ni\n\nnode [label = \"detected\", fontcolor = \"green\"]\nj\n\nnode [label = \"non-detected\", fontcolor = \"green\"]\nk\n\nnode [label = \"detected\", fontcolor = \"green\"]\nl\n\nnode [label = \"non-detected\", fontcolor = \"green\"]\nm\n\nnode [label = \"111\", fontcolor = \"black\"]\nn\n\nnode [label = \"100\", fontcolor = \"black\"]\nt r q \n\nnode [label = \"110\", fontcolor = \"black\"]\ns o \n\nnode [label = \"101\", fontcolor = \"black\"]\np\n\n\nedge [color = grey]\na -> {b} [label = \"$\\\\phi_1$\"]\na -> {c} [label = \"$1 - \\\\phi_1$\"]\nb -> {d} [label = \"$p_2$\"]\nb -> {e} [label = \"$1 - p_2$\"]\nd -> {f} [label = \"$\\\\phi_2$\"]\nd -> {g} [label = \"$1 - \\\\phi_2$\"]\ne -> {h} [label = \"$\\\\phi_2$\"]\ne -> {i} [label = \"$1 - \\\\phi_2$\"]\nf -> {j} [label = \"$p_3$\"]\nf -> {k} [label = \"$1 - p_3$\"]\nh -> {l} [label = \"$p_3$\"]\nh -> {m} [label = \"$1 - p_3$\"]\nj -> {n} \nk -> {o} \nl -> {p} \nm -> {q} \ni -> {r} \ng -> {s}\nc -> {t}\n\n{ rank = same; n; o; p; q; r; s; t}\n{ rank = same; b; c}\n{ rank = same; d; e}\n{ rank = same; f; g; h; i}\n{ rank = same; j; k; l; m}\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_SVG"></script>
+<script>
+HTMLWidgets.addPostRenderHandler(function() {
+setTimeout(function(){new Svg_MathJax().install()}, 4000);
+});
+</script>
+&lt;/center&gt;
+
+
+---
+### Ecrire les probas
+
+&lt;img src="img/prob.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+### La vraisemblance
+
+Exemple Montana.
+
+---
+### CJS
+
+
+---
+### Likelihood
+
+&lt;img src="survival_files/figure-html/unnamed-chunk-11-1.svg" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -3363,55 +3416,62 @@ Natural marks
 ]
 
 
----
-class: middle
 
-## How to select a best model?
 
----
-# Model selection
 
---
 
-+ Which of the four models above is best supported by the data?
 
---
 
-+ The proportion of explained variance `\(R^2\)` is problematic, because the more variables you have, the bigger `\(R^2\)` is.
 
---
+&lt;!-- --- --&gt;
+&lt;!-- class: middle --&gt;
 
-+ The idea is to penalize models with too many parameters.
+&lt;!-- ## How to select a best model? --&gt;
 
----
-## Akaike information criterion (AIC)
+&lt;!-- --- --&gt;
+&lt;!-- # Model selection --&gt;
 
-`$$AIC = - 2 \log(L(\hat{\theta}_1,\ldots,\hat{\theta}_K)) + 2 K$$`
+&lt;!-- -- --&gt;
 
-with `\(L\)` the likelihood and `\(K\)` the number of parameters `\(\theta_i\)`.
+&lt;!-- + Which of the four models above is best supported by the data? --&gt;
 
----
-## Akaike information criterion (AIC)
+&lt;!-- -- --&gt;
 
-`$$\text{AIC} = {\color{purple}{- 2 \log(L(\hat{\theta}_1,\ldots,\hat{\theta}_K))}} + 2 K$$`
+&lt;!-- + The proportion of explained variance `\(R^2\)` is problematic, because the more variables you have, the bigger `\(R^2\)` is. --&gt;
 
-&lt;span style="color: purple;"&gt;A measure of goodness-of-fit of the model to the data&lt;/span&gt;: the more parameters you have, the smaller the deviance is (or the bigger the likelihood is).
+&lt;!-- -- --&gt;
 
----
-## Akaike information criterion (AIC)
+&lt;!-- + The idea is to penalize models with too many parameters. --&gt;
 
-`$$\text{AIC} = - 2 \log(L(\hat{\theta}_1,\ldots,\hat{\theta}_K)) + {\color{purple}{2 K}}$$`
+&lt;!-- --- --&gt;
+&lt;!-- ## Akaike information criterion (AIC) --&gt;
 
-&lt;span style="color: purple;"&gt;A penalty&lt;/span&gt;: twice the number of parameters `\(K\)`
+&lt;!-- `$$AIC = - 2 \log(L(\hat{\theta}_1,\ldots,\hat{\theta}_K)) + 2 K$$` --&gt;
 
----
-## Akaike information criterion (AIC)
+&lt;!-- with `\(L\)` the likelihood and `\(K\)` the number of parameters `\(\theta_i\)`. --&gt;
 
-+ AIC makes the balance between *quality of fit* and *complexity* of a model.
+&lt;!-- --- --&gt;
+&lt;!-- ## Akaike information criterion (AIC) --&gt;
 
-+ Best model is the one with lowest AIC value.
+&lt;!-- `$$\text{AIC} = {\color{purple}{- 2 \log(L(\hat{\theta}_1,\ldots,\hat{\theta}_K))}} + 2 K$$` --&gt;
 
-+ Two models are difficult to distinguish if `\(\Delta \text{AIC} &lt; 2\)`.
+&lt;!-- &lt;span style="color: purple;"&gt;A measure of goodness-of-fit of the model to the data&lt;/span&gt;: the more parameters you have, the smaller the deviance is (or the bigger the likelihood is). --&gt;
+
+&lt;!-- --- --&gt;
+&lt;!-- ## Akaike information criterion (AIC) --&gt;
+
+&lt;!-- `$$\text{AIC} = - 2 \log(L(\hat{\theta}_1,\ldots,\hat{\theta}_K)) + {\color{purple}{2 K}}$$` --&gt;
+
+&lt;!-- &lt;span style="color: purple;"&gt;A penalty&lt;/span&gt;: twice the number of parameters `\(K\)` --&gt;
+
+&lt;!-- --- --&gt;
+&lt;!-- ## Akaike information criterion (AIC) --&gt;
+
+&lt;!-- + AIC makes the balance between *quality of fit* and *complexity* of a model. --&gt;
+
+&lt;!-- + Best model is the one with lowest AIC value. --&gt;
+
+&lt;!-- + Two models are difficult to distinguish if `\(\Delta \text{AIC} &lt; 2\)`. --&gt;
 
 
 ---
@@ -3443,25 +3503,6 @@ class: middle
 --
 
 + Let's investigate the effect of water flow on dipper survival ([Marzolin 2002](https://doi.org/10.2307/3802934)).
-
-
-
----
-# Embrace heterogeneity
-
-
-+ Include temporal covariates, say `\(x_t\)`
-
-+ `\(\text{logit}(\phi_t) = \beta_1 + \beta_2 x_t\)`
-
---
-
-+ If temporal variation not fully explained by covariates, add random effects
-
---
-
-+ `\(\text{logit}(\phi_t) = \beta_1 + \beta_2 x_t + \varepsilon_t, \; \varepsilon_t \sim N(0,\sigma^2)\)`
-
 
 
 ---
@@ -6761,7 +6802,7 @@ class: middle
 
 --
 
-+ Think of age for example (see exercises in Worksheets); covariate or nested indexing works fine.
++ Think of age for example (see exercises in Worksheets); covariate or nested indexing works fine. **Faire un focus sur l'âge ici!**
 
 --
 
@@ -6815,7 +6856,6 @@ background-color: black
     + These assumptions should be valid, whatever inferential framework
     + Use goodness-of-fit tests &lt;span&gt;&amp;#8212;&lt;/span&gt; Pradel et al. (2005)
     + `R` implementation with [package `R2ucare`](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.13014)
-    + Posterior predictive checks can also be used (not covered; [Gelman et al. 2020](https://arxiv.org/pdf/2011.01808.pdf))
 
 
 
@@ -6910,6 +6950,15 @@ background-size: cover
 ![](img/nichols.png)
 ]
 
+
+---
+
+&lt;img src="img/multistate-cycle.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+&lt;img src="img/multistate-binarytree.png" width="60%" /&gt;
 
 
 ---
@@ -10947,7 +10996,7 @@ class: middle
 ### Biological inference
 
 .center.nogap[
-![](survival_files/figure-html/unnamed-chunk-12-1.svg)&lt;!-- --&gt;
+![](survival_files/figure-html/unnamed-chunk-19-1.svg)&lt;!-- --&gt;
 ]
 
 ??? 
@@ -10960,7 +11009,7 @@ class: middle
 ### Biological inference
 
 .center.nogap[
-![](survival_files/figure-html/unnamed-chunk-13-1.svg)&lt;!-- --&gt;
+![](survival_files/figure-html/unnamed-chunk-20-1.svg)&lt;!-- --&gt;
 ]
 
 
@@ -10969,7 +11018,7 @@ class: middle
 ### Biological inference
 
 .center.nogap[
-![](survival_files/figure-html/unnamed-chunk-14-1.svg)&lt;!-- --&gt;
+![](survival_files/figure-html/unnamed-chunk-21-1.svg)&lt;!-- --&gt;
 ]
 
 
@@ -10978,7 +11027,7 @@ class: middle
 ### Biological inference
 
 .center.nogap[
-![](survival_files/figure-html/unnamed-chunk-15-1.svg)&lt;!-- --&gt;
+![](survival_files/figure-html/unnamed-chunk-22-1.svg)&lt;!-- --&gt;
 ]
 
 
@@ -10987,7 +11036,7 @@ class: middle
 ### The model construction: How we should think. 
 
 .center.nogap[
-![](survival_files/figure-html/unnamed-chunk-16-1.svg)&lt;!-- --&gt;
+![](survival_files/figure-html/unnamed-chunk-23-1.svg)&lt;!-- --&gt;
 ]
 
 
@@ -10999,7 +11048,7 @@ class: middle
 ### The model construction: How we should think. 
 
 .center.nogap[
-![](survival_files/figure-html/unnamed-chunk-17-1.svg)&lt;!-- --&gt;
+![](survival_files/figure-html/unnamed-chunk-24-1.svg)&lt;!-- --&gt;
 ]
 
 
@@ -11009,7 +11058,7 @@ class: middle
 ### The model construction: How we should think. 
 
 .center.nogap[
-![](survival_files/figure-html/unnamed-chunk-18-1.svg)&lt;!-- --&gt;
+![](survival_files/figure-html/unnamed-chunk-25-1.svg)&lt;!-- --&gt;
 ]
 
 
@@ -11019,7 +11068,7 @@ class: middle
 ### The model construction: How we should think. 
 
 .center.nogap[
-![](survival_files/figure-html/unnamed-chunk-19-1.svg)&lt;!-- --&gt;
+![](survival_files/figure-html/unnamed-chunk-26-1.svg)&lt;!-- --&gt;
 ]
 
 
