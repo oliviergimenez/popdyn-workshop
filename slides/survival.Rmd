@@ -270,7 +270,7 @@ c -> {t}
 
 }", width = 1000, height = 600)
 
-DiagrammeR::add_mathjax(gv)
+DiagrammeR::add_mathjax(gv, include_mathjax = FALSE)
 ```
 
 
