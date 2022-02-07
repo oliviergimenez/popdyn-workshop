@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Quantitative methods for population dynamics</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Olivier Gimenez, Sarah Cubaynes, Aurélien Besnard" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides-theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, title-slide
+
+# Quantitative methods for population dynamics
+### Olivier Gimenez, Sarah Cubaynes, Aurélien Besnard
+### last updated: 2022-02-07
+
+---
+
+
+
+
+class: middle
+background-image: url(img/montpellier.png)
+background-size: cover
+
+???
+
++ Welcome. My name is Olivier Gimenez
++ I am a scientist working in statistical ecology and population dynamics in particular. 
++ I am based in Montpellier in southern France.
++ I thought I'd share some a few pictures of what you’re missing. It's a bit cruel I know. 
++ I really wish the workshop would be in Montpellier to show you the city wonders and its surroundings.  
+
+---
+class: center, middle
+background-image: url(img/zoom-covid.png)
+background-size: cover
+
+???
+
++ Instead, we'll be spending quality time on Zoom, and Slack as well. 
++ It has its advantages, not sure we could have fit you all in our conference room. 
+
+
+---
+.pull-left[
+.title-font[How it all started]
+
+&lt;center&gt;&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="en" dir="ltr"&gt;📢👋 Together with &lt;a href="https://twitter.com/SarahCubaynes?ref_src=twsrc%5Etfw"&gt;@SarahCubaynes&lt;/a&gt; and &lt;a href="https://twitter.com/abesnardEPHE?ref_src=twsrc%5Etfw"&gt;@abesnardEPHE&lt;/a&gt; we will be giving a 2-day introductory workshop March 21-22 on quantitative methods for population dynamics in R &lt;a href="https://twitter.com/hashtag/rstats?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#rstats&lt;/a&gt; Join us 🥳 It&amp;#39;s online and free of charge 😉 You just need to register &lt;a href="https://t.co/I5sNS5kDOo"&gt;https://t.co/I5sNS5kDOo&lt;/a&gt; Please RT 😇 &lt;a href="https://t.co/rkw8JWZBJi"&gt;pic.twitter.com/rkw8JWZBJi&lt;/a&gt;&lt;/p&gt;&amp;mdash; Olivier Gimenez 🖖 (@oaggimenez) &lt;a href="https://twitter.com/oaggimenez/status/1447543032476225537?ref_src=twsrc%5Etfw"&gt;October 11, 2021&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;&lt;/center&gt;
+
+]
+
+???
+
++ Everything started in October 2021, on Twitter, when I asked who would be interested in a workshop on Bayesian capture-recapture. 
+
+--
+
+.pull-right[
+.title-font[Where we're at]
+
+.center[
+![](img/googleform.png)
+]
+
+]
+
+???
+
++ The number of responses blew my mind. 
++ And here we're are, a few months later, with near 2600 folks who registered. 
+
+---
+## What this workshop is about
+
+???
+
++ So why are we here altogether? 
+
+--
+
++ Quantitative methods for population dynamics.
+
+???
+
++ Well this is a workshop about population dynamics and how to assess it. Variation of population size over time. 
++ Quantifying population dynamics is crucial for the conservation and management of animal and plant species. 
++ This workshop deals with the analysis and modelling of population dynamics. 
+
+--
+
++ The estimation of population density and abundance using capture-recapture, N-mixture and distance sampling models.
+
+???
+
++ We will cover The estimation of population density and abundance using capture-recapture, N-mixture and distance sampling models.
+
+--
+
++ The estimation of demographic parameters (e.g. survival, dispersal) using capture-recapture models.
+
+???
+
++ We will cover 
+
+
+--
+
++ Population projection matrix models.
+
+???
+
++ We will cover
+
+---
+
+## Population dynamics
+
+&lt;img src="img/intro1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Processes
+
+&lt;img src="img/intro2.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="img/Page3.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="img/Page2.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="img/Page1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+
+---
+## Credits and inspiration
+
+???
+
++ This workshop does not come from nowhere, and I'd like to spend a minute or two on credits and to thank those who inspired me to organise this event. 
+
+--
+
++ Past workshops on capture-recapture models with Roger Pradel, Rémi Choquet and Jean-Dominique Lebreton.
+
+???
+
++ We've been running workshops on capture-recapture models in Montpellier for 10-15 years now with my colleagues Roger, Rémi and Jean-Dominique. 
++ I learnt so much from them, I owe them a lot. 
+
+--
+
++ Past workshop on Population dynamics back in 2007.
+
+???
+
++ We also run a workshop on pop dynamics. 
+
+
+--
+
++ Lectures to Master students with Olivier Duriez.
+
+???
+
++ Thanks
+
+---
+### The team 
+
+![](introduction_files/figure-html/unnamed-chunk-6-1.svg)&lt;!-- --&gt;
+
+???
+
++ We will be 3 teachers with you today and tomorrow.  
++ Time for introductions I guess. 
++ Introduce helpers too.
+
+---
+## On our plate
+
+???
+
++ OK, what's on our plate? 
+
+--
+
++ Estimating abundance and density of populations     
+      + Introduction to counting methods
+      + Conventional methods and the detectability issue
+      + Capture-recapture, N-mixture and line transect samplings
+      + Introduction to unmarked
+
+--
+
++ Estimation of demographic parameters       
+      + Survival estimation from capture-recapture data
+      + Incorporation of covariates
+      + Productivity estimation
+
+--
+
++ Population projection matrix models      
+      + Introduction to matrix models
+      + Age- and stage-structured models
+      + Sensitivity analyses
+
+
+---
+## Philosophy of teaching
+
+???
+
++ Before we start, a few words about our teaching philosophy. 
+
+--
+
++ Lots of attendees, with huge heterogeneity in knowledge of statistical analyses, methods in population dynamics, and `R`.
+
+???
+
++ You'll be several hundreds folks attending today and tomorrow, there is heterogeneity in knowledge of the methods we will cover. 
+
+--
+
++ It is our hope that everyone will find something to take home. 
+
+???
+
++ It is our hope however that everyone will find something to take home. 
+
+--
+
++ We've packed a lot of things in two days.
+
+???
+
++ We'll be covering a lot of things in two days. 
+
+--
+
++ We do not expect you to digest everything.
+
+???
+
++ Do not feel like you have to fully understand everything at once. 
++ Took us years to be comfortable with the material we will cover. 
+
+--
+
++ All material (including videos) on website &lt;https://oliviergimenez.github.io/popdyn-workshop/&gt;.
+
+???
+
++ To help, we have made all material available on a website. 
++ Let's take a minute to have a look to the website.
+
+
+--
+
++ Feel free to play around with material while we walk through it, and afterwards.
+
+???
+
++ Feel free to play around with the material we provide. 
+
+--
+
++ The workshop is organized in modules, each module is a combination of lectures and live demos.
+
+???
+
++ We will have lectures, and live demos. 
+
+---
+
+## The way we will interact with each other
+
+--
+
++ We'll be streaming lectures and live coding demos on Youtube.
+
+???
+
++ Lectures and live demos will happen in Youtube. 
+
+--
+
++ Everything is video recorded.
+
+???
+
++ Everything is video recorded.
++ The recordings will be made available on the website. 
+
+--
+
++ Questions and answers via the chat.
+
+???
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"slideNumberFormat": ""
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

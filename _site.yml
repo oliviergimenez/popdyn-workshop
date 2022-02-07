@@ -11,21 +11,23 @@ navbar:
       href: index.html
     - text: "Lectures"
       menu:
-        - text: "Class 1: abundance"
+        - text: "Introduction"
+          href: slides/introduction.html
+        - text: "Class 1: Population abundance and density"
 #          href: slides/class1.pptx
-        - text: "Class 2: survival"
+        - text: "Class 2: Demographic parameters"
           href: slides/survival.html
-        - text: "Class 3: matrix"
+        - text: "Class 3: Population projection matrix models"
 #          href: slides/class1.pptx
-        - text: "Template"
+        - text: "Conclusions"
           href: slides/template.html
     - text: "Live demos"
       menu:
-        - text: "Demo 1: abundance"
+        - text: "Demo 1: Population abundance and density"
 #          href: worksheets/tp4-marked-survival.pdf
-        - text: "Demo 2: survival"
+        - text: "Demo 2: Demographic parameters"
           href: worksheets/survival_practical.html
-        - text: "Demo 3: matrix"
+        - text: "Demo 3: Population projection matrix models"
 #          href: worksheets/tp4-marked-survival.pdf
     - text: "Tutorials"
       menu:

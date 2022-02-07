@@ -1,6 +1,6 @@
 ---
-title: "Estimation of survival and productivity using capture-recapture and generalized linear models"
-author: "The team"
+title: "Estimation of demographic parameters"
+author: "Olivier Gimenez for the team"
 date: "last updated: `r Sys.Date()`"
 output:
   xaringan::moon_reader:
@@ -22,12 +22,24 @@ theme_set(theme_light())
 update_geom_defaults("point", list(size = 2)) 
 ```
 
+```{r, echo=FALSE, out.width="80%", fig.align='center'}
+knitr::include_graphics("img/intro2.png")
+```
+
+---
+
+```{r, echo=FALSE, out.width="80%", fig.align='center'}
+knitr::include_graphics("img/Page3.png")
+```
+
+
+---
 # On our plate
 
-+ Estimating survival from capture-recapture data
++ Estimating survival with capture-recapture models
 + Including discrete and continuous covariates
 + Estimating transitions between sites/states
-+ Estimating productivity
++ Estimating productivity with GLMs
 
 
 ---
@@ -64,9 +76,10 @@ knitr::include_graphics("img/bearscat.png")
 
 Natural marks
 
----
-### Exemple histoire à 3 occasions
 
+
+---
+### 3 capture occasions, 2 time intervals
 
 ---
 ### Définir les paramètres
@@ -77,200 +90,94 @@ knitr::include_graphics("img/cjs-param.png")
 
 
 ---
-### 3 sampling occasions, 2 time intervals
 
-```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE,fig.align='center'}
-gv <- DiagrammeR::grViz("
-digraph dot {
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+knitr::include_graphics("img/cjs1.png")
+```
 
-graph [layout = dot,
-       rankdir = LR]
+---
 
-node [shape = plaintext,
-      label = '',
-      fontsize = 30,
-      fontname = Arial]
-
-node [label = 'first captured,\n marked\n and released', fontcolor = 'blue']
-a
-
-node [label = 'alive \n and present', fontcolor = 'black']
-b
-
-node [label = 'dead \n or emigrated', fontcolor = 'black']
-c
-
-node [label = 'detected', fontcolor = 'black']
-d
-
-node [label = 'non-detected', fontcolor = 'black']
-e
-
-node [label = 'alive \n and present', fontcolor = 'black']
-f
-
-node [label = 'dead \n or emigrated', fontcolor = 'black']
-g
-
-node [label = 'alive \n and present', fontcolor = 'black']
-h
-
-node [label = 'dead \n or emigrated', fontcolor = 'black']
-i
-
-node [label = 'detected', fontcolor = 'black']
-j
-
-node [label = 'non-detected', fontcolor = 'black']
-k
-
-node [label = 'detected', fontcolor = 'black']
-l
-
-node [label = 'non-detected', fontcolor = 'black']
-m
-
-node [label = '111', fontcolor = 'black']
-n
-
-node [label = '100', fontcolor = 'black']
-t r q 
-
-node [label = '110', fontcolor = 'black']
-s o 
-
-node [label = '101', fontcolor = 'black']
-p
-
-
-edge [color = grey, fontsize = 30, labelfontsize = 30]
-a -> {b} [label = '$\\\\phi_1$', fontsize = 20]
-a -> {c} [label = '$1 - \\\\phi_1$', fontsize = 20]
-b -> {d} [label = '$p_2$', fontsize = 20]
-b -> {e} [label = '$1 - p_2$', fontsize = 20]
-d -> {f} [label = '$\\\\phi_2$', fontsize = 20]
-d -> {g} [label = '$1 - \\\\phi_2$', fontsize = 20]
-e -> {h} [label = '$\\\\phi_2$', fontsize = 20]
-e -> {i} [label = '$1 - \\\\phi_2$', fontsize = 20]
-f -> {j} [label = '$p_3$', fontsize = 20]
-f -> {k} [label = '$1 - p_3$', fontsize = 20]
-h -> {l} [label = '$p_3$', fontsize = 20]
-h -> {m} [label = '$1 - p_3$', fontsize = 20]
-j -> {n} 
-k -> {o} 
-l -> {p} 
-m -> {q} 
-i -> {r} 
-g -> {s}
-c -> {t}
-
-{ rank = same; n; o; p; q; r; s; t}
-{ rank = same; b; c}
-{ rank = same; d; e}
-{ rank = same; f; g; h; i}
-{ rank = same; j; k; l; m}
-
-}", width = 1000, height = 600)
-
-DiagrammeR::add_mathjax(gv, include_mathjax = FALSE)
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+knitr::include_graphics("img/cjs2.png")
 ```
 
 
 ---
-### 3 sampling occasions, 2 time intervals
 
-```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE,fig.align='center'}
-gv <- DiagrammeR::grViz("
-digraph dot {
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+knitr::include_graphics("img/cjs3.png")
+```
 
-graph [layout = dot,
-       rankdir = LR]
+---
 
-node [shape = plaintext,
-      label = '']
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+knitr::include_graphics("img/cjs4.png")
+```
 
-node [label = 'first captured,\n marked\n and released', fontcolor = 'blue']
-a
+---
 
-node [label = 'alive \n and present', fontcolor = 'black']
-b
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+knitr::include_graphics("img/cjs5.png")
+```
 
-node [label = 'dead \n or emigrated', fontcolor = 'black']
-c
+---
 
-node [label = 'detected', fontcolor = 'black']
-d
-
-node [label = 'non-detected', fontcolor = 'black']
-e
-
-node [label = 'alive \n and present', fontcolor = 'black']
-f
-
-node [label = 'dead \n or emigrated', fontcolor = 'black']
-g
-
-node [label = 'alive \n and present', fontcolor = 'black']
-h
-
-node [label = 'dead \n or emigrated', fontcolor = 'black']
-i
-
-node [label = 'detected', fontcolor = 'black']
-j
-
-node [label = 'non-detected', fontcolor = 'black']
-k
-
-node [label = 'detected', fontcolor = 'black']
-l
-
-node [label = 'non-detected', fontcolor = 'black']
-m
-
-node [label = '111', fontcolor = 'black']
-n
-
-node [label = '100', fontcolor = 'black']
-t r q 
-
-node [label = '110', fontcolor = 'black']
-s o 
-
-node [label = '101', fontcolor = 'black']
-p
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+knitr::include_graphics("img/cjs6.png")
+```
 
 
-edge [color = grey]
-a -> {b} [label = '$\\\\phi_1$']
-a -> {c} [label = '$1 - \\\\phi_1$']
-b -> {d} [label = '$p_2$']
-b -> {e} [label = '$1 - p_2$']
-d -> {f} [label = '$\\\\phi_2$']
-d -> {g} [label = '$1 - \\\\phi_2$']
-e -> {h} [label = '$\\\\phi_2$']
-e -> {i} [label = '$1 - \\\\phi_2$']
-f -> {j} [label = '$p_3$']
-f -> {k} [label = '$1 - p_3$']
-h -> {l} [label = '$p_3$']
-h -> {m} [label = '$1 - p_3$']
-j -> {n} 
-k -> {o} 
-l -> {p} 
-m -> {q} 
-i -> {r} 
-g -> {s}
-c -> {t}
+---
 
-{ rank = same; n; o; p; q; r; s; t}
-{ rank = same; b; c}
-{ rank = same; d; e}
-{ rank = same; f; g; h; i}
-{ rank = same; j; k; l; m}
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+knitr::include_graphics("img/cjs7.png")
+```
 
-}", width = 1000, height = 600)
 
-DiagrammeR::add_mathjax(gv, include_mathjax = FALSE)
+---
+### Ecrire les probas
+
+```{r, echo=FALSE, out.width="60%", fig.cap="", fig.align='center'}
+knitr::include_graphics("img/prob.png")
+```
+
+
+---
+
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+knitr::include_graphics("img/eh1.png")
+```
+
+---
+
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+knitr::include_graphics("img/eh2.png")
+```
+
+
+---
+
+```{r, echo=FALSE, out.width="80%", fig.align='center'}
+knitr::include_graphics("img/eh3.png")
+```
+
+
+---
+
+```{r, echo=FALSE, out.width="80%", fig.align='center'}
+knitr::include_graphics("img/eh4.png")
+```
+
+---
+
+```{r, echo=FALSE, out.width="80%", fig.align='center'}
+knitr::include_graphics("img/eh5.png")
+```
+
+---
+
+```{r, echo=FALSE, out.width="80%", fig.align='center'}
+knitr::include_graphics("img/eh6.png")
 ```
 
 
@@ -284,7 +191,7 @@ knitr::include_graphics("img/prob.png")
 ---
 ### La vraisemblance
 
-Exemple Montana.
+
 
 ---
 ### CJS
@@ -1157,3 +1064,205 @@ background-color: black
 
 + Lebreton, J.-D., J. D. Nichols, R. J. Barker, R. Pradel and J. A. Spendelow (2009). [Modeling Individual Animal Histories with Multistate Capture–Recapture Models](https://multievent.sciencesconf.org/conference/multievent/pages/Lebretonetal2009AER.pdf). Advances in Ecological Research, 41:87-173.
 
+
+
+
+
+
+
+<!-- --- -->
+<!-- ### 3 sampling occasions, 2 time intervals -->
+
+<!-- ```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE,fig.align='center'} -->
+<!-- gv <- DiagrammeR::grViz(" -->
+<!-- digraph dot { -->
+
+<!-- graph [layout = dot, -->
+<!--        rankdir = LR] -->
+
+<!-- node [shape = plaintext, -->
+<!--       label = '', -->
+<!--       fontsize = 30, -->
+<!--       fontname = Arial] -->
+
+<!-- node [label = 'first captured,\n marked\n and released', fontcolor = 'blue'] -->
+<!-- a -->
+
+<!-- node [label = 'alive \n and present', fontcolor = 'black'] -->
+<!-- b -->
+
+<!-- node [label = 'dead \n or emigrated', fontcolor = 'black'] -->
+<!-- c -->
+
+<!-- node [label = 'detected', fontcolor = 'black'] -->
+<!-- d -->
+
+<!-- node [label = 'non-detected', fontcolor = 'black'] -->
+<!-- e -->
+
+<!-- node [label = 'alive \n and present', fontcolor = 'black'] -->
+<!-- f -->
+
+<!-- node [label = 'dead \n or emigrated', fontcolor = 'black'] -->
+<!-- g -->
+
+<!-- node [label = 'alive \n and present', fontcolor = 'black'] -->
+<!-- h -->
+
+<!-- node [label = 'dead \n or emigrated', fontcolor = 'black'] -->
+<!-- i -->
+
+<!-- node [label = 'detected', fontcolor = 'black'] -->
+<!-- j -->
+
+<!-- node [label = 'non-detected', fontcolor = 'black'] -->
+<!-- k -->
+
+<!-- node [label = 'detected', fontcolor = 'black'] -->
+<!-- l -->
+
+<!-- node [label = 'non-detected', fontcolor = 'black'] -->
+<!-- m -->
+
+<!-- node [label = '111', fontcolor = 'black'] -->
+<!-- n -->
+
+<!-- node [label = '100', fontcolor = 'black'] -->
+<!-- t r q  -->
+
+<!-- node [label = '110', fontcolor = 'black'] -->
+<!-- s o  -->
+
+<!-- node [label = '101', fontcolor = 'black'] -->
+<!-- p -->
+
+
+<!-- edge [color = grey, fontsize = 30, labelfontsize = 30] -->
+<!-- a -> {b} [label = '$\\\\phi_1$', fontsize = 20] -->
+<!-- a -> {c} [label = '$1 - \\\\phi_1$', fontsize = 20] -->
+<!-- b -> {d} [label = '$p_2$', fontsize = 20] -->
+<!-- b -> {e} [label = '$1 - p_2$', fontsize = 20] -->
+<!-- d -> {f} [label = '$\\\\phi_2$', fontsize = 20] -->
+<!-- d -> {g} [label = '$1 - \\\\phi_2$', fontsize = 20] -->
+<!-- e -> {h} [label = '$\\\\phi_2$', fontsize = 20] -->
+<!-- e -> {i} [label = '$1 - \\\\phi_2$', fontsize = 20] -->
+<!-- f -> {j} [label = '$p_3$', fontsize = 20] -->
+<!-- f -> {k} [label = '$1 - p_3$', fontsize = 20] -->
+<!-- h -> {l} [label = '$p_3$', fontsize = 20] -->
+<!-- h -> {m} [label = '$1 - p_3$', fontsize = 20] -->
+<!-- j -> {n}  -->
+<!-- k -> {o}  -->
+<!-- l -> {p}  -->
+<!-- m -> {q}  -->
+<!-- i -> {r}  -->
+<!-- g -> {s} -->
+<!-- c -> {t} -->
+
+<!-- { rank = same; n; o; p; q; r; s; t} -->
+<!-- { rank = same; b; c} -->
+<!-- { rank = same; d; e} -->
+<!-- { rank = same; f; g; h; i} -->
+<!-- { rank = same; j; k; l; m} -->
+
+<!-- }", width = 1000, height = 600) -->
+
+<!-- DiagrammeR::add_mathjax(gv, include_mathjax = FALSE) -->
+<!-- ``` -->
+
+
+<!-- --- -->
+<!-- ### 3 sampling occasions, 2 time intervals -->
+
+<!-- ```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE,fig.align='center'} -->
+<!-- gv <- DiagrammeR::grViz(" -->
+<!-- digraph dot { -->
+
+<!-- graph [layout = dot, -->
+<!--        rankdir = LR] -->
+
+<!-- node [shape = plaintext, -->
+<!--       label = ''] -->
+
+<!-- node [label = 'first captured,\n marked\n and released', fontcolor = 'blue'] -->
+<!-- a -->
+
+<!-- node [label = 'alive \n and present', fontcolor = 'black'] -->
+<!-- b -->
+
+<!-- node [label = 'dead \n or emigrated', fontcolor = 'black'] -->
+<!-- c -->
+
+<!-- node [label = 'detected', fontcolor = 'black'] -->
+<!-- d -->
+
+<!-- node [label = 'non-detected', fontcolor = 'black'] -->
+<!-- e -->
+
+<!-- node [label = 'alive \n and present', fontcolor = 'black'] -->
+<!-- f -->
+
+<!-- node [label = 'dead \n or emigrated', fontcolor = 'black'] -->
+<!-- g -->
+
+<!-- node [label = 'alive \n and present', fontcolor = 'black'] -->
+<!-- h -->
+
+<!-- node [label = 'dead \n or emigrated', fontcolor = 'black'] -->
+<!-- i -->
+
+<!-- node [label = 'detected', fontcolor = 'black'] -->
+<!-- j -->
+
+<!-- node [label = 'non-detected', fontcolor = 'black'] -->
+<!-- k -->
+
+<!-- node [label = 'detected', fontcolor = 'black'] -->
+<!-- l -->
+
+<!-- node [label = 'non-detected', fontcolor = 'black'] -->
+<!-- m -->
+
+<!-- node [label = '111', fontcolor = 'black'] -->
+<!-- n -->
+
+<!-- node [label = '100', fontcolor = 'black'] -->
+<!-- t r q  -->
+
+<!-- node [label = '110', fontcolor = 'black'] -->
+<!-- s o  -->
+
+<!-- node [label = '101', fontcolor = 'black'] -->
+<!-- p -->
+
+
+<!-- edge [color = grey] -->
+<!-- a -> {b} [label = '$\\\\phi_1$'] -->
+<!-- a -> {c} [label = '$1 - \\\\phi_1$'] -->
+<!-- b -> {d} [label = '$p_2$'] -->
+<!-- b -> {e} [label = '$1 - p_2$'] -->
+<!-- d -> {f} [label = '$\\\\phi_2$'] -->
+<!-- d -> {g} [label = '$1 - \\\\phi_2$'] -->
+<!-- e -> {h} [label = '$\\\\phi_2$'] -->
+<!-- e -> {i} [label = '$1 - \\\\phi_2$'] -->
+<!-- f -> {j} [label = '$p_3$'] -->
+<!-- f -> {k} [label = '$1 - p_3$'] -->
+<!-- h -> {l} [label = '$p_3$'] -->
+<!-- h -> {m} [label = '$1 - p_3$'] -->
+<!-- j -> {n}  -->
+<!-- k -> {o}  -->
+<!-- l -> {p}  -->
+<!-- m -> {q}  -->
+<!-- i -> {r}  -->
+<!-- g -> {s} -->
+<!-- c -> {t} -->
+
+<!-- { rank = same; n; o; p; q; r; s; t} -->
+<!-- { rank = same; b; c} -->
+<!-- { rank = same; d; e} -->
+<!-- { rank = same; f; g; h; i} -->
+<!-- { rank = same; j; k; l; m} -->
+
+<!-- }", width = 1000, height = 600) -->
+
+<!-- DiagrammeR::add_mathjax(gv, include_mathjax = FALSE) -->
+<!-- ``` -->

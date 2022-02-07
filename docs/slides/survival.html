@@ -1,16 +1,11 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Estimation of survival and productivity using capture-recapture and generalized linear models</title>
+    <title>Estimation of demographic parameters</title>
     <meta charset="utf-8" />
     <meta name="author" content="The team" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
-    <script src="libs/htmlwidgets/htmlwidgets.js"></script>
-    <script src="libs/viz/viz.js"></script>
-    <link href="libs/DiagrammeR-styles/styles.css" rel="stylesheet" />
-    <script src="libs/grViz-binding/grViz.js"></script>
-    <script src="https://cdn.rawgit.com/timelyportfolio/svg_mathjax2/master/svg_mathjax2.js"></script>
     <script src="libs/kePrint/kePrint.js"></script>
     <link href="libs/lightable/lightable.css" rel="stylesheet" />
     <link rel="stylesheet" href="slides-theme.css" type="text/css" />
@@ -19,7 +14,7 @@
     <textarea id="source">
 class: center, middle, title-slide
 
-# Estimation of survival and productivity using capture-recapture and generalized linear models
+# Estimation of demographic parameters
 ### The team
 ### last updated: 2022-02-07
 
@@ -28,12 +23,20 @@ class: center, middle, title-slide
 
 
 
+&lt;img src="img/intro2.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="img/intro6.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+
+---
 # On our plate
 
-+ Estimating survival from capture-recapture data
++ Estimating survival with capture-recapture models
 + Including discrete and continuous covariates
 + Estimating transitions between sites/states
-+ Estimating productivity
++ Estimating productivity with GLMs
 
 
 ---
@@ -62,9 +65,10 @@ Artificial marks
 
 Natural marks
 
----
-### Exemple histoire à 3 occasions
 
+
+---
+### 3 capture occasions, 2 time intervals
 
 ---
 ### Définir les paramètres
@@ -73,27 +77,67 @@ Natural marks
 
 
 ---
-### 3 sampling occasions, 2 time intervals
 
-<div id="htmlwidget-74e04341c88624b66c7d" style="width:1000px;height:600px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-74e04341c88624b66c7d">{"x":{"diagram":"\ndigraph dot {\n\ngraph [layout = dot,\n       rankdir = LR]\n\nnode [shape = plaintext,\n      label = \"\",\n      fontsize = 30,\n      fontname = Arial]\n\nnode [label = \"first captured,\n marked\n and released\", fontcolor = \"blue\"]\na\n\nnode [label = \"alive \n and present\", fontcolor = \"black\"]\nb\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"black\"]\nc\n\nnode [label = \"detected\", fontcolor = \"black\"]\nd\n\nnode [label = \"non-detected\", fontcolor = \"black\"]\ne\n\nnode [label = \"alive \n and present\", fontcolor = \"black\"]\nf\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"black\"]\ng\n\nnode [label = \"alive \n and present\", fontcolor = \"black\"]\nh\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"black\"]\ni\n\nnode [label = \"detected\", fontcolor = \"black\"]\nj\n\nnode [label = \"non-detected\", fontcolor = \"black\"]\nk\n\nnode [label = \"detected\", fontcolor = \"black\"]\nl\n\nnode [label = \"non-detected\", fontcolor = \"black\"]\nm\n\nnode [label = \"111\", fontcolor = \"black\"]\nn\n\nnode [label = \"100\", fontcolor = \"black\"]\nt r q \n\nnode [label = \"110\", fontcolor = \"black\"]\ns o \n\nnode [label = \"101\", fontcolor = \"black\"]\np\n\n\nedge [color = grey, fontsize = 30, labelfontsize = 30]\na -> {b} [label = \"$\\\\phi_1$\", fontsize = 20]\na -> {c} [label = \"$1 - \\\\phi_1$\", fontsize = 20]\nb -> {d} [label = \"$p_2$\", fontsize = 20]\nb -> {e} [label = \"$1 - p_2$\", fontsize = 20]\nd -> {f} [label = \"$\\\\phi_2$\", fontsize = 20]\nd -> {g} [label = \"$1 - \\\\phi_2$\", fontsize = 20]\ne -> {h} [label = \"$\\\\phi_2$\", fontsize = 20]\ne -> {i} [label = \"$1 - \\\\phi_2$\", fontsize = 20]\nf -> {j} [label = \"$p_3$\", fontsize = 20]\nf -> {k} [label = \"$1 - p_3$\", fontsize = 20]\nh -> {l} [label = \"$p_3$\", fontsize = 20]\nh -> {m} [label = \"$1 - p_3$\", fontsize = 20]\nj -> {n} \nk -> {o} \nl -> {p} \nm -> {q} \ni -> {r} \ng -> {s}\nc -> {t}\n\n{ rank = same; n; o; p; q; r; s; t}\n{ rank = same; b; c}\n{ rank = same; d; e}\n{ rank = same; f; g; h; i}\n{ rank = same; j; k; l; m}\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
-<script>
-HTMLWidgets.addPostRenderHandler(function() {
-setTimeout(function(){new Svg_MathJax().install()}, 4000);
-});
-</script>
+&lt;img src="img/cjs1.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="img/cjs2.png" width="90%" style="display: block; margin: auto;" /&gt;
 
 
 ---
-### 3 sampling occasions, 2 time intervals
 
-<div id="htmlwidget-eb47e3bb45fdefb8b0d1" style="width:1000px;height:600px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-eb47e3bb45fdefb8b0d1">{"x":{"diagram":"\ndigraph dot {\n\ngraph [layout = dot,\n       rankdir = LR]\n\nnode [shape = plaintext,\n      label = \"\"]\n\nnode [label = \"first captured,\n marked\n and released\", fontcolor = \"blue\"]\na\n\nnode [label = \"alive \n and present\", fontcolor = \"black\"]\nb\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"black\"]\nc\n\nnode [label = \"detected\", fontcolor = \"black\"]\nd\n\nnode [label = \"non-detected\", fontcolor = \"black\"]\ne\n\nnode [label = \"alive \n and present\", fontcolor = \"black\"]\nf\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"black\"]\ng\n\nnode [label = \"alive \n and present\", fontcolor = \"black\"]\nh\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"black\"]\ni\n\nnode [label = \"detected\", fontcolor = \"black\"]\nj\n\nnode [label = \"non-detected\", fontcolor = \"black\"]\nk\n\nnode [label = \"detected\", fontcolor = \"black\"]\nl\n\nnode [label = \"non-detected\", fontcolor = \"black\"]\nm\n\nnode [label = \"111\", fontcolor = \"black\"]\nn\n\nnode [label = \"100\", fontcolor = \"black\"]\nt r q \n\nnode [label = \"110\", fontcolor = \"black\"]\ns o \n\nnode [label = \"101\", fontcolor = \"black\"]\np\n\n\nedge [color = grey]\na -> {b} [label = \"$\\\\phi_1$\"]\na -> {c} [label = \"$1 - \\\\phi_1$\"]\nb -> {d} [label = \"$p_2$\"]\nb -> {e} [label = \"$1 - p_2$\"]\nd -> {f} [label = \"$\\\\phi_2$\"]\nd -> {g} [label = \"$1 - \\\\phi_2$\"]\ne -> {h} [label = \"$\\\\phi_2$\"]\ne -> {i} [label = \"$1 - \\\\phi_2$\"]\nf -> {j} [label = \"$p_3$\"]\nf -> {k} [label = \"$1 - p_3$\"]\nh -> {l} [label = \"$p_3$\"]\nh -> {m} [label = \"$1 - p_3$\"]\nj -> {n} \nk -> {o} \nl -> {p} \nm -> {q} \ni -> {r} \ng -> {s}\nc -> {t}\n\n{ rank = same; n; o; p; q; r; s; t}\n{ rank = same; b; c}\n{ rank = same; d; e}\n{ rank = same; f; g; h; i}\n{ rank = same; j; k; l; m}\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
-<script>
-HTMLWidgets.addPostRenderHandler(function() {
-setTimeout(function(){new Svg_MathJax().install()}, 4000);
-});
-</script>
+&lt;img src="img/cjs3.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="img/cjs4.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="img/cjs5.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="img/cjs6.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+&lt;img src="img/cjs7.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+
+---
+### Ecrire les probas
+
+&lt;img src="img/prob.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+&lt;img src="img/eh1.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="img/eh2.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+&lt;img src="img/eh3.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+&lt;img src="img/eh4.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="img/eh5.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="img/eh6.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -104,7 +148,7 @@ setTimeout(function(){new Svg_MathJax().install()}, 4000);
 ---
 ### La vraisemblance
 
-Exemple Montana.
+
 
 ---
 ### CJS
@@ -113,7 +157,7 @@ Exemple Montana.
 ---
 ### Likelihood
 
-&lt;img src="survival_files/figure-html/unnamed-chunk-9-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="survival_files/figure-html/unnamed-chunk-23-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -10940,7 +10984,7 @@ class: middle
 ### Biological inference
 
 .center.nogap[
-![](survival_files/figure-html/unnamed-chunk-19-1.svg)&lt;!-- --&gt;
+![](survival_files/figure-html/unnamed-chunk-33-1.svg)&lt;!-- --&gt;
 ]
 
 ??? 
@@ -10953,7 +10997,7 @@ class: middle
 ### Biological inference
 
 .center.nogap[
-![](survival_files/figure-html/unnamed-chunk-20-1.svg)&lt;!-- --&gt;
+![](survival_files/figure-html/unnamed-chunk-34-1.svg)&lt;!-- --&gt;
 ]
 
 
@@ -10962,7 +11006,7 @@ class: middle
 ### Biological inference
 
 .center.nogap[
-![](survival_files/figure-html/unnamed-chunk-21-1.svg)&lt;!-- --&gt;
+![](survival_files/figure-html/unnamed-chunk-35-1.svg)&lt;!-- --&gt;
 ]
 
 
@@ -10971,7 +11015,7 @@ class: middle
 ### Biological inference
 
 .center.nogap[
-![](survival_files/figure-html/unnamed-chunk-22-1.svg)&lt;!-- --&gt;
+![](survival_files/figure-html/unnamed-chunk-36-1.svg)&lt;!-- --&gt;
 ]
 
 
@@ -10980,7 +11024,7 @@ class: middle
 ### The model construction: How we should think. 
 
 .center.nogap[
-![](survival_files/figure-html/unnamed-chunk-23-1.svg)&lt;!-- --&gt;
+![](survival_files/figure-html/unnamed-chunk-37-1.svg)&lt;!-- --&gt;
 ]
 
 
@@ -10992,7 +11036,7 @@ class: middle
 ### The model construction: How we should think. 
 
 .center.nogap[
-![](survival_files/figure-html/unnamed-chunk-24-1.svg)&lt;!-- --&gt;
+![](survival_files/figure-html/unnamed-chunk-38-1.svg)&lt;!-- --&gt;
 ]
 
 
@@ -11002,7 +11046,7 @@ class: middle
 ### The model construction: How we should think. 
 
 .center.nogap[
-![](survival_files/figure-html/unnamed-chunk-25-1.svg)&lt;!-- --&gt;
+![](survival_files/figure-html/unnamed-chunk-39-1.svg)&lt;!-- --&gt;
 ]
 
 
@@ -11012,7 +11056,7 @@ class: middle
 ### The model construction: How we should think. 
 
 .center.nogap[
-![](survival_files/figure-html/unnamed-chunk-26-1.svg)&lt;!-- --&gt;
+![](survival_files/figure-html/unnamed-chunk-40-1.svg)&lt;!-- --&gt;
 ]
 
 
@@ -20278,6 +20322,208 @@ background-color: black
 
 + Lebreton, J.-D., J. D. Nichols, R. J. Barker, R. Pradel and J. A. Spendelow (2009). [Modeling Individual Animal Histories with Multistate Capture–Recapture Models](https://multievent.sciencesconf.org/conference/multievent/pages/Lebretonetal2009AER.pdf). Advances in Ecological Research, 41:87-173.
 
+
+
+
+
+
+
+&lt;!-- --- --&gt;
+&lt;!-- ### 3 sampling occasions, 2 time intervals --&gt;
+
+&lt;!-- ```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE,fig.align='center'} --&gt;
+&lt;!-- gv &lt;- DiagrammeR::grViz(" --&gt;
+&lt;!-- digraph dot { --&gt;
+
+&lt;!-- graph [layout = dot, --&gt;
+&lt;!--        rankdir = LR] --&gt;
+
+&lt;!-- node [shape = plaintext, --&gt;
+&lt;!--       label = '', --&gt;
+&lt;!--       fontsize = 30, --&gt;
+&lt;!--       fontname = Arial] --&gt;
+
+&lt;!-- node [label = 'first captured,\n marked\n and released', fontcolor = 'blue'] --&gt;
+&lt;!-- a --&gt;
+
+&lt;!-- node [label = 'alive \n and present', fontcolor = 'black'] --&gt;
+&lt;!-- b --&gt;
+
+&lt;!-- node [label = 'dead \n or emigrated', fontcolor = 'black'] --&gt;
+&lt;!-- c --&gt;
+
+&lt;!-- node [label = 'detected', fontcolor = 'black'] --&gt;
+&lt;!-- d --&gt;
+
+&lt;!-- node [label = 'non-detected', fontcolor = 'black'] --&gt;
+&lt;!-- e --&gt;
+
+&lt;!-- node [label = 'alive \n and present', fontcolor = 'black'] --&gt;
+&lt;!-- f --&gt;
+
+&lt;!-- node [label = 'dead \n or emigrated', fontcolor = 'black'] --&gt;
+&lt;!-- g --&gt;
+
+&lt;!-- node [label = 'alive \n and present', fontcolor = 'black'] --&gt;
+&lt;!-- h --&gt;
+
+&lt;!-- node [label = 'dead \n or emigrated', fontcolor = 'black'] --&gt;
+&lt;!-- i --&gt;
+
+&lt;!-- node [label = 'detected', fontcolor = 'black'] --&gt;
+&lt;!-- j --&gt;
+
+&lt;!-- node [label = 'non-detected', fontcolor = 'black'] --&gt;
+&lt;!-- k --&gt;
+
+&lt;!-- node [label = 'detected', fontcolor = 'black'] --&gt;
+&lt;!-- l --&gt;
+
+&lt;!-- node [label = 'non-detected', fontcolor = 'black'] --&gt;
+&lt;!-- m --&gt;
+
+&lt;!-- node [label = '111', fontcolor = 'black'] --&gt;
+&lt;!-- n --&gt;
+
+&lt;!-- node [label = '100', fontcolor = 'black'] --&gt;
+&lt;!-- t r q  --&gt;
+
+&lt;!-- node [label = '110', fontcolor = 'black'] --&gt;
+&lt;!-- s o  --&gt;
+
+&lt;!-- node [label = '101', fontcolor = 'black'] --&gt;
+&lt;!-- p --&gt;
+
+
+&lt;!-- edge [color = grey, fontsize = 30, labelfontsize = 30] --&gt;
+&lt;!-- a -&gt; {b} [label = '$\\\\phi_1$', fontsize = 20] --&gt;
+&lt;!-- a -&gt; {c} [label = '$1 - \\\\phi_1$', fontsize = 20] --&gt;
+&lt;!-- b -&gt; {d} [label = '$p_2$', fontsize = 20] --&gt;
+&lt;!-- b -&gt; {e} [label = '$1 - p_2$', fontsize = 20] --&gt;
+&lt;!-- d -&gt; {f} [label = '$\\\\phi_2$', fontsize = 20] --&gt;
+&lt;!-- d -&gt; {g} [label = '$1 - \\\\phi_2$', fontsize = 20] --&gt;
+&lt;!-- e -&gt; {h} [label = '$\\\\phi_2$', fontsize = 20] --&gt;
+&lt;!-- e -&gt; {i} [label = '$1 - \\\\phi_2$', fontsize = 20] --&gt;
+&lt;!-- f -&gt; {j} [label = '$p_3$', fontsize = 20] --&gt;
+&lt;!-- f -&gt; {k} [label = '$1 - p_3$', fontsize = 20] --&gt;
+&lt;!-- h -&gt; {l} [label = '$p_3$', fontsize = 20] --&gt;
+&lt;!-- h -&gt; {m} [label = '$1 - p_3$', fontsize = 20] --&gt;
+&lt;!-- j -&gt; {n}  --&gt;
+&lt;!-- k -&gt; {o}  --&gt;
+&lt;!-- l -&gt; {p}  --&gt;
+&lt;!-- m -&gt; {q}  --&gt;
+&lt;!-- i -&gt; {r}  --&gt;
+&lt;!-- g -&gt; {s} --&gt;
+&lt;!-- c -&gt; {t} --&gt;
+
+&lt;!-- { rank = same; n; o; p; q; r; s; t} --&gt;
+&lt;!-- { rank = same; b; c} --&gt;
+&lt;!-- { rank = same; d; e} --&gt;
+&lt;!-- { rank = same; f; g; h; i} --&gt;
+&lt;!-- { rank = same; j; k; l; m} --&gt;
+
+&lt;!-- }", width = 1000, height = 600) --&gt;
+
+&lt;!-- DiagrammeR::add_mathjax(gv, include_mathjax = FALSE) --&gt;
+&lt;!-- ``` --&gt;
+
+
+&lt;!-- --- --&gt;
+&lt;!-- ### 3 sampling occasions, 2 time intervals --&gt;
+
+&lt;!-- ```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE,fig.align='center'} --&gt;
+&lt;!-- gv &lt;- DiagrammeR::grViz(" --&gt;
+&lt;!-- digraph dot { --&gt;
+
+&lt;!-- graph [layout = dot, --&gt;
+&lt;!--        rankdir = LR] --&gt;
+
+&lt;!-- node [shape = plaintext, --&gt;
+&lt;!--       label = ''] --&gt;
+
+&lt;!-- node [label = 'first captured,\n marked\n and released', fontcolor = 'blue'] --&gt;
+&lt;!-- a --&gt;
+
+&lt;!-- node [label = 'alive \n and present', fontcolor = 'black'] --&gt;
+&lt;!-- b --&gt;
+
+&lt;!-- node [label = 'dead \n or emigrated', fontcolor = 'black'] --&gt;
+&lt;!-- c --&gt;
+
+&lt;!-- node [label = 'detected', fontcolor = 'black'] --&gt;
+&lt;!-- d --&gt;
+
+&lt;!-- node [label = 'non-detected', fontcolor = 'black'] --&gt;
+&lt;!-- e --&gt;
+
+&lt;!-- node [label = 'alive \n and present', fontcolor = 'black'] --&gt;
+&lt;!-- f --&gt;
+
+&lt;!-- node [label = 'dead \n or emigrated', fontcolor = 'black'] --&gt;
+&lt;!-- g --&gt;
+
+&lt;!-- node [label = 'alive \n and present', fontcolor = 'black'] --&gt;
+&lt;!-- h --&gt;
+
+&lt;!-- node [label = 'dead \n or emigrated', fontcolor = 'black'] --&gt;
+&lt;!-- i --&gt;
+
+&lt;!-- node [label = 'detected', fontcolor = 'black'] --&gt;
+&lt;!-- j --&gt;
+
+&lt;!-- node [label = 'non-detected', fontcolor = 'black'] --&gt;
+&lt;!-- k --&gt;
+
+&lt;!-- node [label = 'detected', fontcolor = 'black'] --&gt;
+&lt;!-- l --&gt;
+
+&lt;!-- node [label = 'non-detected', fontcolor = 'black'] --&gt;
+&lt;!-- m --&gt;
+
+&lt;!-- node [label = '111', fontcolor = 'black'] --&gt;
+&lt;!-- n --&gt;
+
+&lt;!-- node [label = '100', fontcolor = 'black'] --&gt;
+&lt;!-- t r q  --&gt;
+
+&lt;!-- node [label = '110', fontcolor = 'black'] --&gt;
+&lt;!-- s o  --&gt;
+
+&lt;!-- node [label = '101', fontcolor = 'black'] --&gt;
+&lt;!-- p --&gt;
+
+
+&lt;!-- edge [color = grey] --&gt;
+&lt;!-- a -&gt; {b} [label = '$\\\\phi_1$'] --&gt;
+&lt;!-- a -&gt; {c} [label = '$1 - \\\\phi_1$'] --&gt;
+&lt;!-- b -&gt; {d} [label = '$p_2$'] --&gt;
+&lt;!-- b -&gt; {e} [label = '$1 - p_2$'] --&gt;
+&lt;!-- d -&gt; {f} [label = '$\\\\phi_2$'] --&gt;
+&lt;!-- d -&gt; {g} [label = '$1 - \\\\phi_2$'] --&gt;
+&lt;!-- e -&gt; {h} [label = '$\\\\phi_2$'] --&gt;
+&lt;!-- e -&gt; {i} [label = '$1 - \\\\phi_2$'] --&gt;
+&lt;!-- f -&gt; {j} [label = '$p_3$'] --&gt;
+&lt;!-- f -&gt; {k} [label = '$1 - p_3$'] --&gt;
+&lt;!-- h -&gt; {l} [label = '$p_3$'] --&gt;
+&lt;!-- h -&gt; {m} [label = '$1 - p_3$'] --&gt;
+&lt;!-- j -&gt; {n}  --&gt;
+&lt;!-- k -&gt; {o}  --&gt;
+&lt;!-- l -&gt; {p}  --&gt;
+&lt;!-- m -&gt; {q}  --&gt;
+&lt;!-- i -&gt; {r}  --&gt;
+&lt;!-- g -&gt; {s} --&gt;
+&lt;!-- c -&gt; {t} --&gt;
+
+&lt;!-- { rank = same; n; o; p; q; r; s; t} --&gt;
+&lt;!-- { rank = same; b; c} --&gt;
+&lt;!-- { rank = same; d; e} --&gt;
+&lt;!-- { rank = same; f; g; h; i} --&gt;
+&lt;!-- { rank = same; j; k; l; m} --&gt;
+
+&lt;!-- }", width = 1000, height = 600) --&gt;
+
+&lt;!-- DiagrammeR::add_mathjax(gv, include_mathjax = FALSE) --&gt;
+&lt;!-- ``` --&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
