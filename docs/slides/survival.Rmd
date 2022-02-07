@@ -24,40 +24,10 @@ update_geom_defaults("point", list(size = 2))
 
 # On our plate
 
-+ Survival estimation from capture-recapture data
-+ Discrete and continuous covariates (including age)
-+ Introduction to RMark
-+ Productivity estimation
-
-+ âge sur la survie et fécondité, et mentionner l’accession à la repro dans le mutliétat
-
----
-
-![](img/lebreton.png)
-
-
----
-### History of the Cormack-Jolly-Seber (CJS) model
-
---
-
-<font size="5">S.T. Buckland (2016). A Conversation with Richard M. Cormack. Statistical Science 31: 142-150.</font>
-
---
-
-.pull-left[
-```{r, echo=FALSE, out.width="80%"}
-knitr::include_graphics("img/cormack-left.png")
-```
-]
-
---
-
-.pull-right[
-```{r, echo=FALSE, out.width="80%"}
-knitr::include_graphics("img/cormack-right.png")
-```
-]
++ Estimating survival from capture-recapture data
++ Including discrete and continuous covariates
++ Estimating transitions between sites/states
++ Estimating productivity
 
 
 ---
@@ -107,7 +77,107 @@ knitr::include_graphics("img/cjs-param.png")
 
 
 ---
-### 3 occasions
+### 3 sampling occasions, 2 time intervals
+
+```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE,fig.align='center'}
+gv <- DiagrammeR::grViz("
+digraph dot {
+
+graph [layout = dot,
+       rankdir = LR]
+
+node [shape = plaintext,
+      label = '',
+      fontsize = 30,
+      fontname = Arial]
+
+node [label = 'first captured,\n marked\n and released', fontcolor = 'blue']
+a
+
+node [label = 'alive \n and present', fontcolor = 'black']
+b
+
+node [label = 'dead \n or emigrated', fontcolor = 'black']
+c
+
+node [label = 'detected', fontcolor = 'black']
+d
+
+node [label = 'non-detected', fontcolor = 'black']
+e
+
+node [label = 'alive \n and present', fontcolor = 'black']
+f
+
+node [label = 'dead \n or emigrated', fontcolor = 'black']
+g
+
+node [label = 'alive \n and present', fontcolor = 'black']
+h
+
+node [label = 'dead \n or emigrated', fontcolor = 'black']
+i
+
+node [label = 'detected', fontcolor = 'black']
+j
+
+node [label = 'non-detected', fontcolor = 'black']
+k
+
+node [label = 'detected', fontcolor = 'black']
+l
+
+node [label = 'non-detected', fontcolor = 'black']
+m
+
+node [label = '111', fontcolor = 'black']
+n
+
+node [label = '100', fontcolor = 'black']
+t r q 
+
+node [label = '110', fontcolor = 'black']
+s o 
+
+node [label = '101', fontcolor = 'black']
+p
+
+
+edge [color = grey, fontsize = 30, labelfontsize = 30]
+a -> {b} [label = '$\\\\phi_1$', fontsize = 20]
+a -> {c} [label = '$1 - \\\\phi_1$', fontsize = 20]
+b -> {d} [label = '$p_2$', fontsize = 20]
+b -> {e} [label = '$1 - p_2$', fontsize = 20]
+d -> {f} [label = '$\\\\phi_2$', fontsize = 20]
+d -> {g} [label = '$1 - \\\\phi_2$', fontsize = 20]
+e -> {h} [label = '$\\\\phi_2$', fontsize = 20]
+e -> {i} [label = '$1 - \\\\phi_2$', fontsize = 20]
+f -> {j} [label = '$p_3$', fontsize = 20]
+f -> {k} [label = '$1 - p_3$', fontsize = 20]
+h -> {l} [label = '$p_3$', fontsize = 20]
+h -> {m} [label = '$1 - p_3$', fontsize = 20]
+j -> {n} 
+k -> {o} 
+l -> {p} 
+m -> {q} 
+i -> {r} 
+g -> {s}
+c -> {t}
+
+{ rank = same; n; o; p; q; r; s; t}
+{ rank = same; b; c}
+{ rank = same; d; e}
+{ rank = same; f; g; h; i}
+{ rank = same; j; k; l; m}
+
+}", width = 1000, height = 600)
+
+DiagrammeR::add_mathjax(gv, include_mathjax = FALSE)
+```
+
+
+---
+### 3 sampling occasions, 2 time intervals
 
 ```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE,fig.align='center'}
 gv <- DiagrammeR::grViz("
@@ -122,40 +192,40 @@ node [shape = plaintext,
 node [label = 'first captured,\n marked\n and released', fontcolor = 'blue']
 a
 
-node [label = 'alive \n and present', fontcolor = 'orange']
+node [label = 'alive \n and present', fontcolor = 'black']
 b
 
-node [label = 'dead \n or emigrated', fontcolor = 'orange']
+node [label = 'dead \n or emigrated', fontcolor = 'black']
 c
 
-node [label = 'detected', fontcolor = 'orange']
+node [label = 'detected', fontcolor = 'black']
 d
 
-node [label = 'non-detected', fontcolor = 'orange']
+node [label = 'non-detected', fontcolor = 'black']
 e
 
-node [label = 'alive \n and present', fontcolor = 'green']
+node [label = 'alive \n and present', fontcolor = 'black']
 f
 
-node [label = 'dead \n or emigrated', fontcolor = 'green']
+node [label = 'dead \n or emigrated', fontcolor = 'black']
 g
 
-node [label = 'alive \n and present', fontcolor = 'green']
+node [label = 'alive \n and present', fontcolor = 'black']
 h
 
-node [label = 'dead \n or emigrated', fontcolor = 'green']
+node [label = 'dead \n or emigrated', fontcolor = 'black']
 i
 
-node [label = 'detected', fontcolor = 'green']
+node [label = 'detected', fontcolor = 'black']
 j
 
-node [label = 'non-detected', fontcolor = 'green']
+node [label = 'non-detected', fontcolor = 'black']
 k
 
-node [label = 'detected', fontcolor = 'green']
+node [label = 'detected', fontcolor = 'black']
 l
 
-node [label = 'non-detected', fontcolor = 'green']
+node [label = 'non-detected', fontcolor = 'black']
 m
 
 node [label = '111', fontcolor = 'black']
@@ -202,6 +272,7 @@ c -> {t}
 
 DiagrammeR::add_mathjax(gv)
 ```
+
 
 ---
 ### Ecrire les probas
@@ -360,6 +431,34 @@ ggplot(parms, aes(x = p, y = phi, z = log.lik)) +
            label = "true value", 
            hjust = "right")
 ```
+
+---
+
+![](img/lebreton.png)
+
+
+---
+### History of the Cormack-Jolly-Seber (CJS) model
+
+--
+
+<font size="5">S.T. Buckland (2016). A Conversation with Richard M. Cormack. Statistical Science 31: 142-150.</font>
+
+--
+
+.pull-left[
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("img/cormack-left.png")
+```
+]
+
+--
+
+.pull-right[
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("img/cormack-right.png")
+```
+]
 
 
 ---

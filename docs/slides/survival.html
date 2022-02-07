@@ -21,7 +21,7 @@ class: center, middle, title-slide
 
 # Estimation of survival and productivity using capture-recapture and generalized linear models
 ### The team
-### last updated: 2022-02-03
+### last updated: 2022-02-07
 
 ---
 
@@ -30,36 +30,10 @@ class: center, middle, title-slide
 
 # On our plate
 
-+ Survival estimation from capture-recapture data
-+ Discrete and continuous covariates (including age)
-+ Introduction to RMark
-+ Productivity estimation
-
-+ âge sur la survie et fécondité, et mentionner l’accession à la repro dans le mutliétat
-
----
-
-![](img/lebreton.png)
-
-
----
-### History of the Cormack-Jolly-Seber (CJS) model
-
---
-
-&lt;font size="5"&gt;S.T. Buckland (2016). A Conversation with Richard M. Cormack. Statistical Science 31: 142-150.&lt;/font&gt;
-
---
-
-.pull-left[
-&lt;img src="img/cormack-left.png" width="80%" /&gt;
-]
-
---
-
-.pull-right[
-&lt;img src="img/cormack-right.png" width="80%" /&gt;
-]
++ Estimating survival from capture-recapture data
++ Including discrete and continuous covariates
++ Estimating transitions between sites/states
++ Estimating productivity
 
 
 ---
@@ -99,16 +73,29 @@ Natural marks
 
 
 ---
-### 3 occasions
+### 3 sampling occasions, 2 time intervals
 
-<div id="htmlwidget-a3b676e5a3d4375c884a" style="width:1000px;height:600px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-a3b676e5a3d4375c884a">{"x":{"diagram":"\ndigraph dot {\n\ngraph [layout = dot,\n       rankdir = LR]\n\nnode [shape = plaintext,\n      label = \"\"]\n\nnode [label = \"first captured,\n marked\n and released\", fontcolor = \"blue\"]\na\n\nnode [label = \"alive \n and present\", fontcolor = \"orange\"]\nb\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"orange\"]\nc\n\nnode [label = \"detected\", fontcolor = \"orange\"]\nd\n\nnode [label = \"non-detected\", fontcolor = \"orange\"]\ne\n\nnode [label = \"alive \n and present\", fontcolor = \"green\"]\nf\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"green\"]\ng\n\nnode [label = \"alive \n and present\", fontcolor = \"green\"]\nh\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"green\"]\ni\n\nnode [label = \"detected\", fontcolor = \"green\"]\nj\n\nnode [label = \"non-detected\", fontcolor = \"green\"]\nk\n\nnode [label = \"detected\", fontcolor = \"green\"]\nl\n\nnode [label = \"non-detected\", fontcolor = \"green\"]\nm\n\nnode [label = \"111\", fontcolor = \"black\"]\nn\n\nnode [label = \"100\", fontcolor = \"black\"]\nt r q \n\nnode [label = \"110\", fontcolor = \"black\"]\ns o \n\nnode [label = \"101\", fontcolor = \"black\"]\np\n\n\nedge [color = grey]\na -> {b} [label = \"$\\\\phi_1$\"]\na -> {c} [label = \"$1 - \\\\phi_1$\"]\nb -> {d} [label = \"$p_2$\"]\nb -> {e} [label = \"$1 - p_2$\"]\nd -> {f} [label = \"$\\\\phi_2$\"]\nd -> {g} [label = \"$1 - \\\\phi_2$\"]\ne -> {h} [label = \"$\\\\phi_2$\"]\ne -> {i} [label = \"$1 - \\\\phi_2$\"]\nf -> {j} [label = \"$p_3$\"]\nf -> {k} [label = \"$1 - p_3$\"]\nh -> {l} [label = \"$p_3$\"]\nh -> {m} [label = \"$1 - p_3$\"]\nj -> {n} \nk -> {o} \nl -> {p} \nm -> {q} \ni -> {r} \ng -> {s}\nc -> {t}\n\n{ rank = same; n; o; p; q; r; s; t}\n{ rank = same; b; c}\n{ rank = same; d; e}\n{ rank = same; f; g; h; i}\n{ rank = same; j; k; l; m}\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-a925ee2cc6a5704217cc" style="width:1000px;height:600px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a925ee2cc6a5704217cc">{"x":{"diagram":"\ndigraph dot {\n\ngraph [layout = dot,\n       rankdir = LR]\n\nnode [shape = plaintext,\n      label = \"\",\n      fontsize = 30,\n      fontname = Arial]\n\nnode [label = \"first captured,\n marked\n and released\", fontcolor = \"blue\"]\na\n\nnode [label = \"alive \n and present\", fontcolor = \"black\"]\nb\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"black\"]\nc\n\nnode [label = \"detected\", fontcolor = \"black\"]\nd\n\nnode [label = \"non-detected\", fontcolor = \"black\"]\ne\n\nnode [label = \"alive \n and present\", fontcolor = \"black\"]\nf\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"black\"]\ng\n\nnode [label = \"alive \n and present\", fontcolor = \"black\"]\nh\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"black\"]\ni\n\nnode [label = \"detected\", fontcolor = \"black\"]\nj\n\nnode [label = \"non-detected\", fontcolor = \"black\"]\nk\n\nnode [label = \"detected\", fontcolor = \"black\"]\nl\n\nnode [label = \"non-detected\", fontcolor = \"black\"]\nm\n\nnode [label = \"111\", fontcolor = \"black\"]\nn\n\nnode [label = \"100\", fontcolor = \"black\"]\nt r q \n\nnode [label = \"110\", fontcolor = \"black\"]\ns o \n\nnode [label = \"101\", fontcolor = \"black\"]\np\n\n\nedge [color = grey, fontsize = 30, labelfontsize = 30]\na -> {b} [label = \"$\\\\phi_1$\", fontsize = 20]\na -> {c} [label = \"$1 - \\\\phi_1$\", fontsize = 20]\nb -> {d} [label = \"$p_2$\", fontsize = 20]\nb -> {e} [label = \"$1 - p_2$\", fontsize = 20]\nd -> {f} [label = \"$\\\\phi_2$\", fontsize = 20]\nd -> {g} [label = \"$1 - \\\\phi_2$\", fontsize = 20]\ne -> {h} [label = \"$\\\\phi_2$\", fontsize = 20]\ne -> {i} [label = \"$1 - \\\\phi_2$\", fontsize = 20]\nf -> {j} [label = \"$p_3$\", fontsize = 20]\nf -> {k} [label = \"$1 - p_3$\", fontsize = 20]\nh -> {l} [label = \"$p_3$\", fontsize = 20]\nh -> {m} [label = \"$1 - p_3$\", fontsize = 20]\nj -> {n} \nk -> {o} \nl -> {p} \nm -> {q} \ni -> {r} \ng -> {s}\nc -> {t}\n\n{ rank = same; n; o; p; q; r; s; t}\n{ rank = same; b; c}\n{ rank = same; d; e}\n{ rank = same; f; g; h; i}\n{ rank = same; j; k; l; m}\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<script>
+HTMLWidgets.addPostRenderHandler(function() {
+setTimeout(function(){new Svg_MathJax().install()}, 4000);
+});
+</script>
+
+
+---
+### 3 sampling occasions, 2 time intervals
+
+<div id="htmlwidget-d42c7595fb6f89e46785" style="width:1000px;height:600px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d42c7595fb6f89e46785">{"x":{"diagram":"\ndigraph dot {\n\ngraph [layout = dot,\n       rankdir = LR]\n\nnode [shape = plaintext,\n      label = \"\"]\n\nnode [label = \"first captured,\n marked\n and released\", fontcolor = \"blue\"]\na\n\nnode [label = \"alive \n and present\", fontcolor = \"black\"]\nb\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"black\"]\nc\n\nnode [label = \"detected\", fontcolor = \"black\"]\nd\n\nnode [label = \"non-detected\", fontcolor = \"black\"]\ne\n\nnode [label = \"alive \n and present\", fontcolor = \"black\"]\nf\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"black\"]\ng\n\nnode [label = \"alive \n and present\", fontcolor = \"black\"]\nh\n\nnode [label = \"dead \n or emigrated\", fontcolor = \"black\"]\ni\n\nnode [label = \"detected\", fontcolor = \"black\"]\nj\n\nnode [label = \"non-detected\", fontcolor = \"black\"]\nk\n\nnode [label = \"detected\", fontcolor = \"black\"]\nl\n\nnode [label = \"non-detected\", fontcolor = \"black\"]\nm\n\nnode [label = \"111\", fontcolor = \"black\"]\nn\n\nnode [label = \"100\", fontcolor = \"black\"]\nt r q \n\nnode [label = \"110\", fontcolor = \"black\"]\ns o \n\nnode [label = \"101\", fontcolor = \"black\"]\np\n\n\nedge [color = grey]\na -> {b} [label = \"$\\\\phi_1$\"]\na -> {c} [label = \"$1 - \\\\phi_1$\"]\nb -> {d} [label = \"$p_2$\"]\nb -> {e} [label = \"$1 - p_2$\"]\nd -> {f} [label = \"$\\\\phi_2$\"]\nd -> {g} [label = \"$1 - \\\\phi_2$\"]\ne -> {h} [label = \"$\\\\phi_2$\"]\ne -> {i} [label = \"$1 - \\\\phi_2$\"]\nf -> {j} [label = \"$p_3$\"]\nf -> {k} [label = \"$1 - p_3$\"]\nh -> {l} [label = \"$p_3$\"]\nh -> {m} [label = \"$1 - p_3$\"]\nj -> {n} \nk -> {o} \nl -> {p} \nm -> {q} \ni -> {r} \ng -> {s}\nc -> {t}\n\n{ rank = same; n; o; p; q; r; s; t}\n{ rank = same; b; c}\n{ rank = same; d; e}\n{ rank = same; f; g; h; i}\n{ rank = same; j; k; l; m}\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_SVG"></script>
 <script>
 HTMLWidgets.addPostRenderHandler(function() {
 setTimeout(function(){new Svg_MathJax().install()}, 4000);
 });
 </script>
+
 
 ---
 ### Ecrire les probas
@@ -127,7 +114,31 @@ Exemple Montana.
 ---
 ### Likelihood
 
-&lt;img src="survival_files/figure-html/unnamed-chunk-10-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="survival_files/figure-html/unnamed-chunk-9-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+![](img/lebreton.png)
+
+
+---
+### History of the Cormack-Jolly-Seber (CJS) model
+
+--
+
+&lt;font size="5"&gt;S.T. Buckland (2016). A Conversation with Richard M. Cormack. Statistical Science 31: 142-150.&lt;/font&gt;
+
+--
+
+.pull-left[
+&lt;img src="img/cormack-left.png" width="80%" /&gt;
+]
+
+--
+
+.pull-right[
+&lt;img src="img/cormack-right.png" width="80%" /&gt;
+]
 
 
 ---
@@ -10930,21 +10941,12 @@ class: middle
 ### Biological inference
 
 .center.nogap[
-![](survival_files/figure-html/unnamed-chunk-18-1.svg)&lt;!-- --&gt;
+![](survival_files/figure-html/unnamed-chunk-19-1.svg)&lt;!-- --&gt;
 ]
 
 ??? 
 
 + Observations and states are closely related, but not entirely.
-
-
----
-class: middle
-### Biological inference
-
-.center.nogap[
-![](survival_files/figure-html/unnamed-chunk-19-1.svg)&lt;!-- --&gt;
-]
 
 
 ---
@@ -10967,14 +10969,11 @@ class: middle
 
 ---
 class: middle
-### The model construction: How we should think. 
+### Biological inference
 
 .center.nogap[
 ![](survival_files/figure-html/unnamed-chunk-22-1.svg)&lt;!-- --&gt;
 ]
-
-
-??? Generative model. States generate observations. 
 
 
 ---
@@ -10985,6 +10984,8 @@ class: middle
 ![](survival_files/figure-html/unnamed-chunk-23-1.svg)&lt;!-- --&gt;
 ]
 
+
+??? Generative model. States generate observations. 
 
 
 ---
@@ -11003,6 +11004,16 @@ class: middle
 
 .center.nogap[
 ![](survival_files/figure-html/unnamed-chunk-25-1.svg)&lt;!-- --&gt;
+]
+
+
+
+---
+class: middle
+### The model construction: How we should think. 
+
+.center.nogap[
+![](survival_files/figure-html/unnamed-chunk-26-1.svg)&lt;!-- --&gt;
 ]
 
 
