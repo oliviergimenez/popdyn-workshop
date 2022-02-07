@@ -192,11 +192,46 @@ library(patchwork)
 p1 / p2 / p3
 ```
 
+Thierry (survie, matrice), Thibaut (effectif), Coline (survie, matrice) et Valentin
+
 ???
 
 + We will be 3 teachers with you today and tomorrow.  
 + Time for introductions I guess. 
-+ Introduce helpers too.
+
+---
+### The team 
+
+```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE}
+library(cowplot)
+p1 <- ggdraw() + 
+  draw_image(here::here("slides","img","coline.jpg"), scale = 0.9) + 
+  draw_label(label = "Coline Canonne", hjust = -.7)
+
+p2 <- ggdraw() + 
+  draw_image(here::here("slides","img","thibaut.jpg"), scale = 0.9) + 
+  draw_label(label = "Thibaut Couturier", hjust = -.7)
+
+p3 <- ggdraw() + 
+  draw_image(here::here("slides","img","thierry.jpg"), scale = 0.85) + 
+  draw_label(label = "Thierry Chambert", hjust = -0.7)
+
+p4 <- ggdraw() + 
+  draw_image(here::here("slides","img","valentin.jpg"), scale = 0.85) + 
+  draw_label(label = "Valentin Lauret", hjust = -0.7)
+
+library(patchwork)
+
+p1 / p2 / p3 / p4
+```
+
+???
+
++ We will have the help of 4 young researchers with us today and tomorrow.  
++ Time for introductions I guess. 
+
+
+
 
 ---
 ## On our plate

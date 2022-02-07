@@ -29,7 +29,7 @@ knitr::include_graphics("img/intro2.png")
 ---
 
 ```{r, echo=FALSE, out.width="80%", fig.align='center'}
-knitr::include_graphics("img/Page3.png")
+knitr::include_graphics("img/Page2.png")
 ```
 
 
@@ -77,12 +77,17 @@ knitr::include_graphics("img/bearscat.png")
 Natural marks
 
 
+---
+class: center, middle
+background-size: cover
+
+## Data
 
 ---
 ### 3 capture occasions, 2 time intervals
 
 ---
-### Définir les paramètres
+### Parameters
 
 ```{r, echo=FALSE, out.width="60%", fig.cap="", fig.align='center'}
 knitr::include_graphics("img/cjs-param.png")
@@ -133,14 +138,11 @@ knitr::include_graphics("img/cjs6.png")
 knitr::include_graphics("img/cjs7.png")
 ```
 
-
 ---
-### Ecrire les probas
+class: center, middle
+background-size: cover
 
-```{r, echo=FALSE, out.width="60%", fig.cap="", fig.align='center'}
-knitr::include_graphics("img/prob.png")
-```
-
+## Probabilities
 
 ---
 
@@ -182,15 +184,17 @@ knitr::include_graphics("img/eh6.png")
 
 
 ---
-### Ecrire les probas
+### All probabilities
 
 ```{r, echo=FALSE, out.width="60%", fig.cap="", fig.align='center'}
 knitr::include_graphics("img/prob.png")
 ```
 
 ---
-### La vraisemblance
+class: center, middle
+background-size: cover
 
+## Model
 
 
 ---
@@ -199,6 +203,9 @@ knitr::include_graphics("img/prob.png")
 
 ---
 ### Likelihood
+
+
+---
 
 ```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE,fig.align='center'}
 # From Jay Rotella Univ of Montana 
