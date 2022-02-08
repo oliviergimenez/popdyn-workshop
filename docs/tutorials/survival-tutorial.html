@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Estimation of demographic parameters - tutorial</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Olivier Gimenez for the team" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides-theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, title-slide
+
+# Estimation of demographic parameters - tutorial
+### Olivier Gimenez for the team
+### last updated: 2022-02-08
+
+---
+
+
+
+
+class: center, middle
+background-size: cover
+
+## Live demo #1: A simple CJS model
+
+---
+## Load RMark package
+
+
+```r
+library(RMark)
+```
+
+```
+This is RMark 2.2.7
+ Documentation available at http://www.phidot.org/software/mark/rmark/RMarkDocumentation.zip
+```
+
+---
+## Read in data (1)
+
+Read in csv file:
+
+```r
+dipper_csv &lt;- read_csv("dat/dipper.csv")
+```
+
+```
+Rows: 294 Columns: 9
+```
+
+```
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (1): sex
+dbl (8): year_1981, year_1982, year_1983, year_1984, year_1985, year_1986, y...
+```
+
+```
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+---
+## Read in data (2)
+
+
+```r
+dipper_csv
+```
+
+```
+# A tibble: 294 × 9
+   year_1981 year_1982 year_1983 year_1984 year_1985 year_1986 year_1987 sex  
+       &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;
+ 1         1         1         1         1         1         1         0 M    
+ 2         1         1         1         1         1         0         0 F    
+ 3         1         1         1         1         0         0         0 M    
+ 4         1         1         1         1         0         0         0 F    
+ 5         1         1         0         1         1         1         0 F    
+ 6         1         1         0         0         0         0         0 M    
+ 7         1         1         0         0         0         0         0 M    
+ 8         1         1         0         0         0         0         0 M    
+ 9         1         1         0         0         0         0         0 M    
+10         1         1         0         0         0         0         0 F    
+# … with 284 more rows, and 1 more variable: wing_length &lt;dbl&gt;
+```
+
+---
+## Convert to Mark format (1)
+
+Build a data.frame with encounter histories, sex and (scaled) wing length:
+
+```r
+dipper &lt;- data.frame(ch = unite(dipper_csv %&gt;% select(year_1981:year_1987), 
+                                col = "ch", 
+                                sep = ""), 
+                     sex = dipper_csv$sex,
+                     wglength = scale(dipper_csv$wing_length))
+```
+
+---
+## Convert to Mark format (2)
+
+Inspect first lines:
+
+```r
+head(dipper)
+```
+
+```
+       ch sex   wglength
+1 1111110   M  0.7581335
+2 1111100   F -0.8671152
+3 1111000   M  0.5259551
+4 1111000   F -1.5636504
+5 1101110   F -1.3314720
+6 1100000   M  1.2224903
+```
+
+---
+## Fit model with parameters constant over time
+
+
+```r
+phi.p &lt;- mark(dipper)
+```
+
+```
+
+Output summary for CJS model
+Name : Phi(~1)p(~1) 
+
+Npar :  2
+-2lnL:  666.8377
+AICc :  670.866
+
+Beta
+                 estimate        se       lcl       ucl
+Phi:(Intercept) 0.2421484 0.1020127 0.0422035 0.4420933
+p:(Intercept)   2.2262661 0.3251093 1.5890518 2.8634804
+
+
+Real Parameter Phi
+ 
+         1        2        3        4        5        6
+1 0.560243 0.560243 0.560243 0.560243 0.560243 0.560243
+2          0.560243 0.560243 0.560243 0.560243 0.560243
+3                   0.560243 0.560243 0.560243 0.560243
+4                            0.560243 0.560243 0.560243
+5                                     0.560243 0.560243
+6                                              0.560243
+
+
+Real Parameter p
+ 
+          2         3         4         5         6         7
+1 0.9025835 0.9025835 0.9025835 0.9025835 0.9025835 0.9025835
+2           0.9025835 0.9025835 0.9025835 0.9025835 0.9025835
+3                     0.9025835 0.9025835 0.9025835 0.9025835
+4                               0.9025835 0.9025835 0.9025835
+5                                         0.9025835 0.9025835
+6                                                   0.9025835
+```
+
+---
+## Explore results (1)
+
+We get a list with many components:
+
+```r
+str(phi.p, max.level = 0)
+```
+
+```
+List of 25
+ - attr(*, "class")= chr [1:2] "mark" "CJS"
+```
+
+---
+## Explore results (2)
+
+What are the components of this list?
+
+```r
+names(phi.p)
+```
+
+```
+ [1] "data"             "model"            "title"            "model.name"      
+ [5] "links"            "mixtures"         "call"             "parameters"      
+ [9] "time.intervals"   "number.of.groups" "group.labels"     "nocc"            
+[13] "begin.time"       "covariates"       "fixed"            "design.matrix"   
+[17] "pims"             "design.data"      "strata.labels"    "mlogit.list"     
+[21] "profile.int"      "simplify"         "model.parameters" "results"         
+[25] "output"          
+```
+
+---
+## Explore results (3)
+
+Get parameters estimates:
+
+```r
+phi.p$results$real
+```
+
+```
+                 estimate        se       lcl       ucl fixed note
+Phi g1 c1 a0 t1 0.5602430 0.0251330 0.5105493 0.6087577           
+p g1 c1 a1 t2   0.9025835 0.0285857 0.8304826 0.9460113           
+```
+
+---
+class: center, middle
+background-size: cover
+
+## Variation around the CJS model
+
+---
+
+Processed data.frame:
+
+```r
+dipper.proc &lt;- process.data(data = dipper, 
+                            model = "CJS", 
+                            groups = ("sex"))
+```
+
+```
+Warning in process.data(data = dipper, model = "CJS", groups = ("sex")): 
+  sex  is not a factor variable. Coercing to factor.
+```
+
+---
+
+Design matrix:
+
+```r
+dipper.ddl &lt;- make.design.data(dipper.proc)
+```
+
+---
+
+
+```r
+phit &lt;- list(formula=~time)
+phi &lt;- list(formula=~1)
+pt &lt;- list(formula=~time)
+p &lt;- list(formula=~1)
+```
+
+---
+
+
+```r
+phit.pt &lt;- mark(dipper.proc,
+                dipper.ddl,
+                model.parameters = list(Phi = phit, p = pt))
+```
+
+---
+
+
+```
+
+Output summary for CJS model
+Name : Phi(~time)p(~time) 
+
+Npar :  12  (unadjusted=11)
+-2lnL:  656.9502
+AICc :  681.7057  (unadjusted=679.58789)
+
+Beta
+                  estimate          se           lcl          ucl
+Phi:(Intercept)  0.9354606   0.7685254    -0.5708491    2.4417704
+Phi:time2       -1.1982801   0.8706731    -2.9047994    0.5082393
+Phi:time3       -1.0228343   0.8049175    -2.6004726    0.5548039
+Phi:time4       -0.4198635   0.8091514    -2.0058003    1.1660733
+Phi:time5       -0.5361027   0.8031463    -2.1102695    1.0380641
+Phi:time6        0.2481330 605.0530100 -1185.6558000 1186.1521000
+p:(Intercept)    0.8292776   0.7837370    -0.7068469    2.3654021
+p:time3          1.6556299   1.2913815    -0.8754779    4.1867377
+p:time4          1.5220982   1.0729163    -0.5808177    3.6250142
+p:time5          1.3767468   0.9884829    -0.5606797    3.3141733
+p:time6          1.7950952   1.0688789    -0.2999075    3.8900979
+p:time7         -0.0147512 462.0911400  -905.7134100  905.6839000
+
+
+Real Parameter Phi
+Group:sexF 
+          1         2         3         4         5         6
+1 0.7181818 0.4346708 0.4781705 0.6261176 0.5985334 0.7655933
+2           0.4346708 0.4781705 0.6261176 0.5985334 0.7655933
+3                     0.4781705 0.6261176 0.5985334 0.7655933
+4                               0.6261176 0.5985334 0.7655933
+5                                         0.5985334 0.7655933
+6                                                   0.7655933
+
+Group:sexM 
+          1         2         3         4         5         6
+1 0.7181818 0.4346708 0.4781705 0.6261176 0.5985334 0.7655933
+2           0.4346708 0.4781705 0.6261176 0.5985334 0.7655933
+3                     0.4781705 0.6261176 0.5985334 0.7655933
+4                               0.6261176 0.5985334 0.7655933
+5                                         0.5985334 0.7655933
+6                                                   0.7655933
+
+
+Real Parameter p
+Group:sexF 
+          2        3         4         5         6         7
+1 0.6962022 0.923077 0.9130435 0.9007892 0.9324138 0.6930732
+2           0.923077 0.9130435 0.9007892 0.9324138 0.6930732
+3                    0.9130435 0.9007892 0.9324138 0.6930732
+4                              0.9007892 0.9324138 0.6930732
+5                                        0.9324138 0.6930732
+6                                                  0.6930732
+
+Group:sexM 
+          2        3         4         5         6         7
+1 0.6962022 0.923077 0.9130435 0.9007892 0.9324138 0.6930732
+2           0.923077 0.9130435 0.9007892 0.9324138 0.6930732
+3                    0.9130435 0.9007892 0.9324138 0.6930732
+4                              0.9007892 0.9324138 0.6930732
+5                                        0.9324138 0.6930732
+6                                                  0.6930732
+```
+
+---
+
+
+```r
+phit.pt$results$real
+```
+
+```
+                 estimate          se           lcl       ucl fixed note
+Phi gF c1 a0 t1 0.7181818   0.1555470  3.610409e-01 0.9199575           
+Phi gF c1 a1 t2 0.4346708   0.0688290  3.075047e-01 0.5710588           
+Phi gF c1 a2 t3 0.4781705   0.0597091  3.643838e-01 0.5942685           
+Phi gF c1 a3 t4 0.6261176   0.0592656  5.048460e-01 0.7333741           
+Phi gF c1 a4 t5 0.5985334   0.0560517  4.855434e-01 0.7019411           
+Phi gF c1 a5 t6 0.7655933 108.5828400 1.816823e-308 1.0000000           
+p gF c1 a1 t2   0.6962022   0.1657641  3.302959e-01 0.9141507           
+p gF c1 a2 t3   0.9230770   0.0728778  6.161495e-01 0.9889758           
+p gF c1 a3 t4   0.9130435   0.0581758  7.140650e-01 0.9778505           
+p gF c1 a4 t5   0.9007892   0.0538330  7.360176e-01 0.9672856           
+p gF c1 a5 t6   0.9324138   0.0458025  7.684925e-01 0.9828579           
+p gF c1 a6 t7   0.6930732  98.2973960 1.256113e-308 1.0000000           
+```
+
+---
+
+
+```r
+phit.p &lt;- mark(dipper.proc,
+                dipper.ddl,
+                model.parameters = list(Phi = phit, p = p))
+```
+
+---
+
+
+```
+
+Output summary for CJS model
+Name : Phi(~time)p(~1) 
+
+Npar :  7
+-2lnL:  659.7301
+AICc :  673.998
+
+Beta
+                  estimate        se        lcl       ucl
+Phi:(Intercept)  0.5143911 0.4767816 -0.4201009 1.4488831
+Phi:time2       -0.6981410 0.5537210 -1.7834342 0.3871523
+Phi:time3       -0.6009363 0.5301009 -1.6399342 0.4380615
+Phi:time4       -0.0061064 0.5334624 -1.0516927 1.0394799
+Phi:time5       -0.0757118 0.5276514 -1.1099086 0.9584851
+Phi:time6       -0.1780635 0.5265664 -1.2101337 0.8540066
+p:(Intercept)    2.2203957 0.3288850  1.5757810 2.8650104
+
+
+Real Parameter Phi
+Group:sexF 
+          1         2         3         4         5         6
+1 0.6258353 0.4541914 0.4783772 0.6244043 0.6079443 0.5832982
+2           0.4541914 0.4783772 0.6244043 0.6079443 0.5832982
+3                     0.4783772 0.6244043 0.6079443 0.5832982
+4                               0.6244043 0.6079443 0.5832982
+5                                         0.6079443 0.5832982
+6                                                   0.5832982
+
+Group:sexM 
+          1         2         3         4         5         6
+1 0.6258353 0.4541914 0.4783772 0.6244043 0.6079443 0.5832982
+2           0.4541914 0.4783772 0.6244043 0.6079443 0.5832982
+3                     0.4783772 0.6244043 0.6079443 0.5832982
+4                               0.6244043 0.6079443 0.5832982
+5                                         0.6079443 0.5832982
+6                                                   0.5832982
+
+
+Real Parameter p
+Group:sexF 
+          2         3         4         5         6         7
+1 0.9020662 0.9020662 0.9020662 0.9020662 0.9020662 0.9020662
+2           0.9020662 0.9020662 0.9020662 0.9020662 0.9020662
+3                     0.9020662 0.9020662 0.9020662 0.9020662
+4                               0.9020662 0.9020662 0.9020662
+5                                         0.9020662 0.9020662
+6                                                   0.9020662
+
+Group:sexM 
+          2         3         4         5         6         7
+1 0.9020662 0.9020662 0.9020662 0.9020662 0.9020662 0.9020662
+2           0.9020662 0.9020662 0.9020662 0.9020662 0.9020662
+3                     0.9020662 0.9020662 0.9020662 0.9020662
+4                               0.9020662 0.9020662 0.9020662
+5                                         0.9020662 0.9020662
+6                                                   0.9020662
+```
+
+---
+
+
+```r
+phi.pt &lt;- mark(dipper.proc,
+                dipper.ddl,
+                model.parameters = list(Phi = phi, p = pt))
+```
+
+---
+
+
+```
+
+Output summary for CJS model
+Name : Phi(~1)p(~time) 
+
+Npar :  7
+-2lnL:  664.4802
+AICc :  678.7481
+
+Beta
+                 estimate        se        lcl       ucl
+Phi:(Intercept) 0.2131640 0.1121135 -0.0065785 0.4329065
+p:(Intercept)   1.2955256 0.7437253 -0.1621760 2.7532273
+p:time3         0.8005268 1.1635504 -1.4800321 3.0810857
+p:time4         0.6512753 1.0018584 -1.3123671 2.6149178
+p:time5         0.9977256 0.9454502 -0.8553569 2.8508081
+p:time6         1.4658858 1.0304007 -0.5536995 3.4854711
+p:time7         1.9900710 3.0642048 -4.0157705 7.9959125
+
+
+Real Parameter Phi
+Group:sexF 
+          1         2         3         4         5         6
+1 0.5530901 0.5530901 0.5530901 0.5530901 0.5530901 0.5530901
+2           0.5530901 0.5530901 0.5530901 0.5530901 0.5530901
+3                     0.5530901 0.5530901 0.5530901 0.5530901
+4                               0.5530901 0.5530901 0.5530901
+5                                         0.5530901 0.5530901
+6                                                   0.5530901
+
+Group:sexM 
+          1         2         3         4         5         6
+1 0.5530901 0.5530901 0.5530901 0.5530901 0.5530901 0.5530901
+2           0.5530901 0.5530901 0.5530901 0.5530901 0.5530901
+3                     0.5530901 0.5530901 0.5530901 0.5530901
+4                               0.5530901 0.5530901 0.5530901
+5                                         0.5530901 0.5530901
+6                                                   0.5530901
+
+
+Real Parameter p
+Group:sexF 
+         2         3         4         5         6         7
+1 0.785081 0.8905189 0.8750974 0.9083166 0.9405546 0.9639314
+2          0.8905189 0.8750974 0.9083166 0.9405546 0.9639314
+3                    0.8750974 0.9083166 0.9405546 0.9639314
+4                              0.9083166 0.9405546 0.9639314
+5                                        0.9405546 0.9639314
+6                                                  0.9639314
+
+Group:sexM 
+         2         3         4         5         6         7
+1 0.785081 0.8905189 0.8750974 0.9083166 0.9405546 0.9639314
+2          0.8905189 0.8750974 0.9083166 0.9405546 0.9639314
+3                    0.8750974 0.9083166 0.9405546 0.9639314
+4                              0.9083166 0.9405546 0.9639314
+5                                        0.9405546 0.9639314
+6                                                  0.9639314
+```
+
+---
+
+
+```r
+collect.models()
+```
+
+```
+               model npar     AICc DeltaAICc      weight Deviance
+1       Phi(~1)p(~1)    2 670.8660  0.000000 0.811204642 58.15788
+3    Phi(~time)p(~1)    7 673.9980  3.132004 0.169443317 77.25297
+2    Phi(~1)p(~time)    7 678.7481  7.882084 0.015760053 82.00306
+4 Phi(~time)p(~time)   12 681.7057 10.839629 0.003591988 74.47310
+```
+
+---
+class: center, middle
+background-size: cover
+
+## Live demo #2: Group effect
+
+---
+
+
+```r
+phisex &lt;- list(formula=~sex)
+```
+
+---
+
+
+```r
+phisex.p &lt;- mark(dipper.proc,
+                dipper.ddl,
+                model.parameters = list(Phi = phisex, p = p))
+```
+
+```
+
+Output summary for CJS model
+Name : Phi(~sex)p(~1) 
+
+Npar :  3
+-2lnL:  666.6762
+AICc :  672.7331
+
+Beta
+                 estimate        se        lcl       ucl
+Phi:(Intercept) 0.2036417 0.1397215 -0.0702124 0.4774958
+Phi:sexM        0.0792853 0.1973411 -0.3075033 0.4660740
+p:(Intercept)   2.2274855 0.3251811  1.5901305 2.8648406
+
+
+Real Parameter Phi
+Group:sexF 
+          1         2         3         4         5         6
+1 0.5507352 0.5507352 0.5507352 0.5507352 0.5507352 0.5507352
+2           0.5507352 0.5507352 0.5507352 0.5507352 0.5507352
+3                     0.5507352 0.5507352 0.5507352 0.5507352
+4                               0.5507352 0.5507352 0.5507352
+5                                         0.5507352 0.5507352
+6                                                   0.5507352
+
+Group:sexM 
+          1         2         3         4         5         6
+1 0.5702637 0.5702637 0.5702637 0.5702637 0.5702637 0.5702637
+2           0.5702637 0.5702637 0.5702637 0.5702637 0.5702637
+3                     0.5702637 0.5702637 0.5702637 0.5702637
+4                               0.5702637 0.5702637 0.5702637
+5                                         0.5702637 0.5702637
+6                                                   0.5702637
+
+
+Real Parameter p
+Group:sexF 
+          2         3         4         5         6         7
+1 0.9026907 0.9026907 0.9026907 0.9026907 0.9026907 0.9026907
+2           0.9026907 0.9026907 0.9026907 0.9026907 0.9026907
+3                     0.9026907 0.9026907 0.9026907 0.9026907
+4                               0.9026907 0.9026907 0.9026907
+5                                         0.9026907 0.9026907
+6                                                   0.9026907
+
+Group:sexM 
+          2         3         4         5         6         7
+1 0.9026907 0.9026907 0.9026907 0.9026907 0.9026907 0.9026907
+2           0.9026907 0.9026907 0.9026907 0.9026907 0.9026907
+3                     0.9026907 0.9026907 0.9026907 0.9026907
+4                               0.9026907 0.9026907 0.9026907
+5                                         0.9026907 0.9026907
+6                                                   0.9026907
+```
+
+---
+
+
+```r
+phisex.p$results$beta
+```
+
+```
+                 estimate        se        lcl       ucl
+Phi:(Intercept) 0.2036417 0.1397215 -0.0702124 0.4774958
+Phi:sexM        0.0792853 0.1973411 -0.3075033 0.4660740
+p:(Intercept)   2.2274855 0.3251811  1.5901305 2.8648406
+```
+
+---
+
+
+```r
+logitphiF &lt;- phisex.p$results$beta[1,1]
+plogis(logitphiF)
+```
+
+```
+[1] 0.5507352
+```
+
+---
+
+
+```r
+logitphiM &lt;- logitphiF + phisex.p$results$beta[2,1]
+plogis(logitphiM)
+```
+
+```
+[1] 0.5702637
+```
+
+---
+
+
+```r
+phisex.p$results$real
+```
+
+```
+                 estimate        se       lcl       ucl fixed note
+Phi gF c1 a0 t1 0.5507352 0.0345707 0.4824541 0.6171564           
+Phi gM c1 a0 t1 0.5702637 0.0353294 0.5000911 0.6377218           
+p gF c1 a1 t2   0.9026907 0.0285640 0.8306345 0.9460808           
+```
+
+
+---
+
+
+```r
+collect.models()
+```
+
+```
+               model npar     AICc DeltaAICc      weight Deviance
+1       Phi(~1)p(~1)    2 670.8660  0.000000 0.615043503 58.15788
+3     Phi(~sex)p(~1)    3 672.7331  1.867043 0.241814615 84.19909
+4    Phi(~time)p(~1)    7 673.9980  3.132004 0.128469447 77.25297
+2    Phi(~1)p(~time)    7 678.7481  7.882084 0.011949042 82.00306
+5 Phi(~time)p(~time)   12 681.7057 10.839629 0.002723393 74.47310
+```
+
+---
+
+
+```r
+phisexpt &lt;- list(formula=~sex+time)
+```
+
+---
+
+
+```r
+phisexpt.p &lt;- mark(dipper.proc,
+                dipper.ddl,
+                model.parameters = list(Phi = phisexpt, p = p))
+```
+
+---
+
+
+```
+
+Output summary for CJS model
+Name : Phi(~sex + time)p(~1) 
+
+Npar :  8
+-2lnL:  659.6491
+AICc :  675.9945
+
+Beta
+                  estimate        se        lcl       ucl
+Phi:(Intercept)  0.4829422 0.4891844 -0.4758592 1.4417436
+Phi:sexM         0.0568891 0.1999508 -0.3350145 0.4487927
+Phi:time2       -0.6915568 0.5541019 -1.7775966 0.3944830
+Phi:time3       -0.5961726 0.5302478 -1.6354582 0.4431131
+Phi:time4       -0.0022597 0.5335351 -1.0479886 1.0434691
+Phi:time5       -0.0729156 0.5276451 -1.1071000 0.9612687
+Phi:time6       -0.1754302 0.5265104 -1.2073907 0.8565302
+p:(Intercept)    2.2215640 0.3289059  1.5769084 2.8662196
+
+
+Real Parameter Phi
+Group:sexF 
+          1         2         3        4         5         6
+1 0.6184424 0.4480347 0.4717226 0.617909 0.6010943 0.5762779
+2           0.4480347 0.4717226 0.617909 0.6010943 0.5762779
+3                     0.4717226 0.617909 0.6010943 0.5762779
+4                               0.617909 0.6010943 0.5762779
+5                                        0.6010943 0.5762779
+6                                                  0.5762779
+
+Group:sexM 
+          1         2         3         4         5         6
+1 0.6317732 0.4621412 0.4859184 0.6312473 0.6146535 0.5901054
+2           0.4621412 0.4859184 0.6312473 0.6146535 0.5901054
+3                     0.4859184 0.6312473 0.6146535 0.5901054
+4                               0.6312473 0.6146535 0.5901054
+5                                         0.6146535 0.5901054
+6                                                   0.5901054
+
+
+Real Parameter p
+Group:sexF 
+          2         3         4         5         6         7
+1 0.9021693 0.9021693 0.9021693 0.9021693 0.9021693 0.9021693
+2           0.9021693 0.9021693 0.9021693 0.9021693 0.9021693
+3                     0.9021693 0.9021693 0.9021693 0.9021693
+4                               0.9021693 0.9021693 0.9021693
+5                                         0.9021693 0.9021693
+6                                                   0.9021693
+
+Group:sexM 
+          2         3         4         5         6         7
+1 0.9021693 0.9021693 0.9021693 0.9021693 0.9021693 0.9021693
+2           0.9021693 0.9021693 0.9021693 0.9021693 0.9021693
+3                     0.9021693 0.9021693 0.9021693 0.9021693
+4                               0.9021693 0.9021693 0.9021693
+5                                         0.9021693 0.9021693
+6                                                   0.9021693
+```
+
+
+---
+
+
+```r
+collect.models()
+```
+
+```
+                  model npar     AICc DeltaAICc      weight Deviance
+1          Phi(~1)p(~1)    2 670.8660  0.000000 0.587240217 58.15788
+3        Phi(~sex)p(~1)    3 672.7331  1.867043 0.230883290 84.19909
+5       Phi(~time)p(~1)    7 673.9980  3.132004 0.122661934 77.25297
+4 Phi(~sex + time)p(~1)    8 675.9945  5.128435 0.045205397 77.17203
+2       Phi(~1)p(~time)    7 678.7481  7.882084 0.011408881 82.00306
+6    Phi(~time)p(~time)   12 681.7057 10.839629 0.002600281 74.47310
+```
+
+
+---
+class: center, middle
+background-size: cover
+
+## Live demo #2: Continuous individual covariate
+
+
+---
+
+
+```r
+phiwl &lt;- list(formula=~wglength)
+```
+
+---
+
+
+```r
+phiwl.p &lt;- mark(dipper.proc,
+                dipper.ddl,
+                model.parameters = list(Phi = phiwl, p = p))
+```
+
+---
+
+
+```
+
+Output summary for CJS model
+Name : Phi(~wglength)p(~1) 
+
+Npar :  3
+-2lnL:  666.8
+AICc :  672.8569
+
+Beta
+                  estimate        se        lcl       ucl
+Phi:(Intercept)  0.2418000 0.1020371  0.0418072 0.4417928
+Phi:wglength    -0.0182029 0.0938329 -0.2021154 0.1657095
+p:(Intercept)    2.2259841 0.3250863  1.5888150 2.8631532
+
+
+Real Parameter Phi
+Group:sexF 
+          1         2         3         4         5         6
+1 0.5601572 0.5601572 0.5601572 0.5601572 0.5601572 0.5601572
+2           0.5601572 0.5601572 0.5601572 0.5601572 0.5601572
+3                     0.5601572 0.5601572 0.5601572 0.5601572
+4                               0.5601572 0.5601572 0.5601572
+5                                         0.5601572 0.5601572
+6                                                   0.5601572
+
+Group:sexM 
+          1         2         3         4         5         6
+1 0.5601572 0.5601572 0.5601572 0.5601572 0.5601572 0.5601572
+2           0.5601572 0.5601572 0.5601572 0.5601572 0.5601572
+3                     0.5601572 0.5601572 0.5601572 0.5601572
+4                               0.5601572 0.5601572 0.5601572
+5                                         0.5601572 0.5601572
+6                                                   0.5601572
+
+
+Real Parameter p
+Group:sexF 
+          2         3         4         5         6         7
+1 0.9025587 0.9025587 0.9025587 0.9025587 0.9025587 0.9025587
+2           0.9025587 0.9025587 0.9025587 0.9025587 0.9025587
+3                     0.9025587 0.9025587 0.9025587 0.9025587
+4                               0.9025587 0.9025587 0.9025587
+5                                         0.9025587 0.9025587
+6                                                   0.9025587
+
+Group:sexM 
+          2         3         4         5         6         7
+1 0.9025587 0.9025587 0.9025587 0.9025587 0.9025587 0.9025587
+2           0.9025587 0.9025587 0.9025587 0.9025587 0.9025587
+3                     0.9025587 0.9025587 0.9025587 0.9025587
+4                               0.9025587 0.9025587 0.9025587
+5                                         0.9025587 0.9025587
+6                                                   0.9025587
+```
+
+---
+
+
+```
+                  estimate        se        lcl       ucl
+Phi:(Intercept)  0.2418000 0.1020371  0.0418072 0.4417928
+Phi:wglength    -0.0182029 0.0938329 -0.2021154 0.1657095
+p:(Intercept)    2.2259841 0.3250863  1.5888150 2.8631532
+```
+
+---
+
+
+```r
+scaled_wl &lt;- scale(dipper_csv$wing_length)
+grid_wl &lt;- seq(min(scaled_wl), max(scaled_wl), length = 100)
+logit_predicted_survival &lt;- phiwl.p$results$beta[1,1] + phiwl.p$results$beta[2,1] * grid_wl
+predicted_survival &lt;- plogis(logit_predicted_survival)
+df &lt;- data.frame(winglength = grid_wl,
+                 survival = predicted_survival)
+df %&gt;% 
+  ggplot() +
+  aes(x = winglength, y = survival) + 
+  geom_line()
+```
+
+---
+
+&lt;img src="survival-tutorial_files/figure-html/unnamed-chunk-37-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+```r
+dipper$wglengthsq &lt;- scale(dipper_csv$wing_length)^2
+dipper.proc &lt;- process.data(data = dipper, 
+                            model = "CJS", 
+                            groups = ("sex"))
+```
+
+```
+Warning in process.data(data = dipper, model = "CJS", groups = ("sex")): 
+  sex  is not a factor variable. Coercing to factor.
+```
+
+```r
+dipper.ddl &lt;- make.design.data(dipper.proc)
+```
+
+
+---
+
+
+```r
+phiwl2 &lt;- list(formula=~wglength + wglengthsq)
+```
+
+---
+
+
+```r
+phiwl2.p &lt;- mark(dipper.proc,
+                 dipper.ddl,
+                 model.parameters = list(Phi = phiwl2, p = p))
+```
+
+---
+
+
+```
+
+Output summary for CJS model
+Name : Phi(~wglength + wglengthsq)p(~1) 
+
+Npar :  4
+-2lnL:  663.6145
+AICc :  671.7095
+
+Beta
+                  estimate        se        lcl       ucl
+Phi:(Intercept)  0.0165960 0.1618091 -0.3005498 0.3337418
+Phi:wglength    -0.0255470 0.0955639 -0.2128522 0.1617581
+Phi:wglengthsq   0.2058717 0.1165635 -0.0225927 0.4343362
+p:(Intercept)    2.2313327 0.3250768  1.5941822 2.8684833
+
+
+Real Parameter Phi
+Group:sexF 
+          1         2         3         4         5         6
+1 0.5552158 0.5552158 0.5552158 0.5552158 0.5552158 0.5552158
+2           0.5552158 0.5552158 0.5552158 0.5552158 0.5552158
+3                     0.5552158 0.5552158 0.5552158 0.5552158
+4                               0.5552158 0.5552158 0.5552158
+5                                         0.5552158 0.5552158
+6                                                   0.5552158
+
+Group:sexM 
+          1         2         3         4         5         6
+1 0.5552158 0.5552158 0.5552158 0.5552158 0.5552158 0.5552158
+2           0.5552158 0.5552158 0.5552158 0.5552158 0.5552158
+3                     0.5552158 0.5552158 0.5552158 0.5552158
+4                               0.5552158 0.5552158 0.5552158
+5                                         0.5552158 0.5552158
+6                                                   0.5552158
+
+
+Real Parameter p
+Group:sexF 
+          2         3         4         5         6         7
+1 0.9030281 0.9030281 0.9030281 0.9030281 0.9030281 0.9030281
+2           0.9030281 0.9030281 0.9030281 0.9030281 0.9030281
+3                     0.9030281 0.9030281 0.9030281 0.9030281
+4                               0.9030281 0.9030281 0.9030281
+5                                         0.9030281 0.9030281
+6                                                   0.9030281
+
+Group:sexM 
+          2         3         4         5         6         7
+1 0.9030281 0.9030281 0.9030281 0.9030281 0.9030281 0.9030281
+2           0.9030281 0.9030281 0.9030281 0.9030281 0.9030281
+3                     0.9030281 0.9030281 0.9030281 0.9030281
+4                               0.9030281 0.9030281 0.9030281
+5                                         0.9030281 0.9030281
+6                                                   0.9030281
+```
+
+---
+
+
+```
+                  estimate        se        lcl       ucl
+Phi:(Intercept)  0.0165960 0.1618091 -0.3005498 0.3337418
+Phi:wglength    -0.0255470 0.0955639 -0.2128522 0.1617581
+Phi:wglengthsq   0.2058717 0.1165635 -0.0225927 0.4343362
+p:(Intercept)    2.2313327 0.3250768  1.5941822 2.8684833
+```
+
+---
+
+
+```r
+scaled_wl &lt;- scale(dipper_csv$wing_length)
+grid_wl &lt;- seq(min(scaled_wl), max(scaled_wl), length = 100)
+logit_predicted_survival &lt;- phiwl2.p$results$beta[1,1] + phiwl2.p$results$beta[2,1] * grid_wl + phiwl2.p$results$beta[2,1] * grid_wl^2
+predicted_survival &lt;- plogis(logit_predicted_survival)
+df &lt;- data.frame(winglength = grid_wl,
+                 survival = predicted_survival)
+df %&gt;% 
+  ggplot() +
+  aes(x = winglength, y = survival) + 
+  geom_line()
+```
+
+---
+
+&lt;img src="survival-tutorial_files/figure-html/unnamed-chunk-44-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+```r
+collect.models()
+```
+
+```
+                             model npar     AICc  DeltaAICc      weight
+1                     Phi(~1)p(~1)    2 670.8660  0.0000000 0.366521074
+8 Phi(~wglength + wglengthsq)p(~1)    4 671.7095  0.8434531 0.240406077
+3                   Phi(~sex)p(~1)    3 672.7331  1.8670432 0.144103876
+7              Phi(~wglength)p(~1)    3 672.8569  1.9908732 0.135452280
+5                  Phi(~time)p(~1)    7 673.9980  3.1320038 0.076558421
+4            Phi(~sex + time)p(~1)    8 675.9945  5.1284349 0.028214571
+2                  Phi(~1)p(~time)    7 678.7481  7.8820838 0.007120758
+6               Phi(~time)p(~time)   12 681.7057 10.8396291 0.001622943
+   Deviance
+1  58.15788
+8 663.61447
+3  84.19909
+7 666.80003
+5  77.25297
+4  77.17203
+2  82.00306
+6  74.47310
+```
+
+---
+class: center, middle
+background-size: cover
+
+## Live demo #3: Environmental covariate
+
+---
+
+
+```r
+head(dipper.ddl$Phi)
+```
+
+```
+  par.index model.index group cohort age time occ.cohort Cohort Age Time sex
+1         1           1     F      1   0    1          1      0   0    0   F
+2         2           2     F      1   1    2          1      0   1    1   F
+3         3           3     F      1   2    3          1      0   2    2   F
+4         4           4     F      1   3    4          1      0   3    3   F
+5         5           5     F      1   4    5          1      0   4    4   F
+6         6           6     F      1   5    6          1      0   5    5   F
+```
+
+---
+
+
+```r
+dipper.ddl$Phi$Flood &lt;- 0
+head(dipper.ddl$Phi)
+```
+
+```
+  par.index model.index group cohort age time occ.cohort Cohort Age Time sex
+1         1           1     F      1   0    1          1      0   0    0   F
+2         2           2     F      1   1    2          1      0   1    1   F
+3         3           3     F      1   2    3          1      0   2    2   F
+4         4           4     F      1   3    4          1      0   3    3   F
+5         5           5     F      1   4    5          1      0   4    4   F
+6         6           6     F      1   5    6          1      0   5    5   F
+  Flood
+1     0
+2     0
+3     0
+4     0
+5     0
+6     0
+```
+
+---
+
+
+```r
+dipper.ddl$Phi$Flood[dipper.ddl$Phi$time==2 | dipper.ddl$Phi$time==3] &lt;- 1
+head(dipper.ddl$Phi)
+```
+
+```
+  par.index model.index group cohort age time occ.cohort Cohort Age Time sex
+1         1           1     F      1   0    1          1      0   0    0   F
+2         2           2     F      1   1    2          1      0   1    1   F
+3         3           3     F      1   2    3          1      0   2    2   F
+4         4           4     F      1   3    4          1      0   3    3   F
+5         5           5     F      1   4    5          1      0   4    4   F
+6         6           6     F      1   5    6          1      0   5    5   F
+  Flood
+1     0
+2     1
+3     1
+4     0
+5     0
+6     0
+```
+
+---
+
+
+```r
+phiFlood &lt;- list(formula=~Flood)
+```
+
+---
+
+
+```r
+phiFlood.p &lt;- mark(dipper.proc,
+                   dipper.ddl,
+                   model.parameters = list(Phi = phiFlood, p = p))
+```
+
+---
+
+
+```r
+collect.models()
+```
+
+```
+                             model npar     AICc  DeltaAICc      weight
+1                     Phi(~1)p(~1)    2 670.8660  0.0000000 0.366521074
+8 Phi(~wglength + wglengthsq)p(~1)    4 671.7095  0.8434531 0.240406077
+3                   Phi(~sex)p(~1)    3 672.7331  1.8670432 0.144103876
+7              Phi(~wglength)p(~1)    3 672.8569  1.9908732 0.135452280
+5                  Phi(~time)p(~1)    7 673.9980  3.1320038 0.076558421
+4            Phi(~sex + time)p(~1)    8 675.9945  5.1284349 0.028214571
+2                  Phi(~1)p(~time)    7 678.7481  7.8820838 0.007120758
+6               Phi(~time)p(~time)   12 681.7057 10.8396291 0.001622943
+   Deviance
+1  58.15788
+8 663.61447
+3  84.19909
+7 666.80003
+5  77.25297
+4  77.17203
+2  82.00306
+6  74.47310
+```
+
+
+---
+class: center, middle
+background-size: cover
+
+## Live demo #4: Age in capture-recapture models
+
+---
+
+
+```r
+phi.age &lt;- list(formula =~ age)
+```
+
+---
+
+
+```r
+phiage.p &lt;- mark(dipper.proc,
+                      dipper.ddl,
+                      model.parameters = list(Phi = phi.age, 
+                                              p = p))
+```
+
+```
+Warning in type.convert.default(substr(out[x], regexpr("=", out[x]) + 1, :
+'as.is' should be specified by the caller; using TRUE
+```
+
+```
+Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
+'as.is' should be specified by the caller; using TRUE
+
+Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
+'as.is' should be specified by the caller; using TRUE
+
+Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
+'as.is' should be specified by the caller; using TRUE
+
+Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
+'as.is' should be specified by the caller; using TRUE
+
+Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
+'as.is' should be specified by the caller; using TRUE
+```
+
+```
+
+Note: only 6 parameters counted of 7 specified parameters
+```
+
+```
+AICc and parameter count have been adjusted upward
+```
+
+```
+Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
+nul s’y trouve
+```
+
+```
+Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
+nul s’y trouve
+
+Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
+nul s’y trouve
+
+Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
+nul s’y trouve
+
+Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
+nul s’y trouve
+
+Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
+nul s’y trouve
+```
+
+```
+
+Output summary for CJS model
+Name : Phi(~age)p(~1) 
+
+Npar :  7  (unadjusted=6)
+-2lnL:  662.8206
+AICc :  677.0885  (unadjusted=675.02106)
+
+Beta
+                   estimate           se           lcl          ucl
+Phi:(Intercept)   0.2052267    0.1393353 -6.787040e-02 4.783239e-01
+Phi:age1          0.0214786    0.2537612 -4.758934e-01 5.188506e-01
+Phi:age2          0.3587524    0.3690996 -3.646829e-01 1.082188e+00
+Phi:age3         -0.0576618    0.5381905 -1.112515e+00 9.971916e-01
+Phi:age4          0.2395443    0.8866439 -1.498278e+00 1.977366e+00
+Phi:age5        -19.0217380 9168.8895000 -1.799004e+04 1.795200e+04
+p:(Intercept)     2.2552371    0.3288447  1.610702e+00 2.899773e+00
+
+
+Real Parameter Phi
+Group:sexF 
+          1         2         3         4         5            6
+1 0.5511274 0.5564348 0.6373727 0.5368244 0.6093953 6.731209e-09
+2           0.5511274 0.5564348 0.6373727 0.5368244 6.093953e-01
+3                     0.5511274 0.5564348 0.6373727 5.368244e-01
+4                               0.5511274 0.5564348 6.373727e-01
+5                                         0.5511274 5.564348e-01
+6                                                   5.511274e-01
+
+Group:sexM 
+          1         2         3         4         5            6
+1 0.5511274 0.5564348 0.6373727 0.5368244 0.6093953 6.731209e-09
+2           0.5511274 0.5564348 0.6373727 0.5368244 6.093953e-01
+3                     0.5511274 0.5564348 0.6373727 5.368244e-01
+4                               0.5511274 0.5564348 6.373727e-01
+5                                         0.5511274 5.564348e-01
+6                                                   5.511274e-01
+
+
+Real Parameter p
+Group:sexF 
+          2         3         4         5         6         7
+1 0.9051013 0.9051013 0.9051013 0.9051013 0.9051013 0.9051013
+2           0.9051013 0.9051013 0.9051013 0.9051013 0.9051013
+3                     0.9051013 0.9051013 0.9051013 0.9051013
+4                               0.9051013 0.9051013 0.9051013
+5                                         0.9051013 0.9051013
+6                                                   0.9051013
+
+Group:sexM 
+          2         3         4         5         6         7
+1 0.9051013 0.9051013 0.9051013 0.9051013 0.9051013 0.9051013
+2           0.9051013 0.9051013 0.9051013 0.9051013 0.9051013
+3                     0.9051013 0.9051013 0.9051013 0.9051013
+4                               0.9051013 0.9051013 0.9051013
+5                                         0.9051013 0.9051013
+6                                                   0.9051013
+```
+
+---
+
+
+```r
+phiage.p$results$real
+```
+
+```
+                    estimate           se         lcl          ucl fixed note
+Phi gF c1 a0 t1 5.511274e-01 3.446960e-02  0.48303890 0.6173520000           
+Phi gF c1 a1 t2 5.564348e-01 5.026570e-02  0.45699080 0.6515533000           
+Phi gF c1 a2 t3 6.373727e-01 7.948080e-02  0.47252080 0.7752133000           
+Phi gF c1 a3 t4 5.368244e-01 1.293735e-01  0.29478530 0.7626719000           
+Phi gF c1 a4 t5 6.093953e-01 2.089613e-01  0.21825740 0.8970984000           
+Phi gF c1 a5 t6 6.731209e-09 6.171771e-05 -0.00012096 0.0001209735           
+p gF c1 a1 t2   9.051013e-01 2.824540e-02  0.83350880 0.9478352000           
+```
+
+---
+
+Create 0, 1+ age variable
+
+```r
+dipper.ddl &lt;- add.design.data(dipper.proc,
+                              dipper.ddl, # add 2 age-class structure to design matrix
+                              "Phi",
+                              type = "age",
+                              bins = c(0, 1, 7),
+                              name = "ageclass",
+                              right = FALSE)
+```
+
+---
+
+
+```r
+phi.age2 &lt;- list(formula=~ageclass) # age effect on survival
+```
+
+---
+
+
+```r
+phiage2.p &lt;- mark(dipper.proc,
+                  dipper.ddl,
+                  model.parameters = list(Phi = phi.age2, p = p))
+```
+
+```
+Warning in type.convert.default(substr(out[x], regexpr("=", out[x]) + 1, :
+'as.is' should be specified by the caller; using TRUE
+```
+
+```
+Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
+'as.is' should be specified by the caller; using TRUE
+
+Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
+'as.is' should be specified by the caller; using TRUE
+
+Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
+'as.is' should be specified by the caller; using TRUE
+
+Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
+'as.is' should be specified by the caller; using TRUE
+
+Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
+'as.is' should be specified by the caller; using TRUE
+```
+
+```
+Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
+nul s’y trouve
+
+Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
+nul s’y trouve
+
+Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
+nul s’y trouve
+
+Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
+nul s’y trouve
+
+Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
+nul s’y trouve
+
+Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
+nul s’y trouve
+```
+
+```
+
+Output summary for CJS model
+Name : Phi(~ageclass)p(~1) 
+
+Npar :  3
+-2lnL:  666.6804
+AICc :  672.7373
+
+Beta
+                   estimate        se        lcl       ucl
+Phi:(Intercept)   0.2041821 0.1390053 -0.0682682 0.4766325
+Phi:ageclass[1,7] 0.0841953 0.2119782 -0.3312820 0.4996726
+p:(Intercept)     2.2456919 0.3285355  1.6017623 2.8896216
+
+
+Real Parameter Phi
+Group:sexF 
+          1         2         3         4         5         6
+1 0.5508689 0.5715989 0.5715989 0.5715989 0.5715989 0.5715989
+2           0.5508689 0.5715989 0.5715989 0.5715989 0.5715989
+3                     0.5508689 0.5715989 0.5715989 0.5715989
+4                               0.5508689 0.5715989 0.5715989
+5                                         0.5508689 0.5715989
+6                                                   0.5508689
+
+Group:sexM 
+          1         2         3         4         5         6
+1 0.5508689 0.5715989 0.5715989 0.5715989 0.5715989 0.5715989
+2           0.5508689 0.5715989 0.5715989 0.5715989 0.5715989
+3                     0.5508689 0.5715989 0.5715989 0.5715989
+4                               0.5508689 0.5715989 0.5715989
+5                                         0.5508689 0.5715989
+6                                                   0.5508689
+
+
+Real Parameter p
+Group:sexF 
+          2         3         4         5         6         7
+1 0.9042783 0.9042783 0.9042783 0.9042783 0.9042783 0.9042783
+2           0.9042783 0.9042783 0.9042783 0.9042783 0.9042783
+3                     0.9042783 0.9042783 0.9042783 0.9042783
+4                               0.9042783 0.9042783 0.9042783
+5                                         0.9042783 0.9042783
+6                                                   0.9042783
+
+Group:sexM 
+          2         3         4         5         6         7
+1 0.9042783 0.9042783 0.9042783 0.9042783 0.9042783 0.9042783
+2           0.9042783 0.9042783 0.9042783 0.9042783 0.9042783
+3                     0.9042783 0.9042783 0.9042783 0.9042783
+4                               0.9042783 0.9042783 0.9042783
+5                                         0.9042783 0.9042783
+6                                                   0.9042783
+```
+
+---
+
+
+```r
+phiage2.p$results$real
+```
+
+```
+                 estimate        se       lcl       ucl fixed note
+Phi gF c1 a0 t1 0.5508689 0.0343916 0.4829396 0.6169524           
+Phi gF c1 a1 t2 0.5715989 0.0380167 0.4960218 0.6439771           
+p gF c1 a1 t2   0.9042783 0.0284377 0.8322646 0.9473310           
+```
+
+
+---
+class: center, middle
+background-size: cover
+
+## Live demo #5: Multisite capture-recapture models
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"slideNumberFormat": ""
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

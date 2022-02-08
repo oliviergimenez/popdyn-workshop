@@ -1,0 +1,674 @@
+#' ---
+#' title: "TP 4 analyse de survie avec données sur animaux marqués"
+#' output:
+#'   pdf_document: default
+#'   html_document: default
+#' ---
+#' 
+## ----setup, include=FALSE-----------------------
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+
+#' 
+#' # Partie 1 : Estimation de la survie, exemple du cincle plongeur
+#' 
+#' ## Premiers modèles avec des effets temps
+#' 
+#' On charge les packages `RMark` et `R2ucare`, ce dernier servant à tester les hypothèses des modèles de capture-recapture en population ouverte. 
+## -----------------------------------------------
+library(RMark)
+library(R2ucare)
+
+#' 
+#' Les données.
+## -----------------------------------------------
+cincle <- convert.inp("dat/cincle-plongeur.inp")
+
+#' 
+#' On jette un coup d'oeil.
+## -----------------------------------------------
+head(cincle)
+
+#' 
+#' On prépare les données. 
+## -----------------------------------------------
+cincle.proc <- process.data(cincle, 
+                              begin.time = 1, 
+                              model = "CJS")
+cincle.ddl <- make.design.data(cincle.proc)
+
+#' 
+#' On inspecte la structure pour la survie.
+## -----------------------------------------------
+head(cincle.ddl$Phi)
+
+#' 
+#' Et la détection.
+## -----------------------------------------------
+head(cincle.ddl$p)
+
+#' 
+#' On spécifie les effets sur les paramètres.
+## -----------------------------------------------
+phit <- list(formula=~time)
+phi <- list(formula=~1)
+pt <- list(formula=~time)
+p <- list(formula=~1)
+
+#' 
+#' On ajuste le modèle Cormack-Jolly-Seber (CJS). 
+## -----------------------------------------------
+cjs.cincle <- mark(cincle.proc,
+                   cincle.ddl,
+                   model.parameters = list(Phi = phit, p = pt))
+
+#' 
+#' Inspectons les résultats. 
+## -----------------------------------------------
+cjs.cincle$results$real
+
+#' 
+#' Les PIM pour CJS.
+## -----------------------------------------------
+PIMS(cjs.cincle,"Phi")
+
+#' 
+#' On fait tourner le modèle avec paramètres constants. 
+## -----------------------------------------------
+phip.cincle <- mark(cincle.proc,
+                    cincle.ddl,
+                    model.parameters = list(Phi = phi, p = p))
+
+#' 
+#' Les résultats.
+## -----------------------------------------------
+phip.cincle$results$real
+
+#' 
+#' Les PIM.
+## -----------------------------------------------
+PIMS(phip.cincle,"Phi")
+PIMS(phip.cincle,"p")
+
+#' 
+#' On considère deux autres modèles, avec l'effet temps sur la survie mais pas sur la détection, et inversément. 
+## -----------------------------------------------
+phitp.cincle <- mark(cincle.proc,
+                    cincle.ddl,
+                    model.parameters = list(Phi = phit, p = p))
+phipt.cincle <- mark(cincle.proc,
+                    cincle.ddl,
+                    model.parameters = list(Phi = phi, p = pt))
+
+#' 
+#' On affiche la sélection de modèles.
+## -----------------------------------------------
+collect.models()
+
+#' 
+#' On a 7 occasions de capture, donc 6 paramètres de survie. La première année de capture dans le jeu de données est 1981, alors on peut estimer la survie entre 1981 et 1982, entre 1982 et 1983 etc. Une inondation eut lieu en 1982 et 1983, avec un effet possible sur la survie. On va comparer les modèles précédents à un modèle incorporant un effet inondation sur les survies sur les intervalles (1982-1983) et (1983-1984). 
+#' 
+#' Jetons un coup d'oeil à la structure sur la survie.
+## -----------------------------------------------
+cincle.ddl$Phi
+
+#' 
+#' On ajoute un effet inondation sur la survie.
+## -----------------------------------------------
+cincle.ddl$Phi$Inondation <- 0
+cincle.ddl$Phi$Inondation[cincle.ddl$Phi$time==2 | cincle.ddl$Phi$time==3] <- 1
+
+#' 
+#' On définit l'effet en question, et on fait tourner le modèle correspondant.
+## -----------------------------------------------
+phiinondation <- list(formula=~Inondation)
+phiinondationp.cincle <- mark(cincle.proc,
+                              cincle.ddl,
+                              model.parameters = list(Phi = phiinondation, 
+                                                      p = p))
+
+
+#' 
+#' On compare les modèles avec l'AIC.
+## -----------------------------------------------
+collect.models()
+
+#' 
+#' ## Pour aller plus loin avec les effets de l'environnement
+#' 
+#' On ajoute les covariables environnementales. 
+## -----------------------------------------------
+cov.cincle <- readxl::read_xls("dat/covariables-environnementales-cincle-plongeur.xls")
+cov.cincle
+
+#' 
+#' On simplifie le nom des colonnes.
+## -----------------------------------------------
+cov.cincle <- janitor::clean_names(cov.cincle)
+cov.cincle
+
+#' 
+#' Pour rappel, on a 7 occasions de capture, donc 6 paramètres de survie. Si on suppose que la première année de capture dans le jeu de données cincle est 1981, alors on peut estimer la survie entre 1981 et 1982, à laquelle on applique la valeur de covariable en 1981, etc... jusqu'à la survie entre 1986 et 1987 à laquelle s'applique la valeur de covariable de 1986, donc on n'a pas besoin de la dernière ligne dans le jeu de données. 
+## -----------------------------------------------
+cov.cincle <- cov.cincle[!(cov.cincle$annee == "1987"),]
+
+#' 
+#' Jetons un coup d'oeil à la structure sur la survie.
+## -----------------------------------------------
+cincle.ddl$Phi
+
+#' 
+#' On crée une survie qui dépend de la température.
+## -----------------------------------------------
+cincle.ddl$Phi$temp <- 0 # nv var mise a 0
+for (i in 1:nrow(cov.cincle)){
+   cincle.ddl$Phi$temp[cincle.ddl$Phi$time == i] <- as.numeric(cov.cincle[i, "temperature_hiver_c"])
+}
+
+#' 
+#' On vérifie que ça a marché.
+## -----------------------------------------------
+cincle.ddl$Phi
+
+#' 
+#' On définit les effets.
+## -----------------------------------------------
+phi.temp <- list(formula =~ temp)
+
+#' 
+#' On ajuste le modèle.
+## -----------------------------------------------
+phicov.cincle <- mark(cincle.proc,
+                      cincle.ddl,
+                      model.parameters = list(Phi = phi.temp, p = p))
+
+#' 
+#' La sélection de modèles.
+## -----------------------------------------------
+collect.models()
+
+#' 
+#' Les paramètres estimés.
+## -----------------------------------------------
+phicov.cincle$results$real
+
+#' 
+#' Visualisons la relation survie vs. température. On créé d'abord une grille pour la température 
+## -----------------------------------------------
+min.temp <- min(cov.cincle$temperature_hiver_c)
+max.temp <- max(cov.cincle$temperature_hiver_c)
+temp.values <- seq(from = min.temp, to = max.temp, length = 50)
+
+#' 
+#' On fait la prédiction. Pour cela il nous faut l'ordonnée à l'origine (intercept) et la pente (slope) de l'effet température sur la survie. 
+## -----------------------------------------------
+coef(phicov.cincle)
+
+#' 
+#' On applique la relation aux valeurs de la grille, et on ramène les valeurs obtenues de survie sur l'échelle (0,1).
+## -----------------------------------------------
+phi.pred <- plogis(coef(phicov.cincle)[1,1] + coef(phicov.cincle)[2,1] * temp.values)
+
+#' 
+#' On visualise.
+## -----------------------------------------------
+plot(x = temp.values, 
+     y = phi.pred, 
+     lwd = 3, 
+     type = 'l', 
+     xlab = "température", 
+     ylab = "probabilité de survie estimée")
+
+#' 
+#' On représente maintenant les survies estimées pour les 4 meilleurs modèles, le modèle avec effet de l'inondation, de la température, le modèle avec survie constante et le modèle avec effet du temps sur la survie (la prob de recapture est constante dans les 4 modèles).
+## -----------------------------------------------
+plot(x = 1981:1986, 
+     y = phicov.cincle$results$real[1:6, 1],
+     ylim = c(0,1),
+     xlab = "intervalle de temps (année, année + 1)",
+     ylab = "prob survie estimée",
+     pch = 1)
+points(x = 1981:1986 + 0.1, 
+     y = phitp.cincle$results$real[1:6, 1],
+     pch = 2)
+points(x = 1981:1986 - 0.1, 
+     y = c(phiinondationp.cincle$results$real[1,1], # pas inondation
+           phiinondationp.cincle$results$real[2,1], # inondation
+           phiinondationp.cincle$results$real[2,1], # inondation
+           phiinondationp.cincle$results$real[1,1], # pas inondation
+           phiinondationp.cincle$results$real[1,1], # pas inondation
+           phiinondationp.cincle$results$real[1,1]), # pas inondation
+     pch = 3)
+legend("bottomright", 
+       legend = c("phi(temperature)",
+                  "phi(temps)",
+                  "phi(inondation)"),
+       pch = c(1,2,3))
+
+#' 
+#' 
+#' ## Effet de l'âge
+#' 
+#' On définit l'effet âge (temps écoulé depuis la première capture). 
+## -----------------------------------------------
+phi.age <- list(formula =~ age)
+
+#' 
+#' On ajuste le modèle.
+## -----------------------------------------------
+phiage.cincle <- mark(cincle.proc,
+                      cincle.ddl,
+                      model.parameters = list(Phi = phi.age, 
+                                              p = p))
+
+#' 
+#' La sélection de modèles.
+## -----------------------------------------------
+collect.models()
+
+#' 
+#' Les paramètres estimés.
+## -----------------------------------------------
+phiage.cincle$results$real
+
+#' 
+#' Ici l'effet d'âge est plein, autrement dit on estime une probabilité de survie pour chaque classe d'âge. On peut contraindre cet effet à un effet jeune (survie qui dure une année de 0 à 1 an) vs. adulte (la même survie pour les individus au-delà d'1 an).
+#' 
+#' Pour ce faire, on ajoute une variable ageclass. 
+## -----------------------------------------------
+# create 0, 1+ age variable
+cincle.ddl <- add.design.data(cincle.proc,
+                              cincle.ddl, 
+                             "Phi",
+                             type = "age",
+                             bins = c(0, 1, 7), # 2 classes d'âge
+                             name = "ageclass",
+                             right = FALSE)
+
+#' 
+#' Jetons un coup d'oeil.
+## -----------------------------------------------
+cincle.ddl$Phi
+
+#' 
+#' On spécifie une survie qui dépend de l'âge.
+## -----------------------------------------------
+phi.age2 <- list(formula=~ageclass) # age effect on survival
+
+#' 
+#' On ajuste le modèle avec survie âge-dépendante et prob de recapture constante.
+## -----------------------------------------------
+phiage2.cincle <- mark(cincle.proc,
+                        cincle.ddl,
+                        model.parameters = list(Phi = phi.age2, p = p))
+phiage2.cincle$results$real
+
+#' 
+#' Que donne la sélection de modèles?
+## -----------------------------------------------
+collect.models()
+
+#' 
+#' 
+#' # Partie 2 : Estimation de la survie, exemple du martinet noir
+#' 
+#' On remet les compteurs à 0.
+## -----------------------------------------------
+rm(list = ls())
+
+#' 
+#' 
+#' Les données.
+## -----------------------------------------------
+martinet <- convert.inp("dat/martinet-noir.inp",
+                        group.df = data.frame(colonie = c("nord", "sud")), 
+                        covariates = NULL)
+head(martinet)
+
+#' 
+#' On prépare les données.
+## -----------------------------------------------
+martinet.proc <- process.data(martinet, 
+                              begin.time = 1, 
+                              model = "CJS", 
+                              groups = ("colonie"))
+martinet.ddl <- make.design.data(martinet.proc)
+
+#' 
+#' On spécifie les effets sur les paramètres.
+## -----------------------------------------------
+phit <- list(formula=~time)
+phi <- list(formula=~1)
+pt <- list(formula=~time)
+p <- list(formula=~1)
+
+#' 
+#' Fait tourner modèle CJS, et examine les paramètres estimés. 
+## -----------------------------------------------
+cjs.martinet <- mark(martinet.proc,
+                      martinet.ddl,
+                      model.parameters = list(Phi = phit, p = pt))
+cjs.martinet$results$real
+
+#' 
+#' PIM pour CJS.
+## -----------------------------------------------
+PIMS(cjs.martinet,"Phi")
+
+#' 
+#' Fait tourner modèle avec param constants. 
+## -----------------------------------------------
+phip.martinet <- mark(martinet.proc,
+                      martinet.ddl,
+                      model.parameters = list(Phi = phi, p = p))
+phip.martinet$results$real
+
+#' 
+#' PIM pour CJS.
+## -----------------------------------------------
+PIMS(phip.martinet,"Phi")
+
+#' 
+#' Modèle avec 2 classes d'âge sur la survie.
+## -----------------------------------------------
+# create 0, 1+ age variable
+martinet.ddl <- add.design.data(martinet.proc,
+                                martinet.ddl, # add 2 age-class structure to design matrix
+                             "Phi",
+                             type = "age",
+                             bins = c(0, 1, 7),
+                             name = "ageclass",
+                             right = FALSE)
+
+#' 
+#' On spécifie une survie qui dépend de l'âge.
+## -----------------------------------------------
+phi.age <- list(formula=~ageclass) # age effect on survival
+
+#' 
+#' On ajuste le modèle avec survie âge-dépendante et prob de recapture constante.
+## -----------------------------------------------
+CJSage.martinet <- mark(martinet.proc,
+                        martinet.ddl,
+                        model.parameters = list(Phi = phi.age, p = p))
+CJSage.martinet$results$real
+
+#' 
+#' PIM pour CJS avec âge.
+## -----------------------------------------------
+PIMS(CJSage.martinet,"Phi")
+
+#' 
+#' Maintenant on passe au gros modèle ${phi(a.g), p(g.t)}$, avec interaction âge et groupe sur la survie, et groupe et temps sur la recapture. 
+#' 
+#' On définit les paramètres.
+## -----------------------------------------------
+phi.a.g <- list(formula=~ageclass*colonie) # age and colonie effect on survival
+p.g.t <- list(formula=~colonie*time) # age and colonie effect on survival
+
+#' 
+#' On ajuste le modèle. 
+## -----------------------------------------------
+gros.mod <- mark(martinet.proc,
+                        martinet.ddl,
+                        model.parameters = list(Phi = phi.a.g, p = p.g.t))
+gros.mod$results$real
+
+#' 
+#' PIM pour survie et détection dans le gros modèle.
+## -----------------------------------------------
+PIMS(gros.mod,"Phi")
+PIMS(gros.mod,"p")
+
+#' 
+#' La sélection de modèles.
+## -----------------------------------------------
+collect.models()
+
+#' 
+#' 
+#' # Partie 3 : Hypothèses des modèles de capture-recapture, hétérogénéité et tests d'ajustement
+#' 
+#' Le but de cet exercice est de se familiariser avec les données de capture-recapture en population ouverte, d’ajuster par maximum de vraisemblance quelques modèles simples, de comparer ces modèles entre eux pour déterminer celui qui fournit la meilleure description des données et de tester la qualité de l’ajustement de ces modèles.
+#' 
+#' ## Question 1
+#' 
+#' On simule 2 jeux de données de capture-recapture avec les paramètres de survie ($\phi$) et recapture ($p$) suivants :
+#' * jeu de données G1 : $\phi = 0.8$, $p = 0.8$ ;
+#' * jeu de données G2 : $\phi = 0.8$, $p = 0.2$.
+#' 
+## -----------------------------------------------
+simul <- function(nind, nocc, phi, p){
+   dat <- matrix(0, nrow = nind, ncol = nocc)
+   dat[1:nind, 1] <- 1 # a single cohort
+   for (i in 1:nind){
+      # processus survie
+      for (j in 2:nocc){
+         alive.or.dead <- rbinom(1, 1, phi)
+         # conditional on being alive at t, alive or dead at t+1
+         dat[i, j] <- ifelse(dat[i, j - 1] == 0, 0, alive.or.dead) 
+      }
+      # processus detection
+      for (j in 2:nocc){
+         detected.or.not <- rbinom(1, 1, p)
+         # conditional on being alive at t, detected or not at t
+         dat[i, j] <- ifelse(dat[i, j] == 0, 0, detected.or.not) 
+      }
+   }
+data.frame(y = dat)   
+}
+
+#' 
+#' 
+## -----------------------------------------------
+set.seed(2021)
+nind <- 500
+nocc <- 8
+G1 <- simul(nind = nind, nocc = nocc, phi = 0.8, p = 0.8)
+G2 <- simul(nind = nind, nocc = nocc, phi = 0.8, p = 0.2)
+
+#' 
+#' Ajuster séparément à G1 et G2 le modèle ${\Phi(t), p(t)}$ appelé aussi le modèle de Cormack-Jolly-Seber (CJS). Que pouvez-vous vous dire sur l’estimation des paramètres ?
+#' 
+## -----------------------------------------------
+G1marked <- data.frame(ch = tidyr::unite(G1, col = "ch", sep = ""), 
+                       n = rep(1, nrow(G1)))
+G2marked <- data.frame(ch = tidyr::unite(G2, col = "ch", sep = ""), 
+                       n = rep(1, nrow(G2)))
+
+#' 
+#' On prépare les données. 
+## -----------------------------------------------
+G1.proc <- process.data(G1marked)
+G2.proc <- process.data(G2marked)
+G1.ddl <- make.design.data(G1.proc)
+G2.ddl <- make.design.data(G2.proc)
+
+#' 
+#' On spécifie les paramètres. 
+## -----------------------------------------------
+phi <- list(formula=~1)  
+p <- list(formula=~1)
+
+#' 
+#' On ajuste le modèle avec paramètres constants aux données G1.  
+## -----------------------------------------------
+cjs.G1 <- mark(G1.proc,
+              G1.ddl,
+              model.parameters = list(Phi = phi, p = p))
+cjs.G1$results$real
+
+#' 
+#' Puis aux données G2. 
+## -----------------------------------------------
+cjs.G2 <- mark(G2.proc,
+              G2.ddl,
+              model.parameters = list(Phi = phi, p = p))
+cjs.G2$results$real
+
+#' 
+#' ## Question 2
+#' 
+#' a) Grouper les jeux de données G1 et G2 pour obtenir le jeu de données G1+G2.
+#' 
+## -----------------------------------------------
+G1plusG2 <- rbind(G1, G2)
+
+#' 
+#' b) Ajuster le modèle CJS à G1+G2. Que remarquez-vous concernant l’estimation des paramètres ?
+#' 
+## -----------------------------------------------
+G1G2marked <- data.frame(ch = tidyr::unite(G1plusG2, col = "ch", sep = ""),
+                         n = rep(1, nrow(G1plusG2)))
+G1G2.proc <- process.data(G1G2marked)
+G1G2.ddl <- make.design.data(G1G2.proc)
+cjs.G1G2 <- mark(G1G2.proc,
+                G1G2.ddl,
+                model.parameters = list(Phi = phi, p = p))
+cjs.G1G2$results$real
+
+#' 
+#' Modèle avec survie qui dépend du temps.
+## -----------------------------------------------
+phi.time <- list(formula=~time)  
+cjs.G1G2 <- mark(G1G2.proc,
+                G1G2.ddl,
+                model.parameters = list(Phi = phi.time, p = p))
+cjs.G1G2$results$real
+
+#' 
+#' ## Question 3
+#' 
+#' A l’aide du package `R2ucare`, tester la qualité de l’ajustement du modèle CJS aux données G1, G2 et G1+G2. Quelles sont vos conclusions ?
+#' 
+#' G1
+## -----------------------------------------------
+overall_CJS(G1, rep(1,nrow(G1)))
+
+#' 
+#' G2
+## -----------------------------------------------
+overall_CJS(G2, rep(1,nrow(G2)))
+
+#' 
+#' G1G2
+## -----------------------------------------------
+overall_CJS(G1plusG2, rep(1,nrow(G1plusG2)))
+
+#' 
+#' ## Question 4
+#' 
+#' Il peut y avoir des animaux en transit sur la zone d’étude.
+#' 
+#' a) Pour créer artificiellement une telle situation, rajouter 50 individus en transit (i.e. possédant une histoire avec un seul événement de capture) à chaque date dans G1. 
+#' 
+## -----------------------------------------------
+G1transit <- as.matrix(G1)
+ntransients <- 50
+for (j in 1:nocc){
+   zeros <- matrix(0, nrow = ntransients, ncol = nocc)
+   zeros[, j] <- 1
+   G1transit <- rbind(G1transit, zeros)
+}
+G1transit <- data.frame(y = G1transit)
+
+#' 
+## -----------------------------------------------
+dim(G1transit)
+
+#' 
+#' 
+## -----------------------------------------------
+head(G1transit)
+
+#' 
+#' 
+## -----------------------------------------------
+tail(G1transit)
+
+#' 
+#' 
+#' b) Faire tourner le modèle CJS à ces nouvelles données avec `RMark`. Quelles sont vos conclusions concernant les estimations ?
+#' 
+## -----------------------------------------------
+G1transitmarked <- data.frame(ch = tidyr::unite(G1transit, col = "ch", sep = ""), 
+                              n = rep(1, nrow(G1transit)))
+
+#' 
+## -----------------------------------------------
+G1transit.proc <- process.data(G1transitmarked)
+G1transit.ddl <- make.design.data(G1transit.proc)
+
+#' 
+#' Ajuste le modèle. 
+## -----------------------------------------------
+cjs.G1transit <- mark(G1transit.proc,
+                     G1transit.ddl,
+                     model.parameters = list(Phi = phi, p = p))
+cjs.G1transit$results$real
+
+#' 
+#' Idem avec survie qui dépend du temps.
+## -----------------------------------------------
+cjs.G1transit <- mark(G1transit.proc,
+                     G1transit.ddl,
+                     model.parameters = list(Phi = phi.time, p = p))
+cjs.G1transit$results$real
+
+#' 
+#' c) Tester l’ajustement du modèle CJS à ces mêmes données avec `R2ucare`. Interpréter en particulier la composante 3.SR du test.
+#' 
+## -----------------------------------------------
+overall_CJS(G1transit, rep(1,nrow(G1transit)))
+test2ct(G1transit, rep(1,nrow(G1transit)))
+test3sr(G1transit, rep(1,nrow(G1transit)))
+
+#' 
+#' 
+#' d) Faire tourner un modèle à 2 classes d’âge sur la survie $\phi(a2*t)$ avec `RMark`. Vos conclusions ?
+#' 
+## -----------------------------------------------
+G1transit.ddl <- make.design.data(G1transit.proc)
+# create 0, 1+ age variable
+G1transit.ddl <- add.design.data(G1transit.proc,
+                             G1transit.ddl, # add 2 age-class structure to design matrix
+                             "Phi",
+                             type = "age",
+                             bins = c(0, 1, nocc - 1),
+                             name = "ageclass",
+                             right = FALSE)
+
+#' 
+#' On spécifie une survie qui dépend de l'âge.
+## -----------------------------------------------
+phi.age <- list(formula=~ageclass) # age effect on survival
+
+#' 
+#' On ajuste le modèle.
+## -----------------------------------------------
+cjsage.G1transit <- mark(G1transit.proc,
+                     G1transit.ddl,
+                     model.parameters = list(Phi = phi.age, p = p))
+cjsage.G1transit$results$real
+
+#' 
+#' D'une autre façon. 
+## -----------------------------------------------
+G1transit.ddl <- make.design.data(G1transit.proc)
+#max age 4
+G1transit.ddl$Phi$max.age <- as.factor((G1transit.ddl$Phi$Age < 1) * G1transit.ddl$Phi$Age + (G1transit.ddl$Phi$Age>0) * 1)
+phi.max.age <- list(formula=~max.age)
+cjsaget.G1transit <- mark(G1transit.proc,
+                     G1transit.ddl,
+                     model.parameters = list(Phi = phi.max.age, p = p))
+
+PIMS(cjsaget.G1transit,"Phi")
+cjsaget.G1transit$results$real
+
+#' 
+#' Supprime fichiers créés en cours de route.
+## -----------------------------------------------
+cleanup(ask = FALSE)
+
+#' 
