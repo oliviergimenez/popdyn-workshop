@@ -521,12 +521,145 @@ phiage2.p <- mark(dipper.proc,
 phiage2.p$results$real
 ```
 
+```{r echo = FALSE, warning=FALSE, message=FALSE}
+rm(list = ls(all = TRUE))
+cleanup(ask = FALSE)
+```
 
 ---
 class: center, middle
 background-size: cover
 
 ## Live demo #5: Multisite capture-recapture models
+
+---
+
+## Read in data (1)
+
+Read in csv file:
+```{r}
+geese_csv <- read_csv2("dat/allgeese.csv")
+```
+
+---
+## Read in data (2)
+
+```{r}
+geese_csv
+```
+
+---
+## Convert to Mark format (1)
+
+Build a data.frame with encounter histories, and number of individuals:
+```{r}
+geese <- data.frame(ch = unite(geese_csv %>% select(year_1984:year_1989), 
+                               col = "ch", 
+                               sep = ""), 
+                    freq = geese_csv$N)
+```
+
+---
+## Convert to Mark format (2)
+
+Inspect first lines:
+```{r}
+head(geese)
+```
+
+---
+
+```{r}
+geese.proc <- process.data(data = geese,
+                           model = "Multistrata")
+
+```
+
+---
+
+```{r}
+geese.ddl <- make.design.data(geese.proc)
+```
+
+---
+
+```{r}
+# Define survival probability 
+S <- list(formula=~1) # survival constant 
+S.site <- list(formula=~stratum) # survival depends on states 
+# Define detection probability 
+p <- list(formula=~1) # constant over time, does not depend on states 
+# Define transition probs 
+Psi.site <- list(formula=~-1+stratum:tostratum,link='mlogit')
+```
+
+---
+
+Run model with state effect on survival 
+```{r}
+phis.psi.p <- mark(geese.proc,
+                   geese.ddl,
+                   model.parameters=list(S = S.site,
+                                         p = p,
+                                         Psi=Psi.site))
+```
+
+
+---
+
+```{r}
+phis.psi.p$results$real
+```
+
+---
+
+```{r}
+Psilist <- get.real(phis.psi.p, "Psi", vcv = TRUE)
+Psi.values = Psilist$estimates
+top.psi = TransitionMatrix(Psi.values[Psi.values$time == 1, ], 
+                           vcv.real = Psilist$vcv.real)
+top.psi
+```
+
+---
+
+Run model with state effect on survival 
+```{r}
+phi.psi.p <- mark(geese.proc,
+                   geese.ddl,
+                   model.parameters=list(S = S,
+                                         p = p,
+                                         Psi=Psi.site))
+```
+
+
+---
+
+```{r}
+phi.psi.p$results$real
+```
+
+
+---
+
+```{r}
+Psilist <- get.real(phi.psi.p, "Psi", vcv = TRUE)
+Psi.values = Psilist$estimates
+top.psi = TransitionMatrix(Psi.values[Psi.values$time == 1, ], 
+                           vcv.real = Psilist$vcv.real)
+top.psi
+```
+
+
+---
+
+```{r}
+collect.models()
+```
+
+
+
+
 
 ```{r echo = FALSE, warning=FALSE, message=FALSE}
 rm(list = ls(all = TRUE))
