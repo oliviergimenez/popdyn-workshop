@@ -26,7 +26,7 @@ navbar:
         - text: "Demo 1: Population abundance and density"
 #          href: worksheets/tp4-marked-survival.pdf
         - text: "Demo 2: Demographic parameters"
-          href: worksheets/survival-tutorial.html
+          href: tutorials/survival-tutorial.html
         - text: "Demo 3: Population projection matrix models"
 #          href: worksheets/tp4-marked-survival.pdf
     - text: "Tutorials"
