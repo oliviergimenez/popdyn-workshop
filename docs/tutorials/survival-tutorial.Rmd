@@ -16,9 +16,9 @@ output:
 
 ```{r setup, include=FALSE, echo=FALSE, cache = FALSE, warning = FALSE}
 options(htmltools.dir.version = FALSE)
-knitr::opts_chunk$set(comment = "")
+knitr::opts_chunk$set(comment = "", message = FALSE, warning = FALSE)
 library(tidyverse)
-theme_set(theme_light(base_size = 18))
+theme_set(theme_light())
 update_geom_defaults("point", list(size = 2))
 ```
 
@@ -54,7 +54,8 @@ dipper_csv
 
 Build a data.frame with encounter histories, sex and (scaled) wing length:
 ```{r}
-dipper <- data.frame(ch = unite(dipper_csv %>% select(year_1981:year_1987), 
+dipper <- data.frame(ch = unite(dipper_csv %>%
+                                  select(year_1981:year_1987), 
                                 col = "ch", 
                                 sep = ""), 
                      sex = dipper_csv$sex,
@@ -107,31 +108,32 @@ background-size: cover
 ## Variation around the CJS model
 
 ---
+## Preliminaries
 
-Processed data.frame:
++ Process data (number of capture occasions, time intervals, groups):
 ```{r}
-dipper.proc <- process.data(data = dipper, 
-                            model = "CJS", 
-                            groups = ("sex"))
+dipper.proc <- process.data(data = dipper, groups = "sex")
 ```
 
----
+--
 
-Design matrix:
++ Create design matrix with time and group structure:
 ```{r}
 dipper.ddl <- make.design.data(dipper.proc)
 ```
 
----
+--
 
++ Define structure for survival and detection probabilities:
 ```{r}
-phit <- list(formula=~time)
-phi <- list(formula=~1)
-pt <- list(formula=~time)
-p <- list(formula=~1)
+phit <- list(formula=~time) # time 
+phi <- list(formula=~1)     # constant
+pt <- list(formula=~time)   # time
+p <- list(formula=~1)       # constant
 ```
 
 ---
+## Fit CJS model to dipper data
 
 ```{r warning=FALSE, message=FALSE, eval = FALSE}
 phit.pt <- mark(dipper.proc,
@@ -154,6 +156,7 @@ phit.pt$results$real
 ```
 
 ---
+## Fit model with time-varying survival and constant detection
 
 ```{r warning=FALSE, message=FALSE, eval = FALSE}
 phit.p <- mark(dipper.proc,
@@ -170,6 +173,7 @@ phit.p <- mark(dipper.proc,
 ```
 
 ---
+## Fit model with constant survival and time-varying detection
 
 ```{r warning=FALSE, message=FALSE, eval = FALSE}
 phi.pt <- mark(dipper.proc,
@@ -186,10 +190,13 @@ phi.pt <- mark(dipper.proc,
 ```
 
 ---
+## Model ranking with AIC 
 
 ```{r}
 collect.models()
 ```
+
++ Best model has constant parameters
 
 ---
 class: center, middle
@@ -198,76 +205,114 @@ background-size: cover
 ## Live demo #2: Group effect
 
 ---
+## Define sex-specific survival
 
 ```{r}
 phisex <- list(formula=~sex)
 ```
 
 ---
+## Fit model with sex-specific survival, and constant detection
 
-```{r warning=FALSE, message=FALSE}
+```{r warning=FALSE, message=FALSE, eval = FALSE}
 phisex.p <- mark(dipper.proc,
-                dipper.ddl,
-                model.parameters = list(Phi = phisex, p = p))
+                 dipper.ddl,
+                 model.parameters = list(Phi = phisex, p = p))
 ```
 
 ---
 
+```{r warning=FALSE, message=FALSE, echo = FALSE}
+phisex.p <- mark(dipper.proc,
+                 dipper.ddl,
+                 model.parameters = list(Phi = phisex, p = p))
+```
+
+---
+## Parameter estimates (1)
+
++ On the logit scale:
 ```{r}
 phisex.p$results$beta
 ```
 
 ---
+## Parameter estimates (2)
 
++ Female survival:
 ```{r}
 logitphiF <- phisex.p$results$beta[1,1]
 plogis(logitphiF)
 ```
 
----
+--
 
+Male survival:
 ```{r}
 logitphiM <- logitphiF + phisex.p$results$beta[2,1]
 plogis(logitphiM)
 ```
 
 ---
+## Parameter estimates (3)
 
+All at once:
 ```{r}
 phisex.p$results$real
 ```
 
 
 ---
+## Model ranking with AIC 
 
 ```{r}
 collect.models()
 ```
 
 ---
-
-```{r}
-phisexpt <- list(formula=~sex+time)
-```
-
----
+## Model with additive effect of sex and time on survival and constant detection
 
 ```{r warning=FALSE, message=FALSE, eval = FALSE}
+phisexpt <- list(formula=~sex+time)
+
 phisexpt.p <- mark(dipper.proc,
-                dipper.ddl,
-                model.parameters = list(Phi = phisexpt, p = p))
+                   dipper.ddl,
+                   model.parameters = list(Phi = phisexpt, 
+                                           p = p))
 ```
 
 ---
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
+phisexpt <- list(formula=~sex+time)
 phisexpt.p <- mark(dipper.proc,
-                dipper.ddl,
-                model.parameters = list(Phi = phisexpt, p = p))
+                   dipper.ddl,
+                   model.parameters = list(Phi = phisexpt, p = p))
+```
+
+---
+
+```{r}
+phisexpt.p$results$real
+```
+
+---
+
+```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE, fig.align='center'}
+df <- data.frame(year = c(1981:1986, 1981:1986),
+                 survival = c(phisexpt.p$results$real[1:6,1],
+                 phisexpt.p$results$real[7:12,1]),
+                 sex = c(rep("female",6), rep("male", 6))
+                 )
+df %>%
+  ggplot() + 
+  aes(x = year, y = survival, color = sex) +
+  geom_line()
 ```
 
 
 ---
+## Model ranking with AIC 
 
 ```{r}
 collect.models()
@@ -282,20 +327,23 @@ background-size: cover
 
 
 ---
+## Fit model with linear effect of wing length on survival 
 
 ```{r}
 phiwl <- list(formula=~wglength)
 ```
 
----
+--
 
 ```{r warning=FALSE, message=FALSE, eval = FALSE}
 phiwl.p <- mark(dipper.proc,
                 dipper.ddl,
-                model.parameters = list(Phi = phiwl, p = p))
+                model.parameters = list(Phi = phiwl, 
+                                        p = p))
 ```
 
 ---
+## Parameter estimates (1)
 
 ```{r warning=FALSE, message=FALSE, echo = FALSE}
 phiwl.p <- mark(dipper.proc,
@@ -304,20 +352,35 @@ phiwl.p <- mark(dipper.proc,
 ```
 
 ---
+## Parameter estimates (2)
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r echo=TRUE, message=FALSE, warning=FALSE}
 phiwl.p$results$beta
 ```
 
 ---
+## Graphical representation (1)
 
 ```{r eval = FALSE}
+# standardize wing length
 scaled_wl <- scale(dipper_csv$wing_length)
+# build a grid of 100 values between min and max of wing length
 grid_wl <- seq(min(scaled_wl), max(scaled_wl), length = 100)
-logit_predicted_survival <- phiwl.p$results$beta[1,1] + phiwl.p$results$beta[2,1] * grid_wl
+# predict survival on logit scale
+logit_predicted_survival <- phiwl.p$results$beta[1,1] + 
+                    phiwl.p$results$beta[2,1] * grid_wl
+# back-transform to get predicted survival
 predicted_survival <- plogis(logit_predicted_survival)
+# create data.frame
 df <- data.frame(winglength = grid_wl,
                  survival = predicted_survival)
+```
+
+---
+## Graphical representation (2)
+
+```{r eval = FALSE}
+# visualise
 df %>% 
   ggplot() +
   aes(x = winglength, y = survival) + 
@@ -336,27 +399,32 @@ df <- data.frame(winglength = grid_wl,
 df %>% 
   ggplot() +
   aes(x = winglength, y = survival) + 
-  geom_line()
+  geom_line()  + 
+  theme_light(base_size = 18)
 ```
 
 ---
+## Quadratic relationship
 
 ```{r}
+# square standardised covariate and add it to dipper data
 dipper$wglengthsq <- scale(dipper_csv$wing_length)^2
+# process data
 dipper.proc <- process.data(data = dipper, 
-                            model = "CJS", 
                             groups = ("sex"))
+# build design matrices
 dipper.ddl <- make.design.data(dipper.proc)
 ```
 
 
 ---
+## Fit model with quadratic effect of wing length on survival
 
 ```{r}
 phiwl2 <- list(formula=~wglength + wglengthsq)
 ```
 
----
+--
 
 ```{r warning=FALSE, message=FALSE, eval = FALSE}
 phiwl2.p <- mark(dipper.proc,
@@ -374,24 +442,10 @@ phiwl2.p <- mark(dipper.proc,
 
 ---
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r echo=TRUE, message=FALSE, warning=FALSE}
 phiwl2.p$results$beta
 ```
 
----
-
-```{r eval = FALSE}
-scaled_wl <- scale(dipper_csv$wing_length)
-grid_wl <- seq(min(scaled_wl), max(scaled_wl), length = 100)
-logit_predicted_survival <- phiwl2.p$results$beta[1,1] + phiwl2.p$results$beta[2,1] * grid_wl + phiwl2.p$results$beta[2,1] * grid_wl^2
-predicted_survival <- plogis(logit_predicted_survival)
-df <- data.frame(winglength = grid_wl,
-                 survival = predicted_survival)
-df %>% 
-  ggplot() +
-  aes(x = winglength, y = survival) + 
-  geom_line()
-```
 
 ---
 
@@ -405,10 +459,13 @@ df <- data.frame(winglength = grid_wl,
 df %>% 
   ggplot() +
   aes(x = winglength, y = survival) + 
-  geom_line()
+  geom_line() + 
+  theme_light(base_size = 18)
+
 ```
 
 ---
+## Model ranking with AIC
 
 ```{r}
 collect.models()
@@ -421,12 +478,20 @@ background-size: cover
 ## Live demo #3: Environmental covariate
 
 ---
+## Flood effect on survival?
 
++ A flood took place toward the end of the second survival interval and continue into the beginning of the third survival interval
+
++ Question is whether survival was lower in the two flood years
+
+---
+## Explore further model structure
 ```{r}
 head(dipper.ddl$Phi)
 ```
 
 ---
+## Create dummy Flood variable
 
 ```{r}
 dipper.ddl$Phi$Flood <- 0
@@ -434,27 +499,48 @@ head(dipper.ddl$Phi)
 ```
 
 ---
+## Add flood effect
 
 ```{r}
-dipper.ddl$Phi$Flood[dipper.ddl$Phi$time==2 | dipper.ddl$Phi$time==3] <- 1
+dipper.ddl$Phi$Flood[dipper.ddl$Phi$time==2 | 
+                       dipper.ddl$Phi$time==3] <- 1
 head(dipper.ddl$Phi)
 ```
 
 ---
+## Fit model with flood effect
 
 ```{r}
 phiFlood <- list(formula=~Flood)
 ```
 
----
+--
 
 ```{r warning=FALSE, message=FALSE, eval = FALSE}
+phiFlood.p <- mark(dipper.proc,
+                   dipper.ddl,
+                   model.parameters = list(Phi = phiFlood, 
+                                           p = p))
+```
+
+---
+
+```{r warning=FALSE, message=FALSE, echo = FALSE}
 phiFlood.p <- mark(dipper.proc,
                    dipper.ddl,
                    model.parameters = list(Phi = phiFlood, p = p))
 ```
 
 ---
+
+```{r}
+phiFlood.p$results$real
+```
+
++ Clearly, survival in flood years was much lower than survival in non-flood years
+
+---
+## Model ranking with AIC
 
 ```{r}
 collect.models()
@@ -468,55 +554,79 @@ background-size: cover
 ## Live demo #4: Age in capture-recapture models
 
 ---
+## Build and fit a model with age-dependent survival
 
 ```{r}
-phi.age <- list(formula =~ age)
+phi.age <- list(formula =~ age) # already coded in RMark
 ```
 
----
+--
 
-```{r}
+```{r eval = FALSE}
 phiage.p <- mark(dipper.proc,
-                      dipper.ddl,
-                      model.parameters = list(Phi = phi.age, 
-                                              p = p))
+                 dipper.ddl,
+                 model.parameters = list(Phi = phi.age, 
+                                         p = p))
 ```
 
 ---
+
+```{r echo = FALSE}
+phiage.p <- mark(dipper.proc,
+                 dipper.ddl,
+                 model.parameters = list(Phi = phi.age, 
+                                         p = p))
+```
+
+
+---
+## Parameter estimates
 
 ```{r}
 phiage.p$results$real
 ```
 
 ---
+## What if we'd like only 2 age classes? 
 
-Create 0, 1+ age variable
++ Create a (0, 1+) age variable:
 ```{r}
 dipper.ddl <- add.design.data(dipper.proc,
-                              dipper.ddl, # add 2 age-class structure to design matrix
+                              dipper.ddl, 
                               "Phi",
                               type = "age",
-                              bins = c(0, 1, 7),
-                              name = "ageclass",
+                              bins = c(0, 1, 7), # (0, 1+)
+                              name = "ageclass", # var name
                               right = FALSE)
 ```
 
 ---
+## Fit model with 2 age classes on survival
 
 ```{r}
 phi.age2 <- list(formula=~ageclass) # age effect on survival
 ```
 
+--
+
+```{r eval = FALSE}
+phiage2.p <- mark(dipper.proc,
+                  dipper.ddl,
+                  model.parameters = list(Phi = phi.age2, 
+                                          p = p))
+```
+
 ---
 
-```{r}
+```{r echo = FALSE}
 phiage2.p <- mark(dipper.proc,
                   dipper.ddl,
                   model.parameters = list(Phi = phi.age2, p = p))
 ```
 
----
 
+---
+## Parameter estimates 
 ```{r}
 phiage2.p$results$real
 ```
@@ -553,7 +663,8 @@ geese_csv
 
 Build a data.frame with encounter histories, and number of individuals:
 ```{r}
-geese <- data.frame(ch = unite(geese_csv %>% select(year_1984:year_1989), 
+geese <- data.frame(ch = unite(geese_csv %>% 
+                                 select(year_1984:year_1989), 
                                col = "ch", 
                                sep = ""), 
                     freq = geese_csv$N)
@@ -568,6 +679,7 @@ head(geese)
 ```
 
 ---
+## Preliminaries 
 
 ```{r}
 geese.proc <- process.data(data = geese,
@@ -575,34 +687,43 @@ geese.proc <- process.data(data = geese,
 
 ```
 
----
+--
 
 ```{r}
 geese.ddl <- make.design.data(geese.proc)
 ```
 
----
+--
 
 ```{r}
-# Define survival probability 
-S <- list(formula=~1) # survival constant 
-S.site <- list(formula=~stratum) # survival depends on states 
-# Define detection probability 
-p <- list(formula=~1) # constant over time, does not depend on states 
-# Define transition probs 
-Psi.site <- list(formula=~-1+stratum:tostratum,link='mlogit')
+phi <- list(formula=~1) # survival constant 
+phi.site <- list(formula=~stratum) # site-specific survival 
+p <- list(formula=~1) # constant detection
+psi.site <- list(formula=~-1+stratum:tostratum,
+                 link='mlogit') # movements
 ```
 
 ---
+## Run model with site effect on survival:
 
-Run model with state effect on survival 
-```{r}
+```{r eval = FALSE}
 phis.psi.p <- mark(geese.proc,
                    geese.ddl,
-                   model.parameters=list(S = S.site,
+                   model.parameters=list(S = phi.site,
                                          p = p,
-                                         Psi=Psi.site))
+                                         Psi = psi.site))
 ```
+
+---
+
+```{r echo = FALSE}
+phis.psi.p <- mark(geese.proc,
+                   geese.ddl,
+                   model.parameters=list(S = phi.site,
+                                         p = p,
+                                         Psi = psi.site))
+```
+
 
 
 ---
@@ -622,16 +743,25 @@ top.psi
 ```
 
 ---
+## Run model with state effect on survival 
 
-Run model with state effect on survival 
-```{r}
+```{r eval = FALSE}
 phi.psi.p <- mark(geese.proc,
-                   geese.ddl,
-                   model.parameters=list(S = S,
-                                         p = p,
-                                         Psi=Psi.site))
+                  geese.ddl,
+                  model.parameters=list(S = phi,
+                                        p = p,
+                                        Psi = psi.site))
 ```
 
+---
+
+```{r echo = FALSE}
+phi.psi.p <- mark(geese.proc,
+                  geese.ddl,
+                  model.parameters=list(S = phi,
+                                        p = p,
+                                        Psi = psi.site))
+```
 
 ---
 
@@ -656,8 +786,6 @@ top.psi
 ```{r}
 collect.models()
 ```
-
-
 
 
 
