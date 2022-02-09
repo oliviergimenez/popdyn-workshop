@@ -16,7 +16,7 @@ class: center, middle, title-slide
 
 # Estimation of demographic parameters
 ### Olivier Gimenez for the team
-### last updated: 2022-02-08
+### last updated: 2022-02-09
 
 ---
 
@@ -4312,6 +4312,14 @@ background-color: #234f66
 ![](img/b5b086f9cc403008ba7be5dd508cfed2.gif)
 ]
 
+---
+# On our plate
+
++ Estimating survival with capture-recapture models
++ **Including discrete and continuous covariates**
++ Estimating transitions between sites/states
++ Estimating productivity with GLMs
+
 
 ---
 # Can we explain individual heterogeneity?
@@ -7740,9 +7748,49 @@ background-color: black
 + Use caution when interpreting survival. If possible, combine with ring-recovery data, or go spatial to get closer to true survival.
 
 ---
+# On our plate
+
++ Estimating survival with capture-recapture models
++ Including discrete and continuous covariates
++ **Estimating transitions between sites/states**
++ Estimating productivity with GLMs
+
+
+---
 class: middle
 
 ## On the move: Transition estimation
+
+---
+
+&lt;img src="img/bubbles.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+&lt;img src="img/multisite2.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="img/multisite3.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="img/multisite4.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="img/multisite5.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="img/multisite6.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+class: middle
+
+## A little bit of history
+
 
 ---
 
@@ -7804,14 +7852,47 @@ background-size: cover
 ]
 
 
----
-
-&lt;img src="img/multistate-cycle.png" width="60%" style="display: block; margin: auto;" /&gt;
-
 
 ---
+class: middle, center
 
-&lt;img src="img/multistate-binarytree.png" width="60%" /&gt;
+## Sites may be states.
+
+---
+## Examples of multistate models
+
++ *Epidemiological or disease states*: sick/healthy, uninfected/infected/recovered.
+
+--
+
++ *Morphological states*: small/medium/big,  light/medium/heavy.
+
+--
+
++ *Breeding states*: e.g. breeder/non-breeder,  failed breeder, first-time breeder. 
+
+--
+
++ *Developmental or life-history states*: e.g. juvenile/subadult/adult.
+
+--
+
++ *Social states*: e.g. solitary/group-living,  subordinate/dominant.
+
+--
+
++ *Death states*: e.g. alive, dead from harvest, dead from natural causes. 
+
+--
+
+&amp;nbsp;
+
+**States = individual, time-specific categorical covariates.**
+
+---
+class: middle
+
+## Let's practice!
 
 
 ---
@@ -11844,122 +11925,6 @@ background-size: cover
 
 (large areas along East coast of US)
 
----
-class: middle
-### Biological inference
-
-.center.nogap[
-![](survival_files/figure-html/unnamed-chunk-33-1.svg)&lt;!-- --&gt;
-]
-
-??? 
-
-+ Observations and states are closely related, but not entirely.
-
-
----
-class: middle
-### Biological inference
-
-.center.nogap[
-![](survival_files/figure-html/unnamed-chunk-34-1.svg)&lt;!-- --&gt;
-]
-
-
----
-class: middle
-### Biological inference
-
-.center.nogap[
-![](survival_files/figure-html/unnamed-chunk-35-1.svg)&lt;!-- --&gt;
-]
-
-
----
-class: middle
-### Biological inference
-
-.center.nogap[
-![](survival_files/figure-html/unnamed-chunk-36-1.svg)&lt;!-- --&gt;
-]
-
-
----
-class: middle
-### The model construction: How we should think. 
-
-.center.nogap[
-![](survival_files/figure-html/unnamed-chunk-37-1.svg)&lt;!-- --&gt;
-]
-
-
-??? Generative model. States generate observations. 
-
-
----
-class: middle
-### The model construction: How we should think. 
-
-.center.nogap[
-![](survival_files/figure-html/unnamed-chunk-38-1.svg)&lt;!-- --&gt;
-]
-
-
-
----
-class: middle
-### The model construction: How we should think. 
-
-.center.nogap[
-![](survival_files/figure-html/unnamed-chunk-39-1.svg)&lt;!-- --&gt;
-]
-
-
-
----
-class: middle
-### The model construction: How we should think. 
-
-.center.nogap[
-![](survival_files/figure-html/unnamed-chunk-40-1.svg)&lt;!-- --&gt;
-]
-
-
----
-class: middle, center
-
-## Sites may be states.
-
----
-## Examples of multistate models
-
-+ *Epidemiological or disease states*: sick/healthy, uninfected/infected/recovered.
-
---
-
-+ *Morphological states*: small/medium/big,  light/medium/heavy.
-
---
-
-+ *Breeding states*: e.g. breeder/non-breeder,  failed breeder, first-time breeder. 
-
---
-
-+ *Developmental or life-history states*: e.g. juvenile/subadult/adult.
-
---
-
-+ *Social states*: e.g. solitary/group-living,  subordinate/dominant.
-
---
-
-+ *Death states*: e.g. alive, dead from harvest, dead from natural causes. 
-
---
-
-&amp;nbsp;
-
-**States = individual, time-specific categorical covariates.**
 
 
 ---
@@ -11973,6 +11938,13 @@ background-color: black
 ![](img/r_1051694_ifmHZ.gif)
 ]
 
+---
+# On our plate
+
++ Estimating survival with capture-recapture models
++ Including discrete and continuous covariates
++ Estimating transitions between sites/states
++ **Estimating productivity with GLMs**
 
 
 ---
