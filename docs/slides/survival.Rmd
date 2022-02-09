@@ -19,7 +19,7 @@ options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(comment = "")
 library(tidyverse)
 theme_set(theme_light())
-update_geom_defaults("point", list(size = 2)) 
+update_geom_defaults("point", list(size = 2))
 ```
 
 
@@ -42,7 +42,7 @@ knitr::include_graphics("img/Page2.png")
 ???
 
 + Now we're gonna look under the hood. 
-+ And try to decipher the mechanisms that explain these variation. 
++ And try to determine the mechanisms that explain these variation. 
 + The demographic parameters
 
 ---
@@ -107,13 +107,17 @@ Natural marks
 
 ???
 
-+ This can also be natural marks like
++ This may also be natural marks like
 
 ---
 class: center, middle
 background-size: cover
 
 ## Capture-recapture data
+
+???
+
++ what data do we get? Capture-recapture data.
 
 ---
 ### 3 capture occasions, 2 time intervals
@@ -173,8 +177,17 @@ CH <- simul.cjs(PHI, P, marked)
 CH %>%  
   kableExtra::kable() %>%
   kableExtra::scroll_box(width = "100%", height = "400px")
-
 ```
+
+???
+
++ For example, imagine you go on the field 3 times, and three capture or sampling occasions.
++ Three occasions mean 2 time intervals
++ You get these data, with 1's and 0's for detected or non-detected
++ Detected = captured or observed
++ Everything is fine when you get all 1's, or even 0's between 1's
++ But what if 110 or 100, did the individual die or did it run undetected?
+
 
 ---
 class: center, middle
@@ -182,11 +195,19 @@ background-size: cover
 
 ## Parameters
 
+???
+
++ We're gonna need some parameters to describe the fate of individuals
+
 ---
 
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
 knitr::include_graphics("img/param1.png")
 ```
+
+???
+
++ Three capture or sampling occasions then
 
 ---
 
@@ -194,12 +215,36 @@ knitr::include_graphics("img/param1.png")
 knitr::include_graphics("img/param2.png")
 ```
 
+???
+
++ We need survival parameters, or the probability of being alive and present at a given occasion, and still present and alive at the next occasion
++ This is for example $\phi_1$ survival over the first interval
++ Or $\phi_2$ survival over the second time interval
++ We also need recapture probabilities, $p_2$ and $p_3$ recapture probabilities at second and third occasions
++ You might ask what about $p_1$? Well because we mark at first occasion, the detection probability is necessarily 1 so no need to estimate it. 
+
 ---
+## Definition of parameters
 
-+ $\phi_i$ is the probability that a marked animal in the population at sampling occasion $i$ survives until occasion $i+1$ and remains in the population (does not permanently emigrate). So-called *apparent* survival $\phi_i$ relates to the interval between sampling occasions $i$ and $i+1$
+--
 
-+ $p_i$ is the probability that a marked animal in the population is detected (captured or observed) at sampling occasion $i$.
++ Parameter $\phi_i$ is the probability that a marked animal in the population at sampling occasion $i$ survives until occasion $i+1$ and remains in the population (does not permanently emigrate). 
 
+--
+
++ Parameter $p_i$ is the probability that a marked animal in the population is detected (captured or observed) at sampling occasion $i$.
+
+--
+
++ While detection operates at a sampling occasion, survival operates over a time interval. 
+
+--
+
++ How to estimate these parameters from the data we have?
+
+???
+
++ Let's agree on a formal definition of survival and detection parameters. 
 
 ---
 class: center, middle
@@ -207,11 +252,19 @@ background-size: cover
 
 ## Encounter histories
 
+???
+
+Now we're fully equiped to work out what happens in the life of our animals. 
+
 ---
 
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
 knitr::include_graphics("img/cjs1.png")
 ```
+
+???
+
++ Back to our example with 3 capture or sampling occasions. 
 
 ---
 
@@ -219,6 +272,9 @@ knitr::include_graphics("img/cjs1.png")
 knitr::include_graphics("img/cjs2.png")
 ```
 
+???
+
++ First things first, you get captured, marked and released in the population.
 
 ---
 
@@ -226,11 +282,20 @@ knitr::include_graphics("img/cjs2.png")
 knitr::include_graphics("img/cjs3.png")
 ```
 
+???
+
++ Then you may stay alive and present over the time interval.
++ Or you may die or emigrate
+
 ---
 
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
 knitr::include_graphics("img/cjs4.png")
 ```
+
+???
+
++ If you're alive, you are available to detection, then you get detected or not. 
 
 ---
 
@@ -238,12 +303,20 @@ knitr::include_graphics("img/cjs4.png")
 knitr::include_graphics("img/cjs5.png")
 ```
 
+???
+
++ These events occur with some probabilities.
++ For example...
+
 ---
 
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
 knitr::include_graphics("img/cjs6.png")
 ```
 
+???
+
++ Then again, if you were alive and detected, you may remain alive or die/emigrate. Same thing if you were alive and undetected. And on the third occasion, you get detected or not. 
 
 ---
 
@@ -251,17 +324,31 @@ knitr::include_graphics("img/cjs6.png")
 knitr::include_graphics("img/cjs7.png")
 ```
 
+???
+
++ These successive events lead to encounter histories, series of 1's and 0's. 
++ For example... 
++ Note that several paths can lead to the same encounter history, for example 110. 
+
 ---
 class: center, middle
 background-size: cover
 
 ## Probabilities
 
+???
+
++ From there, it's fairly easy to write down the probability for each encounter history.
+
 ---
 
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
 knitr::include_graphics("img/eh1.png")
 ```
+
+???
+
++ Take 111 for example. 
 
 ---
 
@@ -275,6 +362,12 @@ knitr::include_graphics("img/eh2.png")
 ```{r, echo=FALSE, out.width="80%", fig.align='center'}
 knitr::include_graphics("img/eh3.png")
 ```
+
+???
+
++ The encounter history 110 is a bit trickier to deal with
++ Because two paths may lead to it
++ But because these paths are exclusive, we just need to write down the probability for each, and sum them up
 
 
 ---
@@ -297,12 +390,19 @@ knitr::include_graphics("img/eh6.png")
 
 
 ---
-### All probabilities
+### Probabilities of all possible encounter histories with 3 occasions
 
 + $\Pr(111) = \phi_1 p_2 \phi_2 p_3$
 + $\Pr(110) = \phi_1 p_2 (1-\phi_2 p_3)$
 + $\Pr(101) = \phi_1 (1-p_2) \phi_2 p_3$
 + $\Pr(100) = 1-\phi_1 p_2 -\phi_1(1-p_2)\phi_2 p_3$
+
+???
+
++ If you do the work for all the possible encounter histories, you get
++ Where do we go from here? 
++ Remember our goal is to estimate survival and detection probabilities.
+
 
 ---
 class: center, middle
@@ -310,21 +410,37 @@ background-size: cover
 
 ## Model likelihood
 
+???
+
++ We're going to work with something Aurelien already introduced you with, the model likelohood. 
++ The core of statistical inference, whether you're a frequentist or a Bayesian. 
 
 ---
 ### Likelihood
 
-+ When survival and detection parameters vary over time, this is the Cormack-Jolly-Seber model
+--
 
-+ Its likelihood is: $L(\mbox{data}\;|\;\mbox{parameters}) = \Pr(\mbox{data}\; | \; \phi_1,\phi_2,p_2,p_3)$
++ When survival and detection probabilities vary over time, we call it the Cormack-Jolly-Seber model.
 
-+ You get maximum likelihood estimates by maximising the likelihood function (!) $L(\mbox{parameters}\;|\;\mbox{data})$
+--
 
-+ It is $L = \mbox{constant} \times \Pr(111)^{n_{111}} \times \Pr(110)^{n_{110}} \times \Pr(101)^{n_{101}} \times \Pr(100)^{n_{100}}$
++ Its likelihood is $L(\mbox{data}\;|\;\mbox{parameters}) = \Pr(\mbox{data}\; | \; \phi_1,\phi_2,p_2,p_3)$.
 
-+ We look for $\phi_1,\phi_2,p_2,p_3$ that maximize the likelihood function
+--
 
-+ Let's inspect visually the likelihood function in the simple case where all parameters are constant over time, that is: $\phi_1 = \phi_2 = \phi$ and $p_2 = p_3 = p$ 
++ You get maximum likelihood estimates by maximising the likelihood function (!) $L(\mbox{parameters}\;|\;\mbox{data})$.
+
+--
+
++ It is $L = \mbox{constant} \times \Pr(111)^{n_{111}} \times \Pr(110)^{n_{110}} \times \Pr(101)^{n_{101}} \times \Pr(100)^{n_{100}}$.
+
+--
+
++ We search for $\phi_1,\phi_2,p_2,p_3$ that maximize the likelihood function.
+
+--
+
++ Let's inspect visually the likelihood function in the simple case where all parameters are constant over time, that is $\phi_1 = \phi_2 = \phi$ and $p_2 = p_3 = p$.
 
 ---
 
@@ -467,12 +583,24 @@ ggplot(parms, aes(x = p, y = phi, z = log.lik)) +
            hjust = "right")
 ```
 
+???
+
++ What do we have here?
++ The likelihood function with survival on the Y axis, and detection on the X axis
++ The maximum of this function is the yellow area, in black
++ We used simulated data, with known survival and detection, and 150 individuals
++ The true value of survival and detection is in red
++ We're not that far
+
 ---
 class: center, middle
 background-size: cover
 
 ## A bit of history
 
+???
+
++ Before going further, let's talk about the history of the CJS model
 
 ---
 ### History of the Cormack-Jolly-Seber (CJS) model
@@ -480,6 +608,10 @@ background-size: cover
 --
 
 <font size="5">S.T. Buckland (2016). A Conversation with Richard M. Cormack. Statistical Science 31: 142-150.</font>
+
+???
+
++ Let's have a look to an interview of Richard Cormack by Steve Buckland. 
 
 --
 
@@ -489,6 +621,10 @@ knitr::include_graphics("img/cormack-left.png")
 ```
 ]
 
+???
+
++ George Jolly
+
 --
 
 .pull-right[
@@ -497,10 +633,20 @@ knitr::include_graphics("img/cormack-right.png")
 ```
 ]
 
+???
+
++ George Seber
+
 ---
 
 ![](img/lebreton.png)
 
+???
+
++ Feel free to read the 3 original papers on the CJS model
++ My advice is to read that paper by Jean-Dominique Lebreton, Ken Burnham, Jean Clobert and David Anderson. 
++ In this paper, the authors introduce a framework to carry out stat inference that we're still using today. 
++ Plus to my knowledge this is the first proposal of using AIC for model selection. 
 
 
 ---
@@ -528,6 +674,10 @@ knitr::include_graphics("img/Marzocuissardes.jpg")
 ```
 ]
 
+???
+
++ Gilbert Marzolin, a math teacher and colleague of ours who's been monitoring dipper populations for almost 40 years now. 
+
 ---
 ## 294 dippers captured and recaptured between 1981 and 1987 with known sex and wing length
 
@@ -542,8 +692,6 @@ y <- dipper %>%
   as.matrix()
 ```
 ]
-
-
 
 ---
 background-color: #234f66
@@ -607,6 +755,25 @@ $$\text{logit}(\phi_i) = \beta_1$$
 
 $$\text{logit}(\phi_i) = \beta_1 + \beta_2$$
 
+--
+
++ Very much alike an ANOVA with one factor (two levels)
+
+---
+# Wing length effect
+
+--
+
++ Include continuous individual covariate, say $x_i$.
+
+--
+
++ $\text{logit}(\phi_i) = \beta_1 + \beta_2 x_i$.
+
+--
+
++ Let's investigate the effect of sex and wing length on dipper survival.
+
 
 ---
 background-color: black
@@ -639,7 +806,7 @@ class: middle
 
 --
 
-+ Let's investigate the effect of flood on dipper survival ([Marzolin 2002](https://doi.org/10.2307/3802934)).
++ Let's investigate the effect of an extreme climatic event on dipper survival.
 
 ---
 background-color: #234f66
@@ -711,9 +878,7 @@ background-color: black
 + Test validity of assumptions
     + These assumptions should be valid, whatever inferential framework
     + Use goodness-of-fit tests <span>&#8212;</span> Pradel et al. (2005)
-    + `R` implementation with [package `R2ucare`](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.13014)
-
-
+    + R implementation with package R2ucare ([paper](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.13014) and [vignette](https://oliviergimenez.github.io/R2ucare/))
 
 ---
 ## What does survival actually mean in capture-recapture ?
@@ -757,6 +922,7 @@ class: middle
 ## On the move: Transition estimation
 
 ---
+## Two sites A and B
 
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
 knitr::include_graphics("img/bubbles.png")
@@ -909,7 +1075,7 @@ background-size: cover
 ## <span style="color: white;">Wintering site fidelity in Canada Geese</span>
 
 ---
-### 3 sites Carolinas, Chesapeake, Mid-Atlantic, with 21277 banded geese, data kindly provided by Jay Hestbeck ([Hestbeck et al. 1991](https://esajournals.onlinelibrary.wiley.com/doi/10.2307/2937193))
+### 3 sites Carolinas, Chesapeake, Mid-Atlantic, with 21277 banded geese, data kindly provided by Jay Hestbeck
 
 .center.nogap[
 ```{r echo = FALSE, message=FALSE, warning=FALSE}
@@ -951,13 +1117,15 @@ background-color: black
 ---
 ## Further reading
 
-+ Lebreton, J.-D., J. D. Nichols, R. J. Barker, R. Pradel and J. A. Spendelow (2009). [Modeling Individual Animal Histories with Multistate Capture–Recapture Models](https://multievent.sciencesconf.org/conference/multievent/pages/Lebretonetal2009AER.pdf). Advances in Ecological Research, 41:87-173.
++ Lebreton, Burnham, Clobert, and Anderson (1992). [Modeling Survival and Testing Biological Hypotheses Using Marked Animals: A Unified Approach with Case Studies](https://esajournals.onlinelibrary.wiley.com/doi/10.2307/2937171). Ecological Monographs 62: 67-118.
 
-+ Gentle intro to Mark
++ Lebreton, Nichols, Barker, Pradel and Spendelow (2009). [Modeling Individual Animal Histories with Multistate Capture–Recapture Models](https://www.sciencedirect.com/science/article/abs/pii/S0065250409004036). Advances in Ecological Research 41:87-173.
 
-+ Lebreton et al. 
++ Cooch and White (2021). [Program MARK - a 'gentle introduction'](http://www.phidot.org/software/mark/docs/book/).
 
-+ Williams et al. 
++ Williams, Nichols and Conroy (2002). [Analysis and Management of Animal Populations](https://www.elsevier.com/books/analysis-and-management-of-animal-populations/williams/978-0-12-754406-9).  
+
++ Pradel, Gimenez and Lebreton (2005). [Principles and interest of GOF tests for multistate capture-recapture models](http://abc.museucienciesjournals.cat/volume-28-2-2005-abc/principles-and-interest-of-gof-tests-for-multistate-capture-recapture-models-2/?lang=en). Animal Biodiversity and Conservation 28: 189–204.
 
 ```{r echo = FALSE, warning=FALSE, message=FALSE}
 rm(list = ls(all = TRUE))
