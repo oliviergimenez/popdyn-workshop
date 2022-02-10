@@ -15,8 +15,12 @@ output:
 ---
 
 ```{r setup, include=FALSE, echo=FALSE, cache = FALSE, warning = FALSE}
-options(htmltools.dir.version = FALSE)
-knitr::opts_chunk$set(comment = "", message = FALSE, warning = FALSE)
+options(htmltools.dir.version = FALSE,
+        scipen = 1, 
+        digits = 2)
+knitr::opts_chunk$set(comment = "", 
+                      message = FALSE, 
+                      warning = FALSE)
 library(tidyverse)
 theme_set(theme_light())
 update_geom_defaults("point", list(size = 2))
