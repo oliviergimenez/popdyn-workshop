@@ -1,5 +1,5 @@
 ---
-title: "Quantitative methods for population dynamics"
+title: "Quantitative methods for population dynamics <br> Introduction"
 author: "Olivier Gimenez, Sarah Cubaynes, Aurélien Besnard"
 date: "last updated: `r Sys.Date()`"
 output:
