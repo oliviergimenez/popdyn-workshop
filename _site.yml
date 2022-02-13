@@ -20,7 +20,7 @@ navbar:
         - text: "Class 3: Population projection matrix models"
 #          href: slides/class1.pptx
         - text: "Conclusions"
-          href: slides/template.html
+          href: slides/conclusions.html
     - text: "Live demos"
       menu:
         - text: "Demo 1: Population abundance and density"
