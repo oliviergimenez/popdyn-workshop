@@ -28,15 +28,12 @@ Day 2: <https://youtu.be/b08d1BBqf5E>
 1. Introduction to counting methods 
 2. Conventional methods and the detectability issue
 3. Capture-recapture, N-mixture and line transect samplings
-4. Introduction to `unmarked`
 <!-- 5. Further analysis issues: introducing covariates; heterogeneity -->
 
 + **Estimation of survival and productivity using capture-recapture and generalized linear models**
 1. Survival estimation from capture-recapture data
-2. Multiple group, age and cohort models
-3. Incorporation of external covariates
-4. Introduction to `RMark`
-5. Productivity estimation
+3. Using covariates to explain variation
+4. Inference about dispersal
 <!-- 5. Further analysis issues: estimation of recruitment and population growth rate by reversing capture histories; multi-state models allowing estimation of transitions (including movements) -->
 
 + **Population projection matrix models**

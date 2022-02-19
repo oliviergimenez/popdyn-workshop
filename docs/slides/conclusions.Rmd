@@ -1,7 +1,7 @@
 ---
 title: "Quantitative methods for population dynamics <br> Conclusions"
 author: "Olivier Gimenez, Sarah Cubaynes, Aurélien Besnard"
-date: "last updated: `r Sys.Date()`"
+#date: "last updated: `r Sys.Date()`"
 output:
   xaringan::moon_reader:
     css: [default, "slides-theme.css"]
@@ -196,7 +196,7 @@ class: middle, center
 
 --
 
-+ Please, fill in feedback form at <https://forms.gle/XoXvz58RQq6kAMT38>. Will hep us to improve materials and delivery for next time. 
++ Please, fill in feedback form at <https://forms.gle/XoXvz58RQq6kAMT38>. Will help us to improve materials and delivery for next time. 
 
 --
 

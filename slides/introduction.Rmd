@@ -1,7 +1,7 @@
 ---
 title: "Quantitative methods for population dynamics <br> Introduction"
 author: "Olivier Gimenez, Sarah Cubaynes, Aurélien Besnard"
-date: "last updated: `r Sys.Date()`"
+#date: "last updated: `r Sys.Date()`"
 output:
   xaringan::moon_reader:
     css: [default, "slides-theme.css"]
@@ -246,14 +246,13 @@ p1 / p2 / p3 / p4
       + Introduction to counting methods
       + Conventional methods and the detectability issue
       + Capture-recapture, N-mixture and line transect samplings
-      + Introduction to unmarked
 
 --
 
 + Estimation of demographic parameters       
       + Survival estimation from capture-recapture data
-      + Incorporation of covariates
-      + Productivity estimation
+      + Using covariates to explain variation
+      + Inference about dispersal
 
 --
 

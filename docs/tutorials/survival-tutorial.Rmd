@@ -1,7 +1,7 @@
 ---
 title: "Estimation of demographic parameters - tutorial"
 author: "Olivier Gimenez for the team"
-date: "last updated: `r Sys.Date()`"
+#date: "last updated: `r Sys.Date()`"
 output:
   xaringan::moon_reader:
     css: [default, "slides-theme.css"]
@@ -33,6 +33,14 @@ background-size: cover
 
 ---
 ## Load RMark package
+
+<style type="text/css">
+
+pre {
+  font-size: 22px
+}
+</style>
+
 
 ```{r}
 library(RMark)
@@ -311,7 +319,10 @@ df <- data.frame(year = c(1981:1986, 1981:1986),
 df %>%
   ggplot() + 
   aes(x = year, y = survival, color = sex) +
-  geom_line()
+  geom_line() + 
+  labs(color = NULL) + 
+  theme_light(base_size = 18) + 
+  scale_color_viridis_d(begin = 0, end = 0.7)
 ```
 
 

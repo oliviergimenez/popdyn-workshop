@@ -1,7 +1,7 @@
 ---
 title: "Estimation of demographic parameters"
 author: "Olivier Gimenez for the team"
-date: "last updated: `r Sys.Date()`"
+#date: "last updated: `r Sys.Date()`"
 output:
   xaringan::moon_reader:
     css: [default, "slides-theme.css"]
@@ -51,7 +51,6 @@ knitr::include_graphics("img/Page2.png")
 + Estimating survival with capture-recapture models
 + Including discrete and continuous covariates
 + Estimating transitions between sites/states
-+ Estimating productivity with GLMs
 
 ???
 
@@ -63,7 +62,6 @@ knitr::include_graphics("img/Page2.png")
 + **Estimating survival with capture-recapture models**
 + Including discrete and continuous covariates
 + Estimating transitions between sites/states
-+ Estimating productivity with GLMs
 
 
 ---
@@ -707,7 +705,6 @@ background-color: #234f66
 + Estimating survival with capture-recapture models
 + **Including discrete and continuous covariates**
 + Estimating transitions between sites/states
-+ Estimating productivity with GLMs
 
 
 ---
@@ -915,7 +912,6 @@ background-color: black
 + Estimating survival with capture-recapture models
 + Including discrete and continuous covariates
 + **Estimating transitions between sites/states**
-+ Estimating productivity with GLMs
 
 
 ---
@@ -1113,7 +1109,6 @@ background-color: black
 + Estimating survival with capture-recapture models
 + Including discrete and continuous covariates
 + Estimating transitions between sites/states
-+ **Estimating productivity with GLMs**
 
 
 ---
