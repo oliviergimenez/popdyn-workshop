@@ -18,7 +18,7 @@ navbar:
         - text: "Class 2: Demographic parameters"
           href: slides/survival.html
         - text: "Class 3: Population projection matrix models"
-#          href: slides/class1.pptx
+          href: slides/matrixmodels.html
         - text: "Conclusions"
           href: slides/conclusions.html
     - text: "Live demos"
