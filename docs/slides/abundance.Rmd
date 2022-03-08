@@ -125,13 +125,13 @@ Not cover is this course however
 
 .pull-left[
 ```{r, echo=FALSE, out.width="70%", fig.align='center'}
-knitr::include_graphics("img/book_williams.JPG")
+knitr::include_graphics("img/book_williams.jpg")
 ```
 ]
 
 .pull-right[
 ```{r, echo=FALSE, out.width="60%", fig.align='center'}
-knitr::include_graphics("img/book_thompson.JPG")
+knitr::include_graphics("img/book_thompson.jpg")
 ```
 ]
 
