@@ -6,7 +6,7 @@
       "description": "Some additional details about the website",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2022-03-08T22:50:05+01:00"
+      "last_modified": "2022-03-08T22:54:15+01:00"
     },
     {
       "path": "index.html",
@@ -14,13 +14,13 @@
       "description": "A two-day workshop with `R`",
       "author": [],
       "contents": "\nWhat: Quantifying population dynamics is crucial for the conservation and management of animal and plant species. This workshop deals with the analysis and modelling of population dynamics. In this introductory workshop, we will cover population projection matrix models, the estimation of demographic parameters (e.g. survival, dispersal) using capture-recapture models and the estimation of population density and abundance using capture-recapture, N-mixture and distance sampling models. Our hope is to provide you with what you need to go your own path. The event is free of charge, and video-recorded.\nFor whom: This is a workshop for ecologists. Basic knowledge of R is required. See R for beginners by E. Paradis for an introduction.\nHow: The format of the workshop will be a combination of lectures and live demonstrations in R with packages popbio, RMark and unmarked.\nWho: Olivier Gimenez, Aurélien Besnard and Sarah Cubaynes.\nWhen: March 21-22, 2022\nWhere: On YouTube\nDay 1: https://youtu.be/iqlqc5a4r7w\nDay 2: https://youtu.be/b08d1BBqf5E\nProgram\nEstimating abundance and density of populations\nIntroduction to counting methods\nConventional methods and the detectability issue\nCapture-recapture, N-mixture and line transect samplings \nEstimation of survival and productivity using capture-recapture and generalized linear models\nSurvival estimation from capture-recapture data\nUsing covariates to explain variation\nInference about dispersal \nPopulation projection matrix models\nIntroduction to matrix models\nAge- and stage-structured models\nLeslie models as a particular case; sensitivity analyses.\nIntroduction to popbio \nRequirements\nInstall R and RStudio. RStudio is recommended but not mandatory.\nInstall the R package RMark following the steps described at http://www.phidot.org/software/mark/rmark/. For Mac users, the installation is a bit tricky, check out the procedure here.\nInstall the R packages unmarked and popbio directly from the console with\n\n\ninstall.packages(c(\"unmarked\", \"popbio\"))\n\n\n\n\nReuse\nText and figures are licensed under Creative Commons Attribution CC BY 4.0. Any computer code (R, HTML, CSS, etc.) in slides and worksheets, including in slide and worksheet sources, is also licensed under MIT.\n\n\n\n",
-      "last_modified": "2022-03-08T22:50:06+01:00"
+      "last_modified": "2022-03-08T22:54:16+01:00"
     },
     {
       "path": "LICENSE.html",
       "author": [],
       "contents": "\nMIT License\nCopyright (c) 2021 Olivier Gimenez, Aurélien Besnard, Sarah Cubaynes\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\nTHE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n\n\n",
-      "last_modified": "2022-03-08T22:50:06+01:00"
+      "last_modified": "2022-03-08T22:54:16+01:00"
     }
   ],
   "collections": []

@@ -238,7 +238,7 @@ knitr::include_graphics("img/photo_petersen.jpg")
 .pull-right[
 Lincoln (birds 1930)
 ```{r, echo=FALSE, out.width="75%", fig.align='center'}
-knitr::include_graphics("img/photo_lincoln.jpg")
+knitr::include_graphics("img/photo_Lincoln.jpg")
 ```
 ]
 
