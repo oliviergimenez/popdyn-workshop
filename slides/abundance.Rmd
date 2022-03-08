@@ -172,13 +172,13 @@ Implies to work over short intervals
 
 .pull-left[
 ```{r, echo=FALSE, out.width="100%", fig.align='center'}
-knitr::include_graphics("img/photo_tortue.JPG")
+knitr::include_graphics("img/photo_tortue.jpg")
 ```
 ]
 
 .pull-right[
 ```{r, echo=FALSE, out.width="100%", fig.align='center'}
-knitr::include_graphics("img/photo_papillon.JPG")
+knitr::include_graphics("img/photo_papillon.jpg")
 ```
 ]
 
@@ -231,14 +231,14 @@ $$\hat{N}=\frac{n1*n2}{m}$$
 .pull-left[
 Petersen (fishes 1894)
 ```{r, echo=FALSE, out.width="75%", fig.align='center'}
-knitr::include_graphics("img/photo_petersen.JPG")
+knitr::include_graphics("img/photo_petersen.jpg")
 ```
 ]
 
 .pull-right[
 Lincoln (birds 1930)
 ```{r, echo=FALSE, out.width="75%", fig.align='center'}
-knitr::include_graphics("img/photo_lincoln.JPG")
+knitr::include_graphics("img/photo_lincoln.jpg")
 ```
 ]
 
