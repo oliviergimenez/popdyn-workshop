@@ -1,0 +1,155 @@
+---
+title: "N-mixture"
+author: "Aurélien Besnard"
+date: "last updated: `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: [default, "slides-theme.css"]
+    lib_dir: libs
+    nature:
+      ratio: '16:9' 
+      highlightStyle: github
+      highlightLines: true
+      slideNumberFormat: ''
+      titleSlideClass: [center, middle]
+---
+```{r setup, include=FALSE, echo=FALSE, cache = FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(comment = "")
+library(tidyverse)
+theme_set(theme_light())
+update_geom_defaults("point", list(size = 2)) 
+```
+
+# Count on a fixed sample area
+
+Traditionnal methods = count animals (or plants) along transects of fixed width
+or on quadrat, or on circular plots
+
+These counts are affected by detection issues
+```{r, echo=FALSE, out.width="75%", fig.align='center'}
+knitr::include_graphics("img/Diapositive12.JPG")
+```
+
+---
+# Repeated counts at the same sample unit
+```{r, echo=FALSE, out.width="80%", fig.align='center'}
+knitr::include_graphics("Diapositive30.JPG")
+```
+True abundance N=10
+---
+# Repeated counts at the same sample unit
+```{r, echo=FALSE, out.width="80%", fig.align='center'}
+knitr::include_graphics("Diapositive31.JPG")
+```
+True abundance N=10, Count at first visit=4
+---
+# Repeated counts at the same sample unit
+```{r, echo=FALSE, out.width="80%", fig.align='center'}
+knitr::include_graphics("Diapositive32.JPG")
+```
+True abundance N=10, Count at second visit=3
+---
+# Repeated counts at the same sample unit
+```{r, echo=FALSE, out.width="80%", fig.align='center'}
+knitr::include_graphics("Diapositive33.JPG")
+```
+True abundance N=10, Count at third visit=6
+---
+# Repeated counts with imperfect detection
+
+When counts are repeated on the same sample unit, some variations are observed
+
+This is due to random process related to imperfect detection
+
+Example : sex-ratio in Human is close to 0.5, 
+Probability to have a son is thus 0.5 and the expected number of sons in four siblings is 2.  
+Yet some parents have four sons and zero daughters.
+
+---
+# Repeated counts with imperfect detection
+Example : true abundance = 5, detection probability=0.5
+
+Repeated counts on the same unit with imperfect detection leads to variations
+
+```{r, echo=FALSE, out.width="50%", fig.align='center'}
+knitr::include_graphics("Diapositive34.JPG")
+```
+
+Repeated counts on the same units encapsulate information on detection and abundance
+
+---
+# N-mixture models (Royle 2004)
+
+N-mixture models take advantage of these variations between counts at the same sample unit
+
+Need some spatial replications (several sample units) and temporal replications (repeated counts at the same units)
+
+Some strong assumptions :
+
+- Abundance at a sample unit do not change between the successive counts ("closed population")
+- Individuals have all the same detection probability (no heterogeneity)
+- Abundances at the sample units follow a Poisson distribution
+- Visits are independent (no trap-dependence)
+
+---
+# N-mixture models (Royle 2004)
+
+Typical dataset used for N-mixture models
+
+```{r, echo=FALSE, out.width="50%", fig.align='center'}
+set.seed(254)
+xinit<-rpois(10,3)
+hist<-matrix(0,nrow=10,ncol=3)
+for (i in 1:10)
+{
+  if (xinit[i]>0){hist[i,]<-rbinom(3,xinit[i],0.5)}
+  
+}
+tt<-data.frame(site=seq(1:10),counts=hist)
+knitr::kable(tt, format = 'html')
+```
+
+---
+# N-mixture models formulation
+
+N-mixture can be formulated as hierarchical models
+
+A state process describing the system 
+
+$N_i=Pois(\lambda_i)$
+
+An observation process corresponding to detection issues
+
+$y_{it}=Binom(N_i,p_{it})$
+
+Covariates can be added on abundance (vegetation cover, elevation, etc) and on detection probabilty (vegetation cover, date, obsever experience, etc)
+
+---
+# N-mixture models - to use with caution
+
+The method has been highly controversial for years
+
+Couturier et al *2013* - Identifiability problems when *p* is low or highly variable
+
+Barker et al *2017* - Without auxillary information about *p*, count data cannot distinguish between N-mixture model or other possible models of $N
+
+Dennis *2015*, Kéry *2017* - Some parameters not identifiability especially with negative binomial distribution instead of Poisson  
+
+Link et al *2018* - Estimates  sensitive to violation of double counting and constant λ / p - GOF unable to detect this
+
+Conclusion : check parameter K (see live demo), perform GOF, do not rely on negative binomial distribution
+
+---
+# N-mixture models - further reading
+
+Open N-mixture - Dail and Madsen (2011) / Hostetler and Chandler (2015)
+
+Distance sampling based on Poisson model - Royle (2004)
+
+Generalized Distance sampling - accomodate for temporary emigration - Chandler (2011)
+
+Community N-mixture models - Yamaura et al. (2012)
+
+---
+# Live demo with R

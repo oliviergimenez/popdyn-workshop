@@ -14,7 +14,7 @@ navbar:
         - text: "Introduction"
           href: slides/introduction.html
         - text: "Class 1: Population abundance and density"
-#          href: slides/class1.pptx
+          href: slides/abundance.html
         - text: "Class 2: Demographic parameters"
           href: slides/survival.html
         - text: "Class 3: Population projection matrix models"
