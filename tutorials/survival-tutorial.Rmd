@@ -1,5 +1,5 @@
 ---
-title: "Estimation of demographic parameters - tutorial"
+title: "Estimation of demographic parameters - live demos"
 author: "Olivier Gimenez for the team"
 #date: "last updated: `r Sys.Date()`"
 output:

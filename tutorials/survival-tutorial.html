@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Estimation of demographic parameters - tutorial</title>
+    <title>Estimation of demographic parameters - live demos</title>
     <meta charset="utf-8" />
     <meta name="author" content="Olivier Gimenez for the team" />
     <script src="libs/header-attrs/header-attrs.js"></script>
@@ -12,7 +12,7 @@
     <textarea id="source">
 class: center, middle, title-slide
 
-# Estimation of demographic parameters - tutorial
+# Estimation of demographic parameters - live demos
 ### Olivier Gimenez for the team
 
 ---
@@ -1284,7 +1284,7 @@ Name : Phi(~age)p(~1)
 
 Npar :  7  (unadjusted=6)
 -2lnL:  663
-AICc :  677  (unadjusted=675.02107)
+AICc :  677  (unadjusted=675.02106)
 
 Beta
                 estimate      se       lcl     ucl
@@ -1293,14 +1293,14 @@ Phi:age1           0.021    0.25    -0.476    0.52
 Phi:age2           0.359    0.37    -0.365    1.08
 Phi:age3          -0.058    0.54    -1.113    1.00
 Phi:age4           0.240    0.89    -1.498    1.98
-Phi:age5         -17.038 3107.33 -6107.402 6073.33
+Phi:age5         -19.078 4196.84 -8244.887 8206.73
 p:(Intercept)      2.255    0.33     1.611    2.90
 
 
 Real Parameter Phi
 Group:sexF 
      1    2    3    4    5       6
-1 0.55 0.56 0.64 0.54 0.61 4.9e-08
+1 0.55 0.56 0.64 0.54 0.61 6.4e-09
 2      0.55 0.56 0.64 0.54 6.1e-01
 3           0.55 0.56 0.64 5.4e-01
 4                0.55 0.56 6.4e-01
@@ -1309,7 +1309,7 @@ Group:sexF
 
 Group:sexM 
      1    2    3    4    5       6
-1 0.55 0.56 0.64 0.54 0.61 4.9e-08
+1 0.55 0.56 0.64 0.54 0.61 6.4e-09
 2      0.55 0.56 0.64 0.54 6.1e-01
 3           0.55 0.56 0.64 5.4e-01
 4                0.55 0.56 6.4e-01
@@ -1347,14 +1347,14 @@ phiage.p$results$real
 ```
 
 ```
-                estimate      se      lcl  ucl fixed note
-Phi gF c1 a0 t1  5.5e-01 0.03447  4.8e-01 0.62           
-Phi gF c1 a1 t2  5.6e-01 0.05027  4.6e-01 0.65           
-Phi gF c1 a2 t3  6.4e-01 0.07948  4.7e-01 0.78           
-Phi gF c1 a3 t4  5.4e-01 0.12937  2.9e-01 0.76           
-Phi gF c1 a4 t5  6.1e-01 0.20896  2.2e-01 0.90           
-Phi gF c1 a5 t6  4.9e-08 0.00015 2.7e-316 1.00           
-p gF c1 a1 t2    9.1e-01 0.02825  8.3e-01 0.95           
+                estimate       se       lcl      ucl fixed note
+Phi gF c1 a0 t1  5.5e-01 0.034470  0.483039 0.617352           
+Phi gF c1 a1 t2  5.6e-01 0.050266  0.456991 0.651553           
+Phi gF c1 a2 t3  6.4e-01 0.079481  0.472521 0.775213           
+Phi gF c1 a3 t4  5.4e-01 0.129373  0.294785 0.762672           
+Phi gF c1 a4 t5  6.1e-01 0.208961  0.218257 0.897098           
+Phi gF c1 a5 t6  6.4e-09 0.000027 -0.000052 0.000052           
+p gF c1 a1 t2    9.1e-01 0.028245  0.833509 0.947835           
 ```
 
 ---

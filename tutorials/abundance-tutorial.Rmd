@@ -1,0 +1,678 @@
+---
+title: "Abundance and density - live demos"
+author: "Aurélien Besnard for the team"
+date: "last updated: `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: [default, "slides-theme.css"]
+    lib_dir: libs
+    nature:
+      ratio: '16:9' 
+      highlightStyle: github
+      highlightLines: true
+      slideNumberFormat: ''
+      titleSlideClass: [center, middle]
+---
+
+```{r setup, include=FALSE, echo=FALSE, cache = FALSE, message = FALSE, warning=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(comment = "")
+library(tidyverse)
+theme_set(theme_light())
+update_geom_defaults("point", list(size = 2)) 
+```
+
+
+class: center, middle
+background-size: cover
+
+# Live demo #1: Capture-recapture for closed populations 
+
+<style type="text/css">pre {font-size: 18px}</style>
+
+---
+# Example with one group only
+
+## Package
+
+```{r}
+library(RMark)
+```
+
+---
+## Read and prepare the data
+
+```{r}
+mouse <- convert.inp("dat/mouse.inp",
+                    group.df = NULL,
+                    covariates = NULL)
+```
+
+look at the first data 
+```{r}
+head(mouse)
+```
+
+---
+## Fit a first batch of models
+
+To use RMark we need three steps : 
+- Prepare the data
+- Define the models to fit
+- Fit the models
+
+---
+## Prepare the data
+
+```{r}
+mouse.proc <- process.data(mouse, 
+                           begin.time = 1, 
+                           model = "FullHet")
+mouse.ddl <- make.design.data(mouse.proc)
+```
+model= FullHet refers to the most complex model form, allow simpler models to be fitted
+
+---
+## Define the models (1)
+
+Use a function that do three actions :
+- specify the effects in the model to fit
+- create a list of all models to fit
+- prepare them for Mark
+
+Not that MARK considers capture probability *p* and recapture probability *c* to be different
+
+To fit a model vith  *p* and *c* equal, use  "share = TRUE" 
+
+---
+## Define the models (2)
+```{r}
+run.mouse <- function() {
+# prepare effects in the models 
+p.dot <- list(formula =  ~ 1, share = TRUE) # M0 : p constant over time
+p.dot.behav <- list(formula =  ~ 1) # Mb : p and c differ
+p.time <- list(formula =  ~ time, share = TRUE) # Mt : p varies over time
+p.h <- list(formula = ~ mixture, share = TRUE) # Mh : p is heterogeneous between individuals (Pledger's mixture model)
+p.time.behav <- list(formula =  ~ time) # Mtb
+p.h.behav <- list(formula =  ~ mixture) # Mbh
+p.h.time <- list(formula = ~ time + mixture, share = TRUE) # Mth
+p.h.time.behav <- list(formula =  ~ mixture + time) # Mtbh
+
+## Build the model list
+mouse.model.list <- create.model.list("FullHet")
+
+## Prepare the list to send to Mark
+mouse.results <- mark.wrapper(mouse.model.list,data = mouse.proc,ddl = mouse.ddl)
+
+## Grab the results
+  return(mouse.results)
+}
+```
+
+---
+# Fit the models
+Fit all models prepared with the function at once 
+```{r}
+mouse.results <- run.mouse()
+```
+
+---
+# Look at the results
+
+```{r}
+mouse.results
+```
+Look at column "model" to get the detail of the effects included in the model
+
+---
+# How do we identify the models
+The models appear in the same order as we specify them in the building model function
+```{r}
+names(mouse.results)
+```
+
+---
+# Get estimates of one specific model
+We called  $M_0$  "p.dot" in the building model function
+
+This is the name used in the object storing the results
+```{r}
+mouse.results$p.dot$results$real
+```
+
+pi is not relevant here as the model does not include heterogeneity
+
+p is the capture and recapture probability
+
+f0 is the estimated number fo missed individuals (never captured)
+
+---
+# To get abundance estimates
+
+Abundance *N* is a derived parameter estimated using $p*$ and the number of caught individuals
+
+To get its estimate : 
+```{r}
+mouse.results$p.dot.behav$results$derived
+```
+
+---
+# Model with two groups
+
+## Read and convert the data
+
+Read the file, do not forget to grab the information on sex of individuals
+```{r}
+mouse <- convert.inp("dat/mouse_groups.inp",
+                    group.df = data.frame(sex = c("M","F")),
+                    covariates = NULL)
+```
+---
+# Look at the data
+```{r}
+head(mouse)
+```
+
+---
+# Prepare the data
+
+Same steps than before but specify that we have some groups, here 'sex'
+```{r}
+mouse.proc <- process.data(mouse, 
+                           begin.time = 1, 
+                           model = "FullHet",
+                           groups = "sex")
+mouse.ddl <- make.design.data(mouse.proc)
+```
+
+---
+# Define models to fit
+```{r}
+run.mouse <- function() {
+  p.dot <- list(formula =  ~ 1, share = TRUE)
+  p.dot.behav <- list(formula =  ~ 1)
+  p.time <- list(formula =  ~ time, share = TRUE)
+  p.h <- list(formula = ~ mixture, share = TRUE)
+  p.time.behav <- list(formula =  ~ time)
+  p.h.behav <- list(formula =  ~ mixture)
+  p.h.time <- list(formula = ~ time + mixture, share = TRUE)
+  p.h.time.behav <- list(formula =  ~ mixture + time)
+  # Mbsex - model with sex on capture probability AND recapture probability
+  p.sex.behav <- list(p = list(formula = ~ sex),c = list(formula = ~ sex))
+
+## Build the model list
+  mouse.model.list <- create.model.list("FullHet")
+  
+## Prepare the list to send to Mark
+  mouse.results <- mark.wrapper(mouse.model.list,
+                              data = mouse.proc, 
+                              ddl = mouse.ddl)
+## Grab the results
+  return(mouse.results)
+}
+```
+
+---
+# Fit all models
+ 
+```{r}
+mouse.results <- run.mouse()
+```
+
+--- 
+# Look at the results
+ 
+```{r}
+mouse.results
+```
+
+---
+# Get the estimates
+
+```{r}
+mouse.results$p.sex.behav$results$real
+```
+pi not relevant as no heterogeneity was fitted
+
+p gF capture probability of females /  p gM capture probability of males 
+
+c gF recapture probability of females / c gM recapture probability of males
+
+f0 gF number of females never caugth / f0 gM number of males never caugth
+
+---
+# Get the abundance estimates
+```{r}
+mouse.results$p.sex.behav$results$derived
+```
+Line 1 - Population size of Females
+
+Line 2 - Population size of Males
+
+---
+# Clean the temporary files created by RMARK
+
+```{r}
+rm(list = ls(all = TRUE))
+cleanup(ask = FALSE)
+```
+
+---
+class: center, middle
+background-size: cover
+
+# Live demo #2: Distance sampling
+
+<style type="text/css">pre {font-size: 18px}</style>
+
+---
+# Load Distance package
+
+```{r}
+library(Distance)
+```
+
+---
+# Read the data (1)
+
+An example of data provided by Eric Rexstad in Distance package
+
+Line transect data of winter wrens in Scotland
+
+```{r}
+data(wren_lt)
+```
+
+
+---
+# Explore the data (1)
+
+```{r}
+wren_lt
+```
+
+---
+# Explore the data (2)
+
+```{r}
+dim(wren_lt) 
+sum(is.na(wren_lt$distance))  # transect with no observations at all
+
+```
+---
+# Explore the data (3)
+
+```{r, eval=FALSE}
+hist(wren_lt$distance, xlab="Distance (m)", main="Winter wren line transects")
+
+```
+---
+# Explore the data (3)
+
+```{r, echo=FALSE}
+hist(wren_lt$distance, xlab="Distance (m)", 
+     main="Winter wren line transects")
+
+```
+---
+# Specify units 
+Choose the units in which  density is to be reported
+
+- Distance_units - units of measure for perpendicular/radial distances
+- Effort_units - units of measure for effort (NULL for point transects)
+- Area_units -units of measure for the study area.
+
+```{r}
+conversion.factor <- convert_units("meter", "kilometer","hectare")
+```
+
+---
+# Fit a simple detection function model 
+
+```{r}
+wren.hn <- ds(data=wren_lt, key="hn", adjustment=NULL,
+              convert.units=conversion.factor)
+```
+---
+# Fit a simple detection function model 
+
+```{r}
+summary(wren.hn)
+```
+
+---
+# Explore results (1)
+
+```{r, eval=FALSE}
+cutpoints <- c(0,5,10,15,20,30,40,50,65,80,100)
+plot(wren.hn, breaks=cutpoints, main="Half normal model, 
+     wren line transects")
+
+```
+---
+# Explore results (1)
+
+```{r, echo=FALSE}
+cutpoints <- c(0,5,10,15,20,30,40,50,65,80,100)
+plot(wren.hn, breaks=cutpoints, main="Half normal model, 
+     wren line transects")
+
+```
+---
+# Explore results (2)
+
+```{r}
+str(wren.hn)
+```
+
+---
+# Get estimates - detection function
+
+```{r}
+wren.hn$ddf
+
+```
+
+---
+# Get estimates - density 
+```{r}
+wren.hn$dht
+
+```
+---
+# Fit some more models
+
+```{r, eval=FALSE}
+wren.unif.cos <- ds(wren_lt, key="unif", adjustment="cos",
+                  convert.units=conversion.factor)
+wren.hr.poly <- ds(wren_lt, key="hr", adjustment="poly", 
+                  convert.units=conversion.factor)
+```
+
+```{r, echo=FALSE}
+wren.unif.cos <- ds(wren_lt, key="unif", adjustment="cos",
+                  convert.units=conversion.factor)
+wren.hr.poly <- ds(wren_lt, key="hr", adjustment="poly", 
+                  convert.units=conversion.factor)
+```
+---
+# Compare these models
+
+```{r}
+AIC(wren.hn, wren.hr.poly, wren.unif.cos)
+```
+
+---
+# GOF
+
+.pull-left[
+```{r}
+z<-gof_ds(wren.hn)
+```
+]
+
+.pull-right[
+```{r echo=FALSE}
+z
+```
+]
+
+---
+class: center, middle
+background-size: cover
+
+# Live demo #3: N-mixture models
+
+<style type="text/css">pre {font-size: 18px}</style>
+
+---
+# Ocellated lizard (*Timon lepidus*)
+```{r, echo=FALSE, out.width="70%", fig.align='center'}
+knitr::include_graphics("img/ocelle.jpg")
+```
+
+---
+# Quadrat sampling in a Oleron's Island
+```{r, echo=FALSE, out.width="80%", fig.align='center'}
+knitr::include_graphics("img/Diapositive35.JPG")
+```
+---
+# Load unmarked package
+
+```{r}
+library(unmarked)
+library(AICcmodavg)
+```
+
+---
+# Read the data (1)
+
+```{r}
+dat<-read.csv2('dat/ocellatedlezard.csv')
+```
+
+
+---
+# Explore the data (1)
+
+```{r}
+head(dat)
+dim(dat)[1] # number of quadrats
+```
+
+---
+# Explore the data (2)
+
+Look at the detection on the quadrats
+```{r}
+y<-dat[,2:4]
+head(y)
+```
+---
+# Explore the data (3)
+
+Look at the detection on the quadrats
+```{r}
+colSums(y)
+rowSums(y)
+```
+---
+# Prepare the data for unmarked (1)
+
+Collect the covariates at the site (that do not change over field sessions)
+```{r}
+covsite<-dat[,5:6]			# collect the site covariates
+
+```
+---
+# Prepare the data for unmarked (2)
+
+Collect the covariates of the field sessions
+```{r}
+temp<-dat[,7:9]			  # collect the temperature at each field session
+month<-dat[,10:12]     # collect the month of each field session
+obscov<-list(temp=temp,month=month)	# make a list with session covariates
+```
+---
+# Prepare the data for unmarked (3)
+
+Build the object for unmarked function
+```{r}
+count<-unmarkedFramePCount(y,siteCovs=covsite,obsCovs=obscov)
+```
+
+---
+# Fit models
+
+Fit a constant model just to check
+```{r}
+res0<-pcount(~1 ~1,count,K=100,mixture=c("P"))
+
+```
+---
+# Explore the resulting object
+
+```{r}
+str(res0)
+
+```
+---
+# Examine model results
+
+```{r}
+summary(res0)
+
+```
+
+---
+# Get estimates on ""natural" scale
+
+```{r}
+lambda<-backTransform(res0, type="state") 
+lambda
+confint(lambda)
+```
+---
+# Get estimates on ""natural" scale
+
+```{r}
+detection<-backTransform(res0, type="det") 
+detection
+confint(detection)
+```
+---
+# Check identifiability (1)
+```{r}
+res0a<-pcount(~1 ~1,count,K=100,mixture=c("P"))
+res0b<-pcount(~1 ~1,count,K=150,mixture=c("P"))
+res0c<-pcount(~1 ~1,count,K=200,mixture=c("P"))
+```
+---
+# Check identifiability (2)
+```{r}
+print(res0a@AIC, digits=5)
+print(res0b@AIC, digits=5)
+print(res0c@AIC, digits=5)
+```
+If AIC is stable, no problem
+If AIC decrease then identifiability issues, try : 
+- Other distributions (but may pose the same problem)
+- Add some covariates and then check on the best model
+
+---
+# Fit some models with covariates
+
+Fit a model with month as covariate on detection
+```{r}
+res_month<-pcount(~month ~1,count,K=100,mixture=c("P"))
+```
+
+---
+# Examine model results
+
+```{r}
+summary(res_month)
+```
+
+---
+# Compare models
+
+```{r}
+res0@AIC
+res_month@AIC
+```
+---
+# Examine detection probability over months
+
+```{r}
+newData <- data.frame(month=c('April','May','June'))
+pred <- predict(res_month, type="det", newdata=newData, appendData=TRUE)
+pred
+```
+
+---
+# Fit a model with rabbit burrows on abundance
+
+```{r}
+res_burrow<-pcount(~month ~burrow,count,K=100,mixture=c("P"))
+```
+
+---
+# Compare models
+
+```{r}
+res_month@AIC
+res_burrow@AIC
+```
+---
+# Plot burrow effect on abundance
+
+```{r, eval=FALSE}
+newData2 <- data.frame(burrow=seq(min(dat$burrow),max(dat$burrow),by=1))
+E.p <- predict(res_burrow, type="state", newdata=newData2, appendData=TRUE)
+plot(Predicted ~ burrow, E.p, type="l", ylim=c(0,10),
+xlab="Number of burrow",
+ylab="Expected abundance")
+lines(lower ~ burrow, E.p, type="l", col=gray(0.5))
+lines(upper ~ burrow, E.p, type="l", col=gray(0.5))
+```
+---
+# Plot burrow effect on abundance
+
+```{r, echo=FALSE}
+newData2 <- data.frame(burrow=seq(min(dat$burrow),max(dat$burrow),by=1))
+E.p <- predict(res_burrow, type="state", newdata=newData2, appendData=TRUE)
+plot(Predicted ~ burrow, E.p, type="l", ylim=c(0,10),
+xlab="Number of burrow",
+ylab="Expected abundance")
+lines(lower ~ burrow, E.p, type="l", col=gray(0.5))
+lines(upper ~ burrow, E.p, type="l", col=gray(0.5))
+```
+
+---
+# Goodness-of-fit tests
+
+```{r cache = TRUE, message=FALSE, warning=FALSE}
+obs.boot <- Nmix.gof.test(res_burrow, nsim = 100)
+```
+
+---
+# Goodness-of-fit tests
+
+```{r}
+print(obs.boot, digits.vals = 4, digits.chisq = 4)
+
+```
+
+---
+# Model selection
+```{r}
+res1<-pcount(~month ~burrow,count,K=100,mixture=c("P"))
+res2<-pcount(~month+burrow ~1,count,K=100,mixture=c("P"))
+res3<-pcount(~month+burrow ~burrow,count,K=100,mixture=c("P"))
+res4<-pcount(~month ~habitat,count,K=100,mixture=c("P"))
+res5<-pcount(~month+habitat ~1,count,K=100,mixture=c("P"))
+res6<-pcount(~month+habitat ~habitat,count,K=100,mixture=c("P"))
+```
+---
+# Model selection
+```{r}
+fms <- fitList(
+"lambda(.)       p(.)" = res0,
+"lambda(burrow)  p(month)" = res1,
+"lambda(.)       p(month+burrow)" = res2,
+"lambda(burrow)  p(month+burrow)" = res3,
+"lambda(habitat) p(month)" = res4,
+"lambda(.)       p(month+habitat)" = res5,
+"lambda(habitat) p(month+habitat)" = res6
+)
+```
+
+---
+# Model selection
+```{r}
+ms <- modSel(fms)
+ms
+```
+
+

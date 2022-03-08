@@ -1,0 +1,274 @@
+---
+title: "N-mixture Live Demo"
+author: "Aurélien Besnard"
+date: "last updated: `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: [default, "slides-theme.css"]
+    lib_dir: libs
+    nature:
+      ratio: '16:9' 
+      highlightStyle: github
+      highlightLines: true
+      slideNumberFormat: ''
+      titleSlideClass: [center, middle]
+---
+
+```{r setup, include=FALSE, echo=FALSE, cache = FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(comment = "")
+library(tidyverse)
+theme_set(theme_light())
+update_geom_defaults("point", list(size = 2)) 
+```
+<style type="text/css">pre {font-size: 18px}</style>
+
+
+# Ocellated lizard (*Timon lepidus*)
+```{r, echo=FALSE, out.width="70%", fig.align='center'}
+knitr::include_graphics("ocelle.jpg")
+```
+
+---
+# Quadrat sampling in a Oleron's Island
+```{r, echo=FALSE, out.width="80%", fig.align='center'}
+knitr::include_graphics("Diapositive35.JPG")
+```
+---
+# Load unmarked package
+
+```{r}
+library(unmarked)
+library(AICcmodavg)
+```
+
+---
+# Read the data (1)
+
+```{r}
+dat<-read.csv2('dat/ocellatedlezard.csv')
+```
+
+
+---
+# Explore the data (1)
+
+```{r}
+head(dat)
+dim(dat)[1] # number of quadrats
+```
+
+---
+# Explore the data (2)
+
+Look at the detection on the quadrats
+```{r}
+y<-dat[,2:4]
+head(y)
+```
+---
+# Explore the data (3)
+
+Look at the detection on the quadrats
+```{r}
+colSums(y)
+rowSums(y)
+```
+---
+# Prepare the data for unmarked (1)
+
+Collect the covariates at the site (that do not change over field sessions)
+```{r}
+covsite<-dat[,5:6]			# collect the site covariates
+
+```
+---
+# Prepare the data for unmarked (2)
+
+Collect the covariates of the field sessions
+```{r}
+temp<-dat[,7:9]			  # collect the temperature at each field session
+month<-dat[,10:12]     # collect the month of each field session
+obscov<-list(temp=temp,month=month)	# make a list with session covariates
+```
+---
+# Prepare the data for unmarked (3)
+
+Build the object for unmarked function
+```{r}
+count<-unmarkedFramePCount(y,siteCovs=covsite,obsCovs=obscov)
+```
+
+---
+# Fit models
+
+Fit a constant model just to check
+```{r}
+res0<-pcount(~1 ~1,count,K=100,mixture=c("P"))
+
+```
+---
+# Explore the resulting object
+
+```{r}
+str(res0)
+
+```
+---
+# Examine model results
+
+```{r}
+summary(res0)
+
+```
+
+---
+# Get estimates on ""natural" scale
+
+```{r}
+lambda<-backTransform(res0, type="state") 
+lambda
+confint(lambda)
+```
+---
+# Get estimates on ""natural" scale
+
+```{r}
+detection<-backTransform(res0, type="det") 
+detection
+confint(detection)
+```
+---
+# Check identifiability (1)
+```{r}
+res0a<-pcount(~1 ~1,count,K=100,mixture=c("P"))
+res0b<-pcount(~1 ~1,count,K=150,mixture=c("P"))
+res0c<-pcount(~1 ~1,count,K=200,mixture=c("P"))
+```
+---
+# Check identifiability (2)
+```{r}
+print(res0a@AIC, digits=5)
+print(res0b@AIC, digits=5)
+print(res0c@AIC, digits=5)
+```
+If AIC is stable, no problem
+If AIC decrease then identifiability issues, try : 
+- Other distributions (but may pose the same problem)
+- Add some covariates and then check on the best model
+
+---
+# Fit some models with covariates
+
+Fit a model with month as covariate on detection
+```{r}
+res_month<-pcount(~month ~1,count,K=100,mixture=c("P"))
+```
+
+---
+# Examine model results
+
+```{r}
+summary(res_month)
+```
+
+---
+# Compare models
+
+```{r}
+res0@AIC
+res_month@AIC
+```
+---
+# Examine detection probability over months
+
+```{r}
+newData <- data.frame(month=c('April','May','June'))
+pred <- predict(res_month, type="det", newdata=newData, appendData=TRUE)
+pred
+```
+
+---
+# Fit a model with rabbit burrows on abundance
+
+```{r}
+res_burrow<-pcount(~month ~burrow,count,K=100,mixture=c("P"))
+```
+
+---
+# Compare models
+
+```{r}
+res_month@AIC
+res_burrow@AIC
+```
+---
+# Plot burrow effect on abundance
+
+```{r, eval=FALSE}
+newData2 <- data.frame(burrow=seq(min(dat$burrow),max(dat$burrow),by=1))
+E.p <- predict(res_burrow, type="state", newdata=newData2, appendData=TRUE)
+plot(Predicted ~ burrow, E.p, type="l", ylim=c(0,10),
+xlab="Number of burrow",
+ylab="Expected abundance")
+lines(lower ~ burrow, E.p, type="l", col=gray(0.5))
+lines(upper ~ burrow, E.p, type="l", col=gray(0.5))
+```
+---
+# Plot burrow effect on abundance
+
+```{r, echo=FALSE}
+newData2 <- data.frame(burrow=seq(min(dat$burrow),max(dat$burrow),by=1))
+E.p <- predict(res_burrow, type="state", newdata=newData2, appendData=TRUE)
+plot(Predicted ~ burrow, E.p, type="l", ylim=c(0,10),
+xlab="Number of burrow",
+ylab="Expected abundance")
+lines(lower ~ burrow, E.p, type="l", col=gray(0.5))
+lines(upper ~ burrow, E.p, type="l", col=gray(0.5))
+```
+---
+# Goodness-of-fit tests
+
+```{r}
+obs.boot <- Nmix.gof.test(res_burrow, nsim = 100)
+```
+
+---
+# Goodness-of-fit tests
+
+```{r}
+print(obs.boot, digits.vals = 4, digits.chisq = 4)
+
+```
+
+---
+# Model selection
+```{r}
+res1<-pcount(~month ~burrow,count,K=100,mixture=c("P"))
+res2<-pcount(~month+burrow ~1,count,K=100,mixture=c("P"))
+res3<-pcount(~month+burrow ~burrow,count,K=100,mixture=c("P"))
+res4<-pcount(~month ~habitat,count,K=100,mixture=c("P"))
+res5<-pcount(~month+habitat ~1,count,K=100,mixture=c("P"))
+res6<-pcount(~month+habitat ~habitat,count,K=100,mixture=c("P"))
+```
+---
+# Model selection
+```{r}
+fms <- fitList(
+"lambda(.)       p(.)" = res0,
+"lambda(burrow)  p(month)" = res1,
+"lambda(.)       p(month+burrow)" = res2,
+"lambda(burrow)  p(month+burrow)" = res3,
+"lambda(habitat) p(month)" = res4,
+"lambda(.)       p(month+habitat)" = res5,
+"lambda(habitat) p(month+habitat)" = res6
+)
+```
+
+---
+# Model selection
+```{r}
+ms <- modSel(fms)
+ms
+```
+
