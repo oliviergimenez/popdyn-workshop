@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Abundance and density - live demos</title>
+    <title>Abundance - live demos</title>
     <meta charset="utf-8" />
     <meta name="author" content="Aurélien Besnard for the team" />
     <script src="libs/header-attrs/header-attrs.js"></script>
@@ -12,9 +12,9 @@
     <textarea id="source">
 class: center, middle, title-slide
 
-# Abundance and density - live demos
+# Abundance - live demos
 ### Aurélien Besnard for the team
-### last updated: 2022-03-08
+### last updated: 2022-03-10
 
 ---
 
@@ -30,18 +30,13 @@ background-size: cover
 &lt;style type="text/css"&gt;pre {font-size: 18px}&lt;/style&gt;
 
 ---
-# Example with one group only
+# Example with a single group
 
-## Package
+## Load package
 
 
 ```r
 library(RMark)
-```
-
-```
-This is RMark 2.2.7
- Documentation available at http://www.phidot.org/software/mark/rmark/RMarkDocumentation.zip
 ```
 
 ---
@@ -54,7 +49,7 @@ mouse &lt;- convert.inp("dat/mouse.inp",
                     covariates = NULL)
 ```
 
-look at the first data 
+Inspect first lines of the dataset 
 
 ```r
 head(mouse)
@@ -88,26 +83,27 @@ mouse.proc &lt;- process.data(mouse,
                            model = "FullHet")
 mouse.ddl &lt;- make.design.data(mouse.proc)
 ```
-model= FullHet refers to the most complex model form, allow simpler models to be fitted
+
+`model = FullHet` refers to the most complex model form, allowing simpler models to be fitted as specific cases
 
 ---
-## Define the models (1)
+## Define models (1)
 
-Use a function that do three actions :
-- specify the effects in the model to fit
-- create a list of all models to fit
-- prepare them for Mark
+Use a function that do three things:
+- Specify the effects in the model to be fitted
+- Create a list of all models to be fitted
+- Prepare them for Mark
 
-Not that MARK considers capture probability *p* and recapture probability *c* to be different
+Note that RMark considers capture probability `\(p\)` and recapture probability `\(c\)` to be different
 
-To fit a model vith  *p* and *c* equal, use  "share = TRUE" 
+To fit a model vith `\(p\)` and `\(c\)` equal, use  `share = TRUE`  
 
 ---
-## Define the models (2)
+## Define models (2)
 
 ```r
 run.mouse &lt;- function() {
-# prepare effects in the models 
+# List of effects 
 p.dot &lt;- list(formula =  ~ 1, share = TRUE) # M0 : p constant over time
 p.dot.behav &lt;- list(formula =  ~ 1) # Mb : p and c differ
 p.time &lt;- list(formula =  ~ time, share = TRUE) # Mt : p varies over time
@@ -117,82 +113,24 @@ p.h.behav &lt;- list(formula =  ~ mixture) # Mbh
 p.h.time &lt;- list(formula = ~ time + mixture, share = TRUE) # Mth
 p.h.time.behav &lt;- list(formula =  ~ mixture + time) # Mtbh
 
-## Build the model list
+## Build model list
 mouse.model.list &lt;- create.model.list("FullHet")
 
-## Prepare the list to send to Mark
+## Prepare list to send to Mark
 mouse.results &lt;- mark.wrapper(mouse.model.list,data = mouse.proc,ddl = mouse.ddl)
 
-## Grab the results
+## Grab results
   return(mouse.results)
 }
 ```
 
 ---
-# Fit the models
-Fit all models prepared with the function at once 
+# Fit models
+
+Fit at once all models prepared with the function above 
 
 ```r
 mouse.results &lt;- run.mouse()
-```
-
-```
-Using default formula for pi
-```
-
-```
-Using default formula for c
-```
-
-```
-Using default formula for f0
-```
-
-```
-
-p.dot
-```
-
-```
-Warning in type.convert.default(substr(out[x], regexpr("=", out[x]) + 1, :
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
 ```
 
 ```
@@ -200,21 +138,21 @@ nul s’y trouve
 Output summary for FullHet model
 Name : pi(~1)p(~1)c()f0(~1) 
 
-Npar :  3
+Npar :  3  (unadjusted=2)
 -2lnL:  -181.4414
-AICc :  -175.3674
+AICc :  -175.3674  (unadjusted=-177.40452)
 
 Beta
                     estimate        se           lcl           ucl
-pi:(Intercept) -3.696608e-05 0.0000000 -3.696608e-05 -3.696608e-05
-p:(Intercept)  -1.236656e+00 0.1811077 -1.591627e+00 -8.816852e-01
-f0:(Intercept)  3.823569e+00 0.3178170  3.200648e+00  4.446490e+00
+pi:(Intercept)  3.110286e-05 0.0000000  3.110286e-05  3.110286e-05
+p:(Intercept)  -1.236656e+00 0.1811077 -1.591627e+00 -8.816851e-01
+f0:(Intercept)  3.823569e+00 0.3178170  3.200647e+00  4.446490e+00
 
 
 Real Parameter pi
  
                    
-mixture:1 0.4999908
+mixture:1 0.5000078
 
 
 Real Parameter p
@@ -235,67 +173,6 @@ Real Parameter f0
  
         1
  45.76725
-```
-
-```
-
-p.dot.behav
-```
-
-```
-Warning in type.convert.default(substr(out[x], regexpr("=", out[x]) + 1, :
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-
-Note: only 3 parameters counted of 4 specified parameters
-```
-
-```
-AICc and parameter count have been adjusted upward
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
 
 Output summary for FullHet model
 Name : pi(~1)p(~1)c(~1)f0(~1) 
@@ -305,17 +182,17 @@ Npar :  4  (unadjusted=3)
 AICc :  -181.3897  (unadjusted=-183.43951)
 
 Beta
-                    estimate        se           lcl           ucl
-pi:(Intercept) -2.850435e-05 0.0000000 -2.850435e-05 -2.850435e-05
-p:(Intercept)  -3.404632e-01 0.2668738 -8.635358e-01  1.826094e-01
-c:(Intercept)  -1.437966e+00 0.1936421 -1.817505e+00 -1.058428e+00
-f0:(Intercept)  2.333577e+00 0.6268404  1.104970e+00  3.562184e+00
+                    estimate          se           lcl          ucl
+pi:(Intercept)  1.135781e-05 575.4448600 -1127.8719000 1127.8720000
+p:(Intercept)  -3.404630e-01   0.2668737    -0.8635354    0.1826095
+c:(Intercept)  -1.437966e+00   0.1936421    -1.8175049   -1.0584278
+f0:(Intercept)  2.333576e+00   0.6268405     1.1049689    3.5621836
 
 
 Real Parameter pi
  
                    
-mixture:1 0.4999929
+mixture:1 0.5000028
 
 
 Real Parameter p
@@ -335,66 +212,7 @@ mixture:2 0.1918605 0.1918605 0.1918605
 Real Parameter f0
  
         1
- 10.31477
-```
-
-```
-
-p.h
-```
-
-```
-Warning in type.convert.default(substr(out[x], regexpr("=", out[x]) + 1, :
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-
-Note: only 3 parameters counted of 4 specified parameters
-
-AICc and parameter count have been adjusted upward
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
+ 10.31476
 
 Output summary for FullHet model
 Name : pi(~1)p(~mixture)c()f0(~1) 
@@ -404,96 +222,37 @@ Npar :  4  (unadjusted=3)
 AICc :  -173.3176  (unadjusted=-175.36737)
 
 Beta
-                    estimate       se       lcl       ucl
-pi:(Intercept) -4.204890e+00 0.000000 -4.204890 -4.204890
-p:(Intercept)  -1.236661e+00 4.298704 -9.662121  7.188799
-p:mixture2      5.105460e-06 4.358985 -8.543606  8.543616
-f0:(Intercept)  3.823568e+00 0.317817  3.200647  4.446490
+                    estimate        se       lcl       ucl
+pi:(Intercept) -4.204911e+00 0.0000000 -4.204911 -4.204911
+p:(Intercept)  -1.236690e+00 4.2986234 -9.661992  7.188612
+p:mixture2      3.492275e-05 4.3589156 -8.543440  8.543510
+f0:(Intercept)  3.823568e+00 0.3178171  3.200646  4.446489
 
 
 Real Parameter pi
  
-                  
-mixture:1 0.014703
+                   
+mixture:1 0.0147027
 
 
 Real Parameter p
  
                   1         2         3         4
-mixture:1 0.2250177 0.2250177 0.2250177 0.2250177
-mixture:2 0.2250186 0.2250186 0.2250186 0.2250186
+mixture:1 0.2250126 0.2250126 0.2250126 0.2250126
+mixture:2 0.2250187 0.2250187 0.2250187 0.2250187
 
 
 Real Parameter c
  
                   2         3         4
-mixture:1 0.2250177 0.2250177 0.2250177
-mixture:2 0.2250186 0.2250186 0.2250186
+mixture:1 0.2250126 0.2250126 0.2250126
+mixture:2 0.2250187 0.2250187 0.2250187
 
 
 Real Parameter f0
  
         1
- 45.76724
-```
-
-```
-
-p.h.behav
-```
-
-```
-Warning in type.convert.default(substr(out[x], regexpr("=", out[x]) + 1, :
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-
-Note: only 4 parameters counted of 5 specified parameters
-
-AICc and parameter count have been adjusted upward
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
+ 45.76721
 
 Output summary for FullHet model
 Name : pi(~1)p(~mixture)c(~1)f0(~1) 
@@ -503,25 +262,25 @@ Npar :  5  (unadjusted=4)
 AICc :  -179.3272  (unadjusted=-181.38975)
 
 Beta
-                    estimate        se         lcl        ucl
-pi:(Intercept)  0.2206916000 0.0000000   0.2206916  0.2206916
-p:(Intercept)  -0.3405031000 4.3070667  -8.7823540  8.1013477
-p:mixture2      0.0000896256 9.6588350 -18.9312270 18.9314070
-c:(Intercept)  -1.4379664000 0.1936421  -1.8175050 -1.0584278
-f0:(Intercept)  2.3335769000 0.6268410   1.1049684  3.5621853
+                    estimate          se          lcl         ucl
+pi:(Intercept)  2.204661e-01 748.1448200 -1466.143400 1466.584300
+p:(Intercept)  -3.405065e-01   4.3084070    -8.784984    8.103971
+p:mixture2      9.660131e-05   9.6601463   -18.933790   18.933984
+c:(Intercept)  -1.437966e+00   0.1936421    -1.817505   -1.058428
+f0:(Intercept)  2.333577e+00   0.6268410     1.104969    3.562186
 
 
 Real Parameter pi
  
-                 
-mixture:1 0.55495
+                   
+mixture:1 0.5548943
 
 
 Real Parameter p
  
                   1         2         3         4
-mixture:1 0.4156873 0.4156873 0.4156873 0.4156873
-mixture:2 0.4157090 0.4157090 0.4157090 0.4157090
+mixture:1 0.4156864 0.4156864 0.4156864 0.4156864
+mixture:2 0.4157099 0.4157099 0.4157099 0.4157099
 
 
 Real Parameter c
@@ -535,65 +294,6 @@ Real Parameter f0
  
         1
  10.31477
-```
-
-```
-
-p.h.time
-```
-
-```
-Warning in type.convert.default(substr(out[x], regexpr("=", out[x]) + 1, :
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-
-Note: only 6 parameters counted of 7 specified parameters
-
-AICc and parameter count have been adjusted upward
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
 
 Output summary for FullHet model
 Name : pi(~1)p(~time + mixture)c()f0(~1) 
@@ -603,99 +303,40 @@ Npar :  7  (unadjusted=6)
 AICc :  -176.2736  (unadjusted=-178.36193)
 
 Beta
-                    estimate        se       lcl        ucl
-pi:(Intercept) -4.286445e+00 0.0000000 -4.286445 -4.2864451
-p:(Intercept)  -7.217698e-01 2.2318920 -5.096278  3.6527386
-p:time2        -8.256116e-01 0.3038037 -1.421067 -0.2301563
-p:time3        -6.683295e-01 0.2947862 -1.246110 -0.0905485
-p:time4        -5.712429e-01 0.2898228 -1.139296 -0.0031903
-p:mixture2      1.779521e-05 2.3501194 -4.606216  4.6062519
-f0:(Intercept)  3.769986e+00 0.3228886  3.137125  4.4028480
+                    estimate           se           lcl           ucl
+pi:(Intercept) -4.288145e+00 9379.1667000 -18387.455000 18378.8790000
+p:(Intercept)  -7.217527e-01    4.6257544     -9.788232     8.3447261
+p:time2        -8.256117e-01    0.3038091     -1.421077    -0.2301459
+p:time3        -6.683295e-01    0.2947945     -1.246127    -0.0905322
+p:time4        -5.712429e-01    0.2898297     -1.139309    -0.0031767
+p:mixture2      5.124827e-07    4.6822722     -9.177253     9.1772542
+f0:(Intercept)  3.769986e+00    0.3229069      3.137089     4.4028841
 
 
 Real Parameter pi
  
                    
-mixture:1 0.0135671
+mixture:1 0.0135444
 
 
 Real Parameter p
  
                   1         2         3         4
-mixture:1 0.3270034 0.1754648 0.1993919 0.2153433
-mixture:2 0.3270073 0.1754674 0.1993947 0.2153463
+mixture:1 0.3270071 0.1754673 0.1993946 0.2153462
+mixture:2 0.3270072 0.1754673 0.1993947 0.2153463
 
 
 Real Parameter c
  
                   2         3         4
-mixture:1 0.1754648 0.1993919 0.2153433
-mixture:2 0.1754674 0.1993947 0.2153463
+mixture:1 0.1754673 0.1993946 0.2153462
+mixture:2 0.1754673 0.1993947 0.2153463
 
 
 Real Parameter f0
  
         1
- 43.37947
-```
-
-```
-
-p.h.time.behav
-```
-
-```
-Warning in type.convert.default(substr(out[x], regexpr("=", out[x]) + 1, :
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-
-Note: only 4 parameters counted of 8 specified parameters
-
-AICc and parameter count have been adjusted upward
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
+ 43.37948
 
 Output summary for FullHet model
 Name : pi(~1)p(~mixture + time)c(~1)f0(~1) 
@@ -706,230 +347,27 @@ AICc :  -179.2441  (unadjusted=-187.57165)
 
 Beta
                   estimate           se           lcl          ucl
-pi:(Intercept)  -0.4354463    0.0000000    -0.4354463   -0.4354463
-p:(Intercept)    2.9384126  912.6455400 -1785.8469000 1791.7237000
-p:mixture2      -4.2690963  968.8733900 -1903.2610000 1894.7228000
-p:time2          0.8893863    0.0000000     0.8893863    0.8893863
-p:time3          1.8392564    0.0000000     1.8392564    1.8392564
-p:time4         19.5253010 3044.1482000 -5947.0052000 5986.0558000
-c:(Intercept)   -1.4379689    0.1936423    -1.8175078   -1.0584300
-f0:(Intercept) -18.1984770 2139.2137000 -4211.0574000 4174.6605000
+pi:(Intercept)  -0.4231560    0.0000000    -0.4231560   -0.4231560
+p:(Intercept)    3.0166405  575.8003600 -1125.5521000 1131.5854000
+p:mixture2      -4.3837581  885.6926900 -1740.3415000 1731.5740000
+p:time2          0.9319872    0.0000000     0.9319872    0.9319872
+p:time3          1.8760688    0.0000000     1.8760688    1.8760688
+p:time4         20.0474640 3540.1957000 -6918.7363000 6958.8312000
+c:(Intercept)   -1.4379663    0.1936421    -1.8175049   -1.0584278
+f0:(Intercept) -18.7515600 3524.2770000 -6926.3346000 6888.8315000
 
 
 Real Parameter pi
  
                    
-mixture:1 0.3928266
+mixture:1 0.3957618
 
 
 Real Parameter p
  
                   1         2         3 4
-mixture:1 0.9497130 0.9787059 0.9916546 1
-mixture:2 0.2090463 0.3914319 0.6244718 1
-
-
-Real Parameter c
- 
-                  2         3         4
-mixture:1 0.1918601 0.1918601 0.1918601
-mixture:2 0.1918601 0.1918601 0.1918601
-
-
-Real Parameter f0
- 
-            1
- 1.248826e-08
-```
-
-```
-
-p.time
-```
-
-```
-Warning in type.convert.default(substr(out[x], regexpr("=", out[x]) + 1, :
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-
-Note: only 5 parameters counted of 6 specified parameters
-
-AICc and parameter count have been adjusted upward
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
-
-Output summary for FullHet model
-Name : pi(~1)p(~time)c()f0(~1) 
-
-Npar :  6  (unadjusted=5)
--2lnL:  -190.6236
-AICc :  -178.3619  (unadjusted=-180.43728)
-
-Beta
-                    estimate        se           lcl           ucl
-pi:(Intercept)  4.328472e-06 0.0000000  4.328472e-06  4.328472e-06
-p:(Intercept)  -7.217524e-01 0.2525858 -1.216821e+00 -2.266842e-01
-p:time2        -8.256116e-01 0.3038091 -1.421077e+00 -2.301457e-01
-p:time3        -6.683295e-01 0.2947945 -1.246127e+00 -9.053220e-02
-p:time4        -5.712431e-01 0.2898297 -1.139309e+00 -3.176700e-03
-f0:(Intercept)  3.769987e+00 0.3229070  3.137089e+00  4.402884e+00
-
-
-Real Parameter pi
- 
-                   
-mixture:1 0.5000011
-
-
-Real Parameter p
- 
-                  1         2         3         4
-mixture:1 0.3270072 0.1754673 0.1993947 0.2153462
-mixture:2 0.3270072 0.1754673 0.1993947 0.2153462
-
-
-Real Parameter c
- 
-                  2         3         4
-mixture:1 0.1754673 0.1993947 0.2153462
-mixture:2 0.1754673 0.1993947 0.2153462
-
-
-Real Parameter f0
- 
-        1
- 43.37949
-```
-
-```
-
-p.time.behav
-```
-
-```
-Warning in type.convert.default(substr(out[x], regexpr("=", out[x]) + 1, :
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-
-Note: only 4 parameters counted of 7 specified parameters
-
-AICc and parameter count have been adjusted upward
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
-
-Output summary for FullHet model
-Name : pi(~1)p(~time)c(~1)f0(~1) 
-
-Npar :  7  (unadjusted=4)
--2lnL:  -195.6955
-AICc :  -181.3455  (unadjusted=-187.57165)
-
-Beta
-                    estimate           se           lcl           ucl
-pi:(Intercept)  4.018611e-05  594.3877800 -1.165000e+03  1165.0001000
-p:(Intercept)   1.011248e-07    0.2208630 -4.328913e-01     0.4328915
-p:time2        -3.448408e-01    0.3863555 -1.102097e+00     0.4124160
-p:time3         5.108253e-01    0.4759811 -4.220977e-01     1.4437483
-p:time4         1.873978e+01 3727.6673000 -7.287488e+03  7324.9679000
-c:(Intercept)  -1.437966e+00    0.1936421 -1.817505e+00    -1.0584278
-f0:(Intercept) -2.309196e+01 9967.5333000 -1.955946e+04 19513.2740000
-
-
-Real Parameter pi
- 
-                 
-mixture:1 0.50001
-
-
-Real Parameter p
- 
-            1         2     3 4
-mixture:1 0.5 0.4146341 0.625 1
-mixture:2 0.5 0.4146341 0.625 1
+mixture:1 0.9533203 0.9810836 0.9925548 1
+mixture:2 0.2030859 0.3929019 0.6245606 1
 
 
 Real Parameter c
@@ -942,11 +380,106 @@ mixture:2 0.1918605 0.1918605 0.1918605
 Real Parameter f0
  
             1
- 9.360247e-11
+ 7.182917e-09
+
+Output summary for FullHet model
+Name : pi(~1)p(~time)c()f0(~1) 
+
+Npar :  6
+-2lnL:  -190.6236
+AICc :  -178.3619
+
+Beta
+                    estimate           se          lcl          ucl
+pi:(Intercept) -3.328945e-05 1773.6801000 -3476.413000 3476.4129000
+p:(Intercept)  -7.217525e-01    0.2525860    -1.216821   -0.2266840
+p:time2        -8.256115e-01    0.3038092    -1.421078   -0.2301454
+p:time3        -6.683295e-01    0.2947947    -1.246127   -0.0905318
+p:time4        -5.712428e-01    0.2898300    -1.139310   -0.0031760
+f0:(Intercept)  3.769987e+00    0.3229070     3.137089    4.4028844
+
+
+Real Parameter pi
+ 
+                   
+mixture:1 0.4999917
+
+
+Real Parameter p
+ 
+                  1         2         3         4
+mixture:1 0.3270072 0.1754673 0.1993947 0.2153463
+mixture:2 0.3270072 0.1754673 0.1993947 0.2153463
+
+
+Real Parameter c
+ 
+                  2         3         4
+mixture:1 0.1754673 0.1993947 0.2153463
+mixture:2 0.1754673 0.1993947 0.2153463
+
+
+Real Parameter f0
+ 
+        1
+ 43.37949
+
+Output summary for FullHet model
+Name : pi(~1)p(~time)c(~1)f0(~1) 
+
+Npar :  7  (unadjusted=4)
+-2lnL:  -195.6955
+AICc :  -181.3455  (unadjusted=-187.57165)
+
+Beta
+                    estimate           se           lcl           ucl
+pi:(Intercept) -1.126492e-04 1.448318e+03 -2.838703e+03  2838.7029000
+p:(Intercept)  -5.398854e-07 2.208630e-01 -4.328921e-01     0.4328910
+p:time2        -3.448392e-01 3.863555e-01 -1.102096e+00     0.4124177
+p:time3         5.108269e-01 4.759814e-01 -4.220965e-01     1.4437504
+p:time4         2.130196e+01 1.100090e+04 -2.154047e+04 21583.0690000
+c:(Intercept)  -1.437966e+00 1.936421e-01 -1.817505e+00    -1.0584276
+f0:(Intercept) -2.666935e+01 2.872209e+04 -5.632197e+04 56268.6320000
+
+
+Real Parameter pi
+ 
+                   
+mixture:1 0.4999718
+
+
+Real Parameter p
+ 
+                  1         2         3 4
+mixture:1 0.4999999 0.4146343 0.6250002 1
+mixture:2 0.4999999 0.4146343 0.6250002 1
+
+
+Real Parameter c
+ 
+                  2         3         4
+mixture:1 0.1918605 0.1918605 0.1918605
+mixture:2 0.1918605 0.1918605 0.1918605
+
+
+Real Parameter f0
+ 
+           1
+ 2.61607e-12
 ```
 
 ---
-# Look at the results
+# Inspect outputs
+
+
+```r
+mouse.results
+```
+
+Look at column `model` to get details of effects included
+
+---
+# Inspect outputs
 
 
 ```r
@@ -973,11 +506,11 @@ mouse.results
 1 19.80095
 3 19.80095
 ```
-Look at column "model" to get the detail of the effects included in the model
 
 ---
-# How do we identify the models
-The models appear in the same order as we specify them in the building model function
+# How do we identify models?
+
+The models appear in the same order as we specify them in the building model function:
 
 ```r
 names(mouse.results)
@@ -990,8 +523,9 @@ names(mouse.results)
 ```
 
 ---
-# Get estimates of one specific model
-We called  `\(M_0\)`  "p.dot" in the building model function
+# Get estimates of a specific model
+
+We called `\(M_0\)`  "p.dot" in the building model function
 
 This is the name used in the object storing the results
 
@@ -1001,23 +535,23 @@ mouse.results$p.dot$results$real
 
 ```
               estimate         se        lcl        ucl fixed note
-pi g1 m1     0.4999908  0.0000000  0.4999908  0.4999908           
-p g1 t1 m1   0.2250185  0.0315825  0.1691550  0.2928287           
-f0 g1 a0 t1 45.7672530 14.5456120 24.9175210 84.0629950           
+pi g1 m1     0.5000078  0.0000000  0.5000078  0.5000078           
+p g1 t1 m1   0.2250185  0.0315825  0.1691551  0.2928287           
+f0 g1 a0 t1 45.7672480 14.5456110 24.9175180 84.0629860           
 ```
 
-pi is not relevant here as the model does not include heterogeneity
++ `pi` is not relevant here as the model does not include heterogeneity
 
-p is the capture and recapture probability
++ `p` is the capture and recapture probability
 
-f0 is the estimated number fo missed individuals (never captured)
++ `f0` is the estimated number of missed individuals (never captured)
 
 ---
-# To get abundance estimates
+# How to get abundance estimates?
 
-Abundance *N* is a derived parameter estimated using `\(p*\)` and the number of caught individuals
+Abundance `\(N\)` is a derived parameter estimated using `\(p*\)` and the number of caught individuals
 
-To get its estimate : 
+To get its estimate: 
 
 ```r
 mouse.results$p.dot.behav$results$derived
@@ -1026,7 +560,7 @@ mouse.results$p.dot.behav$results$derived
 ```
 $`N Population Size`
   estimate      lcl      ucl
-1 92.31477 85.33757 113.8779
+1 92.31476 85.33756 113.8778
 ```
 
 ---
@@ -1061,26 +595,18 @@ head(mouse)
 ---
 # Prepare the data
 
-Same steps than before but specify that we have some groups, here 'sex'
+Same steps as before but specify that we have some groups, here 'sex'
 
 ```r
 mouse.proc &lt;- process.data(mouse, 
                            begin.time = 1, 
                            model = "FullHet",
                            groups = "sex")
-```
-
-```
-Warning in process.data(mouse, begin.time = 1, model = "FullHet", groups = "sex"): 
-  sex  is not a factor variable. Coercing to factor.
-```
-
-```r
 mouse.ddl &lt;- make.design.data(mouse.proc)
 ```
 
 ---
-# Define models to fit
+## Define models to be fitted
 
 ```r
 run.mouse &lt;- function() {
@@ -1094,15 +620,13 @@ run.mouse &lt;- function() {
   p.h.time.behav &lt;- list(formula =  ~ mixture + time)
   # Mbsex - model with sex on capture probability AND recapture probability
   p.sex.behav &lt;- list(p = list(formula = ~ sex),c = list(formula = ~ sex))
-
-## Build the model list
+  ## Build model list
   mouse.model.list &lt;- create.model.list("FullHet")
-  
-## Prepare the list to send to Mark
+  ## Prepare list to send to Mark
   mouse.results &lt;- mark.wrapper(mouse.model.list,
                               data = mouse.proc, 
                               ddl = mouse.ddl)
-## Grab the results
+  ## Grab results
   return(mouse.results)
 }
 ```
@@ -1116,196 +640,87 @@ mouse.results &lt;- run.mouse()
 ```
 
 ```
-Using default formula for pi
-```
-
-```
-Using default formula for c
-```
-
-```
-Using default formula for f0
-```
-
-```
-
-p.dot
-```
-
-```
-Warning in type.convert.default(substr(out[x], regexpr("=", out[x]) + 1, :
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
 
 Output summary for FullHet model
 Name : pi(~1)p(~1)c()f0(~1) 
 
-Npar :  3
+Npar :  3  (unadjusted=2)
 -2lnL:  -55.76693
-AICc :  -51.73475
+AICc :  -49.70241  (unadjusted=-51.734755)
 
 Beta
-                    estimate se           lcl           ucl
-pi:(Intercept)  3.121916e-05  0  3.121916e-05  3.121916e-05
-p:(Intercept)  -6.141762e-01  0 -6.141762e-01 -6.141762e-01
-f0:(Intercept)  2.262456e+00  0  2.262456e+00  2.262456e+00
+                    estimate        se           lcl           ucl
+pi:(Intercept)  5.316308e-05 0.0000000  5.316308e-05  5.316308e-05
+p:(Intercept)  -6.141761e-01 0.1352648 -8.792952e-01 -3.490571e-01
+f0:(Intercept)  2.262456e+00 0.3546695  1.567303e+00  2.957608e+00
 
 
 Real Parameter pi
 Group:sexF 
                    
-mixture:1 0.5000078
+mixture:1 0.5000133
 
 Group:sexM 
                    
-mixture:1 0.5000078
+mixture:1 0.5000133
 
 
 Real Parameter p
 Group:sexF 
                   1         2         3         4
-mixture:1 0.3511071 0.3511071 0.3511071 0.3511071
-mixture:2 0.3511071 0.3511071 0.3511071 0.3511071
+mixture:1 0.3511072 0.3511072 0.3511072 0.3511072
+mixture:2 0.3511072 0.3511072 0.3511072 0.3511072
 
 Group:sexM 
                   1         2         3         4
-mixture:1 0.3511071 0.3511071 0.3511071 0.3511071
-mixture:2 0.3511071 0.3511071 0.3511071 0.3511071
+mixture:1 0.3511072 0.3511072 0.3511072 0.3511072
+mixture:2 0.3511072 0.3511072 0.3511072 0.3511072
 
 
 Real Parameter c
 Group:sexF 
                   2         3         4
-mixture:1 0.3511071 0.3511071 0.3511071
-mixture:2 0.3511071 0.3511071 0.3511071
+mixture:1 0.3511072 0.3511072 0.3511072
+mixture:2 0.3511072 0.3511072 0.3511072
 
 Group:sexM 
                   2         3         4
-mixture:1 0.3511071 0.3511071 0.3511071
-mixture:2 0.3511071 0.3511071 0.3511071
+mixture:1 0.3511072 0.3511072 0.3511072
+mixture:2 0.3511072 0.3511072 0.3511072
 
 
 Real Parameter f0
 Group:sexF 
         1
- 9.606652
+ 9.606651
 
 Group:sexM 
         1
- 9.606652
-```
-
-```
-
-p.dot.behav
-```
-
-```
-Warning in type.convert.default(substr(out[x], regexpr("=", out[x]) + 1, :
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
+ 9.606651
 
 Output summary for FullHet model
 Name : pi(~1)p(~1)c(~1)f0(~1) 
 
-Npar :  3
+Npar :  4
 -2lnL:  -64.6307
-AICc :  -58.56619
+AICc :  -56.52289
 
 Beta
-                 estimate        se        lcl        ucl
-pi:(Intercept)  0.0000000 0.0000000  0.0000000  0.0000000
-p:(Intercept)   0.0518392 0.2198099 -0.3789882  0.4826667
-c:(Intercept)  -0.8092194 0.1491105 -1.1014759 -0.5169629
-f0:(Intercept)  0.8247922 0.7956639 -0.7347090  2.3842934
+                    estimate          se          lcl         ucl
+pi:(Intercept)  4.472987e-05 465.7962700 -912.9606700 912.9607600
+p:(Intercept)   5.183910e-02   0.2198099   -0.3789883   0.4826665
+c:(Intercept)  -8.092194e-01   0.1491105   -1.1014759  -0.5169629
+f0:(Intercept)  8.247932e-01   0.7956631   -0.7347066   2.3842929
 
 
 Real Parameter pi
 Group:sexF 
-             
-mixture:1 0.5
+                   
+mixture:1 0.5000112
 
 Group:sexM 
-             
-mixture:1 0.5
+                   
+mixture:1 0.5000112
 
 
 Real Parameter p
@@ -1335,72 +750,11 @@ mixture:2 0.3080569 0.3080569 0.3080569
 Real Parameter f0
 Group:sexF 
         1
- 2.281407
+ 2.281409
 
 Group:sexM 
         1
- 2.281407
-```
-
-```
-
-p.h
-```
-
-```
-Warning in type.convert.default(substr(out[x], regexpr("=", out[x]) + 1, :
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-
-Note: only 3 parameters counted of 4 specified parameters
-```
-
-```
-AICc and parameter count have been adjusted upward
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
+ 2.281409
 
 Output summary for FullHet model
 Name : pi(~1)p(~mixture)c()f0(~1) 
@@ -1410,45 +764,45 @@ Npar :  4  (unadjusted=3)
 AICc :  -47.65911  (unadjusted=-49.70241)
 
 Beta
-                    estimate           se           lcl          ucl
-pi:(Intercept) -1.679883e+00 6726.1244000 -13184.884000 13181.524000
-p:(Intercept)  -6.141788e-01    1.2496901     -3.063571     1.835214
-p:mixture2      3.013031e-06    1.4738392     -2.888722     2.888728
-f0:(Intercept)  2.262456e+00    0.3546695      1.567303     2.957608
+                    estimate          se          lcl         ucl
+pi:(Intercept) -1.679831e+00 991.0703400 -1944.177700 1940.818100
+p:(Intercept)  -6.141753e-01   1.2492707    -3.062746    1.834395
+p:mixture2     -9.787118e-07   1.4734283    -2.887921    2.887919
+f0:(Intercept)  2.262456e+00   0.3546694     1.567304    2.957608
 
 
 Real Parameter pi
 Group:sexF 
-                  
-mixture:1 0.157111
+                   
+mixture:1 0.1571178
 
 Group:sexM 
-                  
-mixture:1 0.157111
+                   
+mixture:1 0.1571178
 
 
 Real Parameter p
 Group:sexF 
                   1         2         3         4
-mixture:1 0.3511066 0.3511066 0.3511066 0.3511066
-mixture:2 0.3511072 0.3511072 0.3511072 0.3511072
+mixture:1 0.3511073 0.3511073 0.3511073 0.3511073
+mixture:2 0.3511071 0.3511071 0.3511071 0.3511071
 
 Group:sexM 
                   1         2         3         4
-mixture:1 0.3511066 0.3511066 0.3511066 0.3511066
-mixture:2 0.3511072 0.3511072 0.3511072 0.3511072
+mixture:1 0.3511073 0.3511073 0.3511073 0.3511073
+mixture:2 0.3511071 0.3511071 0.3511071 0.3511071
 
 
 Real Parameter c
 Group:sexF 
                   2         3         4
-mixture:1 0.3511066 0.3511066 0.3511066
-mixture:2 0.3511072 0.3511072 0.3511072
+mixture:1 0.3511073 0.3511073 0.3511073
+mixture:2 0.3511071 0.3511071 0.3511071
 
 Group:sexM 
                   2         3         4
-mixture:1 0.3511066 0.3511066 0.3511066
-mixture:2 0.3511072 0.3511072 0.3511072
+mixture:1 0.3511073 0.3511073 0.3511073
+mixture:2 0.3511071 0.3511071 0.3511071
 
 
 Real Parameter f0
@@ -1459,65 +813,6 @@ Group:sexF
 Group:sexM 
         1
  9.606651
-```
-
-```
-
-p.h.behav
-```
-
-```
-Warning in type.convert.default(substr(out[x], regexpr("=", out[x]) + 1, :
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-
-Note: only 4 parameters counted of 5 specified parameters
-
-AICc and parameter count have been adjusted upward
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
 
 Output summary for FullHet model
 Name : pi(~1)p(~mixture)c(~1)f0(~1) 
@@ -1527,34 +822,34 @@ Npar :  5  (unadjusted=4)
 AICc :  -54.46854  (unadjusted=-56.522887)
 
 Beta
-                    estimate        se        lcl        ucl
-pi:(Intercept) -4.746645e-01 0.0000000 -0.4746645 -0.4746645
-p:(Intercept)   5.183910e-02 0.7445456 -1.4074703  1.5111484
-p:mixture2      9.306247e-09 1.1538910 -2.2616264  2.2616264
-c:(Intercept)  -8.092193e-01 0.1491105 -1.1014758 -0.5169628
-f0:(Intercept)  8.247932e-01 0.7956621 -0.7347046  2.3842909
+                    estimate           se           lcl          ucl
+pi:(Intercept) -4.280296e-01 1079.9895000 -2117.2076000 2116.3515000
+p:(Intercept)   5.184060e-02    0.7289000    -1.3768035    1.4804847
+p:mixture2     -2.098418e-06    1.1479404    -2.2499654    2.2499612
+c:(Intercept)  -8.092194e-01    0.1491105    -1.1014759   -0.5169629
+f0:(Intercept)  8.247922e-01    0.7956630    -0.7347072    2.3842917
 
 
 Real Parameter pi
 Group:sexF 
                    
-mixture:1 0.3835128
+mixture:1 0.3945969
 
 Group:sexM 
                    
-mixture:1 0.3835128
+mixture:1 0.3945969
 
 
 Real Parameter p
 Group:sexF 
                   1         2         3         4
-mixture:1 0.5129569 0.5129569 0.5129569 0.5129569
-mixture:2 0.5129569 0.5129569 0.5129569 0.5129569
+mixture:1 0.5129572 0.5129572 0.5129572 0.5129572
+mixture:2 0.5129567 0.5129567 0.5129567 0.5129567
 
 Group:sexM 
                   1         2         3         4
-mixture:1 0.5129569 0.5129569 0.5129569 0.5129569
-mixture:2 0.5129569 0.5129569 0.5129569 0.5129569
+mixture:1 0.5129572 0.5129572 0.5129572 0.5129572
+mixture:2 0.5129567 0.5129567 0.5129567 0.5129567
 
 
 Real Parameter c
@@ -1572,70 +867,11 @@ mixture:2 0.3080569 0.3080569 0.3080569
 Real Parameter f0
 Group:sexF 
         1
- 2.281409
+ 2.281407
 
 Group:sexM 
         1
- 2.281409
-```
-
-```
-
-p.h.time
-```
-
-```
-Warning in type.convert.default(substr(out[x], regexpr("=", out[x]) + 1, :
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-
-Note: only 6 parameters counted of 7 specified parameters
-
-AICc and parameter count have been adjusted upward
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
+ 2.281407
 
 Output summary for FullHet model
 Name : pi(~1)p(~time + mixture)c()f0(~1) 
@@ -1645,117 +881,58 @@ Npar :  7  (unadjusted=6)
 AICc :  -48.61126  (unadjusted=-50.687965)
 
 Beta
-                    estimate           se           lcl          ucl
-pi:(Intercept)  1.904748e-01 2111.5674000 -4138.4818000 4138.8627000
-p:(Intercept)  -1.851372e-01    0.5629394    -1.2884985    0.9182242
-p:time2        -4.468511e-01    0.2747446    -0.9853505    0.0916483
-p:time3        -6.925080e-01    0.2817887    -1.2448138   -0.1402022
-p:time4        -5.669674e-01    0.2778925    -1.1116366   -0.0222981
-p:mixture2      1.474266e-06    1.1467948    -2.2477163    2.2477193
-f0:(Intercept)  2.217709e+00    0.3611860     1.5097841    2.9256332
+                    estimate        se        lcl        ucl
+pi:(Intercept)  1.902482e-01 0.0000000  0.1902482  0.1902482
+p:(Intercept)  -1.851382e-01 0.5629945 -1.2886073  0.9183310
+p:time2        -4.468512e-01 0.2747448 -0.9853509  0.0916486
+p:time3        -6.925080e-01 0.2817889 -1.2448142 -0.1402019
+p:time4        -5.669672e-01 0.2778927 -1.1116369 -0.0222976
+p:mixture2      3.101711e-06 1.1467735 -2.2476730  2.2476792
+f0:(Intercept)  2.217709e+00 0.3611861  1.5097840  2.9256336
 
 
 Real Parameter pi
 Group:sexF 
                    
-mixture:1 0.5474752
+mixture:1 0.5474191
 
 Group:sexM 
                    
-mixture:1 0.5474752
+mixture:1 0.5474191
 
 
 Real Parameter p
 Group:sexF 
                   1         2         3         4
-mixture:1 0.4538475 0.3470598 0.2936660 0.3203629
-mixture:2 0.4538478 0.3470602 0.2936663 0.3203632
+mixture:1 0.4538472 0.3470596 0.2936658 0.3203627
+mixture:2 0.4538480 0.3470603 0.2936664 0.3203634
 
 Group:sexM 
                   1         2         3         4
-mixture:1 0.4538475 0.3470598 0.2936660 0.3203629
-mixture:2 0.4538478 0.3470602 0.2936663 0.3203632
+mixture:1 0.4538472 0.3470596 0.2936658 0.3203627
+mixture:2 0.4538480 0.3470603 0.2936664 0.3203634
 
 
 Real Parameter c
 Group:sexF 
                   2         3         4
-mixture:1 0.3470598 0.2936660 0.3203629
-mixture:2 0.3470602 0.2936663 0.3203632
+mixture:1 0.3470596 0.2936658 0.3203627
+mixture:2 0.3470603 0.2936664 0.3203634
 
 Group:sexM 
                   2         3         4
-mixture:1 0.3470598 0.2936660 0.3203629
-mixture:2 0.3470602 0.2936663 0.3203632
+mixture:1 0.3470596 0.2936658 0.3203627
+mixture:2 0.3470603 0.2936664 0.3203634
 
 
 Real Parameter f0
 Group:sexF 
         1
- 9.186258
+ 9.186259
 
 Group:sexM 
         1
- 9.186258
-```
-
-```
-
-p.h.time.behav
-```
-
-```
-Warning in type.convert.default(substr(out[x], regexpr("=", out[x]) + 1, :
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-
-Note: only 4 parameters counted of 8 specified parameters
-
-AICc and parameter count have been adjusted upward
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
+ 9.186259
 
 Output summary for FullHet model
 Name : pi(~1)p(~mixture + time)c(~1)f0(~1) 
@@ -1765,118 +942,59 @@ Npar :  8  (unadjusted=4)
 AICc :  -55.59774  (unadjusted=-63.882296)
 
 Beta
-                  estimate           se           lcl          ucl
-pi:(Intercept)   1.1768179    0.0000000     1.1768179    1.1768179
-p:(Intercept)    0.1310340    0.0000000     0.1310340    0.1310340
-p:mixture2       0.1691172    0.0000000     0.1691172    0.1691172
-p:time2         -0.2146394    0.0000000    -0.2146394   -0.2146394
-p:time3          0.8161918    0.0000000     0.8161918    0.8161918
-p:time4         20.9669670    0.0000000    20.9669670   20.9669670
-c:(Intercept)   -0.8092194    0.1491105    -1.1014759   -0.5169628
-f0:(Intercept) -20.3646420 4410.5085000 -8664.9615000 8624.2322000
+                  estimate           se           lcl           ucl
+pi:(Intercept)   1.1550120 3.408509e+02 -6.669128e+02   669.2227900
+p:(Intercept)    0.1342399 1.850896e+01 -3.614333e+01    36.4118070
+p:mixture2       0.1527493 0.000000e+00  1.527493e-01     0.1527493
+p:time2         -0.2150763 0.000000e+00 -2.150763e-01    -0.2150763
+p:time3          0.8151702 0.000000e+00  8.151702e-01     0.8151702
+p:time4         20.5093940 1.612136e+04 -3.157735e+04 31618.3680000
+c:(Intercept)   -0.8092195 1.491105e-01 -1.101476e+00    -0.5169630
+f0:(Intercept) -19.8673230 3.132458e+03 -6.159485e+03  6119.7505000
 
 
 Real Parameter pi
 Group:sexF 
                    
-mixture:1 0.7643752
+mixture:1 0.7604252
 
 Group:sexM 
                    
-mixture:1 0.7643752
+mixture:1 0.7604252
 
 
 Real Parameter p
 Group:sexF 
                   1         2         3 4
-mixture:1 0.5327117 0.4791108 0.7205569 1
-mixture:2 0.5744795 0.5213649 0.7533097 1
+mixture:1 0.5335097 0.4798019 0.7209965 1
+mixture:2 0.5712589 0.5179705 0.7506645 1
 
 Group:sexM 
                   1         2         3 4
-mixture:1 0.5327117 0.4791108 0.7205569 1
-mixture:2 0.5744795 0.5213649 0.7533097 1
+mixture:1 0.5335097 0.4798019 0.7209965 1
+mixture:2 0.5712589 0.5179705 0.7506645 1
 
 
 Real Parameter c
 Group:sexF 
                   2         3         4
-mixture:1 0.3080569 0.3080569 0.3080569
-mixture:2 0.3080569 0.3080569 0.3080569
+mixture:1 0.3080568 0.3080568 0.3080568
+mixture:2 0.3080568 0.3080568 0.3080568
 
 Group:sexM 
                   2         3         4
-mixture:1 0.3080569 0.3080569 0.3080569
-mixture:2 0.3080569 0.3080569 0.3080569
+mixture:1 0.3080568 0.3080568 0.3080568
+mixture:2 0.3080568 0.3080568 0.3080568
 
 
 Real Parameter f0
 Group:sexF 
             1
- 1.431358e-09
+ 2.353593e-09
 
 Group:sexM 
             1
- 1.431358e-09
-```
-
-```
-
-p.sex.behav
-```
-
-```
-Warning in type.convert.default(substr(out[x], regexpr("=", out[x]) + 1, :
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-
-Note: only 5 parameters counted of 6 specified parameters
-
-AICc and parameter count have been adjusted upward
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
+ 2.353593e-09
 
 Output summary for FullHet model
 Name : pi(~1)p(~sex)c(~sex)f0(~1) 
@@ -1886,35 +1004,35 @@ Npar :  6  (unadjusted=5)
 AICc :  -61.19659  (unadjusted=-63.262067)
 
 Beta
-                    estimate        se           lcl           ucl
-pi:(Intercept) -3.003653e-05 0.0000000 -3.003653e-05 -3.003653e-05
-p:(Intercept)   3.072813e-01 0.3077730 -2.959538e-01  9.105164e-01
-p:sexM         -3.723107e-01 0.3142225 -9.881868e-01  2.435653e-01
-c:(Intercept)  -4.367176e-01 0.1979751 -8.247487e-01 -4.868650e-02
-c:sexM         -8.222373e-01 0.3082500 -1.426407e+00 -2.180673e-01
-f0:(Intercept)  6.097001e-01 0.8913392 -1.137325e+00  2.356725e+00
+                    estimate           se           lcl          ucl
+pi:(Intercept)  8.545351e-06 2048.0178000 -4014.1150000 4014.1150000
+p:(Intercept)   3.072807e-01    0.3077730    -0.2959545    0.9105158
+p:sexM         -3.723105e-01    0.3142225    -0.9881865    0.2435655
+c:(Intercept)  -4.367175e-01    0.1979751    -0.8247487   -0.0486863
+c:sexM         -8.222374e-01    0.3082500    -1.4264074   -0.2180673
+f0:(Intercept)  6.097045e-01    0.8913361    -1.1373142    2.3567232
 
 
 Real Parameter pi
 Group:sexF 
                    
-mixture:1 0.4999925
+mixture:1 0.5000021
 
 Group:sexM 
                    
-mixture:1 0.4999925
+mixture:1 0.5000021
 
 
 Real Parameter p
 Group:sexF 
                   1         2         3         4
-mixture:1 0.5762215 0.5762215 0.5762215 0.5762215
-mixture:2 0.5762215 0.5762215 0.5762215 0.5762215
+mixture:1 0.5762214 0.5762214 0.5762214 0.5762214
+mixture:2 0.5762214 0.5762214 0.5762214 0.5762214
 
 Group:sexM 
                   1         2         3         4
-mixture:1 0.4837484 0.4837484 0.4837484 0.4837484
-mixture:2 0.4837484 0.4837484 0.4837484 0.4837484
+mixture:1 0.4837483 0.4837483 0.4837483 0.4837483
+mixture:2 0.4837483 0.4837483 0.4837483 0.4837483
 
 
 Real Parameter c
@@ -1925,77 +1043,18 @@ mixture:2 0.3925234 0.3925234 0.3925234
 
 Group:sexM 
                   2         3         4
-mixture:1 0.2211539 0.2211539 0.2211539
-mixture:2 0.2211539 0.2211539 0.2211539
+mixture:1 0.2211538 0.2211538 0.2211538
+mixture:2 0.2211538 0.2211538 0.2211538
 
 
 Real Parameter f0
 Group:sexF 
-       1
- 1.83988
+        1
+ 1.839888
 
 Group:sexM 
-       1
- 1.83988
-```
-
-```
-
-p.time
-```
-
-```
-Warning in type.convert.default(substr(out[x], regexpr("=", out[x]) + 1, :
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-
-Note: only 5 parameters counted of 6 specified parameters
-
-AICc and parameter count have been adjusted upward
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
+        1
+ 1.839888
 
 Output summary for FullHet model
 Name : pi(~1)p(~time)c()f0(~1) 
@@ -2005,116 +1064,57 @@ Npar :  6  (unadjusted=5)
 AICc :  -50.68797  (unadjusted=-52.753445)
 
 Beta
-                    estimate        se           lcl           ucl
-pi:(Intercept)  1.758641e-05 0.0000000  1.758641e-05  1.758641e-05
-p:(Intercept)  -1.851365e-01 0.2181577 -6.127255e-01  2.424526e-01
-p:time2        -4.468514e-01 0.2747446 -9.853507e-01  9.164800e-02
-p:time3        -6.925082e-01 0.2817888 -1.244814e+00 -1.402022e-01
-p:time4        -5.669676e-01 0.2778926 -1.111637e+00 -2.229810e-02
-f0:(Intercept)  2.217709e+00 0.3611859  1.509784e+00  2.925633e+00
+                    estimate          se          lcl         ucl
+pi:(Intercept) -0.0000120239 450.5053600 -882.9905300 882.9905100
+p:(Intercept)  -0.1851365000   0.2181576   -0.6127254   0.2424524
+p:time2        -0.4468513000   0.2747445   -0.9853506   0.0916479
+p:time3        -0.6925082000   0.2817886   -1.2448139  -0.1402025
+p:time4        -0.5669675000   0.2778924   -1.1116367  -0.0222983
+f0:(Intercept)  2.2177088000   0.3611859    1.5097844   2.9256333
 
 
 Real Parameter pi
 Group:sexF 
-                   
-mixture:1 0.5000044
+                  
+mixture:1 0.499997
 
 Group:sexM 
-                   
-mixture:1 0.5000044
+                  
+mixture:1 0.499997
 
 
 Real Parameter p
 Group:sexF 
-                  1         2         3        4
-mixture:1 0.4538476 0.3470599 0.2936661 0.320363
-mixture:2 0.4538476 0.3470599 0.2936661 0.320363
+                  1       2         3        4
+mixture:1 0.4538476 0.34706 0.2936661 0.320363
+mixture:2 0.4538476 0.34706 0.2936661 0.320363
 
 Group:sexM 
-                  1         2         3        4
-mixture:1 0.4538476 0.3470599 0.2936661 0.320363
-mixture:2 0.4538476 0.3470599 0.2936661 0.320363
+                  1       2         3        4
+mixture:1 0.4538476 0.34706 0.2936661 0.320363
+mixture:2 0.4538476 0.34706 0.2936661 0.320363
 
 
 Real Parameter c
 Group:sexF 
-                  2         3        4
-mixture:1 0.3470599 0.2936661 0.320363
-mixture:2 0.3470599 0.2936661 0.320363
+                2         3        4
+mixture:1 0.34706 0.2936661 0.320363
+mixture:2 0.34706 0.2936661 0.320363
 
 Group:sexM 
-                  2         3        4
-mixture:1 0.3470599 0.2936661 0.320363
-mixture:2 0.3470599 0.2936661 0.320363
+                2         3        4
+mixture:1 0.34706 0.2936661 0.320363
+mixture:2 0.34706 0.2936661 0.320363
 
 
 Real Parameter f0
 Group:sexF 
-       1
- 9.18626
+        1
+ 9.186259
 
 Group:sexM 
-       1
- 9.18626
-```
-
-```
-
-p.time.behav
-```
-
-```
-Warning in type.convert.default(substr(out[x], regexpr("=", out[x]) + 1, :
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-
-Warning in type.convert.default(substr(out[x], locate(x) + 4, nchar(out[x]))):
-'as.is' should be specified by the caller; using TRUE
-```
-
-```
-
-Note: only 4 parameters counted of 7 specified parameters
-
-AICc and parameter count have been adjusted upward
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-
-Warning in readChar(z, 1): la chaîne de caractère est tronquée car un caractère
-nul s’y trouve
-```
-
-```
+        1
+ 9.186259
 
 Output summary for FullHet model
 Name : pi(~1)p(~time)c(~1)f0(~1) 
@@ -2125,61 +1125,61 @@ AICc :  -57.68577  (unadjusted=-63.882296)
 
 Beta
                     estimate           se           lcl           ucl
-pi:(Intercept) -5.677057e-05  446.9356100 -8.759939e+02   875.9937600
-p:(Intercept)   1.706252e-01    0.2070354 -2.351641e-01     0.5764146
-p:time2        -2.171445e-01    0.3686967 -9.397900e-01     0.5055010
-p:time3         8.102065e-01    0.5215655 -2.120619e-01     1.8324750
-p:time4         1.769917e+01 3198.4720000 -6.251306e+03  6286.7044000
-c:(Intercept)  -8.092190e-01    0.1491105 -1.101476e+00    -0.5169625
-f0:(Intercept) -2.029921e+01 5842.1277000 -1.147087e+04 11430.2710000
+pi:(Intercept) -3.009316e-04 3.548308e+03 -6.954684e+03  6954.6836000
+p:(Intercept)   1.706246e-01 2.070354e-01 -2.351648e-01     0.5764140
+p:time2        -2.171396e-01 3.686967e-01 -9.397853e-01     0.5055060
+p:time3         8.102057e-01 5.215654e-01 -2.120624e-01     1.8324739
+p:time4         2.167078e+01 2.451764e+04 -4.803291e+04 48076.2530000
+c:(Intercept)  -8.092236e-01 1.491106e-01 -1.101480e+00    -0.5169669
+f0:(Intercept) -2.511835e+01 1.816978e+04 -3.563788e+04 35587.6450000
 
 
 Real Parameter pi
 Group:sexF 
                    
-mixture:1 0.4999858
+mixture:1 0.4999248
 
 Group:sexM 
                    
-mixture:1 0.4999858
+mixture:1 0.4999248
 
 
 Real Parameter p
 Group:sexF 
-                  1         2         3 4
-mixture:1 0.5425531 0.4883723 0.7272732 1
-mixture:2 0.5425531 0.4883723 0.7272732 1
+                 1         2        3 4
+mixture:1 0.542553 0.4883733 0.727273 1
+mixture:2 0.542553 0.4883733 0.727273 1
 
 Group:sexM 
-                  1         2         3 4
-mixture:1 0.5425531 0.4883723 0.7272732 1
-mixture:2 0.5425531 0.4883723 0.7272732 1
+                 1         2        3 4
+mixture:1 0.542553 0.4883733 0.727273 1
+mixture:2 0.542553 0.4883733 0.727273 1
 
 
 Real Parameter c
 Group:sexF 
                  2        3        4
-mixture:1 0.308057 0.308057 0.308057
-mixture:2 0.308057 0.308057 0.308057
+mixture:1 0.308056 0.308056 0.308056
+mixture:2 0.308056 0.308056 0.308056
 
 Group:sexM 
                  2        3        4
-mixture:1 0.308057 0.308057 0.308057
-mixture:2 0.308057 0.308057 0.308057
+mixture:1 0.308056 0.308056 0.308056
+mixture:2 0.308056 0.308056 0.308056
 
 
 Real Parameter f0
 Group:sexF 
             1
- 1.528144e-09
+ 1.233788e-11
 
 Group:sexM 
             1
- 1.528144e-09
+ 1.233788e-11
 ```
 
---- 
-# Look at the results
+---
+# Inspect results
  
 
 ```r
@@ -2187,20 +1187,20 @@ mouse.results
 ```
 
 ```
-                                model npar      AICc DeltaAICc       weight
-7          pi(~1)p(~sex)c(~sex)f0(~1)    6 -61.19659  0.000000 0.6459472504
-2              pi(~1)p(~1)c(~1)f0(~1)    3 -58.56619  2.630399 0.1733856698
-9           pi(~1)p(~time)c(~1)f0(~1)    7 -57.68577  3.510822 0.1116430881
-6 pi(~1)p(~mixture + time)c(~1)f0(~1)    8 -55.59774  5.598844 0.0393027974
-4        pi(~1)p(~mixture)c(~1)f0(~1)    5 -54.46854  6.728045 0.0223470741
-8             pi(~1)p(~time)c()f0(~1)    6 -50.68797 10.508621 0.0033750406
-1                pi(~1)p(~1)c()f0(~1)    3 -49.70241 11.494177 0.0020619032
-5   pi(~1)p(~time + mixture)c()f0(~1)    7 -48.61126 12.585327 0.0011948905
-3          pi(~1)p(~mixture)c()f0(~1)    4 -47.65911 13.537477 0.0007422858
+                                model npar      AICc DeltaAICc      weight
+7          pi(~1)p(~sex)c(~sex)f0(~1)    6 -61.19659  0.000000 0.726572672
+9           pi(~1)p(~time)c(~1)f0(~1)    7 -57.68577  3.510822 0.125578082
+2              pi(~1)p(~1)c(~1)f0(~1)    4 -56.52289  4.673699 0.070209862
+6 pi(~1)p(~mixture + time)c(~1)f0(~1)    8 -55.59774  5.598844 0.044208468
+4        pi(~1)p(~mixture)c(~1)f0(~1)    5 -54.46854  6.728045 0.025136377
+8             pi(~1)p(~time)c()f0(~1)    6 -50.68797 10.508621 0.003796304
+1                pi(~1)p(~1)c()f0(~1)    3 -49.70241 11.494177 0.002319264
+5   pi(~1)p(~time + mixture)c()f0(~1)    7 -48.61126 12.585327 0.001344034
+3          pi(~1)p(~mixture)c()f0(~1)    4 -47.65911 13.537477 0.000834936
   Deviance
 7 45.45361
-2 54.24714
 9 46.88773
+2 54.24714
 6 46.88773
 4 54.24714
 8 55.96223
@@ -2210,7 +1210,7 @@ mouse.results
 ```
 
 ---
-# Get the estimates
+# Get estimates
 
 
 ```r
@@ -2218,24 +1218,26 @@ mouse.results$p.sex.behav$results$real
 ```
 
 ```
-             estimate        se       lcl       ucl fixed note
-pi gF m1    0.4999925 0.0000000 0.4999925 0.4999925           
-p gF t1 m1  0.5762215 0.0751552 0.4265469 0.7131058           
-p gM t1 m1  0.4837484 0.0579550 0.3728810 0.5962389           
-c gF t2 m1  0.3925234 0.0472069 0.3047566 0.4878308           
-c gM t2 m1  0.2211539 0.0406964 0.1516078 0.3109110           
-f0 gF a0 t1 1.8398796 1.6399568 0.4110457 8.2354751           
+             estimate          se           lcl       ucl fixed note
+pi gF m1    0.5000021 512.0044500 5.562732e-309 1.0000000           
+p gF t1 m1  0.5762214   0.0751552  4.265467e-01 0.7131057           
+p gM t1 m1  0.4837483   0.0579550  3.728809e-01 0.5962388           
+c gF t2 m1  0.3925234   0.0472069  3.047566e-01 0.4878308           
+c gM t2 m1  0.2211538   0.0406964  1.516078e-01 0.3109110           
+f0 gF a0 t1 1.8398876   1.6399582  4.110492e-01 8.2354779           
 ```
-pi not relevant as no heterogeneity was fitted
 
-p gF capture probability of females /  p gM capture probability of males 
++ `pi` not relevant as no heterogeneity was fitted
 
-c gF recapture probability of females / c gM recapture probability of males
++ `p gF` capture probability of females /  `p gM` capture probability of males 
 
-f0 gF number of females never caugth / f0 gM number of males never caugth
++ `c gF` recapture probability of females / `c gM` recapture probability of males
+
++ `f0 gF` number of females never caugth / `f0 gM` number of males never caugth
 
 ---
-# Get the abundance estimates
+# Get abundance estimates
+
 
 ```r
 mouse.results$p.sex.behav$results$derived
@@ -2244,15 +1246,16 @@ mouse.results$p.sex.behav$results$derived
 ```
 $`N Population Size`
   estimate      lcl      ucl
-1 45.83988 44.41105 52.23548
-2 51.83988 50.41105 58.23548
+1 45.83989 44.41105 52.23548
+2 51.83989 50.41105 58.23548
 ```
-Line 1 - Population size of Females
 
-Line 2 - Population size of Males
++ Line 1 - Population size of Females
+
++ Line 2 - Population size of Males
 
 ---
-# Clean the temporary files created by RMARK
+# Clean temporary files created by RMark
 
 
 ```r
@@ -2276,32 +1279,12 @@ background-size: cover
 library(Distance)
 ```
 
-```
-Le chargement a nécessité le package : mrds
-```
-
-```
-This is mrds 2.2.5
-Built: R 4.1.0; ; 2021-07-02 11:55:56 UTC; unix
-```
-
-```
-
-Attachement du package : 'Distance'
-```
-
-```
-L'objet suivant est masqué depuis 'package:mrds':
-
-    create.bins
-```
-
 ---
 # Read the data (1)
 
-An example of data provided by Eric Rexstad in Distance package
++ An example of data provided by Eric Rexstad in Distance package
 
-Line transect data of winter wrens in Scotland
++ Line transect data of winter wrens in Scotland
 
 
 ```r
@@ -2501,15 +1484,19 @@ sum(is.na(wren_lt$distance))  # transect with no observations at all
 
 
 ```r
-hist(wren_lt$distance, xlab="Distance (m)", main="Winter wren line transects")
+hist(wren_lt$distance, 
+     xlab = "Distance (m)", 
+     main = "Winter wren line transects")
 ```
 ---
 # Explore the data (3)
 
-![](abundance-tutorial_files/figure-html/unnamed-chunk-25-1.png)&lt;!-- --&gt;
+&lt;img src="abundance-tutorial_files/figure-html/unnamed-chunk-26-1.svg" style="display: block; margin: auto;" /&gt;
+
 ---
 # Specify units 
-Choose the units in which  density is to be reported
+
+Choose the units in which density is to be reported
 
 - Distance_units - units of measure for perpendicular/radial distances
 - Effort_units - units of measure for effort (NULL for point transects)
@@ -2525,20 +1512,10 @@ conversion.factor &lt;- convert_units("meter", "kilometer","hectare")
 
 
 ```r
-wren.hn &lt;- ds(data=wren_lt, key="hn", adjustment=NULL,
-              convert.units=conversion.factor)
-```
-
-```
-Fitting half-normal key function
-```
-
-```
-Key only model: not constraining for monotonicity.
-```
-
-```
-AIC= 1418.188
+wren.hn &lt;- ds(data = wren_lt, 
+              key = "hn", 
+              adjustment = NULL,
+              convert.units = conversion.factor)
 ```
 ---
 # Fit a simple detection function model 
@@ -2585,13 +1562,15 @@ Density:
 
 ```r
 cutpoints &lt;- c(0,5,10,15,20,30,40,50,65,80,100)
-plot(wren.hn, breaks=cutpoints, main="Half normal model, 
-     wren line transects")
+plot(wren.hn, 
+     breaks = cutpoints, 
+     main = "Half normal model, wren line transects")
 ```
 ---
 # Explore results (1)
 
-![](abundance-tutorial_files/figure-html/unnamed-chunk-30-1.png)&lt;!-- --&gt;
+&lt;img src="abundance-tutorial_files/figure-html/unnamed-chunk-31-1.svg" style="display: block; margin: auto;" /&gt;
+
 ---
 # Explore results (2)
 
@@ -2650,7 +1629,7 @@ List of 3
   .. ..$ niter        : num 1
   .. ..$ kkt1         : logi TRUE
   .. ..$ kkt2         : logi TRUE
-  .. ..$ xtime        : num 0
+  .. ..$ xtime        : num 0.001
   .. ..$ par          : num 4.11
   .. ..$ message      : chr ""
   .. ..$ hessian      : num [1, 1] 72.3
@@ -2843,92 +1822,18 @@ Density:
 
 
 ```r
-wren.unif.cos &lt;- ds(wren_lt, key="unif", adjustment="cos",
-                  convert.units=conversion.factor)
-wren.hr.poly &lt;- ds(wren_lt, key="hr", adjustment="poly", 
-                  convert.units=conversion.factor)
+wren.unif.cos &lt;- ds(wren_lt, 
+                    key = "unif", 
+                    adjustment = "cos",
+                    convert.units = conversion.factor)
+
+wren.hr.poly &lt;- ds(wren_lt, 
+                   key = "hr", 
+                   adjustment = "poly", 
+                   convert.units = conversion.factor)
 ```
 
 
-```
-Starting AIC adjustment term selection.
-```
-
-```
-Fitting uniform key function with cosine(1) adjustments
-```
-
-```
-AIC= 1421.634
-```
-
-```
-Fitting uniform key function with cosine(1,2) adjustments
-```
-
-```
-AIC= 1417.802
-```
-
-```
-Fitting uniform key function with cosine(1,2,3) adjustments
-```
-
-```
-Warning in check.mono(result, n.pts = control$mono.points): Detection function
-is not strictly monotonic!
-```
-
-```
-AIC= 1416.433
-```
-
-```
-Fitting uniform key function with cosine(1,2,3,4) adjustments
-```
-
-```
-AIC= 1416.966
-```
-
-```
-
-Uniform key function with cosine(1,2,3) adjustments selected.
-```
-
-```
-Warning in mrds::check.mono(model, n.pts = 20): Detection function is not
-strictly monotonic!
-```
-
-```
-Starting AIC adjustment term selection.
-```
-
-```
-Fitting hazard-rate key function
-```
-
-```
-Key only model: not constraining for monotonicity.
-```
-
-```
-AIC= 1412.133
-```
-
-```
-Fitting hazard-rate key function with simple polynomial(2) adjustments
-```
-
-```
-AIC= 1413.346
-```
-
-```
-
-Hazard-rate key function selected.
-```
 ---
 # Compare these models
 
@@ -2950,10 +1855,10 @@ wren.unif.cos  3 1416.433
 .pull-left[
 
 ```r
-z&lt;-gof_ds(wren.hn)
+z &lt;- gof_ds(wren.hn)
 ```
 
-![](abundance-tutorial_files/figure-html/unnamed-chunk-37-1.png)&lt;!-- --&gt;
+&lt;img src="abundance-tutorial_files/figure-html/unnamed-chunk-38-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -2988,13 +1893,6 @@ background-size: cover
 
 ```r
 library(unmarked)
-```
-
-```
-Le chargement a nécessité le package : lattice
-```
-
-```r
 library(AICcmodavg)
 ```
 
@@ -3003,7 +1901,7 @@ library(AICcmodavg)
 
 
 ```r
-dat&lt;-read.csv2('dat/ocellatedlezard.csv')
+dat &lt;- read.csv2('dat/ocellatedlezard.csv')
 ```
 
 
@@ -3039,7 +1937,7 @@ dim(dat)[1] # number of quadrats
 Look at the detection on the quadrats
 
 ```r
-y&lt;-dat[,2:4]
+y &lt;- dat[,2:4]
 head(y)
 ```
 
@@ -3080,7 +1978,7 @@ rowSums(y)
 Collect the covariates at the site (that do not change over field sessions)
 
 ```r
-covsite&lt;-dat[,5:6]			# collect the site covariates
+covsite &lt;- dat[,5:6]			# collect site covariates
 ```
 ---
 # Prepare the data for unmarked (2)
@@ -3088,9 +1986,9 @@ covsite&lt;-dat[,5:6]			# collect the site covariates
 Collect the covariates of the field sessions
 
 ```r
-temp&lt;-dat[,7:9]			  # collect the temperature at each field session
-month&lt;-dat[,10:12]     # collect the month of each field session
-obscov&lt;-list(temp=temp,month=month)	# make a list with session covariates
+temp &lt;- dat[,7:9]			  # collect temperature at each field session
+month &lt;- dat[,10:12]     # collect month of each field session
+obscov &lt;- list(temp = temp, month = month)	# make a list with session covariates
 ```
 ---
 # Prepare the data for unmarked (3)
@@ -3098,15 +1996,7 @@ obscov&lt;-list(temp=temp,month=month)	# make a list with session covariates
 Build the object for unmarked function
 
 ```r
-count&lt;-unmarkedFramePCount(y,siteCovs=covsite,obsCovs=obscov)
-```
-
-```
-Warning: siteCovs contains characters. Converting them to factors.
-```
-
-```
-Warning: obsCovs contains characters. Converting them to factors.
+count &lt;- unmarkedFramePCount(y, siteCovs = covsite, obsCovs = obscov)
 ```
 
 ---
@@ -3115,7 +2005,7 @@ Warning: obsCovs contains characters. Converting them to factors.
 Fit a constant model just to check
 
 ```r
-res0&lt;-pcount(~1 ~1,count,K=100,mixture=c("P"))
+res0 &lt;- pcount(~1 ~1, count, K = 100, mixture = c("P"))
 ```
 ---
 # Explore the resulting object
@@ -3186,6 +2076,7 @@ Formal class 'unmarkedFitPCount' [package "unmarked"] with 15 slots
   ..@ covMatBS        : NULL
   ..@ TMB             : NULL
 ```
+
 ---
 # Examine model results
 
@@ -3215,11 +2106,11 @@ Bootstrap iterations: 0
 ```
 
 ---
-# Get estimates on ""natural" scale
+# Get estimates on "natural" scale
 
 
 ```r
-lambda&lt;-backTransform(res0, type="state") 
+lambda &lt;- backTransform(res0, type = "state") 
 lambda
 ```
 
@@ -3237,15 +2128,15 @@ confint(lambda)
 ```
 
 ```
-     0.025    0.975
- 0.9860346 2.220318
+ 0.025 0.975
+  0.99   2.2
 ```
 ---
-# Get estimates on ""natural" scale
+# Get estimates on "natural" scale
 
 
 ```r
-detection&lt;-backTransform(res0, type="det") 
+detection &lt;- backTransform(res0, type = "det") 
 detection
 ```
 
@@ -3263,22 +2154,22 @@ confint(detection)
 ```
 
 ```
-     0.025     0.975
- 0.2353875 0.5077896
+ 0.025 0.975
+  0.24  0.51
 ```
 ---
 # Check identifiability (1)
 
 ```r
-res0a&lt;-pcount(~1 ~1,count,K=100,mixture=c("P"))
-res0b&lt;-pcount(~1 ~1,count,K=150,mixture=c("P"))
-res0c&lt;-pcount(~1 ~1,count,K=200,mixture=c("P"))
+res0a &lt;- pcount(~1 ~1, count, K = 100, mixture = c("P"))
+res0b &lt;- pcount(~1 ~1, count, K = 150, mixture = c("P"))
+res0c &lt;- pcount(~1 ~1, count, K = 200, mixture = c("P"))
 ```
 ---
 # Check identifiability (2)
 
 ```r
-print(res0a@AIC, digits=5)
+print(res0a@AIC, digits = 5)
 ```
 
 ```
@@ -3286,7 +2177,7 @@ print(res0a@AIC, digits=5)
 ```
 
 ```r
-print(res0b@AIC, digits=5)
+print(res0b@AIC, digits = 5)
 ```
 
 ```
@@ -3294,16 +2185,17 @@ print(res0b@AIC, digits=5)
 ```
 
 ```r
-print(res0c@AIC, digits=5)
+print(res0c@AIC, digits = 5)
 ```
 
 ```
 [1] 388.28
 ```
-If AIC is stable, no problem
-If AIC decrease then identifiability issues, try : 
-- Other distributions (but may pose the same problem)
-- Add some covariates and then check on the best model
+
++ If AIC is stable, no problem        
++ If AIC decrease then identifiability issues, try:     
+       - Other distributions (but may pose the same problem)
+       - Add some covariates and then check on the best model
 
 ---
 # Fit some models with covariates
@@ -3311,7 +2203,7 @@ If AIC decrease then identifiability issues, try :
 Fit a model with month as covariate on detection
 
 ```r
-res_month&lt;-pcount(~month ~1,count,K=100,mixture=c("P"))
+res_month &lt;- pcount(~month ~1, count, K = 100, mixture = c("P"))
 ```
 
 ---
@@ -3368,24 +2260,24 @@ res_month@AIC
 
 
 ```r
-newData &lt;- data.frame(month=c('April','May','June'))
-pred &lt;- predict(res_month, type="det", newdata=newData, appendData=TRUE)
+newData &lt;- data.frame(month = c('April','May','June'))
+pred &lt;- predict(res_month, type = "det", newdata = newData, appendData = TRUE)
 pred
 ```
 
 ```
-  Predicted         SE     lower     upper month
-1 0.2322594 0.05530480 0.1414274 0.3571605 April
-2 0.5198180 0.09056941 0.3470901 0.6879348   May
-3 0.4866374 0.08679055 0.3242355 0.6519108  June
+  Predicted    SE lower upper month
+1      0.23 0.055  0.14  0.36 April
+2      0.52 0.091  0.35  0.69   May
+3      0.49 0.087  0.32  0.65  June
 ```
 
 ---
-# Fit a model with rabbit burrows on abundance
+## A model with rabbit burrows effect on abundance
 
 
 ```r
-res_burrow&lt;-pcount(~month ~burrow,count,K=100,mixture=c("P"))
+res_burrow &lt;- pcount(~month ~burrow, count, K = 100, mixture = c("P"))
 ```
 
 ---
@@ -3412,28 +2304,29 @@ res_burrow@AIC
 
 
 ```r
-newData2 &lt;- data.frame(burrow=seq(min(dat$burrow),max(dat$burrow),by=1))
-E.p &lt;- predict(res_burrow, type="state", newdata=newData2, appendData=TRUE)
-plot(Predicted ~ burrow, E.p, type="l", ylim=c(0,10),
-xlab="Number of burrow",
-ylab="Expected abundance")
-lines(lower ~ burrow, E.p, type="l", col=gray(0.5))
-lines(upper ~ burrow, E.p, type="l", col=gray(0.5))
+newData2 &lt;- data.frame(burrow = seq(min(dat$burrow), max(dat$burrow), by = 1))
+
+E.p &lt;- predict(res_burrow, type = "state", newdata = newData2, appendData = TRUE)
+
+plot(Predicted ~ burrow, E.p, 
+     type = "l", 
+     ylim = c(0,10),
+     xlab = "Number of burrow",
+     ylab = "Expected abundance")
+
+lines(lower ~ burrow, E.p, type = "l", col = gray(0.5))
+
+lines(upper ~ burrow, E.p, type = "l", col = gray(0.5))
 ```
 ---
 # Plot burrow effect on abundance
 
-![](abundance-tutorial_files/figure-html/unnamed-chunk-63-1.png)&lt;!-- --&gt;
+&lt;img src="abundance-tutorial_files/figure-html/unnamed-chunk-64-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 # Goodness-of-fit tests
 
-
-```r
-obs.boot &lt;- Nmix.gof.test(res_burrow, nsim = 100)
-```
-
-![](abundance-tutorial_files/figure-html/unnamed-chunk-64-1.png)&lt;!-- --&gt;
+&lt;img src="abundance-tutorial_files/figure-html/unnamed-chunk-65-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 # Goodness-of-fit tests
@@ -3449,26 +2342,27 @@ Chi-square goodness-of-fit for N-mixture model of 'unmarkedFitPCount' class
 
 Observed chi-square statistic = 194.9798 
 Number of bootstrap samples = 100
-P-value = 0.64
+P-value = 0.78
 
 Quantiles of bootstrapped statistics:
    0%   25%   50%   75%  100% 
-154.8 190.1 206.6 220.5 289.8 
+153.2 195.6 207.0 226.6 257.1 
 
-Estimate of c-hat = 0.9451 
+Estimate of c-hat = 0.9302 
 ```
 
 ---
 # Model selection
 
 ```r
-res1&lt;-pcount(~month ~burrow,count,K=100,mixture=c("P"))
-res2&lt;-pcount(~month+burrow ~1,count,K=100,mixture=c("P"))
-res3&lt;-pcount(~month+burrow ~burrow,count,K=100,mixture=c("P"))
-res4&lt;-pcount(~month ~habitat,count,K=100,mixture=c("P"))
-res5&lt;-pcount(~month+habitat ~1,count,K=100,mixture=c("P"))
-res6&lt;-pcount(~month+habitat ~habitat,count,K=100,mixture=c("P"))
+res1 &lt;- pcount(~month ~burrow, count, K = 100, mixture = c("P"))
+res2 &lt;- pcount(~month + burrow ~1, count, K = 100, mixture = c("P"))
+res3 &lt;- pcount(~month + burrow ~burrow, count, K = 100, mixture = c("P"))
+res4 &lt;- pcount(~month ~habitat, count, K = 100, mixture = c("P"))
+res5 &lt;- pcount(~month + habitat ~1, count, K = 100, mixture = c("P"))
+res6 &lt;- pcount(~month + habitat ~habitat, count, K = 100, mixture = c("P"))
 ```
+
 ---
 # Model selection
 

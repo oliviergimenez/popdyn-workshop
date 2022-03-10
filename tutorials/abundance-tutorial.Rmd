@@ -1,5 +1,5 @@
 ---
-title: "Abundance and density - live demos"
+title: "Abundance - live demos"
 author: "Aurélien Besnard for the team"
 date: "last updated: `r Sys.Date()`"
 output:
@@ -14,9 +14,14 @@ output:
       titleSlideClass: [center, middle]
 ---
 
-```{r setup, include=FALSE, echo=FALSE, cache = FALSE, message = FALSE, warning=FALSE}
-options(htmltools.dir.version = FALSE)
-knitr::opts_chunk$set(comment = "")
+```{r setup, include = FALSE, echo = FALSE, cache = FALSE, message = FALSE, warning = FALSE}
+options(htmltools.dir.version = FALSE,
+        scipen = 1, 
+        digits = 2)
+knitr::opts_chunk$set(comment = "", 
+                      message = FALSE, 
+                      warning = FALSE,
+                      cache = TRUE)
 library(tidyverse)
 theme_set(theme_light())
 update_geom_defaults("point", list(size = 2)) 
@@ -31,9 +36,9 @@ background-size: cover
 <style type="text/css">pre {font-size: 18px}</style>
 
 ---
-# Example with one group only
+# Example with a single group
 
-## Package
+## Load package
 
 ```{r}
 library(RMark)
@@ -48,7 +53,7 @@ mouse <- convert.inp("dat/mouse.inp",
                     covariates = NULL)
 ```
 
-look at the first data 
+Inspect first lines of the dataset 
 ```{r}
 head(mouse)
 ```
@@ -70,25 +75,26 @@ mouse.proc <- process.data(mouse,
                            model = "FullHet")
 mouse.ddl <- make.design.data(mouse.proc)
 ```
-model= FullHet refers to the most complex model form, allow simpler models to be fitted
+
+`model = FullHet` refers to the most complex model form, allowing simpler models to be fitted as specific cases
 
 ---
-## Define the models (1)
+## Define models (1)
 
-Use a function that do three actions :
-- specify the effects in the model to fit
-- create a list of all models to fit
-- prepare them for Mark
+Use a function that do three things:
+- Specify the effects in the model to be fitted
+- Create a list of all models to be fitted
+- Prepare them for Mark
 
-Not that MARK considers capture probability *p* and recapture probability *c* to be different
+Note that RMark considers capture probability $p$ and recapture probability $c$ to be different
 
-To fit a model vith  *p* and *c* equal, use  "share = TRUE" 
+To fit a model vith $p$ and $c$ equal, use  `share = TRUE`  
 
 ---
-## Define the models (2)
+## Define models (2)
 ```{r}
 run.mouse <- function() {
-# prepare effects in the models 
+# List of effects 
 p.dot <- list(formula =  ~ 1, share = TRUE) # M0 : p constant over time
 p.dot.behav <- list(formula =  ~ 1) # Mb : p and c differ
 p.time <- list(formula =  ~ time, share = TRUE) # Mt : p varies over time
@@ -98,60 +104,71 @@ p.h.behav <- list(formula =  ~ mixture) # Mbh
 p.h.time <- list(formula = ~ time + mixture, share = TRUE) # Mth
 p.h.time.behav <- list(formula =  ~ mixture + time) # Mtbh
 
-## Build the model list
+## Build model list
 mouse.model.list <- create.model.list("FullHet")
 
-## Prepare the list to send to Mark
+## Prepare list to send to Mark
 mouse.results <- mark.wrapper(mouse.model.list,data = mouse.proc,ddl = mouse.ddl)
 
-## Grab the results
+## Grab results
   return(mouse.results)
 }
 ```
 
 ---
-# Fit the models
-Fit all models prepared with the function at once 
+# Fit models
+
+Fit at once all models prepared with the function above 
 ```{r}
 mouse.results <- run.mouse()
 ```
 
 ---
-# Look at the results
+# Inspect outputs
+
+```{r eval = FALSE}
+mouse.results
+```
+
+Look at column `model` to get details of effects included
+
+---
+# Inspect outputs
 
 ```{r}
 mouse.results
 ```
-Look at column "model" to get the detail of the effects included in the model
 
 ---
-# How do we identify the models
-The models appear in the same order as we specify them in the building model function
+# How do we identify models?
+
+The models appear in the same order as we specify them in the building model function:
 ```{r}
 names(mouse.results)
 ```
 
 ---
-# Get estimates of one specific model
-We called  $M_0$  "p.dot" in the building model function
+# Get estimates of a specific model
+
+We called $M_0$  "p.dot" in the building model function
 
 This is the name used in the object storing the results
 ```{r}
 mouse.results$p.dot$results$real
 ```
 
-pi is not relevant here as the model does not include heterogeneity
++ `pi` is not relevant here as the model does not include heterogeneity
 
-p is the capture and recapture probability
++ `p` is the capture and recapture probability
 
-f0 is the estimated number fo missed individuals (never captured)
++ `f0` is the estimated number of missed individuals (never captured)
 
 ---
-# To get abundance estimates
+# How to get abundance estimates?
 
-Abundance *N* is a derived parameter estimated using $p*$ and the number of caught individuals
+Abundance $N$ is a derived parameter estimated using $p*$ and the number of caught individuals
 
-To get its estimate : 
+To get its estimate: 
 ```{r}
 mouse.results$p.dot.behav$results$derived
 ```
@@ -176,7 +193,7 @@ head(mouse)
 ---
 # Prepare the data
 
-Same steps than before but specify that we have some groups, here 'sex'
+Same steps as before but specify that we have some groups, here 'sex'
 ```{r}
 mouse.proc <- process.data(mouse, 
                            begin.time = 1, 
@@ -186,7 +203,7 @@ mouse.ddl <- make.design.data(mouse.proc)
 ```
 
 ---
-# Define models to fit
+## Define models to be fitted
 ```{r}
 run.mouse <- function() {
   p.dot <- list(formula =  ~ 1, share = TRUE)
@@ -199,15 +216,13 @@ run.mouse <- function() {
   p.h.time.behav <- list(formula =  ~ mixture + time)
   # Mbsex - model with sex on capture probability AND recapture probability
   p.sex.behav <- list(p = list(formula = ~ sex),c = list(formula = ~ sex))
-
-## Build the model list
+  ## Build model list
   mouse.model.list <- create.model.list("FullHet")
-  
-## Prepare the list to send to Mark
+  ## Prepare list to send to Mark
   mouse.results <- mark.wrapper(mouse.model.list,
                               data = mouse.proc, 
                               ddl = mouse.ddl)
-## Grab the results
+  ## Grab results
   return(mouse.results)
 }
 ```
@@ -219,38 +234,41 @@ run.mouse <- function() {
 mouse.results <- run.mouse()
 ```
 
---- 
-# Look at the results
+---
+# Inspect results
  
 ```{r}
 mouse.results
 ```
 
 ---
-# Get the estimates
+# Get estimates
 
 ```{r}
 mouse.results$p.sex.behav$results$real
 ```
-pi not relevant as no heterogeneity was fitted
 
-p gF capture probability of females /  p gM capture probability of males 
++ `pi` not relevant as no heterogeneity was fitted
 
-c gF recapture probability of females / c gM recapture probability of males
++ `p gF` capture probability of females /  `p gM` capture probability of males 
 
-f0 gF number of females never caugth / f0 gM number of males never caugth
++ `c gF` recapture probability of females / `c gM` recapture probability of males
+
++ `f0 gF` number of females never caugth / `f0 gM` number of males never caugth
 
 ---
-# Get the abundance estimates
+# Get abundance estimates
+
 ```{r}
 mouse.results$p.sex.behav$results$derived
 ```
-Line 1 - Population size of Females
 
-Line 2 - Population size of Males
++ Line 1 - Population size of Females
+
++ Line 2 - Population size of Males
 
 ---
-# Clean the temporary files created by RMARK
+# Clean temporary files created by RMark
 
 ```{r}
 rm(list = ls(all = TRUE))
@@ -275,9 +293,9 @@ library(Distance)
 ---
 # Read the data (1)
 
-An example of data provided by Eric Rexstad in Distance package
++ An example of data provided by Eric Rexstad in Distance package
 
-Line transect data of winter wrens in Scotland
++ Line transect data of winter wrens in Scotland
 
 ```{r}
 data(wren_lt)
@@ -303,20 +321,24 @@ sum(is.na(wren_lt$distance))  # transect with no observations at all
 # Explore the data (3)
 
 ```{r, eval=FALSE}
-hist(wren_lt$distance, xlab="Distance (m)", main="Winter wren line transects")
+hist(wren_lt$distance, 
+     xlab = "Distance (m)", 
+     main = "Winter wren line transects")
 
 ```
 ---
 # Explore the data (3)
 
-```{r, echo=FALSE}
+```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE, fig.align='center'}
 hist(wren_lt$distance, xlab="Distance (m)", 
      main="Winter wren line transects")
 
 ```
+
 ---
 # Specify units 
-Choose the units in which  density is to be reported
+
+Choose the units in which density is to be reported
 
 - Distance_units - units of measure for perpendicular/radial distances
 - Effort_units - units of measure for effort (NULL for point transects)
@@ -330,8 +352,10 @@ conversion.factor <- convert_units("meter", "kilometer","hectare")
 # Fit a simple detection function model 
 
 ```{r}
-wren.hn <- ds(data=wren_lt, key="hn", adjustment=NULL,
-              convert.units=conversion.factor)
+wren.hn <- ds(data = wren_lt, 
+              key = "hn", 
+              adjustment = NULL,
+              convert.units = conversion.factor)
 ```
 ---
 # Fit a simple detection function model 
@@ -345,19 +369,21 @@ summary(wren.hn)
 
 ```{r, eval=FALSE}
 cutpoints <- c(0,5,10,15,20,30,40,50,65,80,100)
-plot(wren.hn, breaks=cutpoints, main="Half normal model, 
-     wren line transects")
+plot(wren.hn, 
+     breaks = cutpoints, 
+     main = "Half normal model, wren line transects")
 
 ```
 ---
 # Explore results (1)
 
-```{r, echo=FALSE}
+```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE, fig.align='center'}
 cutpoints <- c(0,5,10,15,20,30,40,50,65,80,100)
 plot(wren.hn, breaks=cutpoints, main="Half normal model, 
      wren line transects")
 
 ```
+
 ---
 # Explore results (2)
 
@@ -383,10 +409,15 @@ wren.hn$dht
 # Fit some more models
 
 ```{r, eval=FALSE}
-wren.unif.cos <- ds(wren_lt, key="unif", adjustment="cos",
-                  convert.units=conversion.factor)
-wren.hr.poly <- ds(wren_lt, key="hr", adjustment="poly", 
-                  convert.units=conversion.factor)
+wren.unif.cos <- ds(wren_lt, 
+                    key = "unif", 
+                    adjustment = "cos",
+                    convert.units = conversion.factor)
+
+wren.hr.poly <- ds(wren_lt, 
+                   key = "hr", 
+                   adjustment = "poly", 
+                   convert.units = conversion.factor)
 ```
 
 ```{r, echo=FALSE}
@@ -406,8 +437,8 @@ AIC(wren.hn, wren.hr.poly, wren.unif.cos)
 # GOF
 
 .pull-left[
-```{r}
-z<-gof_ds(wren.hn)
+```{r, echo = TRUE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE, fig.align='center'}
+z <- gof_ds(wren.hn)
 ```
 ]
 
@@ -448,7 +479,7 @@ library(AICcmodavg)
 # Read the data (1)
 
 ```{r}
-dat<-read.csv2('dat/ocellatedlezard.csv')
+dat <- read.csv2('dat/ocellatedlezard.csv')
 ```
 
 
@@ -465,7 +496,7 @@ dim(dat)[1] # number of quadrats
 
 Look at the detection on the quadrats
 ```{r}
-y<-dat[,2:4]
+y <- dat[,2:4]
 head(y)
 ```
 ---
@@ -481,7 +512,7 @@ rowSums(y)
 
 Collect the covariates at the site (that do not change over field sessions)
 ```{r}
-covsite<-dat[,5:6]			# collect the site covariates
+covsite <- dat[,5:6]			# collect site covariates
 
 ```
 ---
@@ -489,16 +520,16 @@ covsite<-dat[,5:6]			# collect the site covariates
 
 Collect the covariates of the field sessions
 ```{r}
-temp<-dat[,7:9]			  # collect the temperature at each field session
-month<-dat[,10:12]     # collect the month of each field session
-obscov<-list(temp=temp,month=month)	# make a list with session covariates
+temp <- dat[,7:9]			  # collect temperature at each field session
+month <- dat[,10:12]     # collect month of each field session
+obscov <- list(temp = temp, month = month)	# make a list with session covariates
 ```
 ---
 # Prepare the data for unmarked (3)
 
 Build the object for unmarked function
 ```{r}
-count<-unmarkedFramePCount(y,siteCovs=covsite,obsCovs=obscov)
+count <- unmarkedFramePCount(y, siteCovs = covsite, obsCovs = obscov)
 ```
 
 ---
@@ -506,16 +537,15 @@ count<-unmarkedFramePCount(y,siteCovs=covsite,obsCovs=obscov)
 
 Fit a constant model just to check
 ```{r}
-res0<-pcount(~1 ~1,count,K=100,mixture=c("P"))
-
+res0 <- pcount(~1 ~1, count, K = 100, mixture = c("P"))
 ```
 ---
 # Explore the resulting object
 
 ```{r}
 str(res0)
-
 ```
+
 ---
 # Examine model results
 
@@ -525,46 +555,47 @@ summary(res0)
 ```
 
 ---
-# Get estimates on ""natural" scale
+# Get estimates on "natural" scale
 
 ```{r}
-lambda<-backTransform(res0, type="state") 
+lambda <- backTransform(res0, type = "state") 
 lambda
 confint(lambda)
 ```
 ---
-# Get estimates on ""natural" scale
+# Get estimates on "natural" scale
 
 ```{r}
-detection<-backTransform(res0, type="det") 
+detection <- backTransform(res0, type = "det") 
 detection
 confint(detection)
 ```
 ---
 # Check identifiability (1)
 ```{r}
-res0a<-pcount(~1 ~1,count,K=100,mixture=c("P"))
-res0b<-pcount(~1 ~1,count,K=150,mixture=c("P"))
-res0c<-pcount(~1 ~1,count,K=200,mixture=c("P"))
+res0a <- pcount(~1 ~1, count, K = 100, mixture = c("P"))
+res0b <- pcount(~1 ~1, count, K = 150, mixture = c("P"))
+res0c <- pcount(~1 ~1, count, K = 200, mixture = c("P"))
 ```
 ---
 # Check identifiability (2)
 ```{r}
-print(res0a@AIC, digits=5)
-print(res0b@AIC, digits=5)
-print(res0c@AIC, digits=5)
+print(res0a@AIC, digits = 5)
+print(res0b@AIC, digits = 5)
+print(res0c@AIC, digits = 5)
 ```
-If AIC is stable, no problem
-If AIC decrease then identifiability issues, try : 
-- Other distributions (but may pose the same problem)
-- Add some covariates and then check on the best model
+
++ If AIC is stable, no problem        
++ If AIC decrease then identifiability issues, try:     
+       - Other distributions (but may pose the same problem)
+       - Add some covariates and then check on the best model
 
 ---
 # Fit some models with covariates
 
 Fit a model with month as covariate on detection
 ```{r}
-res_month<-pcount(~month ~1,count,K=100,mixture=c("P"))
+res_month <- pcount(~month ~1, count, K = 100, mixture = c("P"))
 ```
 
 ---
@@ -585,16 +616,16 @@ res_month@AIC
 # Examine detection probability over months
 
 ```{r}
-newData <- data.frame(month=c('April','May','June'))
-pred <- predict(res_month, type="det", newdata=newData, appendData=TRUE)
+newData <- data.frame(month = c('April','May','June'))
+pred <- predict(res_month, type = "det", newdata = newData, appendData = TRUE)
 pred
 ```
 
 ---
-# Fit a model with rabbit burrows on abundance
+## A model with rabbit burrows effect on abundance
 
 ```{r}
-res_burrow<-pcount(~month ~burrow,count,K=100,mixture=c("P"))
+res_burrow <- pcount(~month ~burrow, count, K = 100, mixture = c("P"))
 ```
 
 ---
@@ -608,18 +639,24 @@ res_burrow@AIC
 # Plot burrow effect on abundance
 
 ```{r, eval=FALSE}
-newData2 <- data.frame(burrow=seq(min(dat$burrow),max(dat$burrow),by=1))
-E.p <- predict(res_burrow, type="state", newdata=newData2, appendData=TRUE)
-plot(Predicted ~ burrow, E.p, type="l", ylim=c(0,10),
-xlab="Number of burrow",
-ylab="Expected abundance")
-lines(lower ~ burrow, E.p, type="l", col=gray(0.5))
-lines(upper ~ burrow, E.p, type="l", col=gray(0.5))
+newData2 <- data.frame(burrow = seq(min(dat$burrow), max(dat$burrow), by = 1))
+
+E.p <- predict(res_burrow, type = "state", newdata = newData2, appendData = TRUE)
+
+plot(Predicted ~ burrow, E.p, 
+     type = "l", 
+     ylim = c(0,10),
+     xlab = "Number of burrow",
+     ylab = "Expected abundance")
+
+lines(lower ~ burrow, E.p, type = "l", col = gray(0.5))
+
+lines(upper ~ burrow, E.p, type = "l", col = gray(0.5))
 ```
 ---
 # Plot burrow effect on abundance
 
-```{r, echo=FALSE}
+```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE, fig.align='center'}
 newData2 <- data.frame(burrow=seq(min(dat$burrow),max(dat$burrow),by=1))
 E.p <- predict(res_burrow, type="state", newdata=newData2, appendData=TRUE)
 plot(Predicted ~ burrow, E.p, type="l", ylim=c(0,10),
@@ -632,7 +669,7 @@ lines(upper ~ burrow, E.p, type="l", col=gray(0.5))
 ---
 # Goodness-of-fit tests
 
-```{r cache = TRUE, message=FALSE, warning=FALSE}
+```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE, fig.align='center', cache = TRUE}
 obs.boot <- Nmix.gof.test(res_burrow, nsim = 100)
 ```
 
@@ -647,13 +684,14 @@ print(obs.boot, digits.vals = 4, digits.chisq = 4)
 ---
 # Model selection
 ```{r}
-res1<-pcount(~month ~burrow,count,K=100,mixture=c("P"))
-res2<-pcount(~month+burrow ~1,count,K=100,mixture=c("P"))
-res3<-pcount(~month+burrow ~burrow,count,K=100,mixture=c("P"))
-res4<-pcount(~month ~habitat,count,K=100,mixture=c("P"))
-res5<-pcount(~month+habitat ~1,count,K=100,mixture=c("P"))
-res6<-pcount(~month+habitat ~habitat,count,K=100,mixture=c("P"))
+res1 <- pcount(~month ~burrow, count, K = 100, mixture = c("P"))
+res2 <- pcount(~month + burrow ~1, count, K = 100, mixture = c("P"))
+res3 <- pcount(~month + burrow ~burrow, count, K = 100, mixture = c("P"))
+res4 <- pcount(~month ~habitat, count, K = 100, mixture = c("P"))
+res5 <- pcount(~month + habitat ~1, count, K = 100, mixture = c("P"))
+res6 <- pcount(~month + habitat ~habitat, count, K = 100, mixture = c("P"))
 ```
+
 ---
 # Model selection
 ```{r}
