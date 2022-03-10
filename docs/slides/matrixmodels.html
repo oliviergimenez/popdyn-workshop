@@ -3,7 +3,7 @@
   <head>
     <title>Population Projection Models (PPMs)</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Sarah Cubaynes for the Team" />
+    <meta name="author" content="Sarah Cubaynes for the team" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="slides-theme.css" type="text/css" />
@@ -13,8 +13,8 @@
 class: center, middle, title-slide
 
 # Population Projection Models (PPMs)
-### Sarah Cubaynes for the Team
-### last updated: 2022-02-25
+### Sarah Cubaynes for the team
+### last updated: 2022-03-10
 
 ---
 
@@ -39,6 +39,7 @@ class: center, middle, title-slide
 ---
 # Population Viability Analysis (PVA)
 
+Morris et al. 1999. A practical handbook for population viability analysis. The Nature Conservancy :
 
 + use of **quantitative methods** to predict the **likely future status** of a population or collection of populations of conservation concern 
 
@@ -129,13 +130,14 @@ class: center, middle
 
 ---
 ## Example of the Yellowstone grizzly bear population 
+from Morris &amp; Doak. 2002. Quantitative conservation biology: Theory and practice of population viability analysis. Massachusetts, USA.
 
 .pull-left[
-&lt;img src="matrixmodels_files/figure-html/unnamed-chunk-3-1.png" width="100%" /&gt;
+&lt;img src="matrixmodels_files/figure-html/unnamed-chunk-3-1.png" width="85%" /&gt;
 ]
 
 .pull-right[
-&lt;img src="img/famous-grizzly-bear-399-her-600w-1826571545.jpg" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/bear.jpg" width="60%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -270,7 +272,7 @@ lambda # average growth rate
 
 - Expected population size using mean rate of increase and ignoring environmental variance (not recommended)
 
-`$$N_{t} =  N_{0} \cdot \lambda^{t}$$`
+`$$N_{t} =  N_{0} \cdot \mu^{t}$$`
 
 `$$ln(N_{t}) =  ln(N_{0}) + \mu \cdot t$$`
 
@@ -408,22 +410,23 @@ for (i in 1:runs){ # loop over repetitions
 ```
 
 ---
-# Step 3 : Examine the results
+## Step 3 : Examine the results
 
+Plot the population trajectories :
 &lt;img src="matrixmodels_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
-# Step 3 : Examine the results
-
+## Step 3 : Examine the results
+Plot population size at the last time step :
 &lt;img src="matrixmodels_files/figure-html/message==FALSE-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
-# Step 3 : Examine the results
-
+## Step 3 : Examine the results
+Plot prediction together with observed counts :
 &lt;img src="matrixmodels_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
-# Step 3 : Examine the results
+# Step 4 : Quantify extinction risks
 
 - The average population growth rate doesn’t do a good job of predicting what most population realizations will do
 
@@ -446,7 +449,7 @@ Pr.ext
 ```
 
 ```
-[1] 0.214
+[1] 0.19
 ```
 
 
@@ -475,7 +478,7 @@ median(time.ext)
 ```
 
 ```
-[1] 11
+[1] 13
 ```
 
 ---
@@ -486,7 +489,7 @@ median(time.ext)
 ---
 # Step 6 : Perturb and run the model
 
-## Interesting to evaluate the sensitivity of the results to changes :
+### Interesting to evaluate the sensitivity of the results to changes in :
 
 - initial population size
 - extinction threshold
@@ -494,13 +497,7 @@ median(time.ext)
 - number of time steps
 
 ---
-# Let's practice
-
-- Run a PVA for the grizzly bear using 38 bears as the mimimum population size. 
-
-- Start with the initial population of 99 bears in 1997.
-
-- What is the probability that the population is extinct by 2022 ?
+# Live demo
 
 ---
 # Count based extinction analyses are based on strong hypotheses
@@ -542,7 +539,7 @@ median(time.ext)
 
 - no hints about which management action might be most efficient? 
 
-- Is it better to act on survival ? fecundity ? of adults ? juveniles ?
+- is it better to act on survival ? fecundity ? of adults ? juveniles ?
 
 ---
 # Can we assess population viability from demographic parameters ?
@@ -691,6 +688,24 @@ S_{1} &amp; S_{2}
 - work the same way for complex life cycles 
   
 ---
+# Examples 
+
+&lt;img src="img/Compadre.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+# Examples 
+## Several sites
+
+---
+# Examples 
+## Variable age at first reproduction
+
+---
+# Examples 
+## Transition among stages
+
+
+---
 # The projection matrix
 - How many age classes / stages in the life cycle ?
 - age at first reproduction ?
@@ -755,11 +770,5494 @@ S_{0} &amp; 0 &amp; 0 \\
 ---
 class: center, middle
 
-# Let's practice writing life cycles
+# 1- Deterministic MPMs
+
+---
+# Step 5: Project the population
+
++ write the transition matrix in R :
+  
+
+```r
+A.swallow &lt;- matrix(c(0.3, 0.6, 0.5, 0.65), # pre-breeding leslie matrix
+                    nrow = 2, 
+                    byrow = TRUE) 
+A.swallow
+```
+
+```
+     [,1] [,2]
+[1,]  0.3 0.60
+[2,]  0.5 0.65
+```
+---
+# Step 5: Project the population
+
++ start from an initial population `\(n_{0}\)` at time `\(t =0\)`
+  
+
+```r
+n0 = c(50,30) # vector with initial population
+n0
+```
+
+```
+[1] 50 30
+```
+
+---
+# Step 5: Project the population
+
++ project to the next time step :
+  
+
+```r
+n1 =  A.swallow %*% n0 # matrix product
+n1
+```
+
+```
+     [,1]
+[1,] 33.0
+[2,] 44.5
+```
+---
+# Step 5: Project the population
+
++ project the population over 10 years :
+  
+
+```r
+require(matrixcalc)
+
+t = 10
+# matrix product
+*n10 = matrix.power(A.swallow,t) %*% n0
+n10
+```
+
+```
+         [,1]
+[1,] 53.82434
+[2,] 67.28043
+```
+
+---
+# Step 5: Project the population
+
++ or using built-in function from package popbio :
+  
+
+```r
+library(popbio) # load package
+t =11
+# project the population
+*results &lt;- pop.projection(A.swallow,n0,iterations = t)
+results
+```
+
+---
+## Let's plot the projection
+
+&lt;img src="matrixmodels_files/figure-html/unnamed-chunk-46-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+## Convergence to a stable distribution
+
+Transient dynamics :
++ depends on the initial population
++ damping ratio measures how fast the population converges toward the equilibrium
+
+Stationary phase :
++ independent of initial conditions
++ depends on the transition matrix only
++ constant growth rate = stable population growth rate ( `\(\lambda\)` )
++ constant proportion of individuals per age/stage = stable age/stage structure
+
+---
+## Let's examine the results
+  
+
+```r
+results = pop.projection(A.swallow, n0, iterations = t) 
+names(results)
+```
+
+```
+[1] "lambda"        "stable.stage"  "stage.vectors" "pop.sizes"    
+[5] "pop.changes"  
+```
+
+---
+## Let's examine the results
+
+First element contains the average growth rate 
+= stable growth rate in stationary phase
+
+
+```r
+results$lambda
+```
+
+```
+[1] 1.05
+```
+
+---
+## Let's examine the results
+
+Second element contains the stable age/stage structure
+= % of each age/stage in the population in stationary phase
+
+
+```r
+results$stable.stage
+```
+
+```
+[1] 0.4444444 0.5555556
+```
+
+---
+## Let's examine the results
+
+Third element contains pop. sizes per age/stage class at each time step
+
+
+```r
+results$stage.vectors
+```
+
+```
+      0    1      2        3        4        5        6        7        8
+[1,] 50 33.0 36.600 38.23500 40.16625 42.17261 44.28144 46.49549 48.82027
+[2,] 30 44.5 45.425 47.82625 50.20456 52.71609 55.35177 58.11937 61.02533
+            9       10
+[1,] 51.26128 53.82434
+[2,] 64.07660 67.28043
+```
+
+---
+## Let's examine the results
+
+Fourth element contains total pop. size at each time step
+
+
+```r
+results$pop.sizes
+```
+
+```
+ [1]  80.00000  77.50000  82.02500  86.06125  90.37081  94.88870  99.63320
+ [8] 104.61486 109.84560 115.33788 121.10477
+```
+
+---
+## Let's examine the results
+
+Fifth element is the rate of change ($\lambda_{t}) at each time step
+
+
+```r
+results$pop.changes
+```
+
+```
+ [1] 0.968750 1.058387 1.049208 1.050076 1.049993 1.050001 1.050000 1.050000
+ [9] 1.050000 1.050000
+```
+
+---
+## Quantities in stationary phase
+
+Calculated directly from the transition matrix : 
+
+
+```r
+lambda(A.swallow) #stable population growth rate
+```
+
+```
+[1] 1.05
+```
+
+---
+## Quantities in stationary phase
+
+Calculated directly from the transition matrix : 
+
+
+```r
+stable.stage(A.swallow) # stable age/stage structure
+```
+
+```
+[1] 0.4444444 0.5555556
+```
+
+---
+## Quantities in stationary phase
+
+Calculated directly from the transition matrix : 
+
+
+```r
+# relative contribution of each age/stage to the next generation
+reproductive.value(A.swallow) 
+```
+
+```
+[1] 1.0 1.5
+```
+
+---
+## Quantities in stationary phase
+
+Calculated directly from the transition matrix : 
+
+
+```r
+generation.time(A.swallow) # average time between generations
+```
+
+```
+[1] 4.150924
+```
+
+```r
+# corresponds to average age of mother at first reproduction
+```
+
+---
+# Step 6 : Let's perturb the model
+
+What happens if female adult survival is reduced by 50% ?
+
+
+```r
+A.swallow.modified &lt;- matrix(c(0.3, 0.6, 0.5, 0.65/2), # pre-breeding leslie matrix
+                    nrow = 2, 
+                    byrow = TRUE) 
+A.swallow.modified
+```
+
+```
+     [,1]  [,2]
+[1,]  0.3 0.600
+[2,]  0.5 0.325
+```
+
+---
+# Step 6 : Let's perturb the model
+
+
+```r
+n0 = c(100,100)
+t=10
+results.modified &lt;- pop.projection(A.swallow.modified,
+                                   n0,
+                                   iterations = t) 
+```
+
+---
+# Step 6 : Let's perturb the model
+
+&lt;img src="matrixmodels_files/figure-html/unnamed-chunk-59-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+---
+# Step 6 : Let's perturb the model
+
+
+```r
+lambda(A.swallow.modified)
+```
+
+```
+[1] 0.8603652
+```
+
++ the population is now declining
++ adult survival is important to population growth
+
+---
+## Which demographic parameter contributes most to population growth ?
+
++ What happens if juvenile survival is reduced ?
+
++ What happens if fecundity or chick survival is reduced ?
+
+---
+## **Perturbation analyses** are aimed at :
++ measuring the **impact of a change in a specific demographic parameter on population dynamics** 
+
++ **sensitivity** measure **absolute change** (e.g. -0.1 in parameter)
+`$$\frac{\delta \lambda}{\delta \theta}$$` 
+
++ **elasticity** measures **relative change** (e.g. -0.1% change in parameter)
+`$$\frac{\delta \lambda}{\delta \theta} \cdot \frac{\theta}{\lambda}$$` 
+
++ both are useful, elasticity is better to compare parameters that are on different scales (change in survival versus fertility)
+
+--
+
++ two-ways to run perturbation analysis : 
+  - by cell of the transition matrix
+  - by demographic parameter
+
+---
+## 1- Which cell of the transition matrix has more impact on population dynamics ?
+
+```r
+S &lt;- sensitivity(A.swallow,zero=TRUE)
+S
+```
+
+```
+          [,1]      [,2]
+[1,] 0.3478261 0.4347826
+[2,] 0.5217391 0.6521739
+```
+
+---
+## 1- Which cell of the transition matrix has more impact on population dynamics ?
+
+&lt;img src="matrixmodels_files/figure-html/unnamed-chunk-62-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+---
+## 1- Which cell of the transition matrix has more impact on population dynamics ?
+
+
+```r
+E &lt;- elasticity(A.swallow)
+E
+```
+
+```
+           [,1]      [,2]
+[1,] 0.09937888 0.2484472
+[2,] 0.24844720 0.4037267
+```
+
+---
+## 1- Which cell of the transition matrix has more impact on population dynamics ?
+
+&lt;img src="matrixmodels_files/figure-html/unnamed-chunk-64-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+
++ adult survival appears as the most influential parameter
+
+---
+## 2- Which demographic parameter has more impact on population dynamics ?
+
+
+```r
+swallow.param &lt;- list(s0 = 0.20,
+                      s1 = 0.5,
+                      s2 = 0.65,
+                      f1 = 3/2,
+                      f2 = 6/2)
+
+swallow.equation &lt;- expression( s0 * f1, s0 * f2, s1, s2)
+VS &lt;- vitalsens(swallow.equation, swallow.param)
+```
+
+---
+## 2- Which demographic parameter has more impact on population dynamics ?
+
+
+```r
+VS &lt;- vitalsens(swallow.equation, swallow.param)
+VS
+```
+
+```
+   estimate sensitivity elasticity
+s0     0.20  1.82608696 0.34782609
+s1     0.50  0.52173913 0.24844720
+s2     0.65  0.65217391 0.40372671
+f1     1.50  0.06956522 0.09937888
+f2     3.00  0.08695652 0.24844720
+```
+
+---
+## 2- Which demographic parameter has more impact on population dynamics ?
+
+&lt;img src="matrixmodels_files/figure-html/unnamed-chunk-67-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Implications for management
+
++ identify key parameters for population management
+  - best strategy here is to reduce adult mortality
+
++ evaluate the impact of relative management actions
+ - actions focused on nest protection will have little impact
+
+---
+# Live demo on the loggerhead turle
+
+Example from Crouse et al. 1987. A stage‐based population model for loggerhead sea turtles and implications for conservation in Ecology.
+
+&lt;img src="img/loggerhead-turtle.jpg" width="50%" style="display: block; margin: auto;" /&gt;
+
+
++ most sensitive parameters are adult survival (not transition among stages or fecundity)
++ measures for egg protection are not enough
++ recommendation : use of turtle excluding devices on fishing boats
+
+---
+# Assumptions and limitations of deterministic MPMs
+
++ one sex model : females drive the demography, males are not limiting
+
++ synchronous breeding : discrete time
+
++ no density-dependence (exponential growth or decay)
+
++ demographic parameters are constant in time
+
++ no environmental stochasticity
+
++ no demographic stochasticity 
+
+---
+# Interest of deterministic models
+
++ species living in constant environment
+
++ recolonization, recovering from over-exploitation
+
++ very stable environments such as protected areas
+
+--
++ even if projected pop. size might be biased, perturbation analyses provide useful information to identify key parameters for population management
+
+---
+class: center, middle
+
+# 2- MPMs with environmental stochasticity
+
+---
+# Environmental stochasiticty 
+
+- Demographic parameters can vary over the years
+
+--
+
+- Environmental variacne increases extinction risks
+
+--
+- Several options to include it:
+
+- annual variance around mean value on demographic parameters
+
+- catastrophic events, sucession of 'good' and 'bad' years
+
+- scenarios with specific environmental variables
+
+---
+# 1- Include annual variability on demographic parameters
+
+Step 1 : Draw annual values of each demographic parameters from normal distribution with mean and variance
+
+
+```r
+s0 = rnorm(n=1000,mean=0.35,sd=0.15)
+s1 = rnorm(n=1000,mean=0.5,sd=0.15)
+s2 = rnorm(n=1000,mean=0.65,sd=0.15)
+f1 = rnorm(n=1000,mean=1.5,sd=0.15)
+f2 = rnorm(n=1000,mean=3,sd=0.5)
+```
+
+---
+## Step 1 : Draw annual values of each demographic parameters from normal distribution with mean and variance
+
+![](matrixmodels_files/figure-html/unnamed-chunk-70-1.png)&lt;!-- --&gt;
+
+---
+## Step 2 : Sample values of demographic parameters to contruct the annual stochastic transition matrices
+
+.pull-left[
+
+&lt;img src="img/pilemat1.png" width="60%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+&lt;img src="img/pilemat2.png" width="60%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+## Step 2 : Sample values of demographic parameters to contruct the annual stochastic transition matrices
+
+
+```r
+# number of time steps to project over
+T &lt;- 30 
+# Create a list of stochastic transition matrices
+A.swallowSE &lt;- list()
+# fill in by sampling from distrib. of demo. param.
+for(i in 1:T){
+A.swallowSE[[i]] &lt;- matrix( c( 
+*sample(s0,1) * sample(f2,1),sample(s0,1)*sample(f2,1),
+*       sample(s1,1), sample(s2,1) ) ,
+        nrow = 2, 
+        ncol= 2 )
+}
+```
+
+---
+## Step 3 : Project the population using stochastic transition matrices 
+
+
+```
+Starting projections for nrep 1
+```
+
+```
+Starting projections for nrep 100
+```
+
+```
+Starting projections for nrep 200
+```
+
+```
+Starting projections for nrep 300
+```
+
+```
+Starting projections for nrep 400
+```
+
+```
+Starting projections for nrep 500
+```
+
+```
+Starting projections for nrep 600
+```
+
+```
+Starting projections for nrep 700
+```
+
+```
+Starting projections for nrep 800
+```
+
+```
+Starting projections for nrep 900
+```
+
+```
+Starting projections for nrep 1000
+```
+
+```
+               [,1]        [,2]
+   [1,]   135986986   190003747
+   [2,]    73289144    38360158
+   [3,]   569763885   624101131
+   [4,]   117751334   134340780
+   [5,]  3018068218  4224946240
+   [6,]   119880229   143534580
+   [7,]  1097395429  1045712577
+   [8,]   200621709   280411204
+   [9,]   440987881   419446014
+  [10,]   209733070   213698510
+  [11,]   110601011    60896439
+  [12,]    64820294    68042443
+  [13,]   115672572   146133688
+  [14,]   153932159   173474976
+  [15,]   194183848   272290402
+  [16,]   219015807   220966407
+  [17,]   501124028   517334006
+  [18,]   204831137   341692762
+  [19,]  2697624031  3712276343
+  [20,]    23723472    24216932
+  [21,]   157230424   185080855
+  [22,]  2636611807  1739629292
+  [23,]   626992580   393714704
+  [24,]   628172688   330426492
+  [25,]   381417503   359874860
+  [26,]    73831470    68481531
+  [27,]   311272276   348469762
+  [28,]  2012859242  2207680075
+  [29,]   681327570   391570181
+  [30,]  2144937561  2917317242
+  [31,]   243912652   253965774
+  [32,]   294377427   394446042
+  [33,]  1537651657   787453882
+  [34,]   115063855   147579836
+  [35,]    96207905   132473125
+  [36,]   405275018   268449206
+  [37,]    44429575    25092764
+  [38,]   215659407   235893543
+  [39,] 10734112256  8642349798
+  [40,]   952700880   967029254
+  [41,]   632532892   919444937
+  [42,]    59338126    56847031
+  [43,]   146251125   265657618
+  [44,]  1159794003  1930102544
+  [45,]  2678559286  2509286870
+  [46,]   361539331   368304292
+  [47,]   169826410   353373770
+  [48,]    74448434    56438271
+  [49,]    65945941    93205050
+  [50,]   596061850   976115107
+  [51,]   315291749   193048862
+  [52,]   832574363   532130487
+  [53,]   106856037    54783461
+  [54,]  1590929507  1031193972
+  [55,]    98265939    99864824
+  [56,]    36059575    36694110
+  [57,]  2813133791  2594897367
+  [58,]    83135940   113531214
+  [59,]   627583956   511252699
+  [60,]   128375235   154294386
+  [61,]   542461241   622366742
+  [62,]   104771076    84783686
+  [63,]   196149120   117015306
+  [64,]  1501482072  2237477300
+  [65,]   211946298   113239061
+  [66,]  1948990433  1286051298
+  [67,]   102041119   108032795
+  [68,]   223883287   250215000
+  [69,]    84254048    37856697
+  [70,]   283586340   401621572
+  [71,]   109894501   124161505
+  [72,]   473703925   291896422
+  [73,]   499611857   553931066
+  [74,]  1252267594  1012714714
+  [75,]   176458739   118367017
+  [76,]   185358861   211073864
+  [77,]   666562580   474077510
+  [78,] 14381305522 15747902281
+  [79,]  1718991073  2448797279
+  [80,]   571462445   973747409
+  [81,]  1149686260  1399645627
+  [82,]   162594263   238465929
+  [83,]    31207815    51527222
+  [84,]    67986234    44522016
+  [85,]  1490571081  1447417236
+  [86,]    34832042    39080357
+  [87,]   314223230   353647678
+  [88,]  1451062659   716730550
+  [89,]   763827698   749185281
+  [90,]   173875097   207040556
+  [91,]  2703007956  1690556123
+  [92,]    78085264    89289866
+  [93,]   206241722   219153846
+  [94,]  1021503305   657740327
+  [95,]   173978733    93342968
+  [96,]   343062028   480301029
+  [97,]   251266728   455574052
+  [98,]   187673265   118215139
+  [99,]   384547521   247796170
+ [100,]   152953278   160601100
+ [101,]   221647375   134035633
+ [102,]  1668328788  2104902213
+ [103,]   394822924   547750723
+ [104,]   128572098   105815205
+ [105,]    44506974    25038466
+ [106,]  4008875688  2249011068
+ [107,]  1267129232   701880307
+ [108,]   356928876   468431117
+ [109,]    69223162    72087172
+ [110,]    45493394    42669943
+ [111,]   466855510   343778139
+ [112,]   151783210   178854512
+ [113,]   892994020   722485436
+ [114,]  1646618414  1070828649
+ [115,]    34622218    20806873
+ [116,]   242532566   458578578
+ [117,]   990811277   826027899
+ [118,]  2012077540  2266820333
+ [119,]   135530591   185995756
+ [120,]  3988608036  4496648651
+ [121,]  1062283945  1196793209
+ [122,]   232104440   125825717
+ [123,]  5953075162  8285650320
+ [124,]  3555744704  4174605029
+ [125,]    56957818    48329094
+ [126,]    26674713    26828782
+ [127,]  7859672148  4670263260
+ [128,]   544584315   507874502
+ [129,]  1372720798  1920156695
+ [130,]  1969784879  2596243492
+ [131,]   353112329   486664187
+ [132,]   105427178   142457841
+ [133,]    66992060    48493031
+ [134,]   336751151   380022765
+ [135,] 47181542654 31834280954
+ [136,]   157742053   212379970
+ [137,]   347960505   364236330
+ [138,]   207140579   195738827
+ [139,]   962397007  1634685911
+ [140,]   709418227  1001165559
+ [141,]  1400883170   745383699
+ [142,]    62819238    88269524
+ [143,]    73235221    63935431
+ [144,]   162508894   153555437
+ [145,]   136931931   232442344
+ [146,]    85523560    50989818
+ [147,]   241269670   455181552
+ [148,]   589077653   377246214
+ [149,]  5029201849  2927530952
+ [150,]   620351965   837415049
+ [151,]   110298266    59268314
+ [152,]    77883537    45494599
+ [153,]   230652368   246645799
+ [154,]   255443261   138248093
+ [155,]   753617190   832681336
+ [156,]  1695966973  2189573867
+ [157,]   134594372   112686842
+ [158,]    97906660    70901777
+ [159,]    53070270    26885427
+ [160,]  1139368270   923380226
+ [161,]   350562736   772071075
+ [162,]   249183296   269756427
+ [163,]   357864976   201026282
+ [164,]   189842110   190722908
+ [165,]   645681917   729887508
+ [166,]   878526602  1222767930
+ [167,]   148792201   163266494
+ [168,]   385346977   159915095
+ [169,]    82623616    63610748
+ [170,]  7247472655  4908015961
+ [171,]   331222183   322487824
+ [172,]   441486917   257847072
+ [173,]   711593320   617335911
+ [174,]   114854225   164696186
+ [175,]    50217793    70666110
+ [176,]    51492291    32054863
+ [177,]    61830790    76959792
+ [178,]  4532044868  2644547887
+ [179,]    71559903   125857792
+ [180,]  7232600846 10204654928
+ [181,] 12134344771 11672745884
+ [182,]  1484362629  1915757717
+ [183,]   259787501   149053464
+ [184,]    30736035    23789098
+ [185,]   216158202   259939100
+ [186,]   696443229   807583350
+ [187,]  3252940684  2066533960
+ [188,]   388632340   647915812
+ [189,]   205020356   209481673
+ [190,]   388941656   366586027
+ [191,]    31891983    49097903
+ [192,]   473502400   520857981
+ [193,]   839368469   467049972
+ [194,]  1065838575   698571804
+ [195,]  1434549780  1478721203
+ [196,]    28918152    17186739
+ [197,]   208099123   174008339
+ [198,]   358666370   436067818
+ [199,]   954514135   710062276
+ [200,]   505148801   493212708
+ [201,]  1941373394  1805372036
+ [202,]   601295259  1010941939
+ [203,]   332239957   172165981
+ [204,]   373087155   434712105
+ [205,]   226330019   258575061
+ [206,]   112054772    88783723
+ [207,]   400700367   318951140
+ [208,]   599681726   691238722
+ [209,]    67218038   124118751
+ [210,]   331788011   276409094
+ [211,]    21436974    29191710
+ [212,]   349527506   589749348
+ [213,]   508919422   865756116
+ [214,]   314151930   346193512
+ [215,]   165339397   213378858
+ [216,]   324411352   339808964
+ [217,]   220150312   143932488
+ [218,]  1213892142   987283434
+ [219,]   490816245   820660211
+ [220,]  1461443825  1363908475
+ [221,]    45320592    29428633
+ [222,]   153001284   147712520
+ [223,]    75429513   111252317
+ [224,]   191902307   168334552
+ [225,]   720418626   498386254
+ [226,]   202528842   233086768
+ [227,]    15549239    14750500
+ [228,]   573841276   877569572
+ [229,]  1387333279   761730728
+ [230,]   214979343   139208828
+ [231,]   634631221   501423868
+ [232,]  1028894203   940811651
+ [233,]    92255456   153686240
+ [234,]  8698557456 11942800450
+ [235,]    91892976    39484293
+ [236,]   522363894   392430296
+ [237,]   708885007  1182092381
+ [238,]   865097191   535233568
+ [239,]  1244413456   627379722
+ [240,]  2773047284  1752805001
+ [241,]   536421132   752133788
+ [242,]    77127249    81544819
+ [243,]   845992451   722928927
+ [244,]     1925587     1742361
+ [245,]  1088475663   640930874
+ [246,]   155417773   264470754
+ [247,]    29458256    32408553
+ [248,]   335931183   463160594
+ [249,]   236227137   139049338
+ [250,]  1118211828  1154338649
+ [251,]   571959578   466426822
+ [252,]  3399340147  2394672447
+ [253,]  6280104013  5919543403
+ [254,]   123093445    64902285
+ [255,]  1335045469  1883796856
+ [256,]   938439639   556071628
+ [257,]    33848945    19466430
+ [258,]   592241563   261880407
+ [259,] 35501445684 28944756678
+ [260,]  9765403390  8092854678
+ [261,]    98491872   117904960
+ [262,] 14633925493 15136203389
+ [263,]   227877849   250656698
+ [264,]    62701250    39009750
+ [265,]  1490011330  2471260816
+ [266,]  1602472335  2703290847
+ [267,]    19098616    10151170
+ [268,]  1371918868  1565236822
+ [269,]   181314291   219791888
+ [270,]   719452824   610945749
+ [271,]   347373689   229986043
+ [272,]  2571955452  1546553139
+ [273,]  3047734096  3159231767
+ [274,]   242926407   201691784
+ [275,]  3322158011  2656186396
+ [276,]  3098689614  3456473861
+ [277,]  1545360274   780020227
+ [278,]    68756945    71939158
+ [279,]  1613446180  1859709302
+ [280,]  1054782799  1346571653
+ [281,]   927842201  1283729751
+ [282,]   283046649   261881754
+ [283,]    52307886    26292067
+ [284,]   100049737   111879625
+ [285,]   276699310   303030937
+ [286,]  1855992347  2076020891
+ [287,]   282857162   161761224
+ [288,]    39921075    42899878
+ [289,]   659020912   732456823
+ [290,]  1030456489   978536942
+ [291,]   364902204   313475331
+ [292,]  2985057673  1969758647
+ [293,]  5112280272  5212444629
+ [294,]   774795265   994027989
+ [295,]  1276770699  1771837525
+ [296,]   218204140   117479434
+ [297,]   413970303   690566078
+ [298,]   526745209   302188888
+ [299,]   563632438   525280155
+ [300,]   430166204   457335610
+ [301,]  2589397816  1424330144
+ [302,]   269791014   209575910
+ [303,]   326506559   266362836
+ [304,]   233338192   326245929
+ [305,]   953865984   652599819
+ [306,]    28112730    31406854
+ [307,]  6367877137  3776483668
+ [308,]  2638765022  1620389846
+ [309,]   147956743   155637634
+ [310,]   727565935  1177083717
+ [311,]  1120986420  1254194802
+ [312,]  1547058980  1438624228
+ [313,]   293770830   403340857
+ [314,] 10229680817  7308637887
+ [315,]  1835256759  2242485012
+ [316,]   119570666   158015660
+ [317,]  3328580425  3962761774
+ [318,]   192597940   211073616
+ [319,]   196560954   333719306
+ [320,]   162651456   249118813
+ [321,]   844687694   799326211
+ [322,]   125433429   175622670
+ [323,]   471325090   512934962
+ [324,]    50052054    25268520
+ [325,]    62023047   128328994
+ [326,]  1995539354  2813433918
+ [327,]   406625968   242207396
+ [328,]   750990967   637439018
+ [329,]    28709429    14909946
+ [330,]  1037795580   724696569
+ [331,]    95564676    79803897
+ [332,]    41070775    69567143
+ [333,]   206421462   195847461
+ [334,]  2599442382  2101904827
+ [335,]   135726774   141397318
+ [336,]   316135773   637507110
+ [337,]  1044211840   576948923
+ [338,]   163709623   193194519
+ [339,]   235087212   281223762
+ [340,]  1157946762  1279332881
+ [341,]    80663670   111236852
+ [342,]   299547227   188349539
+ [343,]   134727517    94835980
+ [344,]   827934986   562785490
+ [345,]  1077237671  1374374244
+ [346,]   986302057  1078409715
+ [347,]  1390241102  1522537175
+ [348,]    41573330    44708322
+ [349,]  1187196142   742602027
+ [350,]   181332747   139823449
+ [351,]   411231930   508629943
+ [352,]   533908668   595577647
+ [353,]   118372090    98107515
+ [354,]   375984937   747386850
+ [355,]  2205851387  2517949869
+ [356,]   773199893   688039147
+ [357,]   195770775   122950225
+ [358,]   128279334   271835985
+ [359,]    28611069    29214961
+ [360,]   503436367   304158026
+ [361,]  5661989195  4658951095
+ [362,]   166411316   184645605
+ [363,]   417548738   310253578
+ [364,]  1423605924  1274449103
+ [365,]   295226490   406390460
+ [366,]    20044945    12204036
+ [367,]   818877026   571893227
+ [368,]  2204504549  1490872022
+ [369,]  1376126869  1151445556
+ [370,]   667576072   428495852
+ [371,]  1384406821  1435538713
+ [372,]  1620318556   855685291
+ [373,]   669033221   432159285
+ [374,]    19274521    30411163
+ [375,]    36040990    60564609
+ [376,]   185805412   257962882
+ [377,]    78400395    42096146
+ [378,]   111817735    77259263
+ [379,]   210374242   114115516
+ [380,]    59764432    82563421
+ [381,]    32405284    25463276
+ [382,]  7581541999  5969349238
+ [383,]   349416562   331459319
+ [384,]  4277667990  7172247243
+ [385,]   127954741   121276668
+ [386,]   594016874   407824193
+ [387,]    94872415   205266902
+ [388,]  5861942350  3855341243
+ [389,]   328202703   469333199
+ [390,]   115144836   126594818
+ [391,]  1701090408  1450375726
+ [392,]   318199171   265486279
+ [393,]   164577453   132762025
+ [394,]   403237516   453444385
+ [395,]  2260124760  2190934202
+ [396,]   561866904   291171861
+ [397,]  2883802318  1501507421
+ [398,]     5785579     6263460
+ [399,]    33808309    30918811
+ [400,]   293209373   354964632
+ [401,]   716218213   805649674
+ [402,]   441909611   528787147
+ [403,]  2476285533  1482772816
+ [404,]   864031613   813736897
+ [405,]  4613001175  8224940257
+ [406,]     8852937     5637545
+ [407,]   655744364   401533109
+ [408,]  1622027491  1017658692
+ [409,]   269537646   155161129
+ [410,]   209880638   338547111
+ [411,]  3962430250  2021983648
+ [412,]  1591045137  2363560590
+ [413,]   502528910   528946671
+ [414,]   289722625   236646371
+ [415,]  4896835975  5378676791
+ [416,]   992303342   950337799
+ [417,]   724027302   710184404
+ [418,]   316372886   611760085
+ [419,]   560650132   651345073
+ [420,]   250784613   162423786
+ [421,]   133107506    83932531
+ [422,]    41167043    44841865
+ [423,]   815896208   788824780
+ [424,]  2600682060  5692969985
+ [425,]   561125088   577063271
+ [426,]  2355469820  3980562455
+ [427,]  1407445387   881564665
+ [428,]   933282939   477839731
+ [429,]    22638950    25662127
+ [430,]   623916402   632482896
+ [431,]    91365811    93904647
+ [432,]    35605018    52124582
+ [433,]   732446250   689144770
+ [434,]   465770452   557342802
+ [435,]   113236995   249936106
+ [436,]  2126866813  2006536782
+ [437,]   935819125  1417734169
+ [438,]   167108939   135380378
+ [439,]  1722343025  1037280485
+ [440,]  3562248976  3330880893
+ [441,]   293179674   182682494
+ [442,] 10130168277 11111011509
+ [443,]   740678715  1130051534
+ [444,]  3985787946  6471220190
+ [445,]   155624588   175350125
+ [446,]    59939596   101335143
+ [447,]    14317039     7515804
+ [448,]    29334217    45324565
+ [449,]  3800461729  3945976803
+ [450,]  1189271438   739366703
+ [451,]   806208723   837575059
+ [452,]   658602863   298180474
+ [453,]   129266666   199098948
+ [454,]    68413745    56321177
+ [455,]   372032221   531000483
+ [456,]   770383164   718377744
+ [457,]   180198996    94488967
+ [458,]    80611567    43661572
+ [459,]  2060875965  1245498129
+ [460,]    40830723    45408300
+ [461,]   202399550   236648818
+ [462,]    54007125    64561903
+ [463,]   457206097   628132227
+ [464,]   750693308   414444147
+ [465,]  1318113695  1053741783
+ [466,]  2469308906  3438246215
+ [467,]   940207662  1034832030
+ [468,]   379158876   529962441
+ [469,]   885329740   966781581
+ [470,]    16443343    11396138
+ [471,]  1184199886   742291975
+ [472,] 15793516961  9165429419
+ [473,]    15056423    31643395
+ [474,]   111576443   187088315
+ [475,]    48986320    57589321
+ [476,]   381670118   435445626
+ [477,]  1505921143   863637748
+ [478,]   153490840   177883725
+ [479,]   141962837   162360250
+ [480,]    27403080    21997141
+ [481,]   119749914   122432230
+ [482,]   144099938    88946458
+ [483,]    91133802    92736975
+ [484,]  1947119729  2406783976
+ [485,]   456792651   315467463
+ [486,]  2445353741  2302169724
+ [487,]   281417470   266628373
+ [488,]    92746876   191466770
+ [489,]   785782563   993977950
+ [490,]  2002739332  2563417968
+ [491,]    94605857    96638489
+ [492,]    46968817    65632401
+ [493,]   314823617   274696520
+ [494,]   491413380   415933833
+ [495,]   620528030   860318559
+ [496,]   107956790    58587013
+ [497,]   179767887   181217522
+ [498,]    15593580     7618392
+ [499,]    57887361    60921478
+ [500,]   343993653   220624292
+ [501,]   494408727   553912648
+ [502,]   639198137   653033522
+ [503,]    88301425    56005975
+ [504,]   502520912   343582085
+ [505,]  2176123409  3661175177
+ [506,]    46823226    96843585
+ [507,]   799987502   498691966
+ [508,]   130506573   183744122
+ [509,]  2771097787  2412256791
+ [510,]    95660289   107098977
+ [511,]   752911966   463405042
+ [512,]   327963540   361604950
+ [513,]  6461658145 10836812595
+ [514,]   142293160   191954227
+ [515,]   160271615   108091286
+ [516,]    98351840    65956851
+ [517,]   496853718   513489247
+ [518,]   385180746   355686324
+ [519,]  7357340636  6704542257
+ [520,]   177369311   181033509
+ [521,]  1784917655  1453878333
+ [522,]   795042797  1112349017
+ [523,]    14243207    13930471
+ [524,]   292822167   298309872
+ [525,]   295240465   194641314
+ [526,]   154560183   168922880
+ [527,]   194359235    93893291
+ [528,]   235392548   145056315
+ [529,]  1480051207   975553159
+ [530,]   525103671   287370082
+ [531,]    88963686   151057941
+ [532,]  4423119353  4465167742
+ [533,]    14192557    29402383
+ [534,]   258305767   476377045
+ [535,]    18236267    19624768
+ [536,]  1222369312   550316842
+ [537,]  1294403821  2758815064
+ [538,]   723312568   938589084
+ [539,]   216589542   164303024
+ [540,]   673395862   746050559
+ [541,]    51282132    63772607
+ [542,]   474278858   451089195
+ [543,]     8490807    11297419
+ [544,]  1392736909  2355965163
+ [545,]   148775244   258089751
+ [546,]   225426027   129274001
+ [547,]   259298658   436723418
+ [548,]  1743673082  1803994576
+ [549,]    40172906    87171280
+ [550,]  1905811104  1910060577
+ [551,]   102824869   109204955
+ [552,]  1021249264  1153705032
+ [553,]   289994323   172825448
+ [554,]  3533560548  3327753727
+ [555,]    67977775    60479213
+ [556,]  1483802037   822302590
+ [557,]  1575582765   778512301
+ [558,]   517544414   324854003
+ [559,]   376661854   551881429
+ [560,]   200658689   148713241
+ [561,]   188032779   167081987
+ [562,]  2754024315  1868236118
+ [563,]   832284252   699511126
+ [564,]   561415806   549685267
+ [565,]   436745559   266780613
+ [566,]   479943527   252102002
+ [567,]    81120190    63089796
+ [568,]   400676445   482942988
+ [569,]    19079251    11402550
+ [570,]   742697570  1247041834
+ [571,]  2402283357  1043002235
+ [572,]   302130151   186722898
+ [573,]   543674397   293290477
+ [574,]   243972018   245781876
+ [575,]   565476648   634226478
+ [576,]   147775940   144538800
+ [577,]    52134475    50994729
+ [578,]   110912680   106305338
+ [579,]  4033967369  5738164751
+ [580,]   432767100   470085201
+ [581,]   178466536   117256889
+ [582,]   630041009  1151098905
+ [583,]  1116953474   667102149
+ [584,]    64351349   105676462
+ [585,]  1285075497  2173914401
+ [586,]    62666772   122331193
+ [587,]     8993435    10119027
+ [588,]   321341146   307202068
+ [589,]  2334609218  2676503115
+ [590,]  3758818951  2187800528
+ [591,]   721524969  1029170347
+ [592,]   250584937   316957724
+ [593,]   176757010    92853839
+ [594,]   131911588    83127071
+ [595,]   759348002   851261804
+ [596,]  2338904062  3022867769
+ [597,]   194562925   135995806
+ [598,]   931779814   480274990
+ [599,]    40921630    82913406
+ [600,]  2181368189  2108585789
+ [601,]    77344109    38552920
+ [602,]   269317219   208165261
+ [603,]   209602567   140858875
+ [604,]   149249499   253215882
+ [605,]    23362996    22615852
+ [606,]    94723482    60300698
+ [607,]   634064514   488533123
+ [608,]   177287477   163083652
+ [609,]   389761470   361834939
+ [610,]   416534216   445822556
+ [611,]   424460480   587889037
+ [612,]   189226548   322153220
+ [613,]   357812309   409216586
+ [614,]  1304026868  1107171007
+ [615,]    21762248    22436276
+ [616,]   667828552   674536726
+ [617,]   265139483   172046300
+ [618,]  1850764194   943642342
+ [619,]   925155710  1421421380
+ [620,]  2360565493  1860137330
+ [621,]   651954040   622778770
+ [622,]  1045725629   649469053
+ [623,]  6384748315  6596431105
+ [624,]   257753434   237145301
+ [625,]   646607099   355245791
+ [626,]   642114900   929104194
+ [627,]  2857035300  1747390211
+ [628,]   372410849   210899096
+ [629,]  2140520877  1356117773
+ [630,]   190518622   321247112
+ [631,]   357243033   328333740
+ [632,]  1423533492  1300506025
+ [633,]    22393483    21639328
+ [634,]  1999453652  2242275216
+ [635,]   586367830   999103071
+ [636,]   766008541   398192958
+ [637,]  3134615192  1834745343
+ [638,]   619110745  1051674664
+ [639,]   126833160   214187365
+ [640,]   905698154   897318428
+ [641,]   180390171   169233883
+ [642,]   306439021   290484669
+ [643,]  3447256663  3724749406
+ [644,]  1834745195  1130499028
+ [645,]   871586284   747267773
+ [646,]  1224285523  1737375738
+ [647,]   182939888   407419377
+ [648,]  1112173207  1222251310
+ [649,]   161005532   183413178
+ [650,]  3710992251  5245894656
+ [651,]    79729566   112075109
+ [652,]   947821522  1326362989
+ [653,]    82176067    83440540
+ [654,]  4339477437  2373495335
+ [655,]  1261774677   758165996
+ [656,] 11819574625  9869254658
+ [657,]   716145242   878296480
+ [658,]    17007643    18984795
+ [659,]   972522454   540234352
+ [660,]  2336332143  2550307796
+ [661,]  1135687236  1173854205
+ [662,]    32159426    33939322
+ [663,]   114986313   189013787
+ [664,]    37202351    48773896
+ [665,]   134637076   195928690
+ [666,]  7322470513 10228567859
+ [667,]   657546215   721277584
+ [668,]   164915411    89162725
+ [669,]   508952897   780303744
+ [670,]   194129335   105010840
+ [671,]   513822653   615555565
+ [672,]    98004355    64899983
+ [673,]   345067938   372761991
+ [674,]  6077908098  6657807124
+ [675,]    20205533    19208065
+ [676,]    10843370    12590869
+ [677,]   735357058   463187022
+ [678,]  6557469352  5546756537
+ [679,]   185251262   375809551
+ [680,]  1769143407  1821263730
+ [681,] 16175479678 14018705703
+ [682,]  1471432166  1414940979
+ [683,]  1415185906  1432240597
+ [684,]   121115621    62553719
+ [685,]  1354163704   712862472
+ [686,]  1684917474  2828563255
+ [687,]    39078050    86707936
+ [688,]  1974543367  2515046986
+ [689,]  2135528911  2367550558
+ [690,]   332701504   208727603
+ [691,]  9307054299  7120882553
+ [692,]    35630966    19588260
+ [693,]    44261027    68877485
+ [694,]  6660654646  3934057590
+ [695,]   190019733   185448499
+ [696,]   393873535   272946986
+ [697,]  2151921200  2974506065
+ [698,]  1408175300  1837077428
+ [699,]  1010537510  1420055754
+ [700,]   307667918   250137221
+ [701,]   706691970   684503975
+ [702,]    89092144   100407175
+ [703,]  1275581987   778816609
+ [704,]    65446160    53932917
+ [705,]   103093858   108817758
+ [706,]   534297109   359724834
+ [707,]  2663295601  2198007529
+ [708,]   127866408   149324036
+ [709,]  6220764237  4290078443
+ [710,]    52522928    59999955
+ [711,]   211187384   326146262
+ [712,]   652710585  1450714584
+ [713,]  1347349274   812535358
+ [714,]    21664284    14247306
+ [715,]   116648521   113667670
+ [716,]    73955955   148434380
+ [717,]   546026804   509573035
+ [718,]    72703229   122407875
+ [719,]    70133093    70712990
+ [720,]   159995664    92105166
+ [721,]   266723229   379855219
+ [722,]    24734019    34389879
+ [723,]   104146506   100470470
+ [724,]  1729461923  1651650796
+ [725,]  1189439759   786877091
+ [726,]   146767755   147715539
+ [727,]   874043651   710843355
+ [728,]    58326479    81615073
+ [729,]   148922846   181356327
+ [730,]   642950451   533615881
+ [731,]   388114271   638656389
+ [732,]   665125516   635241562
+ [733,]  4320708093  2127497388
+ [734,]   439790425   300902981
+ [735,]   562314234   332628441
+ [736,]  5820225672  3489486095
+ [737,]  9831122586  9351465772
+ [738,]   137894586    92205997
+ [739,]  3124705675  3778715794
+ [740,]   872415410   845717994
+ [741,]   872226354   422879964
+ [742,]   772628014   785830488
+ [743,] 11273123896  9192550401
+ [744,]    89745076    43621428
+ [745,]  1108844976   873847479
+ [746,]   787409829   948330793
+ [747,]   177340056   248841579
+ [748,]  1959304023  1816383570
+ [749,]    58971625    34976135
+ [750,]  1683020422  2386736130
+ [751,]  1977515445  3320689868
+ [752,]  1038930582  1131537883
+ [753,]  1110702553  1387936759
+ [754,]   502536131   408514473
+ [755,]   888754605   645958479
+ [756,]   345787770   269592538
+ [757,]   125845804    89794477
+ [758,]  1437140729  1389400396
+ [759,]   147312872    99970453
+ [760,]   433994983   255868016
+ [761,]   690919505   949869561
+ [762,]   646835868   514156170
+ [763,]   563981129   479282007
+ [764,]   259630633   335341983
+ [765,]    25813638    33717311
+ [766,]   335272853   372077990
+ [767,]   828089588   655499461
+ [768,]   208723718   126263847
+ [769,]    19598775    11723229
+ [770,]   424377816   219486780
+ [771,]   730557666   591583323
+ [772,]  2372472810  1973887001
+ [773,]    55180982    50224709
+ [774,]   186488266   236971897
+ [775,]  1595246406  1306016931
+ [776,]   654571844   915151501
+ [777,]   167955564   157483786
+ [778,]  1185357718   906319708
+ [779,]   440400510   807772397
+ [780,]  2286387380  4632179750
+ [781,]    10814932    12077469
+ [782,]   462186885   473594821
+ [783,]  2317160201  1427319007
+ [784,]  4300107599  3367328937
+ [785,]   434854664   530144791
+ [786,]  5210007350  7222859171
+ [787,]   318217334   300385698
+ [788,]   120901426   132743517
+ [789,]   154601049   128361606
+ [790,]   263377456   368017528
+ [791,]  3746250331  3946241367
+ [792,]   270226933   122002260
+ [793,]   294369089   173126257
+ [794,]    30097960    29082346
+ [795,]   159276152   115266888
+ [796,]    71730697    35363580
+ [797,]   463549655   773766524
+ [798,]   762605515   594663725
+ [799,]   265030460   445620269
+ [800,]   645948825   635914680
+ [801,]   150556392   107951989
+ [802,]   582878464   479618428
+ [803,]   636178879  1303750330
+ [804,]    39935179    25592385
+ [805,]   766086610   699200693
+ [806,]   330009627   273212723
+ [807,]   731287469   678902706
+ [808,]  1174794211  1293215033
+ [809,]   241203875   232883588
+ [810,]  1221872235   666375430
+ [811,]   117605350   196995920
+ [812,]  2363186473  2293659550
+ [813,]  5600150948  3931541248
+ [814,]   154743820   139386050
+ [815,]   164063523   208347012
+ [816,]   105601262   183191185
+ [817,]  1209526092   781432920
+ [818,]   756330220   456135188
+ [819,]    83201385    90937144
+ [820,]   354772896   482767686
+ [821,]   526576271   461430957
+ [822,]   343554062   235658771
+ [823,]   786561236   695448826
+ [824,]  2515900522  1231678448
+ [825,]   637545184   287919625
+ [826,]   822692554   508650322
+ [827,]  3489291185  7074810715
+ [828,]  1111564521   665077264
+ [829,]    68481434    49825843
+ [830,]  4818169503  4886539700
+ [831,]  3630248859  1972558215
+ [832,]    59938483    47926094
+ [833,]   519598304   578786171
+ [834,]   314756743   535694628
+ [835,]  1798680558  1143368747
+ [836,] 14749572142 15226376037
+ [837,]   398670272   256524184
+ [838,]  2649504835  3387904452
+ [839,]   444168975   325303924
+ [840,]   825651885   787250633
+ [841,]    17739420    31062924
+ [842,]   210895930   296442954
+ [843,]   633737366   714357572
+ [844,]  2378910291  2673363543
+ [845,]   368010662   288412339
+ [846,]   455511414   679362401
+ [847,]  2525087980  1526023257
+ [848,]   558008246   941626487
+ [849,]   250226766   336335711
+ [850,]   263586045   289250848
+ [851,]  1364528405  1460122241
+ [852,]   557476337   366674652
+ [853,]   165393667   234383249
+ [854,]    79712742    42554430
+ [855,]  1016547355  1117615294
+ [856,]  1531422899  1949182654
+ [857,]   280418672   395361186
+ [858,]   960728082  1047084750
+ [859,]   207863659    94279044
+ [860,]    30905544    34643303
+ [861,]   222642118   136656077
+ [862,]   178611611    73147169
+ [863,]  1314674141  2898657707
+ [864,]   867547067   815634285
+ [865,]   217316398   301581962
+ [866,]  1120066116  1888860901
+ [867,]    49540325   107274168
+ [868,]   190197449   113203324
+ [869,]   148125880   150953146
+ [870,]   742174252   522354996
+ [871,]    44633633    50129892
+ [872,]   358467698   494997682
+ [873,]  1391836862   950667287
+ [874,]  3773753977  2011472489
+ [875,]    28556072    28319355
+ [876,]  5168899101  3577103364
+ [877,]   116000343    98780569
+ [878,]   734000468  1018722613
+ [879,]   451940850   530084064
+ [880,]  3081236505  5035016214
+ [881,]   290151831   318221813
+ [882,]   176467540   182805726
+ [883,]   193605148   158144683
+ [884,]   344667357   623782524
+ [885,]  5174137087  3791399056
+ [886,]    88504214    63718234
+ [887,]  1172824834  1228317539
+ [888,]    99009730   107996359
+ [889,]   368072941   243794887
+ [890,]  4092420117  5540317213
+ [891,]   237577816   305224338
+ [892,]   118647969    58600569
+ [893,]   502793421   362908650
+ [894,]    82661025    77525946
+ [895,]   374187213   628469876
+ [896,]   427802269   234129997
+ [897,]   189375954   181209535
+ [898,]  4517239575  6321225734
+ [899,]    96021834    83200652
+ [900,]  2942464255  1753256680
+ [901,]   727034486  1179766590
+ [902,]    38637218    64814499
+ [903,]  2846384229  2853470865
+ [904,]  3280254770  1954465662
+ [905,]   399997042   341461038
+ [906,]   784860445  1011971947
+ [907,] 16032619095 22186816935
+ [908,]    56669446    78874322
+ [909,]   116108987   106844408
+ [910,]    41002434    21719090
+ [911,]  1390302884   608510696
+ [912,]   897542967   986877789
+ [913,]  2583605707  3239942059
+ [914,]  1173184434   533649690
+ [915,]  3307056163  2031246622
+ [916,]  1101185448   588291007
+ [917,]   287570083   153287854
+ [918,]   142951960   150406764
+ [919,]   537418795   757581951
+ [920,]    76307582    84604495
+ [921,]   467146801   327506789
+ [922,]   378460825   178166031
+ [923,]    78951555    46098079
+ [924,]  1560633786  2605682494
+ [925,]   571840416  1119125140
+ [926,]   435220983   734049077
+ [927,]   322034442   210923635
+ [928,]    20681301    12306767
+ [929,]    94668773   106269836
+ [930,]  1080683177  1147215753
+ [931,]   715128274   577371867
+ [932,]   515627152   710508724
+ [933,]   186802767   204813493
+ [934,]   323709124   354393467
+ [935,]   275138307   265953776
+ [936,]   111644908   210387987
+ [937,]   220669525   263863557
+ [938,]   789744585   858656310
+ [939,]    57766927    65051463
+ [940,]   586163901   644841826
+ [941,]    23697536    47178880
+ [942,]   632855986   661739258
+ [943,]   167920067   351626228
+ [944,]   395577886   201576655
+ [945,]   287256851   372565048
+ [946,]  1825746401  1851553737
+ [947,]    66350787    42442113
+ [948,]   382175737   319393458
+ [949,]   101614800   198490162
+ [950,]   618315365   593796949
+ [951,]  1471344308  1119741765
+ [952,]  1267428039  1064026994
+ [953,]    95682920   134546242
+ [954,]   645638125   357484973
+ [955,]    33307883    31086606
+ [956,]   717143758   788440323
+ [957,]    57186530    31992395
+ [958,]    29141086    26905184
+ [959,]   609173268   643089870
+ [960,]  2349557129  1479283577
+ [961,]   303894758   293656084
+ [962,]   615329302   415802093
+ [963,]   730339016   964459483
+ [964,]    39822246    72359715
+ [965,]  1246554805   809408703
+ [966,]   782838582   656929281
+ [967,]    19112823    20911381
+ [968,]    26302305    25176100
+ [969,]  1583987839  3074695078
+ [970,]  3617196336  2626612169
+ [971,]  1350812668   742826321
+ [972,]    49864845    58958083
+ [973,]   986548575  1385661702
+ [974,]  1700706324  1023204415
+ [975,]    24748229    29022280
+ [976,]   107445304    72826074
+ [977,]   773093484   779877274
+ [978,]   721496127   727093045
+ [979,]   353139238   500780962
+ [980,]   120722528   204126352
+ [981,]    90193254   100116114
+ [982,]    16792036    17370200
+ [983,]   480563124   980819314
+ [984,]   481475319   247126184
+ [985,]    28209187    16724322
+ [986,]   405458309   458001241
+ [987,]  5058818597  5099344635
+ [988,]   194640691   202701358
+ [989,]   117956942    72911606
+ [990,]  1650354937  2102544730
+ [991,]  1406944042  1349186320
+ [992,]   608574262   271137348
+ [993,]  1355919802  2283159496
+ [994,]   412382515   572546883
+ [995,]   412528569   795203420
+ [996,]   504101638   298517427
+ [997,]   170176464   155904057
+ [998,]   185132490   311751597
+ [999,]    78319525    80037560
+[1000,]   212427737   414508661
+```
+
+---
+## Step 3 : Project the population using stochastic transition matrices 
+
+
+```r
+runSE &lt;- stoch.projection(A.swallowSE, 
+          # initial population                
+*         n0 = c(100,100),
+          tmax = T, 
+          nreps=1000, 
+          verbose=TRUE )
+```
+
+```
+Starting projections for nrep 1
+```
+
+```
+Starting projections for nrep 100
+```
+
+```
+Starting projections for nrep 200
+```
+
+```
+Starting projections for nrep 300
+```
+
+```
+Starting projections for nrep 400
+```
+
+```
+Starting projections for nrep 500
+```
+
+```
+Starting projections for nrep 600
+```
+
+```
+Starting projections for nrep 700
+```
+
+```
+Starting projections for nrep 800
+```
+
+```
+Starting projections for nrep 900
+```
+
+```
+Starting projections for nrep 1000
+```
+
+```r
+runSE
+```
+
+```
+               [,1]        [,2]
+   [1,]    57573375    70084532
+   [2,]  1219377309   671497300
+   [3,]   421708087   714701407
+   [4,]   438085729   617071053
+   [5,]   365928076   388590508
+   [6,]   167713780    90391179
+   [7,]     7022807    14633482
+   [8,]  1219995483   576976960
+   [9,]   392319841   530793934
+  [10,]  2160316411  1367958586
+  [11,]  1056389932   648679397
+  [12,]   175544583   101698719
+  [13,]   528628620   410029714
+  [14,]   244080752   292716981
+  [15,]   876734454   816545538
+  [16,]   528235617   460052378
+  [17,]   646120438   434342938
+  [18,]    47215121    89778107
+  [19,]   550945876  1138940620
+  [20,]   303705841   239335245
+  [21,]  1338629345  1016003672
+  [22,]   842115287   544208118
+  [23,]   809380055  1143259046
+  [24,]   102186428   107287720
+  [25,]   805587423   862522937
+  [26,]   161658374   206077386
+  [27,]   144844135   134761915
+  [28,]   406263496   570513101
+  [29,]    31631862    30811349
+  [30,]    64267215    53781299
+  [31,]    42891487    26772460
+  [32,]   427800800   534119003
+  [33,]    48071409    52026900
+  [34,]   241628591   210987679
+  [35,]   287124290   321731597
+  [36,]   375149774   445565598
+  [37,]    40354866    44631641
+  [38,]    30622546    33656465
+  [39,]   143195402    66462554
+  [40,]   177837057   210195135
+  [41,]  1261692476   992750427
+  [42,]   313960015   204102865
+  [43,]   648483952   342888622
+  [44,]  2577562311  3635251605
+  [45,]   528110193   304160200
+  [46,]   462286055   753084822
+  [47,]   800618361   653958989
+  [48,]   590667066   991350220
+  [49,] 10260154238  8159396628
+  [50,]  1255012552  1874258477
+  [51,]     9787224    14946617
+  [52,]  3942808935  3020215154
+  [53,]   655610222   622134465
+  [54,]   218751317   150819274
+  [55,]    55171403   111765528
+  [56,]  2756959999  1610408850
+  [57,]  3101528353  2886695728
+  [58,]   150026747   100397148
+  [59,]   169308926   312379968
+  [60,]  2565635619  3191315142
+  [61,]  1790818187  1149694872
+  [62,]   176272859   248172121
+  [63,]  1576366164  2525710005
+  [64,]    18442556    25778391
+  [65,]     8758888    10100534
+  [66,]  1401378083  1712370833
+  [67,]   259769709   275049219
+  [68,]    46547730    47585871
+  [69,] 22195762347 10855576106
+  [70,]   437692034   418412011
+  [71,]  8283671994  5381109899
+  [72,]   146654731    93831527
+  [73,]   323370470   386858876
+  [74,]   785775157   799634814
+  [75,]  1050530838   499437185
+  [76,]   405759693   414586241
+  [77,]   106713920   178399949
+  [78,]    93796541    51644334
+  [79,]    96375411    92902528
+  [80,]   100620922    94296618
+  [81,]  1300067562  1024402042
+  [82,]  3624933006  4645290970
+  [83,]   267240938   278358479
+  [84,]   253075241   270796224
+  [85,]  1109247437  1886219281
+  [86,]    65011466    37531521
+  [87,]   538187171   700240664
+  [88,]   458492550   896565936
+  [89,]   932190506   753195255
+  [90,]   128480213   109044055
+  [91,]  1251445336  1376531050
+  [92,]    93117164   199774587
+  [93,]    97654959    79114151
+  [94,]   771063289  1508016241
+  [95,]  1323018480  1432592321
+  [96,]   280774105   195935194
+  [97,]   197540897   109503128
+  [98,]  4105349223  2164071670
+  [99,]   320015221   412048986
+ [100,]    21767866    12931401
+ [101,]   679610515   422364127
+ [102,]  1161011078  1118527752
+ [103,]    96361277    77120504
+ [104,]   497778255   315270440
+ [105,]   393476748   592085117
+ [106,]   752858568  1128588073
+ [107,]   196152313   220410558
+ [108,]   268064875   256781187
+ [109,]   789964600   882676980
+ [110,]  2772343269  2968082967
+ [111,]    27259223    29498524
+ [112,]   478768826   297764416
+ [113,]   722525044   454903012
+ [114,]  2422244500  2019355584
+ [115,]   468894907   760653851
+ [116,]   326289644   357405665
+ [117,]  1272535930  1411557660
+ [118,]  1548711932   896952500
+ [119,]   144799709   177080580
+ [120,]   115971671    87572157
+ [121,]   164557921   254187669
+ [122,]   354567470   219754935
+ [123,]  2851994816  5587078906
+ [124,]   223695386   375359112
+ [125,]  1095784341  1121292505
+ [126,]   250197254   473405709
+ [127,]   812672314  1145468202
+ [128,]    39773970    39416276
+ [129,]   319614819   326248621
+ [130,]   335952604   425005092
+ [131,]   849941660   890930810
+ [132,]   132123422   183871410
+ [133,] 47861232969 25220190535
+ [134,]   264935005   155167222
+ [135,]   239108479   293306120
+ [136,]   600326839  1069453345
+ [137,]   553017650   506205172
+ [138,]   214171492   122490002
+ [139,]  1138203865  1187336060
+ [140,]  2232371759  4208832084
+ [141,]    89327417    52409206
+ [142,]   578424475   412256859
+ [143,]  1857795983  2598555131
+ [144,]   252789985   261650336
+ [145,]   297935962   472641467
+ [146,]  3254134959  3518629328
+ [147,]   182295722   253594229
+ [148,]  1681501752  1623664408
+ [149,]    33183272    70754075
+ [150,]   270211697   272684438
+ [151,]    21027704    22386284
+ [152,]  8615205066  9725521714
+ [153,]   225786099   388896618
+ [154,]   449086660   487963080
+ [155,]    29242137    58380909
+ [156,]  1057994042   461050086
+ [157,]    54855524    63273743
+ [158,]   380677642   282932624
+ [159,]   183518153   152595390
+ [160,]    33688621    30610179
+ [161,]   283465554   469876815
+ [162,]   387033462   439151714
+ [163,]   252933630   291584213
+ [164,]   155773315   144330461
+ [165,]  1328682805   744069075
+ [166,]  2830370840  2729222856
+ [167,]    87872631    96217911
+ [168,]   537388858   774279174
+ [169,]   344665468   581732846
+ [170,]    21133677    21832362
+ [171,]   179175058   197189317
+ [172,]   393079515   608060917
+ [173,]  1825761535  1692069951
+ [174,]   303376964   178084963
+ [175,]  6485441831  7115760882
+ [176,]  2144855726  2200706527
+ [177,]  1013868541   432081918
+ [178,]   286811082   179935480
+ [179,]   822933808  1085026179
+ [180,]   450001107   750317514
+ [181,]   335673073   471078547
+ [182,]   873756530   600977742
+ [183,]   482640137   537775652
+ [184,]   909236778  1031158051
+ [185,]  2035476369  1913060374
+ [186,]    68830973    63371888
+ [187,]  1649964035  1664250651
+ [188,]   642341870   506228806
+ [189,]   349321466   343958766
+ [190,]  1948683492   898371915
+ [191,]   282070317   223541302
+ [192,]  3944180726  5048258631
+ [193,]   239573184   157797242
+ [194,]   585431534   337489655
+ [195,]    53538271    58942833
+ [196,]   188339400   287156973
+ [197,]   216858694   116398011
+ [198,]   425373830   364244466
+ [199,]   148287152   108492708
+ [200,]   203326961    89478112
+ [201,]    71634566   120469870
+ [202,]  1386060766  1319938432
+ [203,]  1099876325  1030768928
+ [204,]   439975367   511010621
+ [205,]   129234084   111484398
+ [206,]  1011038990  1100173043
+ [207,]   594701425   668930379
+ [208,]   360445289   237854536
+ [209,]   126859477   147528199
+ [210,]  6883960715  5843105548
+ [211,]   248307801   234080471
+ [212,]   120832433   126997790
+ [213,]    85625499    83488494
+ [214,]  1066663043  1786728193
+ [215,]  2444957342  3639908327
+ [216,]   995714051   925506814
+ [217,]   881733479  1479364384
+ [218,]   715396506   670518305
+ [219,]   669144298   847751045
+ [220,]   108476669   148161377
+ [221,]  2272610150  3226607727
+ [222,]   116069626   117728671
+ [223,]   355970177   188476232
+ [224,]   251119016   237063359
+ [225,]   411419856   665603724
+ [226,]   153617117   214197931
+ [227,]  1208397500  1260099916
+ [228,]    26228366    34235767
+ [229,]   291627556   200634061
+ [230,]    94199089    89080304
+ [231,]    85770080    55467312
+ [232,]    22362183    28396424
+ [233,]  1971073185  1677933334
+ [234,]   206394956   219761743
+ [235,] 10269333220  9807588838
+ [236,]   129770042    61285815
+ [237,]  5307764494  4946532389
+ [238,]    60380262    51670030
+ [239,]   364732029   437085708
+ [240,]   609325458   495939711
+ [241,]  1650995548  3701108538
+ [242,]   246963834   348878963
+ [243,]   157438467   102380960
+ [244,]    67383674    52157960
+ [245,]   534188476   619730274
+ [246,]   486392770   820837290
+ [247,]   256822843   337988514
+ [248,]   291453239   347082097
+ [249,]   452462078   421953838
+ [250,]  4492126458  2799023528
+ [251,]    53654054   121922185
+ [252,]    57701492   122217125
+ [253,]   240252827   178560630
+ [254,]    35341593    36311206
+ [255,]   332492875   491802474
+ [256,] 10181783704 10575644971
+ [257,]   758963793   503114347
+ [258,]   127217339   133478083
+ [259,]   503754194   603352798
+ [260,]    55054057    58457762
+ [261,]    55964981    98834543
+ [262,]   133264245   134303523
+ [263,]    16986423    10668783
+ [264,]   493767880   662159127
+ [265,]    99124280   111453901
+ [266,]  4071447324  2576100415
+ [267,]   345630379   365447362
+ [268,]    46622124    24251258
+ [269,]   111866778    72627204
+ [270,]  1251880203   727878727
+ [271,]    65918335    86142362
+ [272,]   397660488   436353336
+ [273,]   481186951   395423854
+ [274,]   387499123   195846764
+ [275,]   560257801   630953117
+ [276,]   895728055   545150328
+ [277,]    50761373    29248867
+ [278,]   237772995    99318331
+ [279,]    52567360    89210257
+ [280,]   196275255   130136364
+ [281,]   744878772   865793703
+ [282,]   170845701   114696841
+ [283,]   282304440   297896135
+ [284,]   191920075   209745537
+ [285,]   396010465   549514140
+ [286,]   326409299   507239248
+ [287,]     8908944    10315231
+ [288,]   191413590   221797038
+ [289,]     1933863     2079236
+ [290,]   317544393   311630950
+ [291,]  2001111021  1521952879
+ [292,]   643938004   375175768
+ [293,]    70683663   149323768
+ [294,]   285690224   173931202
+ [295,]   357223773   293334932
+ [296,]   215392306   115156459
+ [297,]   601932254   337968087
+ [298,]   216603884   107248110
+ [299,]    44612917    27840012
+ [300,]    30218705    37998553
+ [301,]   558027364   705435033
+ [302,]    51616382    42840204
+ [303,]   768040682   706367346
+ [304,]   124581114   115969992
+ [305,]   511745438   713652995
+ [306,]   272309877   241930826
+ [307,]   181926751   257719869
+ [308,]   303589220   170985954
+ [309,]   669632559   332374152
+ [310,]  1336592386  1867643411
+ [311,]   753645405   918635211
+ [312,]  3892425666  5372186219
+ [313,]   895025942   912346472
+ [314,]   619643118   365393793
+ [315,]  9370824612  5106753755
+ [316,]    47040097    79850671
+ [317,]   769792219   950677945
+ [318,]    92664157    60908917
+ [319,]   478931367   677674638
+ [320,]   231555499   180813344
+ [321,]   491917908   282411673
+ [322,]  5930798306  6994246715
+ [323,]   382033202   197976171
+ [324,]   161279615   172651537
+ [325,]   657206814   396808026
+ [326,]  6873908523  4275947350
+ [327,]    99176789   104578549
+ [328,]   791523081   870226271
+ [329,]   371278896   441530877
+ [330,]   145424117   146955781
+ [331,]  3829597553  2575512900
+ [332,]   339923533   322181542
+ [333,]  1726321606  1196354205
+ [334,]   593511931   992514657
+ [335,]  1890370850  1956946644
+ [336,]   872123009   577559810
+ [337,]    45811771    59586328
+ [338,]  1337516125  1316568387
+ [339,]  1719543042  2645396977
+ [340,]   109437660   168366027
+ [341,]   194462034   126456174
+ [342,]  1094651773  1103352159
+ [343,]   269828254   180775993
+ [344,]  1331455458  2238873582
+ [345,]    33004422    24117781
+ [346,]   257797182   158464131
+ [347,]  1834139623  1964434578
+ [348,]    25927805    26125213
+ [349,]   381393116   439503450
+ [350,]   163958291   135502748
+ [351,]    69858329   138691850
+ [352,]   345546278   582031149
+ [353,]  4007691707  2515767270
+ [354,]  1306008019   807574593
+ [355,]   231612626   423095133
+ [356,]   295897768   240636619
+ [357,]   316043644   642058894
+ [358,]   759057012   386183551
+ [359,]   117542891    75372521
+ [360,]    90275338   138063278
+ [361,]  3226069624  3336090790
+ [362,]  2459206787  3578565039
+ [363,]   239845765   213261038
+ [364,]   184288347   349323187
+ [365,]  1399197315  1163156085
+ [366,]    18590263    36587760
+ [367,]   142634504   297493999
+ [368,]   153615123   332721001
+ [369,]   438001173   446308270
+ [370,]   550730599   605559608
+ [371,]   154836745   173168684
+ [372,]   739874485   933450729
+ [373,]    15064462    23381691
+ [374,]    16707663     9234391
+ [375,]   533194539   323421764
+ [376,]  1647371600  1269260748
+ [377,]   660576784   402169782
+ [378,]   233380019   323098053
+ [379,]   349981038   358023672
+ [380,] 39632925703 23469946887
+ [381,]  3377890737  3705713411
+ [382,]   201590888   237286350
+ [383,]   148450272   211236104
+ [384,]  2321228122  2608677749
+ [385,]  1283314342  1105728407
+ [386,]   276877228   609604542
+ [387,]    68382980    75434785
+ [388,]  3463145190  5595624987
+ [389,]   518146842   704667401
+ [390,]   487553048   214045967
+ [391,]  1787794494   939708064
+ [392,]  1095138819   662952783
+ [393,]  1002535282   667210109
+ [394,]    55807937    56905995
+ [395,]    27151835    36442382
+ [396,]  6515871541 13509806333
+ [397,]    20226476    10997743
+ [398,]   277804024   241025755
+ [399,]  5609478317  2923936996
+ [400,]   385615255   195354712
+ [401,]  1054454944   818622216
+ [402,]    82859519    95854304
+ [403,]   268537475   139211637
+ [404,]  1888659654  1059450330
+ [405,]   205509147   193847980
+ [406,]   117557663    71115179
+ [407,]   675446958   878830684
+ [408,]   397768524   472527106
+ [409,]  3298232568  6574986435
+ [410,]  3941867055  5529987063
+ [411,]   179586520   174318761
+ [412,]     9334734    13169254
+ [413,]  1282335079   854767688
+ [414,]    22104323    41335655
+ [415,]   260892251   247721755
+ [416,]  2543324562  2408469853
+ [417,]   678497375  1142192503
+ [418,]   171269498   191853959
+ [419,]   980461158  1145844549
+ [420,]    69676264    86022983
+ [421,]   781451469   396031582
+ [422,]   778353650   502149137
+ [423,]  1493221329   843487418
+ [424,]   418831457   268000562
+ [425,]    60047331    66134982
+ [426,]   194154188    99979670
+ [427,]  2208615603  2343763663
+ [428,]   273693426   296020006
+ [429,]    97820314   177617767
+ [430,]   407838731   384860416
+ [431,]  8211459651  7987920213
+ [432,]  1982504911  2051267619
+ [433,]  1137736655  1070565525
+ [434,]    86715000    73518868
+ [435,]  1332492795  1859531455
+ [436,]   135926365   141917142
+ [437,]   242852131   272312437
+ [438,]   122476007   105172222
+ [439,]   660941164  1232922367
+ [440,]   217091126   120051029
+ [441,]   960231431  1055233276
+ [442,]   231512880   357406929
+ [443,]   142790363   216167842
+ [444,]    22669670    28054271
+ [445,]    16982227    23597317
+ [446,]   290347040   291726670
+ [447,]  1347871771  1539596473
+ [448,]   283381757   142672854
+ [449,]   162954473   138140120
+ [450,]  1826596726  1325285079
+ [451,]   248489453   230997591
+ [452,]  1991019878  2056375450
+ [453,]   350266414   331561586
+ [454,]    47713132    21289655
+ [455,]    26941125    14695420
+ [456,]   274861154   170013308
+ [457,]    78256529    72435330
+ [458,]   940939796   789712640
+ [459,]    61498500    86942274
+ [460,]  1054611795  1061542274
+ [461,]  1227941615   693411164
+ [462,]   405594023   183032362
+ [463,]   811997839   830784687
+ [464,]   868943719  1130444635
+ [465,]   750800324  1029851743
+ [466,]   238979744   240460096
+ [467,]   810688785   738090494
+ [468,]    26794919    54454358
+ [469,]   628282784   393518272
+ [470,]    91645179    93073113
+ [471,]   390156514   531878264
+ [472,]    87281696   100000711
+ [473,]   629089047   879476994
+ [474,]   253254319   425372585
+ [475,]   357807257   166463725
+ [476,]   255529779   139399183
+ [477,]  2806275852  2477988819
+ [478,]   260866010   295636147
+ [479,]   874731859   931059168
+ [480,]  5932091328  2926361509
+ [481,]   490360598   594789049
+ [482,]   446057688   228586756
+ [483,]  2039230475  1664134662
+ [484,]   198626350   225305527
+ [485,]   169749185   221923577
+ [486,]   136419142   176683186
+ [487,]   792105583   489401629
+ [488,]   775634862  1087828732
+ [489,]   777784395  1091852718
+ [490,]  1027596239   663629489
+ [491,]   472705656   284924377
+ [492,]  1528527661  2818015445
+ [493,]  4672660908  5251248606
+ [494,]  1562601609   705938338
+ [495,]   144890135   201689324
+ [496,]   248118386   167387123
+ [497,]   298831588   310638597
+ [498,]   437510000   526933757
+ [499,]  2686502046  1557531893
+ [500,]   178620976   124871270
+ [501,]    93880302    89583070
+ [502,]    20373214    34210313
+ [503,]    55876951   114336345
+ [504,]   178750836   359447806
+ [505,]   369777229   254720623
+ [506,]  2261677270  3677799364
+ [507,]   568932389  1050253231
+ [508,]  1764373504  2143776153
+ [509,]    51688479    72578850
+ [510,]  2068134902  1688162508
+ [511,]   294785628   277875043
+ [512,]    94890947   105298584
+ [513,]    30833423    50190297
+ [514,]  1980148358  4154291366
+ [515,]   615087141   374315866
+ [516,]    62134021    69752907
+ [517,]   328372730   229903208
+ [518,]    48175932    31037012
+ [519,]   110724792   186446389
+ [520,]  1459491547   857193248
+ [521,]   108721119    93803205
+ [522,]  1897912384  1286074807
+ [523,]   222243974   273271155
+ [524,]  1879892663  1080950601
+ [525,]   218680113   177751738
+ [526,]   764726518   419270883
+ [527,]  1467082483  1121099879
+ [528,]    57925151    59766685
+ [529,]   178865790   124679876
+ [530,]   230239184   376948158
+ [531,]    37779201    27426860
+ [532,]    52460833    58556151
+ [533,]   225134688   117662618
+ [534,]   160011145   115763081
+ [535,]   348077899   339038754
+ [536,]  9301509724  5275049864
+ [537,]   262583685   213528732
+ [538,]    79164568    83343689
+ [539,]   811602630   895118573
+ [540,]  1558462716  1948843179
+ [541,]   709800102   580927517
+ [542,]  3981182940  4367767423
+ [543,]    81034344   114458936
+ [544,]   175934088   249453650
+ [545,]    85396403   104333976
+ [546,]    46828712    35317163
+ [547,]    87246213    49191358
+ [548,]   140427228    99822352
+ [549,]    30784609    31088125
+ [550,]   162911954   106220154
+ [551,]   213099137   146066761
+ [552,]   378615964   346889546
+ [553,]   289354973   177435554
+ [554,]   586437830  1092550369
+ [555,]   178968284   167761494
+ [556,]  1151271988   998621516
+ [557,]  1231274784  2011430086
+ [558,]    46079438    47493699
+ [559,]   293754102   219909944
+ [560,]   378543125   363272955
+ [561,]  2325474527  1430249905
+ [562,]   334514182   217355990
+ [563,]  1920886074  2321559218
+ [564,]    80967507    44763755
+ [565,]   688422288   758269318
+ [566,]  2163239736  2367374240
+ [567,]   221342252   228732634
+ [568,]   349818268   328601139
+ [569,]  1106997400   730386737
+ [570,]   236899876   178493174
+ [571,]   829344789   592529218
+ [572,]  1517633396  1056843963
+ [573,]   930024093   529187188
+ [574,]  4202280187  3928520232
+ [575,]   350920115   339482184
+ [576,]   537852711   794751297
+ [577,]   366015617   406219243
+ [578,]   172800517   194423924
+ [579,]   520500307   657046692
+ [580,]   469078234   921052932
+ [581,]  1283957230  2543964577
+ [582,]   550175934  1159030504
+ [583,]  1014301702   652802527
+ [584,]   712475312   997516410
+ [585,]  2212510133  1380230616
+ [586,]   312917510   258153885
+ [587,]    96528323    89797450
+ [588,]   157700486    95918108
+ [589,]   347181446   425011134
+ [590,]   220761907   125408460
+ [591,]   642492185   879535684
+ [592,]     9887773    12024715
+ [593,]    27572927    22520619
+ [594,]    56252653   118606807
+ [595,]   212170646    88718278
+ [596,]  1079372801  1185823431
+ [597,]    93791338   125391845
+ [598,]  5023880561  2601168849
+ [599,]  1338005789  1558172241
+ [600,]   234665869   145930027
+ [601,]   131833994    72576809
+ [602,]  7720625129  3631629280
+ [603,]    58606883    71436053
+ [604,]   412170529   470372829
+ [605,]  1023229696   588640810
+ [606,]    47371312    34888926
+ [607,]  1334143296   790929157
+ [608,]   368331575   516981088
+ [609,]   991711303   871835351
+ [610,]   347158547   382281567
+ [611,]   183817100   344749039
+ [612,]   130048204   171548722
+ [613,]   445238994   316407009
+ [614,]   358238584   224963263
+ [615,]  2809336526  2309339569
+ [616,]  2060025268  3847332028
+ [617,]    89932732   137437758
+ [618,]    71258793    56698676
+ [619,]    73029125    67985799
+ [620,]   178251521   320406404
+ [621,]   597681367   826058463
+ [622,]   357607755   367419576
+ [623,]    20974749    28866599
+ [624,]   319534258   176783924
+ [625,]  9423885442  5868605734
+ [626,]  1676308850  1402927367
+ [627,]    57408630    25802487
+ [628,]    70273391    40393073
+ [629,]    37232829    41407530
+ [630,]   124988383    87121337
+ [631,]   935739862  1319557488
+ [632,]   509539713   403624026
+ [633,]    68623576    75393287
+ [634,]    55026916    82696961
+ [635,]   133490890   267550342
+ [636,]    77812148    70384376
+ [637,]   675861223  1170705276
+ [638,]   162261846   101849705
+ [639,]   761744504   483271896
+ [640,]   744102539   550679847
+ [641,]   207089871   143136332
+ [642,]  1526068946  1677171114
+ [643,]   345918959   280956828
+ [644,]    32131386    20270128
+ [645,]   584204692   512541261
+ [646,]   104563604   127594191
+ [647,]   183984766   109938589
+ [648,]   265535566   310442555
+ [649,]   372379376   409232470
+ [650,]  1236277308   773422180
+ [651,]   473977268   562775783
+ [652,]   362738373   616676047
+ [653,]   619876919   332981384
+ [654,]   129220011    72864553
+ [655,]   151031539    83605698
+ [656,]   226074103   189187701
+ [657,]  1044708174   653088420
+ [658,]  2396740329  3049060864
+ [659,]   340816489   283541085
+ [660,]   192307752   156900790
+ [661,]  1038592875   621999055
+ [662,]    63056121    92716898
+ [663,]   156630874   147309292
+ [664,]   595981479   389375220
+ [665,]   705312727   744574431
+ [666,]   762417881   841977993
+ [667,]   825038818   838751702
+ [668,]   204765762   411133812
+ [669,]   179665851   194109381
+ [670,] 10075254300  8299605693
+ [671,]    60556523    62461386
+ [672,]  2487148571  3048958819
+ [673,]  1035984560   608438380
+ [674,]   400760478   774477074
+ [675,]    59599838    50106925
+ [676,]   436544364   212237575
+ [677,]   291566925   406077337
+ [678,]  2533376613  1455380294
+ [679,]   517863138   503381440
+ [680,]   176885080   209175404
+ [681,]    93224707    40981401
+ [682,]    99362029   167700540
+ [683,]   393152334   356054878
+ [684,]  6370529932  3844267402
+ [685,]   110820856   101873425
+ [686,]    31152655    52899757
+ [687,]   422669357   907002515
+ [688,] 12175755865 24467113332
+ [689,]   855728155   548949040
+ [690,]   737119453   677670931
+ [691,]   708647252   877712633
+ [692,]   247448412   470030513
+ [693,]  2199145983  3605565187
+ [694,]    65465394    71721215
+ [695,]   308546937   397139396
+ [696,]   707671533  1192273667
+ [697,]   706645097   667514995
+ [698,]   115554768   188272094
+ [699,]   443621452   741610603
+ [700,]   157676725   153551596
+ [701,]   218835331   170713659
+ [702,]    43443635    28171701
+ [703,]   760309266   616047608
+ [704,]   834179964   444047959
+ [705,]   868941341   890033691
+ [706,]   521913974   552188438
+ [707,]   225235037   149102248
+ [708,]   208350407   222059580
+ [709,]  1334068628  1438911540
+ [710,]  4705705003  7990941650
+ [711,]  3047483407  2834623799
+ [712,]  2612476638  1937516259
+ [713,]   695880085   636568589
+ [714,]    73933047   110681032
+ [715,]  1310480090   775960259
+ [716,]   271515479   297344597
+ [717,]  3998057594  3163338856
+ [718,]    50815853    36789665
+ [719,]   368975764   695925298
+ [720,]   482065865   291216348
+ [721,]    49755438    31734448
+ [722,]   609721179   685256182
+ [723,]  1805951165  1717889036
+ [724,]  5420801000  5880775333
+ [725,]   485711241   522273985
+ [726,]  5882712696 11225317819
+ [727,]  2225384836  1486292705
+ [728,]    20577638    22052317
+ [729,]   177428108   105643744
+ [730,]  3466694963  2218061602
+ [731,]   460753623   779348380
+ [732,]   318852867   481118452
+ [733,]   341461387   640224693
+ [734,]   198876436   124772513
+ [735,]    51703852    43030612
+ [736,]   254984143   355493986
+ [737,]   607290259   860186868
+ [738,]    92485070   208585661
+ [739,]   355312832   243067629
+ [740,]  2162850837  3373512557
+ [741,]    68627178    79437639
+ [742,]   137677876   178566230
+ [743,]   682250178   455933375
+ [744,]   413039503   493143776
+ [745,]   498356340   388252855
+ [746,]   360149735   612509680
+ [747,]   405850864   375420261
+ [748,]   647293066   662344132
+ [749,]  1691586740  1853106973
+ [750,]   258842742   285625215
+ [751,]   195835809   433112580
+ [752,]   181133084   117395138
+ [753,]   262569357   304198406
+ [754,]  2981187084  1849743318
+ [755,]  2304050947  2985065336
+ [756,]  8015226777  4940812553
+ [757,]   416269417   254663464
+ [758,]  1193403777  1294886813
+ [759,]  2488282020  2421508295
+ [760,]  3710300112  2497960983
+ [761,]    36372946    22853497
+ [762,]    12246597    21560402
+ [763,]   868531842   567487010
+ [764,]   788523528  1476930668
+ [765,]   512074190   496986561
+ [766,]  1310784205  1345903281
+ [767,]  1592952584  2210619784
+ [768,]    13780716    28051242
+ [769,]  2177609103  2290446791
+ [770,]   682418403   442421761
+ [771,]   201838427   210382362
+ [772,]   202052670   189570749
+ [773,]  1310415625  1822660003
+ [774,]   332645716   223020391
+ [775,]  1954911334  1232339519
+ [776,]  1686386821  1134207742
+ [777,]    77066599    76572444
+ [778,]   373213163   457649782
+ [779,]  5825384868  4782530905
+ [780,]   734448266   796022236
+ [781,]   748301280  1254926200
+ [782,]    32334335    36558922
+ [783,]   438897839   409878863
+ [784,]   185514600   257094059
+ [785,]    74286845    42405303
+ [786,]    76141149   106653596
+ [787,]  1178716955   955012634
+ [788,]    38425338    37486241
+ [789,]  1334804864  1144729561
+ [790,]   552837606   852540801
+ [791,]    30263112    44966360
+ [792,]   313837313   421810079
+ [793,]   155898013   156738832
+ [794,]   106500352   115644928
+ [795,]   365494577   168613849
+ [796,]   845433126   505955271
+ [797,]  7711123284  4299292379
+ [798,]   350018350   390517293
+ [799,]   583619415   770558108
+ [800,]  3083658529  1441518895
+ [801,]   124912139   176029456
+ [802,]  3120598489  1763246222
+ [803,]  4147021526  4318311441
+ [804,]    64598276    71047998
+ [805,]   716931237   464372857
+ [806,]   238003305   204231637
+ [807,]  1127214079  1906117951
+ [808,]  4481226945  2356065224
+ [809,]  5402532507  4077622874
+ [810,]    70258383    72532234
+ [811,]  8869588516 11184355525
+ [812,]  2160163291  2224705681
+ [813,]   406055527   445008555
+ [814,]  5662507743  3603905305
+ [815,]   770812957   547082076
+ [816,]   436301583   333682534
+ [817,]  4367711635  4670308798
+ [818,]    32045096    54231192
+ [819,]   196318625   157953736
+ [820,]  1055010772   588269546
+ [821,]  2299735849  1756815810
+ [822,]   641065176   784037292
+ [823,]   133245286   179133300
+ [824,]   160570081   168672122
+ [825,]  5391738474  3835827534
+ [826,]   376422928   513382067
+ [827,]   623092669   867802434
+ [828,]   125144918   132216710
+ [829,]    35307846    38801391
+ [830,]   482189399   290924698
+ [831,]   245884548   272551898
+ [832,]    20127573    20291174
+ [833,]  1807835922   982574123
+ [834,]    61712496    37404464
+ [835,]     4724337     3702140
+ [836,]  1020855935  2085074712
+ [837,]    93945052   109505762
+ [838,]   235817228   120940496
+ [839,]  1956889954  1975338334
+ [840,]   448430566   266325398
+ [841,]   184538654   193190923
+ [842,]  3587980251  1748699580
+ [843,]    60294119    67573777
+ [844,]  2219253585  1500556610
+ [845,]  1127159452  1610030313
+ [846,]    90255663   124326775
+ [847,] 11603461787 16259550162
+ [848,]   913871308  1304919131
+ [849,]   121794028    78619612
+ [850,]  3785592981  1944078754
+ [851,]   435399721   421422805
+ [852,]  1057489922  1471936975
+ [853,]   410925429   311921231
+ [854,]   178536441   166083959
+ [855,]    67077894    74112951
+ [856,]  3229119512  4949601276
+ [857,]   500373410   317680147
+ [858,]   249470416   138312513
+ [859,]   936431316  1284574263
+ [860,]   208449536   220678201
+ [861,] 12493391164 13605432610
+ [862,]   279381622   577647953
+ [863,]  2389308511  2492193696
+ [864,]  1489269944  1715361570
+ [865,]   213848162   296246689
+ [866,]   233997003   194865342
+ [867,]   453199005   290492696
+ [868,]  1484020221   968056826
+ [869,]    53008652    81734042
+ [870,]   207431449   122696656
+ [871,]  1956417501  2747475566
+ [872,]   168422666   136728058
+ [873,]   810940719   493556242
+ [874,]   254396780   146295558
+ [875,]   301588038   506814158
+ [876,]   142291066   179273436
+ [877,]  3639093028  2061154376
+ [878,]  2731068448  1555701170
+ [879,]  8899170891 12554394386
+ [880,]  1476487878   643077304
+ [881,]   295267913   234861273
+ [882,]   483386681   463754805
+ [883,]   322364194   373109690
+ [884,]  1017439615   520339017
+ [885,]   195927985    99310041
+ [886,]   346341830   179696955
+ [887,]  1881350512  3210719554
+ [888,]   319014936   298110048
+ [889,]   614968058   570131164
+ [890,]   160127103   267909921
+ [891,]    32784606    21217337
+ [892,]  3156295696  1473680545
+ [893,]   401984589   251523235
+ [894,]    55221891    81540481
+ [895,]   770300478   899019288
+ [896,] 18758026654 17803149429
+ [897,]   478544672   581805061
+ [898,]    62631858   119134472
+ [899,]   464015385   279008865
+ [900,]    76256443    88858929
+ [901,]   334041444   398768669
+ [902,]  7515842277 11129780735
+ [903,]   387951204   398122058
+ [904,]   225408443   115379418
+ [905,]    26797197    29080318
+ [906,]   378142272   395888095
+ [907,]   220263719   271906750
+ [908,] 19907093582 20060840536
+ [909,]   190529192   266254751
+ [910,]  1176337246  1750434592
+ [911,]    15466097    18967126
+ [912,]    56923986    54285342
+ [913,]   549409737   761089151
+ [914,]   174132548   192606241
+ [915,]  2724543595  2568373166
+ [916,]   321227930   415183084
+ [917,] 11224037756 10819941532
+ [918,]   820056275   487937742
+ [919,]   502121286   550689077
+ [920,]   271479421   142055770
+ [921,]   427359125   611417622
+ [922,]   213878092   104296494
+ [923,]  3338228966  2019423933
+ [924,]   209603479   130401861
+ [925,]   111828548   127961699
+ [926,]   451036594   326364432
+ [927,]   545497995   762532470
+ [928,]     5168565     6577249
+ [929,]  1710419411  1420511876
+ [930,]    26181517    30659040
+ [931,]  6101274142  5716356113
+ [932,]   264804533   143235943
+ [933,]   293364706   609412555
+ [934,]   534140032   578161099
+ [935,]   236100423   254298488
+ [936,]    88400437   115184096
+ [937,]   185936057    95114627
+ [938,]  1101691666   649240429
+ [939,]   934073815  1318340085
+ [940,]    86243348    89005799
+ [941,]    52934385    61865658
+ [942,]    70575299   130662309
+ [943,]   123097021   111454641
+ [944,]    37791589    72524231
+ [945,]   234431584   132551901
+ [946,]   449962034   616386612
+ [947,]  1161395565  1957997299
+ [948,]  6090488265  3344773818
+ [949,]   178309320   201847984
+ [950,]   241362680   275482146
+ [951,]   200398148   129607563
+ [952,] 14351725913 18574988240
+ [953,]  4849079942  2937869597
+ [954,]   552188854   460630723
+ [955,]   477537603   311048265
+ [956,]  1736837687  2352544766
+ [957,]  1627427760  1375150814
+ [958,]   170159959   133284114
+ [959,]   741630805   438436571
+ [960,]   163470945   277292347
+ [961,]   563969887   742539757
+ [962,]  2954329540  1672481135
+ [963,]  2097776108  2950031910
+ [964,]    53966978   112789291
+ [965,]    94983753    49756617
+ [966,]   235320117   242689685
+ [967,]  1428212064  1573042669
+ [968,]   430308462   277614049
+ [969,]   530383823   567456080
+ [970,]   220824715   154262526
+ [971,]    34011748    39806448
+ [972,]    68628306    77383116
+ [973,]   306074798   181014625
+ [974,]   149094514   207541271
+ [975,]    16926231    28688620
+ [976,]   385505358   462543821
+ [977,]    19898408    26763528
+ [978,]  1905881278  2147154852
+ [979,]   375720306   242812006
+ [980,]   120323549   136821471
+ [981,]   233136269   182211089
+ [982,]   347685278   235008015
+ [983,]  1040118738  1064338666
+ [984,]  6607705488  6104694420
+ [985,]   267820474   176842475
+ [986,]   309613191   232623510
+ [987,]  1351139873  1377046896
+ [988,]   581796051   952902076
+ [989,]   148653669   163283576
+ [990,]    76124877   128140925
+ [991,]   272936080   255812359
+ [992,]   475832700   337979062
+ [993,]  1295156233   844924416
+ [994,]  3494934761  1785706574
+ [995,]   285321661   172298305
+ [996,]    26870899    21755169
+ [997,]   347530315   242736381
+ [998,]  3227707815  2709522849
+ [999,]    75781695    41382549
+[1000,]  1085073657  1038280943
+```
+
+---
+## Step 3 : Project the population using stochastic transition matrices 
+
+
+```r
+runSE &lt;- stoch.projection(A.swallowSE, 
+          n0 = c(100,100), 
+          # number of time steps to project over
+*         tmax = T,
+          nreps=1000, 
+          verbose=TRUE )
+```
+
+```
+Starting projections for nrep 1
+```
+
+```
+Starting projections for nrep 100
+```
+
+```
+Starting projections for nrep 200
+```
+
+```
+Starting projections for nrep 300
+```
+
+```
+Starting projections for nrep 400
+```
+
+```
+Starting projections for nrep 500
+```
+
+```
+Starting projections for nrep 600
+```
+
+```
+Starting projections for nrep 700
+```
+
+```
+Starting projections for nrep 800
+```
+
+```
+Starting projections for nrep 900
+```
+
+```
+Starting projections for nrep 1000
+```
+
+```r
+runSE
+```
+
+```
+               [,1]        [,2]
+   [1,]   120050444   172628448
+   [2,]   839201027   524658692
+   [3,]   174104152   179812858
+   [4,]    89170562    92921477
+   [5,]   546326895   729890980
+   [6,]   105317208   125082772
+   [7,]    46383599    29984595
+   [8,]    99313787    55886436
+   [9,]   402889902   554378125
+  [10,]  1059171587   475205479
+  [11,]  1233805426   888635874
+  [12,] 13141555200  5949379730
+  [13,]   470433852   239206526
+  [14,]   386674303   534488584
+  [15,]   119151870   113882288
+  [16,]   360283894   706532217
+  [17,]   697252955   736320240
+  [18,]    79220525    85193282
+  [19,]  2095121195  4673916509
+  [20,]    11460453    14790869
+  [21,]  1099576397   949580786
+  [22,]   854921482  1822665162
+  [23,]   729423113   553765185
+  [24,]    84638117   134865693
+  [25,]   768673821  1503172791
+  [26,]   883423507   757629660
+  [27,]   983371207   448217034
+  [28,]   458463184   272190338
+  [29,]  2540694610  4608210399
+  [30,]  2067519900  2889591946
+  [31,]   207085203   387320914
+  [32,]    41608657    20971856
+  [33,]    94900472    95618931
+  [34,]  1020305104   628764196
+  [35,]   549041034   350199715
+  [36,]  1139456846   682561186
+  [37,]   227483341   219960172
+  [38,]  1086099944   689208074
+  [39,]  2656029497  1560069298
+  [40,]  4940716707  4451665022
+  [41,]   629622487   523900076
+  [42,]   953330404  1660119827
+  [43,]   854243652   432251461
+  [44,]  1731004604  1462417632
+  [45,]   896698137   880211068
+  [46,]   708800857   745095857
+  [47,]    83931348   119805419
+  [48,]  6234302911  3959710050
+  [49,]  7968040465  7597628426
+  [50,]  1203790838  1470807323
+  [51,]   220567142   255580962
+  [52,]   523870363   882143635
+  [53,]  3196266005  4460655157
+  [54,]   957965911   625566181
+  [55,]   130061300    84266164
+  [56,]   611158781   735326717
+  [57,]   124707854    64691434
+  [58,]  2771482608  4003783763
+  [59,]   102555264    65029902
+  [60,]    47511369    51689471
+  [61,]   627613652   351400282
+  [62,]   675796251   334223260
+  [63,]  1044205141  1461152862
+  [64,]    96544327   105796580
+  [65,]    96851969   100548473
+  [66,]     7485214    10436504
+  [67,]    72026535    35159122
+  [68,]  1572130955  2484031727
+  [69,]    99094512   109304219
+  [70,]   866253865   474485272
+  [71,]  1688210610   902398255
+  [72,]     3727060     6261265
+  [73,]  1399520293   893496854
+  [74,]   105806813    60422952
+  [75,]    50072103    75258646
+  [76,]   797348517  1467352885
+  [77,]   187295535   193799399
+  [78,]  1252033808  1484092656
+  [79,]    50245517    57452232
+  [80,]    10681039     6645924
+  [81,]    95759671    53798244
+  [82,]  1296785970   804906499
+  [83,]   567035119   578696865
+  [84,]  1754695113  1804970055
+  [85,]   430735442   611431676
+  [86,]  3890891804  1665908951
+  [87,]   170035551   162590335
+  [88,]  2325373320   996416547
+  [89,]    22145328    24227687
+  [90,]    90269648    96620301
+  [91,]  3902820205  2735329757
+  [92,]   677419356   685741332
+  [93,]   315156595   424231162
+  [94,]   549225446   686555658
+  [95,]    16611149    21220475
+  [96,]   138036629    94523902
+  [97,]   205889807   171847868
+  [98,]    14072622    29625282
+  [99,]   598511015   556322276
+ [100,]   163426606    82315795
+ [101,]   354818912   419152316
+ [102,]    90330534    49873994
+ [103,]  1229475755   651588326
+ [104,]   654058021   663366937
+ [105,]   677833456   553379491
+ [106,]  2029839696  2078922203
+ [107,]   132432396    79533849
+ [108,]   485365713   328992585
+ [109,]   123305500    75014742
+ [110,]  1083918314   950095986
+ [111,]    76949143    47529099
+ [112,]   169721607   176734612
+ [113,]   703169112  1179450908
+ [114,]   618436445   682166258
+ [115,]   665725388   674846706
+ [116,]     8085612    10477687
+ [117,]   693063469   700240860
+ [118,]   101986397   166043532
+ [119,]   584963001   348206268
+ [120,]   311883927   634268806
+ [121,]    69123590    58885754
+ [122,]   223496202   185275357
+ [123,]   406165720   288256376
+ [124,]    44042553    23988446
+ [125,]   880804611   549677492
+ [126,]   347900763   421261608
+ [127,]    83899016    56508515
+ [128,]   199273569   138215050
+ [129,]  2463441611  2292900736
+ [130,]  2345014567  2586642928
+ [131,]   637060671   639597425
+ [132,]   138640671   249822994
+ [133,]   661784301   448803783
+ [134,]   514160378   560245947
+ [135,]    58912695    27137040
+ [136,]   471415576   304051454
+ [137,]  3679595022  4605014362
+ [138,]   144436156   204056783
+ [139,]   431585121   278712690
+ [140,]   805438618   443521503
+ [141,]    62268778   101281315
+ [142,]    73310281    80579399
+ [143,]   474898983   262599122
+ [144,]   207199215   137166449
+ [145,]   699760731   726308060
+ [146,]   131133343   284083776
+ [147,]  1702696235   770690055
+ [148,]   520624767   497956930
+ [149,]   176667580   143695033
+ [150,]    20430282    20550461
+ [151,]    60637020    66253055
+ [152,]     7713029     4599201
+ [153,]    79019937   101259168
+ [154,]   214953594   299396746
+ [155,]  9132485667 12835073723
+ [156,]    83543440    68284148
+ [157,]   117546144   113542076
+ [158,]  5099269634  4230732482
+ [159,]   378103701   681497534
+ [160,]  3075418974  1603659353
+ [161,]   186058490   229115715
+ [162,]  1930362476  2709594157
+ [163,]    71006569    67371763
+ [164,]   216969885   202610266
+ [165,]  1771913434  1241142235
+ [166,]    50096726    35972698
+ [167,]   205208829   202859869
+ [168,]   294589157   165874837
+ [169,] 10213103360 19342167224
+ [170,]  1244180023  1755654266
+ [171,]    49701422    87489744
+ [172,]   667383680   458075904
+ [173,]  4229861989  5722113864
+ [174,]    41544922    79437797
+ [175,]   347761867   590669637
+ [176,]   301064589   251099517
+ [177,] 10889352659 11939239485
+ [178,]   191204509   100968480
+ [179,]    27736302    35465379
+ [180,]   920777711   531998344
+ [181,]  2710396093  2267728873
+ [182,]    20145653    23285291
+ [183,]   657076162   609168858
+ [184,]    88092718    94032323
+ [185,]   269015532   155422589
+ [186,]    57284943   109329214
+ [187,]   417929703   485323231
+ [188,]    66492104    87779640
+ [189,]   363195423   795501802
+ [190,]   154771279   216274028
+ [191,]  4440587664  4956795029
+ [192,]  1029491993   553473150
+ [193,]   637785483   786008842
+ [194,]   567281370   531566278
+ [195,]  1269280626   652416215
+ [196,]    26027192    22682298
+ [197,]   181936617   200058711
+ [198,]   156411738   262294323
+ [199,]   377969176   636447062
+ [200,]  1936284969  1335245161
+ [201,]    75660360    38792842
+ [202,]   248752685   464139421
+ [203,]    28117787    56011999
+ [204,]  3222753458  1708481515
+ [205,]  5032283152  3299826382
+ [206,]  2919824971  2765158767
+ [207,]  2517622943  1783879593
+ [208,]   656189388   301613318
+ [209,]    65912633    32294220
+ [210,]  2402679673  1891620496
+ [211,]   313213003   282438227
+ [212,]   103413897   113452385
+ [213,]   134426958   150174956
+ [214,]   278246960   360075077
+ [215,]    26519528    27619144
+ [216,]   765352895  1195699162
+ [217,]   235164941   170686619
+ [218,]     5123658     8650688
+ [219,]  3082226096  3386563325
+ [220,]    71350804    77451122
+ [221,]   557474789   586303497
+ [222,]   301741356   142553466
+ [223,]   222019491   110624277
+ [224,]   196804523   364459744
+ [225,]   266913131   254045892
+ [226,]   347402225   489928149
+ [227,]   161609742    95733700
+ [228,]    27511686    26683417
+ [229,]   299586295   414846243
+ [230,]   889991267   839892883
+ [231,]   234715155   263925033
+ [232,]   227703532   376571100
+ [233,]   451149848   521642766
+ [234,]    67388082    71591117
+ [235,]    87188134   118705238
+ [236,]   751753008   975286922
+ [237,]   116555992   117356334
+ [238,]  1082700069  1119039934
+ [239,]    86390271   158544546
+ [240,]   176351390   106044297
+ [241,]    43852364    37160698
+ [242,]   174287055   292287090
+ [243,]   179832938   277934461
+ [244,]   357892781   479467748
+ [245,]  4021517203  4059086806
+ [246,]   328410253   467091349
+ [247,]   228546548   230190258
+ [248,]   283941476   299368755
+ [249,]   228988790   221742447
+ [250,]  1241350581   751381987
+ [251,]   100755176   157347746
+ [252,]   300731534   327020007
+ [253,]    25550619    36380584
+ [254,]  1058231396   606620744
+ [255,]   907133645  1411700425
+ [256,]   364997498   354921489
+ [257,]   444251838   403607846
+ [258,]   435115687   487465723
+ [259,]  2840793564  3084627589
+ [260,]    42602410    22314039
+ [261,]  4895283780  8696352862
+ [262,]    33011036    35450846
+ [263,]   867387374   572227865
+ [264,]    75763651   160382662
+ [265,]    12652426    13003546
+ [266,]  4844975939  2389217141
+ [267,]  3965119626  2467052907
+ [268,]   563431114   520424150
+ [269,]   252067495   530748946
+ [270,]   519523365   292319672
+ [271,]   661108400   433542001
+ [272,]   545702442   317858917
+ [273,]    32230422    29887761
+ [274,]   332087295   179669030
+ [275,]   845099021   460312134
+ [276,]   756886317   636369870
+ [277,]   769992567  1077198159
+ [278,]   799257282   427755443
+ [279,]   235886203   286557137
+ [280,]    45886995    36353965
+ [281,]   164115682   135109659
+ [282,]   382046043   587829027
+ [283,]   392936283   240043228
+ [284,]  3811510827  7063092363
+ [285,]  2232144043  1350267019
+ [286,]   492294554   459259858
+ [287,]    49247159    22268038
+ [288,]  1372417281  2320281236
+ [289,]   136896420   176674785
+ [290,]   353083170   671931344
+ [291,]   268009865   452561987
+ [292,]  1111127953   590016177
+ [293,]   229523793   155732972
+ [294,]  3393401460  1688909528
+ [295,]   343033375   474243022
+ [296,]  3887604939  2138012311
+ [297,]   212428280    97517819
+ [298,]   236390434   237423485
+ [299,]  7212634970 10109512252
+ [300,]   261991187   307689895
+ [301,]    31169568    34999340
+ [302,]   101483850    62458577
+ [303,]   165017985   204941686
+ [304,]    29459337    18846663
+ [305,]   610052102   643686254
+ [306,]   649175757   408668618
+ [307,]   459477444   496834482
+ [308,]  5813603689  5967114550
+ [309,]    30471248    24298729
+ [310,]   849798517   930926500
+ [311,]  2287131477  2711644597
+ [312,]   346136436   381214650
+ [313,]  3452748841  1949174135
+ [314,]  2288253995  1198178920
+ [315,]   372223537   223491277
+ [316,]    42365189    85905411
+ [317,]   437148967   357985540
+ [318,]   326345947   409398612
+ [319,]   318800105   241250021
+ [320,]   294970393   321341018
+ [321,]  1233411016   768174199
+ [322,]   239688809   480512994
+ [323,]   256985897   216664000
+ [324,]   111121726    70192981
+ [325,]   189171770    82586211
+ [326,]   284683237   311259344
+ [327,]  2234848877  1105288328
+ [328,]    48018487    54104910
+ [329,]   397384800   266403735
+ [330,]    15934053     8244519
+ [331,]   726731338   501053161
+ [332,]    78389196    44147838
+ [333,]   291205375   193698306
+ [334,]   108795608   101173228
+ [335,]  7184176059 12115224894
+ [336,]   108151693   183775058
+ [337,]   100359832   120110148
+ [338,]   138234664   152064002
+ [339,]  1414691207  1459773882
+ [340,]  2336862232  3343697709
+ [341,]  4734708111  4897326163
+ [342,]   128723761   131324860
+ [343,]    56679231   100527222
+ [344,]   207475669   189401941
+ [345,]   117739844    72057924
+ [346,]  4373873007  2257187552
+ [347,]   192901759   220740766
+ [348,]  1134843389  1339864993
+ [349,]   864561746   536136258
+ [350,]   209548706   188306006
+ [351,]    31613703    31872667
+ [352,]   257316029   239631767
+ [353,]    59482425    36245668
+ [354,]   541861693   508448804
+ [355,]   392354373   436983064
+ [356,]  2301281524  2839273614
+ [357,]  1593630126  1312195808
+ [358,]   171094744   174583015
+ [359,]   199748322   184029728
+ [360,]   501825924   742096687
+ [361,]  3201696476  3852650296
+ [362,]    19613433    25415097
+ [363,]   716595057   458923631
+ [364,]  2390135766  4437373111
+ [365,]   507403002   549772765
+ [366,]   723739273   468033236
+ [367,]   166134391   118043726
+ [368,]   984221724   651924907
+ [369,]    95433860   132747247
+ [370,]   620670479   631335110
+ [371,]   260515192   154492953
+ [372,]  3836551478  1698105020
+ [373,]  1021532808  1252071633
+ [374,]  3585626627  5017644351
+ [375,]   840585312   461778857
+ [376,]  1105326953   844282526
+ [377,]  2561386731  2656942870
+ [378,]   231133069   183850839
+ [379,]    13716328    10991325
+ [380,]   949076681   639326565
+ [381,]  1850196879  2543677663
+ [382,]    70795158    73631828
+ [383,]   107707700    86381745
+ [384,]   227323101   129597398
+ [385,]     6074073     6247012
+ [386,]   226451979   142760028
+ [387,]  2071486107  1013823682
+ [388,]    89800346    76831651
+ [389,]   780526089   495935487
+ [390,]   286075203   266289262
+ [391,]  2213038755  1360079298
+ [392,]   389972726   273441344
+ [393,]    85643869    69663601
+ [394,]   484444496   313789406
+ [395,]   213687809   113177064
+ [396,]   939612131   485354410
+ [397,]   273404154   226632225
+ [398,]   220474706   335964055
+ [399,]   208058743   138961847
+ [400,]   563694440   327163667
+ [401,]   939876804  1916151574
+ [402,]   584562104   307368651
+ [403,]   676373559   399294662
+ [404,]   442142958   419899957
+ [405,]  7268417424  4309634884
+ [406,]   141560519   133724294
+ [407,]   247226677   206224042
+ [408,]  1025960053  1115695776
+ [409,]   325948791   168241527
+ [410,]   451916917   287511042
+ [411,]   997234094  1010201643
+ [412,]   173851482   166778179
+ [413,]  1151027681  1424034470
+ [414,]   145052318   133674691
+ [415,]  1253093062   585334510
+ [416,]   245067548   284263594
+ [417,]    35476499    49048095
+ [418,]  1214650018   666496501
+ [419,]  1202737199   794071925
+ [420,]  1807361873  1257298803
+ [421,]   383352021   455823271
+ [422,]    45851336    48426688
+ [423,]   631030796   374248523
+ [424,]   506019766   383932621
+ [425,]    89222096   108861706
+ [426,]   345158042   384624504
+ [427,]   454228016   318103631
+ [428,]   368275120   214884642
+ [429,]   171104085   239636756
+ [430,]    17089507    15840388
+ [431,]   654736444   574305110
+ [432,]   238057897   449523605
+ [433,]    95682017   104989541
+ [434,]   290307872   322288721
+ [435,]   295008243   282353383
+ [436,]  3656179451  2375489810
+ [437,]  1000305737   477329656
+ [438,]   121180435   218169392
+ [439,]   146215135   151012112
+ [440,]  1329507035  1869403551
+ [441,]   495871210   513146104
+ [442,]   247096689   255271768
+ [443,]   205246115   101991551
+ [444,]   293476412   397089407
+ [445,]    22183820    37757042
+ [446,]   809915970   679613436
+ [447,]   256468579   110649182
+ [448,]   354552233   230405470
+ [449,]   477369822   527412173
+ [450,]   160797183   206112795
+ [451,]   179505343   120770897
+ [452,]  3047743497  3417358215
+ [453,]    88712825    56184060
+ [454,]  1519456528  1276085311
+ [455,]    49594742    36022715
+ [456,]    72162165    59431226
+ [457,]   101864544   184484393
+ [458,]  1269439291   634882612
+ [459,]  3312901028  1996812035
+ [460,]   225078635   153079325
+ [461,]  1140920026   953488359
+ [462,]  1027308501   598655607
+ [463,]  1376276976   682316844
+ [464,]  2761107579  3226936241
+ [465,]    43802667    44619077
+ [466,]   168346925   276022725
+ [467,]   533173331   536676104
+ [468,]    46166062    45212079
+ [469,]   475164155   465786779
+ [470,]  1356393036   931713011
+ [471,] 10020733354  6068419512
+ [472,]  5686532268  6238629471
+ [473,]  2673385385  2117119656
+ [474,]   160477654   265462806
+ [475,]  5741497469  9634734992
+ [476,]  1773496339  3198804678
+ [477,]  9514502276 12742243687
+ [478,]    37472853    39256082
+ [479,]   510010814   558575429
+ [480,]   354030058   711515326
+ [481,]   913563722  1101206205
+ [482,]  3201811565  1927714203
+ [483,]   801885164   444793239
+ [484,]    82143882    51526351
+ [485,]   206607966   118256013
+ [486,]  1257064720  1368607176
+ [487,]  1946398856  2129636183
+ [488,]  1640976053   898362762
+ [489,]   432105427   272107536
+ [490,]   220131522   283257388
+ [491,]   262504818   172832807
+ [492,]    76970993    39584180
+ [493,]   174196297   101431467
+ [494,]  2506139187  1502876305
+ [495,]    37274117    40792122
+ [496,]    22900607    11944618
+ [497,]   576505456   319492549
+ [498,]  7354782221  8527651008
+ [499,]  1035665711  1056576785
+ [500,]  1445670462  1458841131
+ [501,]  4886895526  7374180064
+ [502,]   227851404   155682164
+ [503,]   222908165   115921481
+ [504,]   489447861   658334968
+ [505,]  3004486106  3295035889
+ [506,]    84419873   158431354
+ [507,]   123975930   128564367
+ [508,]  1090189066   643812531
+ [509,]   199016694   293380793
+ [510,]   192639677   288280088
+ [511,]    94301490   106896607
+ [512,]   889384726   695266329
+ [513,]   277043536   179983696
+ [514,]   265041465   157617452
+ [515,]   416857020   265600533
+ [516,]  4597982359  3810699368
+ [517,]    35076858    59674479
+ [518,]   353004835   207611441
+ [519,]   817430032   794719205
+ [520,]  1015678297   650950694
+ [521,]   339985483   663015620
+ [522,]   108848920    69075422
+ [523,]    16162252    11071498
+ [524,]   335395937   286894147
+ [525,]   195943088   201551900
+ [526,]  1966094440  1257931869
+ [527,]    11311220    10820958
+ [528,]  1652213772  1266155290
+ [529,]   439528043   312691948
+ [530,]  7328836273  7080513331
+ [531,]   123877723    73990181
+ [532,]   339606394   440372206
+ [533,]   745167106  1056741713
+ [534,]   960533543  1056775759
+ [535,]   601106848   762947944
+ [536,]   483212533   450616013
+ [537,]   657947048  1110415225
+ [538,]    95950510   207858352
+ [539,]    92323459   152497380
+ [540,]   728042745   349810713
+ [541,]   302342428   649126999
+ [542,]  1082700415  1097388443
+ [543,]   172028986   233681255
+ [544,]   119465071    76182783
+ [545,]   181765927   156186417
+ [546,]   525799525  1126193958
+ [547,]   170525786   179469168
+ [548,]   404804829   681239586
+ [549,]  1140942440  1236494598
+ [550,]    61309207    63461405
+ [551,]   269030681   349211445
+ [552,]    16443468    36456955
+ [553,]    99490423   103552213
+ [554,]    58104690   113461891
+ [555,]  1457333223   757555711
+ [556,]   680026595  1127727194
+ [557,]   517795591   348455199
+ [558,]   482004903   411903601
+ [559,]   612742651   674438194
+ [560,]  1264079064  1197147351
+ [561,]   115216223    99579112
+ [562,]  5057010434  3043747444
+ [563,]    79528230   161311710
+ [564,]   598538925   749167443
+ [565,]   931601360  1020047007
+ [566,]    15129401    18345521
+ [567,]   171140935   217627751
+ [568,]  6003274395  5572661229
+ [569,]    56852443    84326404
+ [570,]   169308842   114641489
+ [571,]   391115246   372314700
+ [572,]   215232752   130637948
+ [573,]    53024557    98430185
+ [574,] 10685233780 10346197742
+ [575,]  1431323746  1335995686
+ [576,]    16124380    18215088
+ [577,]    75623913    72916031
+ [578,]  4672243994  2591251807
+ [579,]   167178097   116485389
+ [580,]   643551894   557959008
+ [581,]  2249488063  3805972228
+ [582,]   232977109   476233849
+ [583,]    15766686    13307189
+ [584,]   186732832   260982214
+ [585,]   395102495   455928314
+ [586,]    21056729    44304013
+ [587,]   288206277   594041575
+ [588,]  2351123223  2186021199
+ [589,]    56906774    62624216
+ [590,]    95274534    58714309
+ [591,]   255606059   152313638
+ [592,]   566178340   298591465
+ [593,]  1004558302  1030029719
+ [594,]  1395747803  1953990713
+ [595,]   173183188   241140967
+ [596,]   107098786   232257852
+ [597,]   843143353  1022258889
+ [598,]   402848205   249645855
+ [599,]  1145947850  1156835625
+ [600,]  1276729438  1623389657
+ [601,]   200105136   172754618
+ [602,]   489790016   676891343
+ [603,]   675117476   607456812
+ [604,]  2075235091  1398313877
+ [605,]   391968719   518889084
+ [606,]  1516962553   801386293
+ [607,]   191520883   250110247
+ [608,]   548362460   930026304
+ [609,]   843168239  1195278124
+ [610,]    21096467    16946061
+ [611,]    31873961    21245668
+ [612,]    18931671    12319803
+ [613,]   276876030   271516924
+ [614,]   100357253    93666448
+ [615,]  1535731655  1609520392
+ [616,]   608719688   626905785
+ [617,]   365607194   378060100
+ [618,]  4424138013  4633519621
+ [619,]   394143005   661140236
+ [620,]  1505156320   944782613
+ [621,]  1512578381   901949949
+ [622,]   972440471   633818920
+ [623,]   190235524   102317221
+ [624,]   130562612   185855258
+ [625,]  1232229472  1319497129
+ [626,]    35240920    57620600
+ [627,]   141491539   148197140
+ [628,]   190783604   262583899
+ [629,]  1763828701   954399399
+ [630,]  2020664228  2862934564
+ [631,]   737243840   650041866
+ [632,]   831339589   444288008
+ [633,]   251243091   190452463
+ [634,]  6636051887  4013693879
+ [635,]   109510427   105899030
+ [636,]   593340899   415510706
+ [637,]  1876970521  1656857266
+ [638,]   847146409   555921725
+ [639,]   126483193   175402232
+ [640,]  1261452450  1387148666
+ [641,]   288412029   236131916
+ [642,]   700314375  1417221784
+ [643,]  1056960309  1002119161
+ [644,]   337270558   219055130
+ [645,]   312333579   186080911
+ [646,]   138568555   112136312
+ [647,]   282147752   330304784
+ [648,]   285584923   271400586
+ [649,]    67960799   115011568
+ [650,]   102543587   119852329
+ [651,]   314219294   397354247
+ [652,]   204732219   265864280
+ [653,]     8375235     6688215
+ [654,]    38049045    23355663
+ [655,]   904445345   929404522
+ [656,]    84018460   138799963
+ [657,]    64846504    66368743
+ [658,]   424939766   780095247
+ [659,]    38282563    36125208
+ [660,]   121928104   156133905
+ [661,]   127976952    69475970
+ [662,]   120129015   149973358
+ [663,]   714000083  1205463289
+ [664,]   907479379   524250540
+ [665,]    83740743   107822647
+ [666,]   197711619    87220379
+ [667,]   782264174   606079683
+ [668,]   139206585   153000988
+ [669,]  2104840369  3318970852
+ [670,]    77612574    53506067
+ [671,]   406816128   825791882
+ [672,]   460616502   280284553
+ [673,]   158362243    78835572
+ [674,]   568474976   541779211
+ [675,]    84940830   119800609
+ [676,]   598056113   361849518
+ [677,]  6490342645  2951911737
+ [678,]  2051766926  2361688812
+ [679,]    99436920    78742478
+ [680,]  2926310051  4151669224
+ [681,]  5030828988  4790563129
+ [682,]   203112783   104905651
+ [683,]    43475471    27427618
+ [684,]   252585671   149291593
+ [685,]   468926903   508637004
+ [686,]   481415946   300089003
+ [687,]   109585311   120876939
+ [688,]    74677981    42280760
+ [689,]   397614972   331927270
+ [690,]   640600482  1135322904
+ [691,]   113787322    98763251
+ [692,]   132478419    88524000
+ [693,]   505950920   959876272
+ [694,]   278393486   117001939
+ [695,]  1114867090  1153031807
+ [696,]   345789703   353192576
+ [697,]  1278425235  1431144015
+ [698,]   251763052   271082700
+ [699,]   213223470   280697915
+ [700,]    84463064   164062129
+ [701,]    76340664   129588260
+ [702,]  1129474033   483313583
+ [703,]    70384553    36855993
+ [704,]   185897563   124555669
+ [705,]    40749820    38988017
+ [706,]    21969815    11591732
+ [707,]   784281292   416318822
+ [708,]    32429167    36238736
+ [709,]  3154776361  2658560546
+ [710,]    26370046    19496373
+ [711,]   268795222   158053913
+ [712,]   290017950   291289516
+ [713,]   905603069   935609805
+ [714,]   132677525   164802507
+ [715,]    10833825     9988382
+ [716,]   359731226   296036576
+ [717,]    24976710    43572741
+ [718,]   482458273   402264721
+ [719,]  1748164877  1054175562
+ [720,]   114651977    57936331
+ [721,]  2725107797  3384344625
+ [722,]  9864839271  8113434861
+ [723,]   747102069  1449593383
+ [724,]   480271726   664262154
+ [725,]   153715136   172958090
+ [726,]   656373093   321636969
+ [727,]   710795655   435635775
+ [728,]    32785503    38132839
+ [729,]  2462511297  2425559554
+ [730,]  2879523829  3162275729
+ [731,]    14900060    19043056
+ [732,]   325063868   279788725
+ [733,]   101174380   141647497
+ [734,]  1260628239  1013215105
+ [735,]    77843460    81212395
+ [736,]  1411202654   976296963
+ [737,]  2038440588  2109505657
+ [738,]  5262347297  3682855735
+ [739,]    69548231    61319616
+ [740,]  2868142429  3667063698
+ [741,]  3249270195  5185224083
+ [742,]   482555805   249199608
+ [743,]    63349362    50137000
+ [744,]  2540473890  1510012277
+ [745,]   197757007   273065215
+ [746,]   618288352   679329400
+ [747,]   745423933  1219456342
+ [748,]    18478885    11705876
+ [749,]  1149472067  2247938914
+ [750,]   283412501   286259627
+ [751,]   310122273   347769486
+ [752,]    40806240    39551504
+ [753,]    15123081    14128674
+ [754,]   374793317   198323611
+ [755,]  7286005608  4410277394
+ [756,]     3958933     3000237
+ [757,]    40816522    68760139
+ [758,]    82658503   151337291
+ [759,]   238327443   117233725
+ [760,]  6390348516  4086187469
+ [761,]   990702203  1091233713
+ [762,]   382490950   420297900
+ [763,]   545365889   918495334
+ [764,]  3609395508  2435495289
+ [765,]   439368993   455099389
+ [766,]  1128596864  1324626400
+ [767,]    31248596    16500207
+ [768,]   333309266   208072495
+ [769,]  1717847963  2236000633
+ [770,]    33848816    38884236
+ [771,]  1487751188   918804897
+ [772,]  2217225576  1589630419
+ [773,]  1681241282  1386066255
+ [774,]   120141652   114362482
+ [775,]   111976611   245686983
+ [776,]    38925938    33383725
+ [777,]   327608435   457715190
+ [778,]  1134693365  1144990015
+ [779,]  1076939641   720573609
+ [780,]    98476108    79323105
+ [781,]  2593042893  1789157829
+ [782,]  2255475625  2350493916
+ [783,]   904060064   557666042
+ [784,]  1026744455   653239236
+ [785,]   107310499   123081255
+ [786,]  1790072313  2177437466
+ [787,]  6406371777  3238207601
+ [788,]   779321137   468771353
+ [789,]   113509806   116100995
+ [790,]  2113197327  1085538566
+ [791,]   158564987   174130504
+ [792,]  1067821135   858265701
+ [793,]    12322305    13718116
+ [794,]  1076583099   644320704
+ [795,]  2611731202  4396862056
+ [796,]    44886690    30028075
+ [797,]  2782817337  2589043552
+ [798,]    78630115   159888860
+ [799,]  1918519794  1181109650
+ [800,]   648445051   526036830
+ [801,]    31099737    16755276
+ [802,]   450578230   268108578
+ [803,]    69565418   112510909
+ [804,]   114067477    66981310
+ [805,]   263486662   176224372
+ [806,]    75758525    46229587
+ [807,]   594893442   967960416
+ [808,]   211738753   200131584
+ [809,]  4151600591  2984868441
+ [810,]  2167470543  2074054854
+ [811,]   109825260   115290020
+ [812,]  4202200502  5690648448
+ [813,]    60962388    76815820
+ [814,]  1048885703  1759273005
+ [815,]   524310381   733701998
+ [816,]   420224073   709977204
+ [817,]   269262089   391135785
+ [818,]    37154900    40880663
+ [819,]    56235210    25796758
+ [820,]  4547370392  5368794058
+ [821,]   117818431   164280540
+ [822,]     3133695     5289784
+ [823,]    80308177    83201194
+ [824,]   949898350   615098502
+ [825,]    88824518   182589018
+ [826,]   376147985   306364003
+ [827,]  1930183372  2066777236
+ [828,]  1899416383  2434047754
+ [829,]   345100175   410703951
+ [830,]   616242811   519689556
+ [831,]  1811477935  1505478341
+ [832,]    47804732    23008496
+ [833,]   235026596   225022744
+ [834,]   214655605   241712494
+ [835,]  3861245079  2669114285
+ [836,]   734386379  1026127834
+ [837,]   346256295   204692346
+ [838,]  1767265041  1164518770
+ [839,]   275429484   172729927
+ [840,]   242065836   294540372
+ [841,]   435928845   480158377
+ [842,]   125353712   138419551
+ [843,] 10695939058 14481500492
+ [844,]   987706933  1370807591
+ [845,]   820374097   714111322
+ [846,]   331313986   464581527
+ [847,]   315776413   352001031
+ [848,]   198657721   187875504
+ [849,]  3023926182  3182625336
+ [850,]  2437644012  3155221171
+ [851,]   442663612   469796739
+ [852,]   645437037   758037710
+ [853,]    75239339    90153456
+ [854,]  1385722979   847205086
+ [855,]   418781381   569542452
+ [856,]   211027980   170164338
+ [857,]   137742492   130289428
+ [858,]   483247888   740506184
+ [859,]   232968854   131583683
+ [860,]  1317739535  1427869180
+ [861,]   587647619   938225672
+ [862,]   369631990   393225997
+ [863,]   325403251   260240961
+ [864,]   530264128   540873143
+ [865,]   846079693   797695689
+ [866,]  1394470279  2365650255
+ [867,]    94086177    86044337
+ [868,]   183376238   258610639
+ [869,]  1208573624  1691149189
+ [870,]    80865018   111134563
+ [871,]   230562706   222681209
+ [872,]    64923312   131270981
+ [873,]   206317055   174470643
+ [874,]  4187727577  4839159917
+ [875,]  1596765321   751702334
+ [876,]  3036766583  4560381998
+ [877,]   491769707   388270006
+ [878,]   159213307   146224290
+ [879,]  4006872995  4026400460
+ [880,]    25362382    27526585
+ [881,]   501342955   569959950
+ [882,]  6801775897  4181117213
+ [883,]   222964908   354197736
+ [884,]   493334438   389226593
+ [885,]    37069685    68438998
+ [886,]   175514454   193324090
+ [887,]  1503624538  1199621000
+ [888,]   176036142   252574676
+ [889,]   121956066   144748258
+ [890,]   381416753   539199689
+ [891,]   951887520   914344603
+ [892,]   124994736   169179966
+ [893,]   139899209   163555909
+ [894,]   628895690   399497098
+ [895,]   121277449    68187501
+ [896,]    66379767    79054266
+ [897,]  1636613653  1792892345
+ [898,]   260466623   221177758
+ [899,]   173859279   386757077
+ [900,]    96837056   126645277
+ [901,]   977371423  1078023507
+ [902,]   399557872   527783760
+ [903,]  1597570222  2259214702
+ [904,]   200907429    99318902
+ [905,]  2423122544  2015111030
+ [906,]  1015731909   969417095
+ [907,]  2795608337  2635793230
+ [908,]   266417613   157918101
+ [909,]    17335726    19488601
+ [910,]    46832948    37903559
+ [911,]   377173682   485871781
+ [912,]  1466671043   947930344
+ [913,]  2781236509  4504550190
+ [914,]  1530805048  1618016798
+ [915,]  6680195918  3004141480
+ [916,]   240045576   313886177
+ [917,]  3837941856  3617474984
+ [918,]  1321444000  1449893272
+ [919,]   187604935   312368574
+ [920,]  2879298813  2949152315
+ [921,]  2502382197  5271404996
+ [922,]   273140398   261203024
+ [923,]  3302114640  3902391728
+ [924,]  2540083400  2608148173
+ [925,]   223725558   117479240
+ [926,]   102018685    52696737
+ [927,]   186144300   311146976
+ [928,]   729897622  1383324739
+ [929,]  3984387469  3890420513
+ [930,]   552138140   349811163
+ [931,]   329442855   361489237
+ [932,]    84893422    81756576
+ [933,]  2342246893  2357240503
+ [934,]   121033033   113459143
+ [935,]   780027728   844834398
+ [936,]   196479011   220453105
+ [937,]   350130615   363141594
+ [938,]   214546744   198569651
+ [939,]   180537892   191676767
+ [940,]   107740743   109985152
+ [941,]  4537283965  2702742567
+ [942,]   600491176   379138552
+ [943,]   170871103   287313374
+ [944,]    90312429    99472453
+ [945,]    23865578    10406914
+ [946,]    76346014    45911004
+ [947,]  1733197853  2943463489
+ [948,]   722549839   476114357
+ [949,]  1442838605   667571385
+ [950,]  3804703653  3938209137
+ [951,]  2092739024  1968787180
+ [952,]   294596304   134502907
+ [953,]   929535885   553015336
+ [954,]    42861578    69901561
+ [955,]   436855236   417276593
+ [956,]  1123596891   775942751
+ [957,]    28128843    38483317
+ [958,]   131840997   125752754
+ [959,]  1375116307   881867280
+ [960,]   238723953   184159394
+ [961,]   309780854   490973794
+ [962,]   143461839   240556721
+ [963,]   562446087   789772679
+ [964,]   512215780   867048254
+ [965,]   111094008   130757189
+ [966,]   383298149   648132717
+ [967,]  2325976188  2782597661
+ [968,]   123557623    65677107
+ [969,]   456558903   354346558
+ [970,]  1415722138   660786664
+ [971,]   833067462   704652153
+ [972,]    92020969   175607758
+ [973,]  3531523284  1942957749
+ [974,]   197208567   105064815
+ [975,]    94822315    99750060
+ [976,]   402032941   285052068
+ [977,]   267960945   353584044
+ [978,]  1071139699   696504662
+ [979,]   696394703   517056161
+ [980,]    42584899    28067402
+ [981,]   265805223   254778342
+ [982,]  1015825837   521882968
+ [983,]   509259808   263404461
+ [984,]   311981912   278043657
+ [985,]   661367426   452336648
+ [986,]   459182110   460927668
+ [987,]  2141392567  1377869416
+ [988,]   703329664   466164472
+ [989,]   307350082   520547093
+ [990,]   967707691   451024029
+ [991,]   287787941   399553088
+ [992,]  3040427825  1984418851
+ [993,]    28026902    21162869
+ [994,]   161140496   153359611
+ [995,]    22320391    11904816
+ [996,]    29734971    50475608
+ [997,]   461993809   223686763
+ [998,]   816454250   831918371
+ [999,]   352898428   164362457
+[1000,]   908850693   750017607
+```
+
+---
+## Step 3 : Project the population using stochastic transition matrices 
+
+
+```r
+runSE &lt;- stoch.projection(A.swallowSE, 
+          n0 = c(100,100), 
+          tmax = T, 
+          # number of repetitions
+*         nreps=1000,
+          verbose=TRUE )
+```
+
+```
+Starting projections for nrep 1
+```
+
+```
+Starting projections for nrep 100
+```
+
+```
+Starting projections for nrep 200
+```
+
+```
+Starting projections for nrep 300
+```
+
+```
+Starting projections for nrep 400
+```
+
+```
+Starting projections for nrep 500
+```
+
+```
+Starting projections for nrep 600
+```
+
+```
+Starting projections for nrep 700
+```
+
+```
+Starting projections for nrep 800
+```
+
+```
+Starting projections for nrep 900
+```
+
+```
+Starting projections for nrep 1000
+```
+
+```r
+runSE
+```
+
+```
+                [,1]         [,2]
+   [1,]    182523555    215463041
+   [2,]   1108768777    935196269
+   [3,]     45511565     38344995
+   [4,]     65120325     37858648
+   [5,]    140226981    185275818
+   [6,]     47678223     67599193
+   [7,]   2287404019   2384601203
+   [8,]    859093314    553466732
+   [9,]   2895645968   1783148062
+  [10,]   1118787095   1556639585
+  [11,]     20651223     33625185
+  [12,]     24536637     26847566
+  [13,]    808275942   1361146199
+  [14,]    467064659    300648476
+  [15,]    829566409    830954824
+  [16,]    673198196    936031844
+  [17,]   4054088055   2711261553
+  [18,]    133748890    181038764
+  [19,]     62668351    129518351
+  [20,]    249328718    259249801
+  [21,]    119589207    108579191
+  [22,]    204211130    103177882
+  [23,]    189659749    183007005
+  [24,]   1241737818   1437965645
+  [25,]    288306786    433493520
+  [26,]   6874106585   4452446576
+  [27,]   2275929115   1249679272
+  [28,]   1909524833   1199564255
+  [29,]   8281975221   4374681502
+  [30,]    235715594    158016182
+  [31,]  11534157700   5913223369
+  [32,]     71903472    132090133
+  [33,]     20104360     22975821
+  [34,]    698804669    864598978
+  [35,]     76816519     61776311
+  [36,]    260182179    171724237
+  [37,]    118261870     67956193
+  [38,]    698480140    766790525
+  [39,]   2870263872   1788856337
+  [40,]   3704056636   2863165311
+  [41,]    170253797    140544491
+  [42,]    344701124    280784409
+  [43,]    382598310    302094880
+  [44,]   2795087079   1709977391
+  [45,]    161460824    180161646
+  [46,]     28648943     42647588
+  [47,]    687912635    307604053
+  [48,]    220379436    114654869
+  [49,]   1395498315    949448400
+  [50,]     62998519    129071309
+  [51,]   2286939325   2564003939
+  [52,]   1154755483   1819701970
+  [53,]    351145612    284970521
+  [54,]    241649420    211470745
+  [55,]   1740587000   2941738628
+  [56,]   6340314812   6955858193
+  [57,]    228532607    293219223
+  [58,]    265663631    161045185
+  [59,]    591449601    244092758
+  [60,]    553368050    680577128
+  [61,]   2867453672   1445380789
+  [62,]   1956394888   1312466383
+  [63,]     95861892     44174305
+  [64,]    253258906    259511015
+  [65,]     48773334     67701064
+  [66,]     22482864     19111901
+  [67,]    958726501    609888623
+  [68,]    378138006    180349877
+  [69,]     55131225     93049297
+  [70,]   2544187928   3449490177
+  [71,]    610502966    846395324
+  [72,]    105560826    115683136
+  [73,]    632050839    589455388
+  [74,]   1590444285   1159471983
+  [75,]   3920880173   6228419823
+  [76,]    513994896    475067780
+  [77,]    721653939    723789889
+  [78,]    468247660    567199708
+  [79,]    115200382     62317586
+  [80,]    473100727    983751080
+  [81,]   1610612206   1668707075
+  [82,]    124581670    112012576
+  [83,]    144393784    149332068
+  [84,]    198634348    234304186
+  [85,]   4052098315   4740877711
+  [86,]    101002370     71443589
+  [87,]    173950298    340614026
+  [88,]     78853997     81853046
+  [89,]   2029129878   1082140652
+  [90,]     12643709     12414312
+  [91,]    319582250    299714656
+  [92,]     75301116    126936560
+  [93,]    536842432    391894870
+  [94,]    572388340    357371831
+  [95,]   3897074646   5493845597
+  [96,]    476399969    317916531
+  [97,]     48983488     86965290
+  [98,]    687290173    419791812
+  [99,]    128931919    148817558
+ [100,]    628455227    868979434
+ [101,]    180500888    276737744
+ [102,]     91603188    185884351
+ [103,]    758247384    704435562
+ [104,]    554873506   1058083329
+ [105,]     40712347     28917051
+ [106,]     79729877    153159324
+ [107,]    290682423    319478828
+ [108,]    182872313    312610800
+ [109,]   3080296089   4135402643
+ [110,]    270281044    302684748
+ [111,]   1245727765    612163299
+ [112,]    247636334    269019782
+ [113,]    243768658    407503404
+ [114,]    745792759    792430329
+ [115,]    482757113    327021849
+ [116,]   1812486264   1630942754
+ [117,]  12712477019   7707792879
+ [118,]     48209435     81819808
+ [119,]   3171823931   4366604218
+ [120,]   1107448024    870729087
+ [121,]    922390408    487248820
+ [122,]    353952859    148800438
+ [123,]     32802098     17781278
+ [124,]    162823878    228380103
+ [125,]    176600386    246914809
+ [126,]    123418069     54182761
+ [127,]    287816503    405895194
+ [128,]    362648897    217847067
+ [129,]    100695184    124766516
+ [130,]     92772585    155710483
+ [131,]     72702545     83787432
+ [132,]   1064833401   1302548489
+ [133,]   3290028861   3856718900
+ [134,]     65299284     29381475
+ [135,]   1557681553   1720215932
+ [136,]    522559872    338725893
+ [137,]   3265770242   4641862759
+ [138,]    113806634    103928452
+ [139,]    275095305    183933174
+ [140,]    130743180     77348108
+ [141,]   2389732192   1521838246
+ [142,]   3108493908   1633229340
+ [143,]    274623011    140875734
+ [144,]   1554995637   1581193196
+ [145,]   4730551304   2873264145
+ [146,]   6079537196   3600750778
+ [147,]   1008983634   2111190960
+ [148,]   1019361250    737012334
+ [149,]    315585819    660826974
+ [150,]  11472519927  14317330964
+ [151,]    312402650    379099989
+ [152,]   1554345966   1738622481
+ [153,]    477347166    373334141
+ [154,]    848255245    511576776
+ [155,]    286920062    427383392
+ [156,]     35709748     38534875
+ [157,]   2563703229   2815997405
+ [158,]    647682287    334890703
+ [159,]     29439939     32194936
+ [160,]    498679570    478119548
+ [161,]     84184856     77834441
+ [162,] 171896626939 111384777197
+ [163,]    470427837    944519510
+ [164,]    124296987    128306654
+ [165,]   1129636277   1248234123
+ [166,]   1273634869    749368564
+ [167,]    207763536    218428043
+ [168,]    196475942    383686355
+ [169,]   1319301738    850457372
+ [170,]   1287721259   1439077861
+ [171,]    402494514    237033948
+ [172,]   4787353963   3044455301
+ [173,]    547843378    368483877
+ [174,]    798164501    694563893
+ [175,]     89620793     44551506
+ [176,]     17318221      9371326
+ [177,]    508794300    402868677
+ [178,]   2493266216   1076241830
+ [179,]   1623467151   1367655095
+ [180,]    286036916    222308573
+ [181,]     84344417     44944813
+ [182,]   5246484103   2999694247
+ [183,]    351494125    336946909
+ [184,]    289174570    170822792
+ [185,]    466383941    510653023
+ [186,]   1047149720    976254523
+ [187,]     39399901     74964868
+ [188,]      5331249      5044754
+ [189,]    360922951    365854547
+ [190,]    317147879    433127846
+ [191,]    536365659    343379412
+ [192,]    737588482    431212498
+ [193,]    135691581    137341055
+ [194,]  27236667323  22441308664
+ [195,]    230056129    178687091
+ [196,]    418952089    225788646
+ [197,]   1868117171    988018288
+ [198,]    163941845    154672888
+ [199,]   3184212181   1934124925
+ [200,]     52267597     31164295
+ [201,]    193542151    134994789
+ [202,]    187428597    165285341
+ [203,]   1518638791    802223180
+ [204,]   1635123339   1713055425
+ [205,]     83660917     57760684
+ [206,]     59184784     65148003
+ [207,]     45075612     38668214
+ [208,]     64012088    106596222
+ [209,]     15641229     10653539
+ [210,]     99647389     52868515
+ [211,]    475715682    447980125
+ [212,]    980100397   1501366783
+ [213,]     71833064     83682181
+ [214,]    416790430    459717153
+ [215,]     68947879    147079877
+ [216,]    384699930    387944887
+ [217,]     85947257     94799756
+ [218,]   1550649184   1685161376
+ [219,]     78464418     62781977
+ [220,]   1166751038    700754534
+ [221,]    871225717    833867222
+ [222,]   1108213409   1910634197
+ [223,]    427677210    812497285
+ [224,]   1581130618   1521129056
+ [225,]    530928162    358212154
+ [226,]    356184691    379191746
+ [227,]    750560694    765899504
+ [228,]     76269745     76899420
+ [229,]     10326721     23329670
+ [230,]   4499000408   3032758015
+ [231,]    876409938    730085015
+ [232,]    713296576    941608196
+ [233,]    313505526    203192022
+ [234,]    830526018   1184353039
+ [235,]     53442780    111065563
+ [236,]      9884868      6189909
+ [237,]     92022116     94866217
+ [238,]    203123939     82986038
+ [239,]    200113805    132627605
+ [240,]    238821836    126584565
+ [241,]    419249147    711916705
+ [242,]   2016664929   1255267030
+ [243,]   1471038834   2488695413
+ [244,]   5429428784   2869733765
+ [245,]    150339063    141762335
+ [246,]    205299965    320391439
+ [247,]    886607795    463733512
+ [248,]    201513167    118682024
+ [249,]     52071720    114737648
+ [250,]    388297488    195051885
+ [251,]    547581497    686592062
+ [252,]    153281910     85144944
+ [253,]   2356376445   4183522571
+ [254,]    664405767   1102378666
+ [255,]    454254595    234553022
+ [256,]    265876218    143745238
+ [257,]   4373862170   6522660384
+ [258,]   3545157679   1474673017
+ [259,]    259040844    288183365
+ [260,]    939900846   1307883990
+ [261,]    703677335    589368120
+ [262,]    136433439    276776820
+ [263,]    877772746    706250835
+ [264,]     48668818     28088158
+ [265,]    116107795     52730096
+ [266,]     43831081     45195769
+ [267,]   2046703771   1309153409
+ [268,]    379072303    321958061
+ [269,]   2568886141   2140336694
+ [270,]    216413479     90703757
+ [271,]    281801990    397931938
+ [272,]    229038731    216099114
+ [273,]     90290109    106116970
+ [274,]    399914388    235137271
+ [275,]     64539161     74236455
+ [276,]    727831582    840362032
+ [277,]    120648852    224998418
+ [278,]     34497919     23704687
+ [279,]    368488077    515661573
+ [280,]    925126445    679648605
+ [281,]   3636420030   6043781806
+ [282,]    986277187   1264819348
+ [283,]    408288812    536357733
+ [284,]     67864978     37873048
+ [285,]   3717729531   2235265402
+ [286,]    179380347    292840394
+ [287,]    215240578    151887792
+ [288,]   3580831130   4608129468
+ [289,]   2297831509   2458763723
+ [290,]    208555686    174459720
+ [291,]   8489465885   5043426393
+ [292,]   1786617229   1101943899
+ [293,]   1802327350   1974620610
+ [294,]   1734400585   1841399290
+ [295,]     82102743     66360470
+ [296,]    477216600    652144003
+ [297,]   5966471528   9661227238
+ [298,]     75480098     59002904
+ [299,]     59945211     82875247
+ [300,]   2825490932   1590128771
+ [301,]    358086967    213869397
+ [302,]    331411379    555335898
+ [303,]    112796013    252113681
+ [304,]    363484320    453519378
+ [305,]    494293707    948451153
+ [306,]   1625115174   1018115047
+ [307,]    566167165    640443750
+ [308,]     79033678    100595016
+ [309,]   5571572336   5187118589
+ [310,]    441979693    620375462
+ [311,]   4098902592   3691974610
+ [312,]     65636708     71638545
+ [313,]    104784273    120767954
+ [314,]     84859669     98331624
+ [315,]     74631813     44808774
+ [316,]    745185982    557312394
+ [317,]   1454500669   1555334536
+ [318,]    274669780    385711771
+ [319,]     49457297     75972113
+ [320,]    697257232    405914133
+ [321,]    109236532     67968030
+ [322,]   3913566735   5032318856
+ [323,]     85519974     58602453
+ [324,]    609666979    402996494
+ [325,]    741290926    318686702
+ [326,]     96146339    131294203
+ [327,]    465900338    826771235
+ [328,]    261376239    208639029
+ [329,]    139655594     77277035
+ [330,]   1233443920   1152666267
+ [331,]    311899614    169437773
+ [332,]    626879596    654115988
+ [333,]    273552208    261892420
+ [334,]    357465527    390890982
+ [335,]    923229299    892805034
+ [336,]    116842658    193177009
+ [337,]   1545274016    974306027
+ [338,]   1261818515   1378805478
+ [339,]   3512977798   1929687034
+ [340,]    116682265    241640696
+ [341,]    182501577     97460249
+ [342,]    144361997    120335665
+ [343,]   4844083247   6807367338
+ [344,]     92355395    113918091
+ [345,]   2811704232   2223557445
+ [346,]    583062122    823181042
+ [347,]    760254359    711328192
+ [348,]    515149210    539540594
+ [349,]    704966740    443650090
+ [350,]      8314641      8540221
+ [351,]    573331086    501584061
+ [352,]    250744361    281150071
+ [353,]   1069197934   1177563219
+ [354,]     36267858     58221338
+ [355,]    292130765    167254062
+ [356,]     94148498     98838988
+ [357,]    162485291    130669152
+ [358,]     18631046     18005507
+ [359,]   1352016884    607566472
+ [360,]    102716761    196644327
+ [361,]     90929113     96939115
+ [362,]   2545622605   1478488043
+ [363,]   3054484274   2908031833
+ [364,]    387616475    228969082
+ [365,]    617582611    516984357
+ [366,]   1852067368   3675889049
+ [367,]    372776713    521724659
+ [368,]   1312154662   2222507549
+ [369,]    201497717    299904701
+ [370,]    133253158    121373147
+ [371,]   1796982863   2010267926
+ [372,]     44199126     42222069
+ [373,]   1309786382   1843186761
+ [374,]   2263662400   1239950784
+ [375,]     18218105     25018865
+ [376,]    742431087    769277558
+ [377,]  10663932456   5333827443
+ [378,]    637459022    663951985
+ [379,]     65361936     70842833
+ [380,]    118738193     60672472
+ [381,]    393044994    405762410
+ [382,]    270501630    117164205
+ [383,]   1341899479   1229457982
+ [384,]    168799069    100008001
+ [385,]     13995987     17294222
+ [386,]    358991607    396146109
+ [387,]     53166181     33299896
+ [388,]    755977769    389658879
+ [389,]    399827691    503701014
+ [390,]    397103787    434749942
+ [391,]    314838045    170852469
+ [392,]    539421229    583447110
+ [393,]    242367866    431500323
+ [394,]    523922544    305269468
+ [395,]   1309520161   1094483894
+ [396,]    578496188    720077229
+ [397,]    198911434    117491280
+ [398,]    293643181    303727831
+ [399,]   3015839489   4189964275
+ [400,]    728318795    673638410
+ [401,]    597737177    347552928
+ [402,]   3635054813   2343751259
+ [403,]     62595204     39646381
+ [404,]     82375485    114958632
+ [405,]   1989939901   1168274276
+ [406,]    716150523   1012300916
+ [407,]    576312018    653216695
+ [408,]    274555647    297191894
+ [409,]     77634285    109930843
+ [410,]    131247855     63882618
+ [411,]   1145007728   1927175953
+ [412,]    108386745     65147228
+ [413,]   1484125273   1237905891
+ [414,]     38087632     36999266
+ [415,]    553290323    247198806
+ [416,]    160823776    156456265
+ [417,]    212829957    206592888
+ [418,]     55941723    101342668
+ [419,]    415823057    247789758
+ [420,]    401376503    214691666
+ [421,]    642286840    898302013
+ [422,]     29113642     35741761
+ [423,]    201559292    104970722
+ [424,]    227548583    171238402
+ [425,]   4431700838   2295874244
+ [426,]    238045445    122167403
+ [427,]   5283982060   3425879833
+ [428,]    479742187    262974554
+ [429,]     24344586     30258823
+ [430,]    869368370    618396658
+ [431,]   1581140886    769337408
+ [432,]    283931851    350132953
+ [433,]    478263981    660603630
+ [434,]   2442166603   4152766172
+ [435,]    450126692    368953163
+ [436,]     20220571     17005355
+ [437,]   1819776915   1411434963
+ [438,]   1281367029   1058376877
+ [439,]    504213198    631726934
+ [440,]     13325052     13738376
+ [441,]     22999560     39522496
+ [442,]    314560786    186698633
+ [443,]   2351421634   2240890664
+ [444,]    176096057    110533388
+ [445,]    285420559    420626789
+ [446,]   2346931314   1253546084
+ [447,]    577614354    853003818
+ [448,]     33800907     35254219
+ [449,]   1341394219   1473031050
+ [450,]   1193991811    996393999
+ [451,]   2608516240   1243123062
+ [452,]   3334919355   3409180793
+ [453,]    642569896    838021869
+ [454,]    127195356    120761064
+ [455,]    297286636    242943885
+ [456,]    329827663    361310024
+ [457,]    695492749    978277291
+ [458,]    231851620    214423929
+ [459,]    819974240    487542387
+ [460,]     46449224     64709261
+ [461,]    168174854     88168272
+ [462,]    568336235    791000245
+ [463,]    574603549    867630437
+ [464,]    571481937    255274577
+ [465,]     85640091    122527041
+ [466,]   1661225668   1011709490
+ [467,]    390459273    337599215
+ [468,]    687120283    527812318
+ [469,]    641554154    504896374
+ [470,]    763923929    466310626
+ [471,]   1193735717   1110910649
+ [472,]    168551064    173115962
+ [473,]    389325236    199179697
+ [474,]    698159749    425393921
+ [475,]     75348194    127332701
+ [476,]     94273112     54177244
+ [477,]    120393350    135909675
+ [478,]   6691829042  13351753333
+ [479,]    663507140    769545324
+ [480,]    617151232    837799767
+ [481,]    160158357    201930060
+ [482,]    931561477    557980968
+ [483,]    223251965    177851110
+ [484,]    159260607    152437602
+ [485,]    301219682    312198338
+ [486,]    470510881    294033178
+ [487,]    159034045    304843937
+ [488,]    187057399    218297776
+ [489,]    570646112    339002785
+ [490,]   1381545310   1683347704
+ [491,]     35830928     37084420
+ [492,]   1246850955    760852553
+ [493,]    392432507    649688087
+ [494,]    663632765    768401045
+ [495,]    894348242    522664654
+ [496,]    417027868    274163190
+ [497,]    347857292    398941061
+ [498,]    945807538   1874455671
+ [499,]    126699337    178369503
+ [500,]    318891033    538538746
+ [501,]    273668000    281091559
+ [502,]    978594289    522648701
+ [503,]   2534266604   2197923332
+ [504,]    213116938    358213887
+ [505,]    237619324    140483954
+ [506,]    928025960    911768951
+ [507,]    725336180    816573789
+ [508,]   1202659676   1317443929
+ [509,]    811115247    508970330
+ [510,]    329152430    341018927
+ [511,]   1456161222   2476196554
+ [512,]    284936062    477060064
+ [513,]   1889273046   2079133795
+ [514,]    297689663    202102392
+ [515,]    767979426    468619022
+ [516,]     82033819    103839647
+ [517,]    176100566    233576372
+ [518,]    151150972     94428276
+ [519,]    629876879    329325362
+ [520,]     84018316     67116198
+ [521,]    516323264    601153023
+ [522,]    646304298   1093153479
+ [523,]    629445711    495387118
+ [524,]    403509992    505911313
+ [525,]     77629568     97878880
+ [526,]   1334291314   1163028546
+ [527,]   5641858663   6654495193
+ [528,]    847296940    911372501
+ [529,]     66930818     93656772
+ [530,]    416824262    291371564
+ [531,]     41033293     69393895
+ [532,]    124339498    238383654
+ [533,]    259791644    529563386
+ [534,]    116878846    184817411
+ [535,]    995218116   1059791261
+ [536,]    545941561    423563247
+ [537,]    513513405    871464424
+ [538,]    825554966    490143057
+ [539,]  10920644087   8354371318
+ [540,]     18520603     31211028
+ [541,]   1545372041   1588002550
+ [542,]    667365873    866626524
+ [543,]    845937777    396473100
+ [544,]    215606317    136244891
+ [545,]    819287808    467546926
+ [546,]    603077579    466801902
+ [547,]     26491216     31386323
+ [548,]    981587818   1667889072
+ [549,]    158605234    192577658
+ [550,]    184468141    233181140
+ [551,]    194099241    112456517
+ [552,]    374074538    227998197
+ [553,]    396069633    560356266
+ [554,]   1470373327   1386200818
+ [555,]   2188185791   3742274655
+ [556,]     84614368     65688731
+ [557,]    332847962    229006111
+ [558,]   1051203001    985564950
+ [559,]   2374746733   1979995979
+ [560,]     62203062     63030828
+ [561,]    209396894    120482452
+ [562,]   3232245037   2035924654
+ [563,]  16718487181  23375086462
+ [564,]   1288431308   1466025332
+ [565,]    486149816    383598002
+ [566,]     58258356     68258167
+ [567,]    499453507    558703297
+ [568,]    350274172    322488078
+ [569,]    774936722    627325084
+ [570,]    473963570    507332078
+ [571,]    333188516    225318182
+ [572,]    904560611   1512754775
+ [573,]    599876724    309034788
+ [574,]    981733114    913171881
+ [575,]   1007601859    967399002
+ [576,]   2808704929   1530971828
+ [577,]   2970586846   2491825172
+ [578,]    438635271    444587208
+ [579,]     27644021     16688548
+ [580,]   1207052673   1231955545
+ [581,]   1927897472   1535177329
+ [582,]    265625428    300608925
+ [583,]     88713002     96387851
+ [584,]    949593517    987446905
+ [585,]    826052726    692114114
+ [586,]    500978382    260030896
+ [587,]    275176388    173407630
+ [588,]    469522948    706058876
+ [589,]    136025826     94739617
+ [590,]    199538749    162712564
+ [591,]   9702338654   8759344278
+ [592,]   1963180913   1043216477
+ [593,]    357228010    370227353
+ [594,]    753314585    427952544
+ [595,]    532350251    341625174
+ [596,]   2086525298   2860601100
+ [597,]    129945779    121781215
+ [598,]    842788501    988651499
+ [599,]    252893561    162106448
+ [600,]    631384340    889803786
+ [601,]   1245300199   1322140517
+ [602,]    347953030    156654937
+ [603,]    318059710    443019146
+ [604,]   3639190710   3654889648
+ [605,]     21826601     23887732
+ [606,]    165163464     86463455
+ [607,]    405534026    743730292
+ [608,]    406933294    379986713
+ [609,]     21350282     22703921
+ [610,]    194140794    269386304
+ [611,]    411141666    228575548
+ [612,]    629447482    404796025
+ [613,]   2292424261   1069113913
+ [614,]   2552170941   1378794356
+ [615,]    242971336    229827708
+ [616,]    202590241    122189000
+ [617,]   3931473174   6627989050
+ [618,]   2144838803   2917858146
+ [619,]   3576679629   5824574928
+ [620,]   1663826678    998621939
+ [621,]    111511091    187568661
+ [622,]   4400205528   4717917985
+ [623,]   1056903245    993469273
+ [624,]     95848597     93296618
+ [625,]   1208147315    643187483
+ [626,]     35430190     59742750
+ [627,]   1587261304   1610132969
+ [628,]  15653066542   9119938069
+ [629,]   1803902678   1479497316
+ [630,]   4497697383   4016683322
+ [631,]   2786597729   1876646718
+ [632,]   1085967141   1639957218
+ [633,]    197136175    258045108
+ [634,]   1624674699   1568790644
+ [635,]     11868941     16743926
+ [636,]     31988955     41244669
+ [637,]   3264956853   4296858097
+ [638,]    311133506    236922019
+ [639,]   1551674539   1571392921
+ [640,]    242755003    412216777
+ [641,]    297301417    233988926
+ [642,]     22342498     11490204
+ [643,]   4215969424   5760564728
+ [644,]    551861662    603714682
+ [645,]    551735840   1176982284
+ [646,]    160888893    222095581
+ [647,]   1042567158   1148285282
+ [648,]   2494212894   3277325702
+ [649,]    797943850    975728175
+ [650,]    919364194   1177547267
+ [651,]   1294463728   1346307008
+ [652,]    130384708    217192778
+ [653,]    173311068    231689008
+ [654,]   1709008980   1270837361
+ [655,]    349442292    350826448
+ [656,]     38013201     35823288
+ [657,]     78271767     37652064
+ [658,]    443934731    500822811
+ [659,]   2209136912   1147668712
+ [660,]   4023357370   4856152301
+ [661,]    272279469    225700258
+ [662,]    476336864    638127718
+ [663,]   2103221856   2665435526
+ [664,]    178658992    114344363
+ [665,]    332210344    714042312
+ [666,]     73811820     32988464
+ [667,]     85633607    119714919
+ [668,]   1026473143    601484947
+ [669,]     94720191     70765994
+ [670,]    148711418    252118945
+ [671,]    400548765    219054468
+ [672,]     28431216     35854090
+ [673,]    680880399    419121079
+ [674,]     83044499    105437110
+ [675,]    145853923     67994621
+ [676,]    925031055   1299585162
+ [677,]     34335248     21835185
+ [678,]    196423410    165787242
+ [679,]    773812372    738486362
+ [680,]     22504324     23697052
+ [681,]   1732282982   1898397594
+ [682,]   1801944620   1015244581
+ [683,]    335016502    177131002
+ [684,]    317768995    295812517
+ [685,]    703548169    512878188
+ [686,]     34314781     68177606
+ [687,]    336242824    229494590
+ [688,]    406693950    441350851
+ [689,]    195549322    272293044
+ [690,]    151519884    197367705
+ [691,]    131002148    187402586
+ [692,]     22055617     46240291
+ [693,]    576148053    580601547
+ [694,]      4470381      4784983
+ [695,]    194891426    238299372
+ [696,]    921311193    474966269
+ [697,]    493191131    403968363
+ [698,]     71694131     51710922
+ [699,]     42015742     46127180
+ [700,]    147102730    155401739
+ [701,]    654931401    921521654
+ [702,]    914271455    830207779
+ [703,]   3176262354   3919700124
+ [704,]   3459576295   5884836910
+ [705,]    156692568     96633671
+ [706,]    115735277     78798028
+ [707,]    612185660    332555340
+ [708,]     13648373      5681021
+ [709,]   5325642157   5864189473
+ [710,]    215088305    218644184
+ [711,]    293161270    331684402
+ [712,]   2210944725   1124617766
+ [713,]   2155698909   1414902943
+ [714,]   2730555073   1468420901
+ [715,]    425036507    301199051
+ [716,]   4031020575   2676143053
+ [717,]    961205009    571829871
+ [718,]   1538153100    810045934
+ [719,]   1679999404   1851814636
+ [720,]     88809418     70094859
+ [721,]    324413152    203034528
+ [722,]    441236178    479096969
+ [723,]   3202547616   2618685923
+ [724,]     98899121    109269510
+ [725,]   1235824653    799550908
+ [726,]     14162331     17375682
+ [727,]    915996493   1175432008
+ [728,]    594369861    988367754
+ [729,]    531064034    321028895
+ [730,]     46507858     65304435
+ [731,]    511555712    494206822
+ [732,]    809233797   1671129256
+ [733,]    252942962    257393429
+ [734,]   1140782744   1609595234
+ [735,]     87848924     87737263
+ [736,]     21750449     19011841
+ [737,]   2044653642   1106433316
+ [738,]   1538674466    943906157
+ [739,]    348443884    344119772
+ [740,]    141816469    164290037
+ [741,]    984622544    643174427
+ [742,]    674276077    313653288
+ [743,]    270590928    174775647
+ [744,]    243285116    252706780
+ [745,]    270654779    460709279
+ [746,]    499804827    847284819
+ [747,]      5297061      3074699
+ [748,]   2002044630   1914494879
+ [749,]    975078680    732734594
+ [750,]    544612088    600902750
+ [751,]    117599178    158593262
+ [752,]    774398668    407684580
+ [753,]    188197694    108401236
+ [754,]     59453224     39925683
+ [755,]   1081905981   2024385299
+ [756,]    413426434    233790512
+ [757,]    522678712    731531075
+ [758,]   5497494853   7630345105
+ [759,]    260604907    360998392
+ [760,]     45487785     20723784
+ [761,]    891022353    555156056
+ [762,]   1346799252    659392240
+ [763,]    159957650    220787960
+ [764,]    161737055    274592359
+ [765,]   1068933732   1513299499
+ [766,]    380250762    416123814
+ [767,]   1536020290   1026060401
+ [768,]    264120966    167349658
+ [769,]    267085652    142665512
+ [770,]     92831145     97720903
+ [771,]    627139901    709883112
+ [772,]     43210791     22027098
+ [773,]   4345300392   2290413442
+ [774,]    746701728    793933195
+ [775,]    465310435    473102586
+ [776,]     63656822    133593180
+ [777,]    269486909    145313125
+ [778,]    723107013    698494141
+ [779,]    152378984     67150326
+ [780,]   1533557636   2148270197
+ [781,]    661485680    626208677
+ [782,]    511336611    721681491
+ [783,]    470043126    483684501
+ [784,]     29612027     18848760
+ [785,]   2397108592   2627808185
+ [786,]    507596952    470791157
+ [787,]   2503951595   3505488392
+ [788,]     51975068     35785850
+ [789,]   5852286944   3069428778
+ [790,]    670387759    377781794
+ [791,]    532196872    371894390
+ [792,]    772596591    967035421
+ [793,]    772087708    778739425
+ [794,]    709463245    769082198
+ [795,]    219246660    159933161
+ [796,]   3348580272   5663182006
+ [797,]    573041566    664999358
+ [798,]    247690271    131786576
+ [799,]   1351971128   1090532290
+ [800,]    189075898    157003826
+ [801,]    322290168    371895306
+ [802,]    196736753    279836881
+ [803,]    313401956    648543650
+ [804,]    109575716    206893396
+ [805,]    552535264    418041359
+ [806,]    570550541   1087438511
+ [807,]    182646459    223444330
+ [808,]   1052280817    975799115
+ [809,]   5629906189   5431391332
+ [810,]   6956437957   4180894770
+ [811,]   6855443490   4442209616
+ [812,]    152359104     79016307
+ [813,]   2712921113   1642541551
+ [814,]   7690358897   4983008556
+ [815,]    440293047    227400396
+ [816,]    366224644    369901117
+ [817,]    356569813    218077431
+ [818,]    494551671    456273004
+ [819,]    278888377    337607229
+ [820,]    728036863    394373119
+ [821,]    299211445    287433852
+ [822,]    126556019    139202397
+ [823,]     70741548     77469246
+ [824,]   2511718400   2720494756
+ [825,]    294620414    267933054
+ [826,]     62352903     63462103
+ [827,]   4585175952   2813255524
+ [828,]     28150489     47180583
+ [829,]     76453668    117096035
+ [830,]    502598414    698465609
+ [831,]   2054217334   3180899524
+ [832,]     66310029     69040750
+ [833,]   5150734767   6604855145
+ [834,]    462657807    561290256
+ [835,]  19468599496  10006522391
+ [836,]     37799995     35371088
+ [837,]     19716663     20484604
+ [838,]    639372054    269243422
+ [839,]     36666219     31834641
+ [840,]    730366101    444356683
+ [841,]   1242497527    717041130
+ [842,]   3644902082   3179347712
+ [843,]    714794865    358204615
+ [844,]    176144102    278525307
+ [845,]    371662637    254649883
+ [846,]    338222682    730742345
+ [847,]     35339458     49286066
+ [848,]    294563735    132125700
+ [849,]    110024832    210694007
+ [850,]    611192783    841062896
+ [851,]    315784441    405633605
+ [852,]    365389733    517868315
+ [853,]    840836915    903455723
+ [854,]    742249369    730354703
+ [855,]     28142990     17479035
+ [856,]    269398817    225808806
+ [857,]   1074629278   2325360809
+ [858,]    109806050    208511961
+ [859,]     24254483     28698306
+ [860,]    180158891     95924681
+ [861,]    486108159    326951008
+ [862,]    742492258    869811227
+ [863,]    348941465    205739211
+ [864,]    335096385    483360839
+ [865,]     43801827     60913404
+ [866,]   1055267614   1069436020
+ [867,]    908779106    747556783
+ [868,]    545932706    332236120
+ [869,]    575729910    610505806
+ [870,]    406650009    526140186
+ [871,]   2104594151   2066030032
+ [872,]     50692835     37785402
+ [873,]     87769900    178185783
+ [874,]    736472941    771859145
+ [875,]     38384555     81390163
+ [876,]   1444850013    967838380
+ [877,]    298788116    283715774
+ [878,]   4335654990   2439768532
+ [879,]    135447431    189538179
+ [880,]    561896616    406203127
+ [881,]  10532223192   5787840997
+ [882,]    139228767    193315196
+ [883,]   2207615787   2425570477
+ [884,]     99433391    221840421
+ [885,]    387428545    424125440
+ [886,]    325107897    492138713
+ [887,]     18935868     16398974
+ [888,]    832604499    691472062
+ [889,]    870503137   1319877471
+ [890,]    160827422     82872531
+ [891,]   3546370500   3422102603
+ [892,]    329891886    205359369
+ [893,]    656555970    327195590
+ [894,]   1631304724   2750332546
+ [895,]   1029322530    745361565
+ [896,]    307241351    350979322
+ [897,]    207264761    120801367
+ [898,]   1081066939   1222418707
+ [899,]   1298167333    806891682
+ [900,]    124342426     80452687
+ [901,]   1118478367    630989168
+ [902,]    273932269    224114422
+ [903,]    290212478    203824794
+ [904,]    463597513    822188370
+ [905,]    372851951    292158776
+ [906,]    397196656    400232401
+ [907,]    494473835    623618391
+ [908,]    194916406    121458781
+ [909,]    525034954    573777747
+ [910,]    726869738    473749286
+ [911,]   1088375424   1003193780
+ [912,]    117694555    129334153
+ [913,]   1815616228   1771942212
+ [914,]    320051502    310624619
+ [915,]    202211938    220750383
+ [916,]    156360074    311310941
+ [917,]    132280258    149008991
+ [918,]   5025359575   5957443565
+ [919,]    150575779    101046256
+ [920,]   2072440827   1352055942
+ [921,]    622939479    689200710
+ [922,]   4314788211   5286221174
+ [923,]   1788075337   2070720654
+ [924,]     24684180     36685283
+ [925,]     20228312     20404441
+ [926,]    155320579    194665562
+ [927,]     96835194     78615465
+ [928,]    711711465    420043883
+ [929,]    446840085    185152110
+ [930,]   1569436143   1730637556
+ [931,]    343676790    370988036
+ [932,]   5213184288   7844412414
+ [933,]   1566095092    881300083
+ [934,]      7298088     12210244
+ [935,]     99282299    118447112
+ [936,]    126325621    132696949
+ [937,]     65531754     40673528
+ [938,]   1155139716   1361579583
+ [939,]   1340792411   1074225085
+ [940,]    197943258    252009470
+ [941,]    277450251    362811240
+ [942,]    465594773    291920537
+ [943,]    657867364    363456940
+ [944,]   1964554120   1237468012
+ [945,]    291847683    238857007
+ [946,]     83048990    102908330
+ [947,]    147804703    171607994
+ [948,]    827971322    486158378
+ [949,]   1003468342   1098937014
+ [950,]     91386706     63026644
+ [951,]   3746815393   3184025646
+ [952,]      9126070     18450534
+ [953,]    106093264    114849178
+ [954,]  11679835561   9542300612
+ [955,]    133736154    116022657
+ [956,]    108484530    134262458
+ [957,]    456579838    635750664
+ [958,]    472560413    894520076
+ [959,]    313852911    211381088
+ [960,]   3020296384   1713267750
+ [961,]     87282563     48518224
+ [962,]    158697806    149641042
+ [963,]     27748557     21755948
+ [964,]    445452819    927407894
+ [965,]   2545858757   2631211744
+ [966,]    141990779    156025283
+ [967,]   1406901605   2371655613
+ [968,]    208641593    155301773
+ [969,]   2591440166   2210584829
+ [970,]    300296798    408151028
+ [971,]    380451975    635169883
+ [972,]    785075966    860070349
+ [973,]    356232416    391221196
+ [974,]    171754726    278463592
+ [975,]     22748830     29085630
+ [976,]    996067274    538931324
+ [977,]    518093333    537069240
+ [978,]     11408364     21483207
+ [979,]   1110317572    591818851
+ [980,]    825608745    573140084
+ [981,]   2838121727   2763579805
+ [982,]    204155417    110373361
+ [983,]   1614992103   1283467826
+ [984,]     95533123    158189307
+ [985,]    254662995    288062317
+ [986,]    935077584    437049975
+ [987,]   3024614942   2031317288
+ [988,]    106748049    103949487
+ [989,]   1937124678   2647358058
+ [990,]    999065717    806331667
+ [991,]    127990790    195616263
+ [992,]    707776747    730619943
+ [993,]    254828075    279215613
+ [994,]    128844947    280970321
+ [995,]    333018283    188237213
+ [996,]   1443371173   1368538089
+ [997,]     45710833     92931390
+ [998,]    282423342    326979135
+ [999,]     54066677     33773154
+[1000,]    180516365    151805700
+```
+
+---
+## Step 4 : Examine the results
+Population size at the last time step : 
+
+
+```r
+pop.size &lt;- data.frame( pop=apply(runSE, 1, sum))
+ggplot(pop.size,aes(x=pop)) +
+         geom_histogram(bins = 40) +
+  xlab("Population size after T=20 years")
+```
+
+![](matrixmodels_files/figure-html/unnamed-chunk-78-1.png)&lt;!-- --&gt;
+
+---
+## Step 4 : Examine the results
+Stochastic growth rate : 
+
+
+```r
+lambdastoch &lt;- stoch.growth.rate(A.swallowSE, maxt = T, verbose=TRUE )
+```
+
+```
+Calculating stochastic growth at time 1
+```
+
+```r
+names(lambdastoch)
+```
+
+```
+[1] "approx" "sim"    "sim.CI"
+```
+
+---
+## Step 4 : Examine the results
+Stochastic growth rate : 
+
+
+```r
+# long-term stochastic growth rate 
+lambdastoch$approx # by Tuljapukar's approximation
+```
+
+```
+[1] 0.5057529
+```
+
+```r
+lambdastoch$sim # by simulation 
+```
+
+```
+[1] 0.5614635
+```
+
+```r
+lambdastoch$sim.CI # with confidence interval
+```
+
+```
+[1] 0.4625171 0.6604099
+```
+
+---
+## Step 4 : Examine the results
+Probability of extinction : 
+
+
+```r
+proba.ext &lt;- stoch.quasi.ext(A.swallowSE,
+   # initial population size
+*  n =c(100,100),
+   Nx = 10, 
+   nreps = 1000, 
+   tmax=50, 
+   maxruns = 10, 
+   verbose = TRUE)
+```
+
+```
+Calculating extinction probability for run 1
+```
+
+```
+Calculating extinction probability for run 2
+```
+
+```
+Calculating extinction probability for run 3
+```
+
+```
+Calculating extinction probability for run 4
+```
+
+```
+Calculating extinction probability for run 5
+```
+
+```
+Calculating extinction probability for run 6
+```
+
+```
+Calculating extinction probability for run 7
+```
+
+```
+Calculating extinction probability for run 8
+```
+
+```
+Calculating extinction probability for run 9
+```
+
+```
+Calculating extinction probability for run 10
+```
+
+```r
+proba.ext
+```
+
+```
+      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+ [1,]    0    0    0    0    0    0    0    0    0     0
+ [2,]    0    0    0    0    0    0    0    0    0     0
+ [3,]    0    0    0    0    0    0    0    0    0     0
+ [4,]    0    0    0    0    0    0    0    0    0     0
+ [5,]    0    0    0    0    0    0    0    0    0     0
+ [6,]    0    0    0    0    0    0    0    0    0     0
+ [7,]    0    0    0    0    0    0    0    0    0     0
+ [8,]    0    0    0    0    0    0    0    0    0     0
+ [9,]    0    0    0    0    0    0    0    0    0     0
+[10,]    0    0    0    0    0    0    0    0    0     0
+[11,]    0    0    0    0    0    0    0    0    0     0
+[12,]    0    0    0    0    0    0    0    0    0     0
+[13,]    0    0    0    0    0    0    0    0    0     0
+[14,]    0    0    0    0    0    0    0    0    0     0
+[15,]    0    0    0    0    0    0    0    0    0     0
+[16,]    0    0    0    0    0    0    0    0    0     0
+[17,]    0    0    0    0    0    0    0    0    0     0
+[18,]    0    0    0    0    0    0    0    0    0     0
+[19,]    0    0    0    0    0    0    0    0    0     0
+[20,]    0    0    0    0    0    0    0    0    0     0
+[21,]    0    0    0    0    0    0    0    0    0     0
+[22,]    0    0    0    0    0    0    0    0    0     0
+[23,]    0    0    0    0    0    0    0    0    0     0
+[24,]    0    0    0    0    0    0    0    0    0     0
+[25,]    0    0    0    0    0    0    0    0    0     0
+[26,]    0    0    0    0    0    0    0    0    0     0
+[27,]    0    0    0    0    0    0    0    0    0     0
+[28,]    0    0    0    0    0    0    0    0    0     0
+[29,]    0    0    0    0    0    0    0    0    0     0
+[30,]    0    0    0    0    0    0    0    0    0     0
+[31,]    0    0    0    0    0    0    0    0    0     0
+[32,]    0    0    0    0    0    0    0    0    0     0
+[33,]    0    0    0    0    0    0    0    0    0     0
+[34,]    0    0    0    0    0    0    0    0    0     0
+[35,]    0    0    0    0    0    0    0    0    0     0
+[36,]    0    0    0    0    0    0    0    0    0     0
+[37,]    0    0    0    0    0    0    0    0    0     0
+[38,]    0    0    0    0    0    0    0    0    0     0
+[39,]    0    0    0    0    0    0    0    0    0     0
+[40,]    0    0    0    0    0    0    0    0    0     0
+[41,]    0    0    0    0    0    0    0    0    0     0
+[42,]    0    0    0    0    0    0    0    0    0     0
+[43,]    0    0    0    0    0    0    0    0    0     0
+[44,]    0    0    0    0    0    0    0    0    0     0
+[45,]    0    0    0    0    0    0    0    0    0     0
+[46,]    0    0    0    0    0    0    0    0    0     0
+[47,]    0    0    0    0    0    0    0    0    0     0
+[48,]    0    0    0    0    0    0    0    0    0     0
+[49,]    0    0    0    0    0    0    0    0    0     0
+[50,]    0    0    0    0    0    0    0    0    0     0
+```
+
+---
+## Step 4 : Examine the results
+Probability of extinction : 
+
+
+```r
+proba.ext &lt;- stoch.quasi.ext(A.swallowSE,
+   n =c(100,100),
+   # quasi-extinction threshold
+*  Nx = 10,
+   nreps = 1000, 
+   tmax=50, 
+   maxruns = 10, 
+   verbose = TRUE)
+```
+
+```
+Calculating extinction probability for run 1
+```
+
+```
+Calculating extinction probability for run 2
+```
+
+```
+Calculating extinction probability for run 3
+```
+
+```
+Calculating extinction probability for run 4
+```
+
+```
+Calculating extinction probability for run 5
+```
+
+```
+Calculating extinction probability for run 6
+```
+
+```
+Calculating extinction probability for run 7
+```
+
+```
+Calculating extinction probability for run 8
+```
+
+```
+Calculating extinction probability for run 9
+```
+
+```
+Calculating extinction probability for run 10
+```
+
+```r
+proba.ext
+```
+
+```
+      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+ [1,]    0    0    0    0    0    0    0    0    0     0
+ [2,]    0    0    0    0    0    0    0    0    0     0
+ [3,]    0    0    0    0    0    0    0    0    0     0
+ [4,]    0    0    0    0    0    0    0    0    0     0
+ [5,]    0    0    0    0    0    0    0    0    0     0
+ [6,]    0    0    0    0    0    0    0    0    0     0
+ [7,]    0    0    0    0    0    0    0    0    0     0
+ [8,]    0    0    0    0    0    0    0    0    0     0
+ [9,]    0    0    0    0    0    0    0    0    0     0
+[10,]    0    0    0    0    0    0    0    0    0     0
+[11,]    0    0    0    0    0    0    0    0    0     0
+[12,]    0    0    0    0    0    0    0    0    0     0
+[13,]    0    0    0    0    0    0    0    0    0     0
+[14,]    0    0    0    0    0    0    0    0    0     0
+[15,]    0    0    0    0    0    0    0    0    0     0
+[16,]    0    0    0    0    0    0    0    0    0     0
+[17,]    0    0    0    0    0    0    0    0    0     0
+[18,]    0    0    0    0    0    0    0    0    0     0
+[19,]    0    0    0    0    0    0    0    0    0     0
+[20,]    0    0    0    0    0    0    0    0    0     0
+[21,]    0    0    0    0    0    0    0    0    0     0
+[22,]    0    0    0    0    0    0    0    0    0     0
+[23,]    0    0    0    0    0    0    0    0    0     0
+[24,]    0    0    0    0    0    0    0    0    0     0
+[25,]    0    0    0    0    0    0    0    0    0     0
+[26,]    0    0    0    0    0    0    0    0    0     0
+[27,]    0    0    0    0    0    0    0    0    0     0
+[28,]    0    0    0    0    0    0    0    0    0     0
+[29,]    0    0    0    0    0    0    0    0    0     0
+[30,]    0    0    0    0    0    0    0    0    0     0
+[31,]    0    0    0    0    0    0    0    0    0     0
+[32,]    0    0    0    0    0    0    0    0    0     0
+[33,]    0    0    0    0    0    0    0    0    0     0
+[34,]    0    0    0    0    0    0    0    0    0     0
+[35,]    0    0    0    0    0    0    0    0    0     0
+[36,]    0    0    0    0    0    0    0    0    0     0
+[37,]    0    0    0    0    0    0    0    0    0     0
+[38,]    0    0    0    0    0    0    0    0    0     0
+[39,]    0    0    0    0    0    0    0    0    0     0
+[40,]    0    0    0    0    0    0    0    0    0     0
+[41,]    0    0    0    0    0    0    0    0    0     0
+[42,]    0    0    0    0    0    0    0    0    0     0
+[43,]    0    0    0    0    0    0    0    0    0     0
+[44,]    0    0    0    0    0    0    0    0    0     0
+[45,]    0    0    0    0    0    0    0    0    0     0
+[46,]    0    0    0    0    0    0    0    0    0     0
+[47,]    0    0    0    0    0    0    0    0    0     0
+[48,]    0    0    0    0    0    0    0    0    0     0
+[49,]    0    0    0    0    0    0    0    0    0     0
+[50,]    0    0    0    0    0    0    0    0    0     0
+```
+
+---
+## Step 4 : Examine the results
+Probability of extinction : 
+
+
+```r
+proba.ext &lt;- stoch.quasi.ext(A.swallowSE,
+   n =c(100,100),
+   Nx = 10, 
+   # number of runs
+*  nreps = 1000,
+   tmax=50, 
+   maxruns = 10, 
+   verbose = TRUE)
+```
+
+```
+Calculating extinction probability for run 1
+```
+
+```
+Calculating extinction probability for run 2
+```
+
+```
+Calculating extinction probability for run 3
+```
+
+```
+Calculating extinction probability for run 4
+```
+
+```
+Calculating extinction probability for run 5
+```
+
+```
+Calculating extinction probability for run 6
+```
+
+```
+Calculating extinction probability for run 7
+```
+
+```
+Calculating extinction probability for run 8
+```
+
+```
+Calculating extinction probability for run 9
+```
+
+```
+Calculating extinction probability for run 10
+```
+
+```r
+proba.ext
+```
+
+```
+      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+ [1,]    0    0    0    0    0    0    0    0    0     0
+ [2,]    0    0    0    0    0    0    0    0    0     0
+ [3,]    0    0    0    0    0    0    0    0    0     0
+ [4,]    0    0    0    0    0    0    0    0    0     0
+ [5,]    0    0    0    0    0    0    0    0    0     0
+ [6,]    0    0    0    0    0    0    0    0    0     0
+ [7,]    0    0    0    0    0    0    0    0    0     0
+ [8,]    0    0    0    0    0    0    0    0    0     0
+ [9,]    0    0    0    0    0    0    0    0    0     0
+[10,]    0    0    0    0    0    0    0    0    0     0
+[11,]    0    0    0    0    0    0    0    0    0     0
+[12,]    0    0    0    0    0    0    0    0    0     0
+[13,]    0    0    0    0    0    0    0    0    0     0
+[14,]    0    0    0    0    0    0    0    0    0     0
+[15,]    0    0    0    0    0    0    0    0    0     0
+[16,]    0    0    0    0    0    0    0    0    0     0
+[17,]    0    0    0    0    0    0    0    0    0     0
+[18,]    0    0    0    0    0    0    0    0    0     0
+[19,]    0    0    0    0    0    0    0    0    0     0
+[20,]    0    0    0    0    0    0    0    0    0     0
+[21,]    0    0    0    0    0    0    0    0    0     0
+[22,]    0    0    0    0    0    0    0    0    0     0
+[23,]    0    0    0    0    0    0    0    0    0     0
+[24,]    0    0    0    0    0    0    0    0    0     0
+[25,]    0    0    0    0    0    0    0    0    0     0
+[26,]    0    0    0    0    0    0    0    0    0     0
+[27,]    0    0    0    0    0    0    0    0    0     0
+[28,]    0    0    0    0    0    0    0    0    0     0
+[29,]    0    0    0    0    0    0    0    0    0     0
+[30,]    0    0    0    0    0    0    0    0    0     0
+[31,]    0    0    0    0    0    0    0    0    0     0
+[32,]    0    0    0    0    0    0    0    0    0     0
+[33,]    0    0    0    0    0    0    0    0    0     0
+[34,]    0    0    0    0    0    0    0    0    0     0
+[35,]    0    0    0    0    0    0    0    0    0     0
+[36,]    0    0    0    0    0    0    0    0    0     0
+[37,]    0    0    0    0    0    0    0    0    0     0
+[38,]    0    0    0    0    0    0    0    0    0     0
+[39,]    0    0    0    0    0    0    0    0    0     0
+[40,]    0    0    0    0    0    0    0    0    0     0
+[41,]    0    0    0    0    0    0    0    0    0     0
+[42,]    0    0    0    0    0    0    0    0    0     0
+[43,]    0    0    0    0    0    0    0    0    0     0
+[44,]    0    0    0    0    0    0    0    0    0     0
+[45,]    0    0    0    0    0    0    0    0    0     0
+[46,]    0    0    0    0    0    0    0    0    0     0
+[47,]    0    0    0    0    0    0    0    0    0     0
+[48,]    0    0    0    0    0    0    0    0    0     0
+[49,]    0    0    0    0    0    0    0    0    0     0
+[50,]    0    0    0    0    0    0    0    0    0     0
+```
+
+---
+## Step 4 : Examine the results
+Probability of extinction : 
+
+
+```r
+proba.ext &lt;- stoch.quasi.ext(A.swallowSE,
+   n =c(100,100),
+   Nx = 10, 
+   nreps = 1000, 
+   # number of time steps
+*  tmax=50,
+   maxruns = 10, 
+   verbose = TRUE)
+```
+
+```
+Calculating extinction probability for run 1
+```
+
+```
+Calculating extinction probability for run 2
+```
+
+```
+Calculating extinction probability for run 3
+```
+
+```
+Calculating extinction probability for run 4
+```
+
+```
+Calculating extinction probability for run 5
+```
+
+```
+Calculating extinction probability for run 6
+```
+
+```
+Calculating extinction probability for run 7
+```
+
+```
+Calculating extinction probability for run 8
+```
+
+```
+Calculating extinction probability for run 9
+```
+
+```
+Calculating extinction probability for run 10
+```
+
+```r
+proba.ext
+```
+
+```
+      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+ [1,]    0    0    0    0    0    0    0    0    0     0
+ [2,]    0    0    0    0    0    0    0    0    0     0
+ [3,]    0    0    0    0    0    0    0    0    0     0
+ [4,]    0    0    0    0    0    0    0    0    0     0
+ [5,]    0    0    0    0    0    0    0    0    0     0
+ [6,]    0    0    0    0    0    0    0    0    0     0
+ [7,]    0    0    0    0    0    0    0    0    0     0
+ [8,]    0    0    0    0    0    0    0    0    0     0
+ [9,]    0    0    0    0    0    0    0    0    0     0
+[10,]    0    0    0    0    0    0    0    0    0     0
+[11,]    0    0    0    0    0    0    0    0    0     0
+[12,]    0    0    0    0    0    0    0    0    0     0
+[13,]    0    0    0    0    0    0    0    0    0     0
+[14,]    0    0    0    0    0    0    0    0    0     0
+[15,]    0    0    0    0    0    0    0    0    0     0
+[16,]    0    0    0    0    0    0    0    0    0     0
+[17,]    0    0    0    0    0    0    0    0    0     0
+[18,]    0    0    0    0    0    0    0    0    0     0
+[19,]    0    0    0    0    0    0    0    0    0     0
+[20,]    0    0    0    0    0    0    0    0    0     0
+[21,]    0    0    0    0    0    0    0    0    0     0
+[22,]    0    0    0    0    0    0    0    0    0     0
+[23,]    0    0    0    0    0    0    0    0    0     0
+[24,]    0    0    0    0    0    0    0    0    0     0
+[25,]    0    0    0    0    0    0    0    0    0     0
+[26,]    0    0    0    0    0    0    0    0    0     0
+[27,]    0    0    0    0    0    0    0    0    0     0
+[28,]    0    0    0    0    0    0    0    0    0     0
+[29,]    0    0    0    0    0    0    0    0    0     0
+[30,]    0    0    0    0    0    0    0    0    0     0
+[31,]    0    0    0    0    0    0    0    0    0     0
+[32,]    0    0    0    0    0    0    0    0    0     0
+[33,]    0    0    0    0    0    0    0    0    0     0
+[34,]    0    0    0    0    0    0    0    0    0     0
+[35,]    0    0    0    0    0    0    0    0    0     0
+[36,]    0    0    0    0    0    0    0    0    0     0
+[37,]    0    0    0    0    0    0    0    0    0     0
+[38,]    0    0    0    0    0    0    0    0    0     0
+[39,]    0    0    0    0    0    0    0    0    0     0
+[40,]    0    0    0    0    0    0    0    0    0     0
+[41,]    0    0    0    0    0    0    0    0    0     0
+[42,]    0    0    0    0    0    0    0    0    0     0
+[43,]    0    0    0    0    0    0    0    0    0     0
+[44,]    0    0    0    0    0    0    0    0    0     0
+[45,]    0    0    0    0    0    0    0    0    0     0
+[46,]    0    0    0    0    0    0    0    0    0     0
+[47,]    0    0    0    0    0    0    0    0    0     0
+[48,]    0    0    0    0    0    0    0    0    0     0
+[49,]    0    0    0    0    0    0    0    0    0     0
+[50,]    0    0    0    0    0    0    0    0    0     0
+```
+
+---
+## Step 4 : Examine the results
+Probability of extinction : 
+
+
+```r
+proba.ext &lt;- stoch.quasi.ext(A.swallowSE,
+   n =c(100,100),
+   Nx = 10, 
+   nreps = 1000, 
+   tmax=50, 
+   # repeat to get robust estimates
+*  maxruns = 10,
+   verbose = TRUE)
+```
+
+```
+Calculating extinction probability for run 1
+```
+
+```
+Calculating extinction probability for run 2
+```
+
+```
+Calculating extinction probability for run 3
+```
+
+```
+Calculating extinction probability for run 4
+```
+
+```
+Calculating extinction probability for run 5
+```
+
+```
+Calculating extinction probability for run 6
+```
+
+```
+Calculating extinction probability for run 7
+```
+
+```
+Calculating extinction probability for run 8
+```
+
+```
+Calculating extinction probability for run 9
+```
+
+```
+Calculating extinction probability for run 10
+```
+
+```r
+proba.ext
+```
+
+```
+      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+ [1,]    0    0    0    0    0    0    0    0    0     0
+ [2,]    0    0    0    0    0    0    0    0    0     0
+ [3,]    0    0    0    0    0    0    0    0    0     0
+ [4,]    0    0    0    0    0    0    0    0    0     0
+ [5,]    0    0    0    0    0    0    0    0    0     0
+ [6,]    0    0    0    0    0    0    0    0    0     0
+ [7,]    0    0    0    0    0    0    0    0    0     0
+ [8,]    0    0    0    0    0    0    0    0    0     0
+ [9,]    0    0    0    0    0    0    0    0    0     0
+[10,]    0    0    0    0    0    0    0    0    0     0
+[11,]    0    0    0    0    0    0    0    0    0     0
+[12,]    0    0    0    0    0    0    0    0    0     0
+[13,]    0    0    0    0    0    0    0    0    0     0
+[14,]    0    0    0    0    0    0    0    0    0     0
+[15,]    0    0    0    0    0    0    0    0    0     0
+[16,]    0    0    0    0    0    0    0    0    0     0
+[17,]    0    0    0    0    0    0    0    0    0     0
+[18,]    0    0    0    0    0    0    0    0    0     0
+[19,]    0    0    0    0    0    0    0    0    0     0
+[20,]    0    0    0    0    0    0    0    0    0     0
+[21,]    0    0    0    0    0    0    0    0    0     0
+[22,]    0    0    0    0    0    0    0    0    0     0
+[23,]    0    0    0    0    0    0    0    0    0     0
+[24,]    0    0    0    0    0    0    0    0    0     0
+[25,]    0    0    0    0    0    0    0    0    0     0
+[26,]    0    0    0    0    0    0    0    0    0     0
+[27,]    0    0    0    0    0    0    0    0    0     0
+[28,]    0    0    0    0    0    0    0    0    0     0
+[29,]    0    0    0    0    0    0    0    0    0     0
+[30,]    0    0    0    0    0    0    0    0    0     0
+[31,]    0    0    0    0    0    0    0    0    0     0
+[32,]    0    0    0    0    0    0    0    0    0     0
+[33,]    0    0    0    0    0    0    0    0    0     0
+[34,]    0    0    0    0    0    0    0    0    0     0
+[35,]    0    0    0    0    0    0    0    0    0     0
+[36,]    0    0    0    0    0    0    0    0    0     0
+[37,]    0    0    0    0    0    0    0    0    0     0
+[38,]    0    0    0    0    0    0    0    0    0     0
+[39,]    0    0    0    0    0    0    0    0    0     0
+[40,]    0    0    0    0    0    0    0    0    0     0
+[41,]    0    0    0    0    0    0    0    0    0     0
+[42,]    0    0    0    0    0    0    0    0    0     0
+[43,]    0    0    0    0    0    0    0    0    0     0
+[44,]    0    0    0    0    0    0    0    0    0     0
+[45,]    0    0    0    0    0    0    0    0    0     0
+[46,]    0    0    0    0    0    0    0    0    0     0
+[47,]    0    0    0    0    0    0    0    0    0     0
+[48,]    0    0    0    0    0    0    0    0    0     0
+[49,]    0    0    0    0    0    0    0    0    0     0
+[50,]    0    0    0    0    0    0    0    0    0     0
+```
+
+---
+## Step 4 : Examine the results
+Probability of extinction : 
+
+![](matrixmodels_files/figure-html/unnamed-chunk-86-1.png)&lt;!-- --&gt;
+
+
+---
+## Step 4 : Examine the results
+Probability of extinction : 
+
+
+```r
+proba.ext.median &lt;- apply(proba.ext,1,median)
+proba.ext.median
+```
+
+```
+ [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[39] 0 0 0 0 0 0 0 0 0 0 0 0
+```
 
 ---
 
+or using frequency of good and bad years
 
+---
+# Live demo on the crested newts
+
+&lt;img src="img/triton.jpg" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Limitations of MPMs
+
+- projections : we are making assumptions about demographic parameters, and the environment in the future
+
+- keep a critical eyes on results
+
+- debate among studies : work well (ref Brook Nature 2000 21 logn term species work well) or less well (other refs, need robust data, useful for perturbation analysis)
+
+- in any case, if exact pop size is not correct, it is still useful to evaluate and compare different magagement actions / identify key demographic parameters
+
+
+---
+# In which cases constant MPMs are useful despite its limitations ?
+
+- especially for big populations
+
+- when survival and fertility are best structured by age or stage
+
+-  strong knowledge of the species biology, life cycle and estimate of demo. param. are critical 
+
+- short-term studies often underestimate variance in demo. param, extinction risk increase with increased temporal variance in pop size
+
+---
+# Other models exist 
+
+- MPMs including demographic stochasticity 
+  - Principle : draw individual survival, nb of offspring from binomial and poisson distributions.
+  - especially important for small populations
+
+- density-dependent MPMs 
+
+- two sex models 
+
+- integral projection models
+
+- continuous-time models
+
+---
+# Useful references
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
