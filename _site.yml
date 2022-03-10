@@ -17,7 +17,7 @@ navbar:
           href: slides/abundance.html
         - text: "Class 2: Demographic parameters"
           href: slides/survival.html
-        - text: "Class 3: Population projection matrix models"
+        - text: "Class 3: Population projection models"
           href: slides/matrixmodels.html
         - text: "Conclusions"
           href: slides/conclusions.html
@@ -27,7 +27,7 @@ navbar:
           href: tutorials/abundance-tutorial.html
         - text: "Demo 2: Demographic parameters"
           href: tutorials/survival-tutorial.html
-        - text: "Demo 3: Population projection matrix models"
+        - text: "Demo 3: Population projection models"
 #          href: worksheets/tp4-marked-survival.pdf
     - text: "Miscellaneous"
       menu:
