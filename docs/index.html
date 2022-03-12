@@ -2448,7 +2448,7 @@ Miscellaneous
 <div class="d-article">
 <p><strong>What</strong>: Quantifying population dynamics is crucial for the conservation and management of animal and plant species. This workshop deals with the analysis and modelling of population dynamics. In this introductory workshop, we will cover population projection matrix models, the estimation of demographic parameters (e.g. survival, dispersal) using capture-recapture models and the estimation of population density and abundance using capture-recapture, N-mixture and distance sampling models. Our hope is to provide you with what you need to go your own path. The event is free of charge, and video-recorded.</p>
 <p><strong>For whom</strong>: This is a workshop for ecologists. Basic knowledge of <code>R</code> is required. See <a href="https://cran.r-project.org/doc/contrib/Paradis-rdebuts_en.pdf">R for beginners</a> by E. Paradis for an introduction.</p>
-<p><strong>How</strong>: The format of the workshop will be a combination of lectures and live demonstrations in R with packages <code>popbio</code>, <code>RMark</code> and <code>unmarked</code>.</p>
+<p><strong>How</strong>: The format of the workshop will be a combination of lectures and live demonstrations in R with packages <code>popbio</code>, <code>Distance</code>, <code>RMark</code>, <code>AICcmodavg</code> and <code>unmarked</code>.</p>
 <p><strong>Who</strong>: <a href="https://twitter.com/oaggimenez">Olivier Gimenez</a>, <a href="https://twitter.com/abesnardEPHE">Aurélien Besnard</a> and <a href="https://twitter.com/sarahcubaynes">Sarah Cubaynes</a>.</p>
 <p><strong>When</strong>: March 21-22, 2022</p>
 <p><strong>Where</strong>: On YouTube<br />
@@ -2459,35 +2459,33 @@ Day 2: <a href="https://youtu.be/b08d1BBqf5E" class="uri">https://youtu.be/b08d1
 <li><strong>Estimating abundance and density of populations</strong></li>
 </ul>
 <ol type="1">
-<li>Introduction to counting methods</li>
 <li>Conventional methods and the detectability issue</li>
-<li>Capture-recapture, N-mixture and line transect samplings <!-- 5. Further analysis issues: introducing covariates; heterogeneity --></li>
+<li>Capture-recapture, distance sampling and N-mixture</li>
 </ol>
 <ul>
-<li><strong>Estimation of survival and productivity using capture-recapture and generalized linear models</strong></li>
+<li><strong>Estimation of demographic parameters using capture-recapture models</strong></li>
 </ul>
 <ol type="1">
 <li>Survival estimation from capture-recapture data</li>
 <li>Using covariates to explain variation</li>
-<li>Inference about dispersal <!-- 5. Further analysis issues: estimation of recruitment and population growth rate by reversing capture histories; multi-state models allowing estimation of transitions (including movements) --></li>
+<li>Inference about dispersal</li>
 </ol>
 <ul>
-<li><strong>Population projection matrix models</strong></li>
+<li><strong>Population projection models</strong></li>
 </ul>
 <ol type="1">
-<li>Introduction to matrix models</li>
+<li>Count-based projection models</li>
 <li>Age- and stage-structured models</li>
-<li>Leslie models as a particular case; sensitivity analyses.</li>
-<li>Introduction to <code>popbio</code> <!-- 5. Further analysis issues: density-dependence; random environment; demographic stochasticity / branching processes; multisite and multistage models --></li>
+<li>Sensitivity analyses</li>
 </ol>
 <h3 id="requirements">Requirements</h3>
 <ul>
 <li><p>Install <a href="https://cloud.r-project.org/"><code>R</code></a> and <a href="https://rstudio.com/products/rstudio/download/#download"><code>RStudio</code></a>. <code>RStudio</code> is recommended but not mandatory.</p></li>
 <li><p>Install the R package <code>RMark</code> following the steps described at <a href="http://www.phidot.org/software/mark/rmark/" class="uri">http://www.phidot.org/software/mark/rmark/</a>. For Mac users, the installation is a bit tricky, check out the procedure <a href="tutorials/rmark-mac.html">here</a>.</p></li>
-<li><p>Install the R packages <code>unmarked</code> and <code>popbio</code> directly from the console with</p>
+<li><p>Install the R packages <code>unmarked</code>, <code>Distance</code>, <code>AICcmodavg</code> and <code>popbio</code> directly from the console with</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"unmarked"</span>, <span class='st'>"popbio"</span><span class='op'>)</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"unmarked"</span>, <span class='st'>"popbio"</span>, <span class='st'>"Distance"</span>, <span class='st'>"AICcmodavg"</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div></li>
 </ul>

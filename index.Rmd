@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 **For whom**: This is a workshop for ecologists. Basic knowledge of `R` is required. See [R for beginners](https://cran.r-project.org/doc/contrib/Paradis-rdebuts_en.pdf) by E. Paradis for an introduction.
 
-**How**: The format of the workshop will be a combination of lectures and live demonstrations in R with packages `popbio`, `RMark` and `unmarked`.
+**How**: The format of the workshop will be a combination of lectures and live demonstrations in R with packages `popbio`, `Distance`, `RMark`, `AICcmodavg` and `unmarked`.
 
 **Who**: [Olivier Gimenez](https://twitter.com/oaggimenez), [Aurélien Besnard](https://twitter.com/abesnardEPHE) and [Sarah Cubaynes](https://twitter.com/sarahcubaynes).  
 
@@ -25,23 +25,18 @@ Day 2: <https://youtu.be/b08d1BBqf5E>
 ### Program 
 
 + **Estimating abundance and density of populations**
-1. Introduction to counting methods 
-2. Conventional methods and the detectability issue
-3. Capture-recapture, N-mixture and line transect samplings
-<!-- 5. Further analysis issues: introducing covariates; heterogeneity -->
+1. Conventional methods and the detectability issue
+2. Capture-recapture, distance sampling and N-mixture
 
-+ **Estimation of survival and productivity using capture-recapture and generalized linear models**
++ **Estimation of demographic parameters using capture-recapture models**
 1. Survival estimation from capture-recapture data
 3. Using covariates to explain variation
 4. Inference about dispersal
-<!-- 5. Further analysis issues: estimation of recruitment and population growth rate by reversing capture histories; multi-state models allowing estimation of transitions (including movements) -->
 
-+ **Population projection matrix models**
-1. Introduction to matrix models
++ **Population projection models**
+1. Count-based projection models
 2. Age- and stage-structured models
-3. Leslie models as a particular case; sensitivity analyses.
-4. Introduction to `popbio`
-<!-- 5. Further analysis issues: density-dependence; random environment; demographic stochasticity / branching processes; multisite and multistage models -->
+3. Sensitivity analyses
 
 ### Requirements
 
@@ -49,9 +44,9 @@ Day 2: <https://youtu.be/b08d1BBqf5E>
 
 + Install the R package `RMark` following the steps described at <http://www.phidot.org/software/mark/rmark/>. For Mac users, the installation is a bit tricky, check out the procedure [here](tutorials/rmark-mac.html).
 
-+ Install the R packages `unmarked` and `popbio` directly from the console with
++ Install the R packages `unmarked`, `Distance`, `AICcmodavg` and `popbio` directly from the console with
 ```{r eval = FALSE, echo = TRUE}
-install.packages(c("unmarked", "popbio"))
+install.packages(c("unmarked", "popbio", "Distance", "AICcmodavg"))
 ```
 
 ### Reuse {.appendix}
