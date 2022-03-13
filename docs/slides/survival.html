@@ -7747,6 +7747,48 @@ background-color: #234f66
 
 --
 
++ What is this `\(\mbox{logit}\)` thing?
+
+---
+# Logit link function
+
++ When modeling covariates, you could write `\(\phi_i = \beta_1 + \beta_2 \; {x}_i\)`
+
+--
+
++ However, the risk is that values of the `\(\beta\)`'s make survival `\(\phi_i\)` negative or greater than 1, which is not possible for a probability
+
+--
+
++ The idea is to estimate parameters on a safe scale, then goes back to the (0,1) probability scale
+
+--
+
++ We use `\(\mbox{logit}(y) = \displaystyle{\log\left(\frac{y}{1-y}\right)}\)`
+
+--
+
++ And the back-transformation is `\(\mbox{logit}^{-1}(x) = \displaystyle{\frac{\exp(x)}{1+\exp(x)}} = \displaystyle{\frac{1}{1+\exp(-x)}}\)`
+
+---
+# Logit link function
+
+&lt;img src="survival_files/figure-html/unnamed-chunk-30-1.svg" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Sex effect
+
+--
+
++ Let's use a covariate `\(\text{sex}\)` that takes value 0 if female, and 1 if male
+
+--
+
++ And write `\(\text{logit}(\phi_i) = \beta_1 + \beta_2 \; \text{sex}_i\)` for bird `\(i\)`
+
+--
+
 + Then female survival is 
 
 `$$\text{logit}(\phi_i) = \beta_1$$`
