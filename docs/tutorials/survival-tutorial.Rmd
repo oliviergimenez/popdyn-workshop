@@ -410,7 +410,7 @@ df <- data.frame(winglength = grid_wl,
                  survival = predicted_survival)
 ```
 
-Note: The two steps prediction and back-transformation can be done with `RMark` function `covariate.predictions()`.
+Note: The two steps prediction and back-transformation can be done at once with `RMark` function `covariate.predictions()`.
 
 
 ---
@@ -507,12 +507,16 @@ df %>%
 ---
 
 ```{r, eval = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE, fig.align='center'}
+
+# Build dataset
 scaled_wl <- scale(dipper_csv$wing_length)
 grid_wl <- seq(min(scaled_wl), max(scaled_wl), length = 100)
 logit_predicted_survival <- phiwl2.p$results$beta[1,1] + phiwl2.p$results$beta[2,1] * grid_wl + phiwl2.p$results$beta[2,1] * grid_wl^2
 predicted_survival <- plogis(logit_predicted_survival)
 df <- data.frame(winglength = grid_wl,
                  survival = predicted_survival)
+
+# Visualize
 df %>% 
   ggplot() +
   aes(x = winglength, y = survival) + 
