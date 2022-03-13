@@ -437,7 +437,7 @@ Phi:(Intercept)     0.21 0.11 -0.0066 0.43
 p:(Intercept)       1.30 0.74 -0.1622 2.75
 p:time3             0.80 1.16 -1.4800 3.08
 p:time4             0.65 1.00 -1.3124 2.61
-p:time5             1.00 0.95 -0.8554 2.85
+p:time5             1.00 0.95 -0.8553 2.85
 p:time6             1.47 1.03 -0.5537 3.49
 p:time7             1.99 3.06 -4.0157 8.00
 
@@ -767,6 +767,26 @@ p gF c1 a1 t2       0.90 0.029 0.83 0.95
 
 
 ---
+
+
+```r
+# build dataset
+df &lt;- data.frame(year = c(1981:1986, 1981:1986),
+                 survival = c(phisexpt.p$results$real[1:6,1],
+                              phisexpt.p$results$real[7:12,1]),
+                 sex = c(rep("female",6), rep("male", 6)))
+
+# visualization
+df %&gt;%
+  ggplot() + 
+  aes(x = year, y = survival, color = sex) +
+  geom_line() + 
+  labs(color = NULL) + 
+  theme_light(base_size = 18) + 
+  scale_color_viridis_d(begin = 0, end = 0.7)
+```
+
+---
 ## Model ranking with AIC 
 
 
@@ -904,6 +924,9 @@ df &lt;- data.frame(winglength = grid_wl,
                  survival = predicted_survival)
 ```
 
+Note: The two steps prediction and back-transformation can be done with `RMark` function `covariate.predictions()`.
+
+
 ---
 ## Graphical representation (2)
 
@@ -918,7 +941,7 @@ df %&gt;%
 
 ---
 
-&lt;img src="survival-tutorial_files/figure-html/unnamed-chunk-40-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="survival-tutorial_files/figure-html/unnamed-chunk-41-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 ## Quadratic relationship
@@ -936,7 +959,7 @@ dipper.ddl &lt;- make.design.data(dipper.proc)
 
 
 ---
-## Fit model with quadratic effect of wing length on survival
+## Model with quadratic effect of wing length on survival
 
 
 ```r
@@ -1030,7 +1053,24 @@ p:(Intercept)      2.231 0.325  1.594 2.87
 
 ---
 
-&lt;img src="survival-tutorial_files/figure-html/unnamed-chunk-46-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="survival-tutorial_files/figure-html/unnamed-chunk-47-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+```r
+scaled_wl &lt;- scale(dipper_csv$wing_length)
+grid_wl &lt;- seq(min(scaled_wl), max(scaled_wl), length = 100)
+logit_predicted_survival &lt;- phiwl2.p$results$beta[1,1] + phiwl2.p$results$beta[2,1] * grid_wl + phiwl2.p$results$beta[2,1] * grid_wl^2
+predicted_survival &lt;- plogis(logit_predicted_survival)
+df &lt;- data.frame(winglength = grid_wl,
+                 survival = predicted_survival)
+df %&gt;% 
+  ggplot() +
+  aes(x = winglength, y = survival) + 
+  geom_line() + 
+  theme_light(base_size = 18)
+```
 
 ---
 ## Model ranking with AIC
@@ -1287,20 +1327,20 @@ Npar :  7  (unadjusted=6)
 AICc :  677  (unadjusted=675.02106)
 
 Beta
-                estimate      se       lcl     ucl
-Phi:(Intercept)    0.205    0.14    -0.068    0.48
-Phi:age1           0.021    0.25    -0.476    0.52
-Phi:age2           0.359    0.37    -0.365    1.08
-Phi:age3          -0.058    0.54    -1.113    1.00
-Phi:age4           0.240    0.89    -1.498    1.98
-Phi:age5         -19.078 4196.84 -8244.887 8206.73
-p:(Intercept)      2.255    0.33     1.611    2.90
+                estimate   se     lcl    ucl
+Phi:(Intercept)    0.205 0.14  -0.068   0.48
+Phi:age1           0.021 0.25  -0.476   0.52
+Phi:age2           0.359 0.37  -0.365   1.08
+Phi:age3          -0.058 0.54  -1.113   1.00
+Phi:age4           0.240 0.89  -1.498   1.98
+Phi:age5         -22.264 0.00 -22.264 -22.26
+p:(Intercept)      2.255 0.33   1.611   2.90
 
 
 Real Parameter Phi
 Group:sexF 
      1    2    3    4    5       6
-1 0.55 0.56 0.64 0.54 0.61 6.4e-09
+1 0.55 0.56 0.64 0.54 0.61 2.6e-10
 2      0.55 0.56 0.64 0.54 6.1e-01
 3           0.55 0.56 0.64 5.4e-01
 4                0.55 0.56 6.4e-01
@@ -1309,7 +1349,7 @@ Group:sexF
 
 Group:sexM 
      1    2    3    4    5       6
-1 0.55 0.56 0.64 0.54 0.61 6.4e-09
+1 0.55 0.56 0.64 0.54 0.61 2.6e-10
 2      0.55 0.56 0.64 0.54 6.1e-01
 3           0.55 0.56 0.64 5.4e-01
 4                0.55 0.56 6.4e-01
@@ -1347,14 +1387,14 @@ phiage.p$results$real
 ```
 
 ```
-                estimate       se       lcl      ucl fixed note
-Phi gF c1 a0 t1  5.5e-01 0.034470  0.483039 0.617352           
-Phi gF c1 a1 t2  5.6e-01 0.050266  0.456991 0.651553           
-Phi gF c1 a2 t3  6.4e-01 0.079481  0.472521 0.775213           
-Phi gF c1 a3 t4  5.4e-01 0.129373  0.294785 0.762672           
-Phi gF c1 a4 t5  6.1e-01 0.208961  0.218257 0.897098           
-Phi gF c1 a5 t6  6.4e-09 0.000027 -0.000052 0.000052           
-p gF c1 a1 t2    9.1e-01 0.028245  0.833509 0.947835           
+                estimate    se     lcl     ucl fixed note
+Phi gF c1 a0 t1  5.5e-01 0.034 4.8e-01 6.2e-01           
+Phi gF c1 a1 t2  5.6e-01 0.050 4.6e-01 6.5e-01           
+Phi gF c1 a2 t3  6.4e-01 0.079 4.7e-01 7.8e-01           
+Phi gF c1 a3 t4  5.4e-01 0.129 2.9e-01 7.6e-01           
+Phi gF c1 a4 t5  6.1e-01 0.209 2.2e-01 9.0e-01           
+Phi gF c1 a5 t6  2.6e-10 0.000 2.6e-10 2.6e-10           
+p gF c1 a1 t2    9.1e-01 0.028 8.3e-01 9.5e-01           
 ```
 
 ---
@@ -1368,8 +1408,7 @@ dipper.ddl &lt;- add.design.data(dipper.proc,
                               "Phi",
                               type = "age",
                               bins = c(0, 1, 7), # (0, 1+)
-                              name = "ageclass", # var name
-                              right = FALSE)
+                              name = "ageclass") # var name
 ```
 
 ---
@@ -1403,29 +1442,29 @@ Npar :  3
 AICc :  673
 
 Beta
-                  estimate   se    lcl  ucl
-Phi:(Intercept)      0.204 0.14 -0.068 0.48
-Phi:ageclass[1,7]    0.084 0.21 -0.331 0.50
-p:(Intercept)        2.246 0.33  1.602 2.89
+                  estimate   se     lcl  ucl
+Phi:(Intercept)       0.22 0.11 -0.0038 0.44
+Phi:ageclass(1,7]     0.15 0.28 -0.3957 0.70
+p:(Intercept)         2.24 0.33  1.6001 2.87
 
 
 Real Parameter Phi
 Group:sexF 
      1    2    3    4    5    6
-1 0.55 0.57 0.57 0.57 0.57 0.57
-2      0.55 0.57 0.57 0.57 0.57
-3           0.55 0.57 0.57 0.57
-4                0.55 0.57 0.57
-5                     0.55 0.57
+1 0.55 0.55 0.59 0.59 0.59 0.59
+2      0.55 0.55 0.59 0.59 0.59
+3           0.55 0.55 0.59 0.59
+4                0.55 0.55 0.59
+5                     0.55 0.55
 6                          0.55
 
 Group:sexM 
      1    2    3    4    5    6
-1 0.55 0.57 0.57 0.57 0.57 0.57
-2      0.55 0.57 0.57 0.57 0.57
-3           0.55 0.57 0.57 0.57
-4                0.55 0.57 0.57
-5                     0.55 0.57
+1 0.55 0.55 0.59 0.59 0.59 0.59
+2      0.55 0.55 0.59 0.59 0.59
+3           0.55 0.55 0.59 0.59
+4                0.55 0.55 0.59
+5                     0.55 0.55
 6                          0.55
 
 
@@ -1459,8 +1498,8 @@ phiage2.p$results$real
 
 ```
                 estimate    se  lcl  ucl fixed note
-Phi gF c1 a0 t1     0.55 0.034 0.48 0.62           
-Phi gF c1 a1 t2     0.57 0.038 0.50 0.64           
+Phi gF c1 a0 t1     0.55 0.028 0.50 0.61           
+Phi gF c1 a2 t3     0.59 0.062 0.47 0.70           
 p gF c1 a1 t2       0.90 0.028 0.83 0.95           
 ```
 

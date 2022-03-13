@@ -327,6 +327,25 @@ df %>%
 
 
 ---
+
+```{r, eval = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE, fig.align='center'}
+# build dataset
+df <- data.frame(year = c(1981:1986, 1981:1986),
+                 survival = c(phisexpt.p$results$real[1:6,1],
+                              phisexpt.p$results$real[7:12,1]),
+                 sex = c(rep("female",6), rep("male", 6)))
+
+# visualization
+df %>%
+  ggplot() + 
+  aes(x = year, y = survival, color = sex) +
+  geom_line() + 
+  labs(color = NULL) + 
+  theme_light(base_size = 18) + 
+  scale_color_viridis_d(begin = 0, end = 0.7)
+```
+
+---
 ## Model ranking with AIC 
 
 ```{r}
@@ -391,6 +410,9 @@ df <- data.frame(winglength = grid_wl,
                  survival = predicted_survival)
 ```
 
+Note: The two steps prediction and back-transformation can be done with `RMark` function `covariate.predictions()`.
+
+
 ---
 ## Graphical representation (2)
 
@@ -433,7 +455,7 @@ dipper.ddl <- make.design.data(dipper.proc)
 
 
 ---
-## Fit model with quadratic effect of wing length on survival
+## Model with quadratic effect of wing length on survival
 
 ```{r}
 phiwl2 <- list(formula=~wglength + wglengthsq)
@@ -465,6 +487,26 @@ phiwl2.p$results$beta
 ---
 
 ```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE, fig.align='center'}
+# Build dataset
+scaled_wl <- scale(dipper_csv$wing_length)
+grid_wl <- seq(min(scaled_wl), max(scaled_wl), length = 100)
+logit_predicted_survival <- phiwl2.p$results$beta[1,1] + phiwl2.p$results$beta[2,1] * grid_wl + phiwl2.p$results$beta[2,1] * grid_wl^2
+predicted_survival <- plogis(logit_predicted_survival)
+df <- data.frame(winglength = grid_wl,
+                 survival = predicted_survival)
+
+# Visualize
+df %>% 
+  ggplot() +
+  aes(x = winglength, y = survival) + 
+  geom_line() + 
+  theme_light(base_size = 18)
+
+```
+
+---
+
+```{r, eval = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE, fig.align='center'}
 scaled_wl <- scale(dipper_csv$wing_length)
 grid_wl <- seq(min(scaled_wl), max(scaled_wl), length = 100)
 logit_predicted_survival <- phiwl2.p$results$beta[1,1] + phiwl2.p$results$beta[2,1] * grid_wl + phiwl2.p$results$beta[2,1] * grid_wl^2
@@ -476,7 +518,6 @@ df %>%
   aes(x = winglength, y = survival) + 
   geom_line() + 
   theme_light(base_size = 18)
-
 ```
 
 ---
@@ -611,8 +652,7 @@ dipper.ddl <- add.design.data(dipper.proc,
                               "Phi",
                               type = "age",
                               bins = c(0, 1, 7), # (0, 1+)
-                              name = "ageclass", # var name
-                              right = FALSE)
+                              name = "ageclass") # var name
 ```
 
 ---
