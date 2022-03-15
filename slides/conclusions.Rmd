@@ -1,6 +1,6 @@
 ---
 title: "Quantitative methods for population dynamics <br> Conclusions"
-author: "Olivier Gimenez, Sarah Cubaynes, Aurélien Besnard"
+author: "Olivier Gimenez, Sarah Cubaynes, Aurélien Besnard <br> Coline Canonne, Thierry Chambert, Thibaut Couturier, Valentin Lauret"
 #date: "last updated: `r Sys.Date()`"
 output:
   xaringan::moon_reader:
@@ -48,7 +48,7 @@ knitr::include_graphics("img/intro2.png")
 + Abundance and density     
       + Counting methods
       + Detectability issue
-      + Capture-recapture, N-mixture and distance sampling
+      + Capture-recapture, distance sampling and N-mixture
 ]
 
 .pull-right[
@@ -91,8 +91,8 @@ knitr::include_graphics("img/Page2.png")
 <br>
 <br>
 
-+ Population projection matrix models      
-      + Introduction to matrix models
++ Population projection models      
+      + Count-based PVA
       + Age- and stage-structured models
       + Sensitivity analyses
 ]
@@ -163,20 +163,20 @@ class: middle, center
 + Then add complexity. Time effect for example. Or random effects.
 + Or uncertainty in the assignment of states. 
 
----
-## Simulations
+<!-- --- -->
+<!-- ## Simulations -->
 
-+ Use simulations to better understand your model. 
+<!-- + Use simulations to better understand your model.  -->
 
-+ R is the perfect tool for simulations. 
+<!-- + R is the perfect tool for simulations.  -->
 
-+ Model is an engine to generate data, instead of estimating parameters.
+<!-- + Model is an engine to generate data, instead of estimating parameters. -->
 
-???
+<!-- ??? -->
 
-+ When it comes to model building, consider simulating data to better understand your model. 
-+ R is the perfect tool.
-+ You will always learn something on your model by seeing it an engine to generate data, instead of estimating its parameters.
+<!-- + When it comes to model building, consider simulating data to better understand your model.  -->
+<!-- + R is the perfect tool. -->
+<!-- + You will always learn something on your model by seeing it an engine to generate data, instead of estimating its parameters. -->
 
 ---
 ## Till next time
@@ -196,7 +196,11 @@ class: middle, center
 
 --
 
-+ Please, fill in feedback form at <https://forms.gle/XoXvz58RQq6kAMT38>. Will help us to improve materials and delivery for next time. 
++ Please, fill in feedback form at <https://forms.gle/XoXvz58RQq6kAMT38>. It will help us to improve materials and delivery for next time. 
+
+--
+
++ Certificate of attendance on request. 
 
 --
 
