@@ -89,7 +89,7 @@ Detectability (usually) varies over time
 
 + If $N$ is the abundance of a particular species at a particular study area
 
-+ And $C$ the number of individuals counted in the field
++ And $C$ the number of individuals counted in the field in this area
 
 + We have $E(C)=pN$
 
@@ -211,14 +211,14 @@ Make a second visit, capture a second independent sample of individuals
 ```{r, echo=FALSE, out.width="75%", fig.align='center'}
 knitr::include_graphics("img/Diapositive10.JPG")
 ```
-Among newly capture individuals ($m$), some are marked ($n_2$), others aren't
+Among newly captured individuals, some are marked, noted $m$, others aren't, noted $n_2$
 
 ---
 ## Capture-recapture methods for closed populations
 
 + The proportion of marked individuals after the first sample is $\displaystyle{\frac{n_1}{N}}$
 
-+ The proportion of marked individuals in second sample is $\displaystyle{\frac{m}{n_2}}$
++ The proportion of marked individuals in the second sample is $\displaystyle{\frac{m}{n_2}}$
 
 + Assuming sampling sessions are independent (individuals have equal detection probability whether they have already been captured or not)
 
@@ -226,7 +226,7 @@ Among newly capture individuals ($m$), some are marked ($n_2$), others aren't
 
 $$\hat{N}=\displaystyle{\frac{n_1 \times n_2}{m}}$$
 ---
-## The Lincoln-Peterson index
+## The Lincoln-Petersen index
 
 .pull-left[
 Petersen (fishes 1894)
@@ -243,14 +243,14 @@ knitr::include_graphics("img/photo_Lincoln.jpg")
 ]
 
 ---
-## Lincoln-Petersen index requires individual indentification
+## Lincoln-Petersen index requires individual identification
 
 + Usually implies some marking
 
-+ Group marking can also work 
++ Group marking can also works 
 
 ---
-## Lincoln-Petersen index requires individual indentification
+## Lincoln-Petersen index requires individual identification
 
 Physical alteration of individuals
 
@@ -258,7 +258,7 @@ Physical alteration of individuals
 knitr::include_graphics("img/Diapositive36.JPG")
 ``` 
 ---
-## Lincoln-Petersen index requires individual indentification
+## Lincoln-Petersen index requires individual identification
 
 Add some tags
 
@@ -267,7 +267,7 @@ knitr::include_graphics("img/Diapositive37.JPG")
 ``` 
 
 ---
-## Lincoln-Petersen index requires individual indentification
+## Lincoln-Petersen index requires individual identification
 
 Natural marks (including DNA)
 
@@ -323,26 +323,13 @@ Several sources of variation in capture:
 To test these effects, we need more than 2 sessions
 
 ---
-# Lincoln-Petersen and then ?
-
-$$\hat{N}=\displaystyle{\frac{n_1 \times n_2}{m}}$$
-
-can also be seen as 
-
-$\hat{N}=\displaystyle{\frac{n_1}{\hat{p}}}$
-
-with $\hat{p}=\displaystyle{\frac{m}{n_2}}$
-
-Estimate $\hat{p}$ to estimate $\hat{N}$
-
----
 # More than two sessions - capture histories
 
 Each line = one individual / each column = one field session
 ```{r echo = FALSE}
 hist<-c('1011','0110','1010','...','...','1101')
 texte<-c('seen first session, not seen second session, seen third and fourth session',
-         'not seen first session, seen second and third sessionn, not seen fourth session','','','','')
+         'not seen first session, seen second and third session, not seen fourth session','','','','')
 tableproba<-data.frame(History=hist,Comment=texte)
 knitr::kable(tableproba, format = 'html')
 ```
@@ -361,31 +348,23 @@ All individuals are equally likely to be caught in each sample
 
 The $M_0$ model - constant detection probability (among individuals, among sessions)
 
-Generalisation of Linclon-Petersen index to more than two sessions
+Generalisation of Lincoln-Petersen index to more than two sessions
 
 ```{r echo = FALSE}
 hist<-c('111','110','101','100','011','010','001','000')
 proba<-c('ppp','pp(1-p)','p(1-p)p','p(1-p)(1-p)','(1-p)pp','(1-p)p(1-p)','(1-p)(1-p)p','(1-p)(1-p)(1-p)')
-tableproba<-data.frame(History=hist,Proability=proba)
+tableproba<-data.frame(History=hist,Probability=proba)
 knitr::kable(tableproba)
 ```
 
 ---
 # Maximum likelihood
 
-How to estimate $\hat{N}$ and $\hat{p}$
- 
-$$\hat{N}=\displaystyle{\frac{C}{p*}}$$
-with $C$ the number of individuals caugth at least once
++ The number of individuals with history 111 is provided by $n_{111}=Np^3$
 
-and $p*$ the probability to caugth at least once
++ We can do that for all histories
 
----
-# Maximum likelihood
-
-```{r, echo=FALSE, out.width="50%", fig.align='center'}
-knitr::include_graphics("img/ML.png")
-```
++ Then using a method called "maximum likelihood" we can search for the values of $p$ and $N$ that lead to the closest match between the number of observed histories $n_{111}$, $n_{110}$, etc and the number predicted given $\hat{p}$ and $\hat{N}$
 
 ---
 # More than two sessions
@@ -429,10 +408,10 @@ proba3 <- c('pcc',
             'pc(1-c)',
             'p(1-c)c',
             'p(1-c)(1-c)',
-            '(1-p)cc',
-            '(1-p)c(1-c)',
-            '(1-p)(1-c)c',
-            '(1-p)(1-c)(1-c)')
+            '(1-p)pc',
+            '(1-p)p(1-c)',
+            '(1-p)(1-p)p',
+            '(1-p)(1-p)(1-p)')
 Probavide <- c('','','','','','','','')
 tableproba <- data.frame(History=hist,M0=Probavide,Mt=proba2,Mb=Probavide)
 knitr::kable(tableproba, format = 'html')
@@ -442,7 +421,7 @@ knitr::kable(tableproba, format = 'html')
 ---
 # Model Mb
 
-+ Probability of first capture $p$ differ from probability of recapture $c$
++ Probability of first capture $p$ differs from probability of recapture $c$
 
 + Individuals can become trap-shy with $c<p$ or trap-happy with $c>p$
 
@@ -453,9 +432,30 @@ knitr::kable(tableproba, format = 'html')
 
 ```{r echo = FALSE}
 hist<-c('111','110','101','100','011','010','001','000')
-proba1<-c('ppp','pp(1-p)','p(1-p)p','p(1-p)(1-p)','(1-p)pp','(1-p)p(1-p)','(1-p)(1-p)p','(1-p)(1-p)(1-p)')
-proba2<-c('p1p2p3','p1p2(1-p3)','p1(1-p2)p3','p1(1-p2)(1-p3)','(1-p1)p2p3','(1-p1)p2(1-p3)','(1-p1)(1-p2)p3','(1-p1)(1-p2)(1-p3)')
-proba3<-c('pcc','pc(1-c)','p(1-c)c','p(1-c)(1-c)','(1-p)cc','(1-p)c(1-c)','(1-p)(1-c)c','(1-p)(1-c)(1-c)')
+proba1 <- c('ppp',
+            'pp(1-p)',
+            'p(1-p)p',
+            'p(1-p)(1-p)',
+            '(1-p)pp',
+            '(1-p)p(1-p)',
+            '(1-p)(1-p)p',
+            '(1-p)(1-p)(1-p)')
+proba2 <- c('p1p2p3',
+            'p1p2(1-p3)',
+            'p1(1-p2)p3',
+            'p1(1-p2)(1-p3)',
+            '(1-p1)p2p3',
+            '(1-p1)p2(1-p3)',
+            '(1-p1)(1-p2)p3',
+            '(1-p1)(1-p2)(1-p3)')
+proba3 <- c('pcc',
+            'pc(1-c)',
+            'p(1-c)c',
+            'p(1-c)(1-c)',
+            '(1-p)pc',
+            '(1-p)p(1-c)',
+            '(1-p)(1-p)p',
+            '(1-p)(1-p)(1-p)')
 Probavide<-c('','','','','','','','')
 tableproba<-data.frame(History=hist,M0=Probavide,Mt=Probavide,Mb=proba3)
 knitr::kable(tableproba, format = 'html')
@@ -466,9 +466,30 @@ knitr::kable(tableproba, format = 'html')
 # All models
 ```{r echo = FALSE}
 hist<-c('111','110','101','100','011','010','001','000')
-proba1<-c('ppp','pp(1-p)','p(1-p)p','p(1-p)(1-p)','(1-p)pp','(1-p)p(1-p)','(1-p)(1-p)p','(1-p)(1-p)(1-p)')
-proba2<-c('p1p2p3','p1p2(1-p3)','p1(1-p2)p3','p1(1-p2)(1-p3)','(1-p1)p2p3','(1-p1)p2(1-p3)','(1-p1)(1-p2)p3','(1-p1)(1-p2)(1-p3)')
-proba3<-c('pcc','pc(1-c)','p(1-c)c','p(1-c)(1-c)','(1-p)cc','(1-p)c(1-c)','(1-p)(1-c)c','(1-p)(1-c)(1-c)')
+proba1 <- c('ppp',
+            'pp(1-p)',
+            'p(1-p)p',
+            'p(1-p)(1-p)',
+            '(1-p)pp',
+            '(1-p)p(1-p)',
+            '(1-p)(1-p)p',
+            '(1-p)(1-p)(1-p)')
+proba2 <- c('p1p2p3',
+            'p1p2(1-p3)',
+            'p1(1-p2)p3',
+            'p1(1-p2)(1-p3)',
+            '(1-p1)p2p3',
+            '(1-p1)p2(1-p3)',
+            '(1-p1)(1-p2)p3',
+            '(1-p1)(1-p2)(1-p3)')
+proba3 <- c('pcc',
+            'pc(1-c)',
+            'p(1-c)c',
+            'p(1-c)(1-c)',
+            '(1-p)pc',
+            '(1-p)p(1-c)',
+            '(1-p)(1-p)p',
+            '(1-p)(1-p)(1-p)')
 Probavide<-c('','','','','','','','')
 tableproba<-data.frame(History=hist,M0=proba1,Mt=proba2,Mb=proba3)
 knitr::kable(tableproba, format = 'html')
@@ -483,7 +504,7 @@ knitr::kable(tableproba, format = 'html')
 
 + $N+1$ parameters to estimate: $N, p_i$ with $i=1, 2, \ldots, N$
 
-+ This model has too many parameters, can use Pledger's mixture models
++ This model has too many parameters, we can use Pledger's mixture models
 
 ---
 # Pledger's mixture model
@@ -507,6 +528,73 @@ knitr::kable(tableproba, format = 'html')
 
 + Use some individuals covariates: Age, sex, body conditions, etc
 
+
+---
+# Model selection
+
++ We can fit several models, each returning a different $\hat{N}$
+
++ How to select for the one that is the best given the data ? 
+
++ The most complex models are always the one that explain best the data (increase explained variance)
+
++ Yet sometimes the complexification yields to only very small improvement of explained variance
+
++ Idea: **penalize models with too many parameters**
+
+---
+# Akaike information criterion (AIC)
+
+$$AIC = Deviance + 2 K$$
+
++ With $Deviance$ a measure of the unexplained variance of the model 
+
++ $K$ the number of parameters in the model
+
++ AIC makes the balance between *quality of fit* and *complexity* of a model
+
++ Best model is the one with lowest AIC value
+
+*Note that two models are difficult to distinguish if $\Delta \text{AIC} < 2$*
+
+---
+# Some thoughts on closure assumption
+
++ Some tests of closure exist (Otis et al 1978, Stanley and Burnham 1999), available in R (package "secr")
+
++ Yet very sensitive to other sources of variations such as capture heterogeneity
+
++ Poor performance when $p$ is low
+
++ Some authors now rely more on ecological justification than statistical tests
+
+---
+# Cited references
+
+Huggins R. M.  (1989)  On the statistical analysis of capture-recapture experiments.  Biometrika 76:133-140.
+
+Otis, D. L., Burnham, K. P., White, G. C. and Anderson, D. R. (1978) Statistical inference from capture data on closed animal populations. Wildlife Monographs 62, 1–135.
+
+Pledger S. (2000) Unified Maximum Likelihood Estimates for Closed Capture–Recapture Models Using Mixtures. Biometrics, 56: 434-442. 
+
+Stanley, T. R. and Burnham, K. P. (1999) A closure test for time-specific capture–recapture data. Environmental and Ecological Statistics 6, 197–209.
+
+---
+# Further reading
+
+.pull-left[
+```{r, echo=FALSE, out.width="70%", fig.align='center'}
+knitr::include_graphics("img/book_williams.jpg")
+```
+]
+
+.pull-right[
+
+http://www.phidot.org/software/mark/docs/book/
+```{r, echo=FALSE, out.width="100%", fig.align='center'}
+knitr::include_graphics("img/book_mark.jpg")
+```
+]
 
 ---
 background-color: #234f66
@@ -568,7 +656,7 @@ $$\hat{D}=\frac{\sum_{i=1}^ny_i}{\sum_{i=1}^n{a_i}}$$
 
 + With $y_i$ the count at each sample unit, and $a_i$ the surface of each sample unit
 
-+ That can be translate into abundance N with : 
++ That can be translated into abundance N with : 
 $$\hat{N} = \frac{\sum_{i=1}^ny_i}{\alpha}$$
 
 + with $\alpha$ the proportion of the study area eventually sampled
@@ -763,7 +851,7 @@ it is the $\frac{\mbox{area under the curve}}{\mbox{area of the rectangle}}$
 ---
 # Modelling the detection function (3)
 
-Two component for $g(x)$ :
+Two components for $g(x)$ :
 
 - A ‘key’ function: Uniform, half-normal, hazard-rate
 
@@ -771,7 +859,7 @@ Two component for $g(x)$ :
 
 
 ---
-# Fit a detection curve to the raw dat
+# Fit a detection curve to the raw data
 
 ```{r, echo=FALSE, out.width="80%", fig.align='center'}
 knitr::include_graphics("img/Diapositive22.JPG")
@@ -865,7 +953,7 @@ knitr::include_graphics("img/Diapositive29.JPG")
 
 
 ---
-# Individuals are detected at their initial location
+## Individuals are detected at their initial location
 
 + Assumption 2: Animals do not move before detection (snapshot)
 
@@ -898,6 +986,15 @@ knitr::include_graphics("img/Diapositive29.JPG")
      - Accurate measurement is most effective solution, so use appropriate tools (tape measures; laser range finders; compass for angles)
 
 ---
+# Goodness-of-fit tests
+
++ We need to verify that the fit of the model makes sense
+
++ Several diagnostics and tests have been developed (QQplot, Chi-square tests, etc), depends on whether data are continuous or in classes of distance
+
++ The general principle is to verify that there is no large decrepancy between the prediction from the fitted model and the raw data
+
+---
 # Line or point transects ?
 
 Point transects are:
@@ -908,6 +1005,15 @@ Point transects are:
 Line transects are:
 - Efficient for sparsely distributed populations
 - Effective in low densities
+
+---
+# Further readings 
+
+
+```{r, echo=FALSE, out.width="25%", fig.align='center'}
+knitr::include_graphics("img/book_distance.jpg")
+```
+
 
 ---
 background-color: #234f66
@@ -941,7 +1047,6 @@ knitr::include_graphics("img/Diapositive12.JPG")
 ```{r, echo=FALSE, out.width="80%", fig.align='center'}
 knitr::include_graphics("img/Diapositive30.JPG")
 ```
-
 True abundance $N=10$
 
 ---
@@ -1001,14 +1106,12 @@ knitr::include_graphics("img/Diapositive34.JPG")
 + Some strong assumptions :
 
     - Abundance at a sampling unit does not change between successive counts ("closed population")
-    - Individuals have same detection probability (no heterogeneity)
+    - Individuals have the same detection probability (no heterogeneity)
     - Abundance at the sampling units is Poisson distributed
     - Visits are independent (no trap-dependence)
 
 ---
-# N-mixture models (Royle 2004)
-
-Typical dataset used for N-mixture models
+# Typical dataset used for N-mixture models
 
 ```{r, echo=FALSE, out.width="50%", fig.align='center'}
 set.seed(254)
@@ -1030,11 +1133,12 @@ knitr::kable(tt, format = 'html')
 
 + A state process describing the system 
 
-$$N_i = \mbox{Poisson}(\lambda_i)$$
+$$N_i \sim \mbox{Poisson}(\lambda)$$
+with $\lambda$ the mean abundance at the sites
 
 + An observation process corresponding to detection issues
 
-$$y_{it}=\mbox{Binomial}(N_i,p_{it})$$
+$$y_{it} \sim \mbox{Binomial}(N_i,p_{it})$$
 
 + Covariates can be added on abundance (e.g. vegetation cover, elevation) and on detection probability (e.g. vegetation cover, date, observer experience)
 
@@ -1043,26 +1147,53 @@ $$y_{it}=\mbox{Binomial}(N_i,p_{it})$$
 
 + The method has been highly controversial for years
 
-+ Couturier et al *2013* - Identifiability problems when $p$ is low or highly variable
++ Couturier et al. 2013 - Identifiability problems when $p$ is low or highly variable
 
-+ Barker et al *2017* - Without auxillary information about $p$, count data cannot distinguish between N-mixture model or other possible models of $N$
++ Barker et al. 2017 - Without auxillary information about $p$, count data cannot distinguish between N-mixture model or other possible models of $N$
 
-+ Dennis *2015*, Kéry *2017* - Some parameters not identifiability especially with negative binomial distribution instead of Poisson  
++ Dennis 2015, Kéry 2017 - Some parameters not identifiability especially with negative binomial distribution instead of Poisson  
 
-+ Link et al *2018* - Estimates sensitive to violation of double counting and constant $\lambda / p$ - GOF unable to detect this
++ Link et al. 2018 - Estimates sensitive to violation of double counting and constant $\lambda / p$ - GOF unable to detect this
 
-+ Conclusion : check parameter $K$ (see live demo), perform GOF, do not rely on negative binomial distribution
++ Recommendations : Check parameter $K$ (see live demo), perform GOF, do not rely on negative binomial distribution
 
 ---
 # N-mixture models - further reading
 
-+ Open N-mixture - Dail and Madsen (2011) / Hostetler and Chandler (2015)
-
-+ Distance sampling based on Poisson model - Royle (2004)
++ Open N-mixture - Dail and Madsen 2011 / Hostetler and Chandler 2015
 
 + Generalized Distance sampling - Accomodates for temporary emigration - Chandler (2011)
 
 + Community N-mixture models - Yamaura et al. (2012)
+
+
+---
+# Cited references (1)
+
+Barker, R.J., Schofield, M.R., Link, W.A. and Sauer, J.R. (2018), On the reliability of N-mixture models for count data. Biom, 74: 369-377.
+
+Chandler, R.B., Royle, J.A. and King, D.I. (2011), Inference about density and temporary emigration in unmarked populations. Ecology, 92: 1429-1435.
+
+Couturier, T., Cheylan, M., Bertolero, A., Astruc, G. and Besnard, A. (2013), Estimating abundance and population trends when detection is low and highly variable: A comparison of three methods for the Hermann's tortoise. The Journal of Wildlife Management, 77: 454-462. 
+
+Dail, D. and Madsen, L. (2011), Models for Estimating Abundance from Repeated Counts of an Open Metapopulation. Biometrics, 67: 577-587.
+
+Dennis, E.B., Morgan, B.J. and Ridout, M.S. (2015), Computational aspects of N-mixture models. Biom, 71: 237-246. 
+
+---
+# Cited references (2)
+
+Hostetler, J.A. and Chandler, R.B. (2015), Improved state-space models for inference about spatial and temporal variation in abundance from count data. Ecology, 96: 1713-1723.
+
+Kéry, M. (2018), Identifiability in N-mixture models: a large-scale screening test with bird data. Ecology, 99: 281-288.
+
+Link, W.A., Schofield, M.R., Barker, R.J. and Sauer, J.R. (2018), On the robustness of N-mixture models. Ecology, 99: 1547-1551.
+
+Royle, J.A. (2004), N-Mixture Models for Estimating Population Size from Spatially Replicated Counts. Biometrics, 60: 108-115.
+
+Yamaura, Y., Royle, J.A., Shimada, N. et al. Biodiversity of man-made open habitats in an underused country: a class of multispecies abundance models for count data. Biodivers Conserv 21, 1365–1380 (2012). 
+
+
 
 ---
 background-color: #234f66

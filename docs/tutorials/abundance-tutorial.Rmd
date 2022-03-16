@@ -56,12 +56,13 @@ mouse <- convert.inp("dat/mouse.inp",
 Inspect first lines of the dataset 
 ```{r}
 head(mouse)
+dim(mouse)[1] # number of individuals captured at least once
 ```
 
 ---
 ## Fit a first batch of models
 
-To use RMark we need three steps : 
+To use RMark, we need three steps : 
 - Prepare the data
 - Define the models to fit
 - Fit the models
@@ -166,11 +167,11 @@ mouse.results$p.dot$results$real
 ---
 # How to get abundance estimates?
 
-Abundance $N$ is a derived parameter estimated using $p*$ and the number of caught individuals
+Abundance $N$ is a derived parameter estimated using 'f0' and the number of caught individuals
 
 To get its estimate: 
 ```{r}
-mouse.results$p.dot.behav$results$derived
+mouse.results$p.dot$results$derived
 ```
 
 ---
@@ -434,7 +435,7 @@ AIC(wren.hn, wren.hr.poly, wren.unif.cos)
 ```
 
 ---
-# GOF
+# Goodness-Of-Fit tests
 
 .pull-left[
 ```{r, echo = TRUE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE, fig.align='center'}
@@ -514,6 +515,8 @@ Collect the covariates at the site (that do not change over field sessions)
 ```{r}
 covsite <- dat[,5:6]			# collect site covariates
 
+head(covsite) # look at covariates
+
 ```
 ---
 # Prepare the data for unmarked (2)
@@ -523,6 +526,8 @@ Collect the covariates of the field sessions
 temp <- dat[,7:9]			  # collect temperature at each field session
 month <- dat[,10:12]     # collect month of each field session
 obscov <- list(temp = temp, month = month)	# make a list with session covariates
+
+str(obscov) # look at the covariates
 ```
 ---
 # Prepare the data for unmarked (3)
@@ -540,7 +545,7 @@ Fit a constant model just to check
 res0 <- pcount(~1 ~1, count, K = 100, mixture = c("P"))
 ```
 ---
-# Explore the resulting object
+# Explore the returned object
 
 ```{r}
 str(res0)

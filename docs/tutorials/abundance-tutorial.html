@@ -14,7 +14,7 @@ class: center, middle, title-slide
 
 # Abundance - live demos
 ### Aurélien Besnard for the team
-### last updated: 2022-03-10
+### last updated: 2022-03-16
 
 ---
 
@@ -65,10 +65,18 @@ head(mouse)
 6 0011    1
 ```
 
+```r
+dim(mouse)[1] # number of individuals captured at least once
+```
+
+```
+[1] 82
+```
+
 ---
 ## Fit a first batch of models
 
-To use RMark we need three steps : 
+To use RMark, we need three steps : 
 - Prepare the data
 - Define the models to fit
 - Fit the models
@@ -549,18 +557,18 @@ f0 g1 a0 t1 45.7672480 14.5456110 24.9175180 84.0629860
 ---
 # How to get abundance estimates?
 
-Abundance `\(N\)` is a derived parameter estimated using `\(p*\)` and the number of caught individuals
+Abundance `\(N\)` is a derived parameter estimated using 'f0' and the number of caught individuals
 
 To get its estimate: 
 
 ```r
-mouse.results$p.dot.behav$results$derived
+mouse.results$p.dot$results$derived
 ```
 
 ```
 $`N Population Size`
-  estimate      lcl      ucl
-1 92.31476 85.33756 113.8778
+  estimate lcl ucl
+1      128 107 166
 ```
 
 ---
@@ -1850,7 +1858,7 @@ wren.unif.cos  3 1416.433
 ```
 
 ---
-# GOF
+# Goodness-Of-Fit tests
 
 .pull-left[
 
@@ -1979,6 +1987,18 @@ Collect the covariates at the site (that do not change over field sessions)
 
 ```r
 covsite &lt;- dat[,5:6]			# collect site covariates
+
+head(covsite) # look at covariates
+```
+
+```
+  burrow habitat
+1      0    dune
+2      5    dune
+3      1    dune
+4      2    dune
+5      5    dune
+6     10    dune
 ```
 ---
 # Prepare the data for unmarked (2)
@@ -1989,6 +2009,20 @@ Collect the covariates of the field sessions
 temp &lt;- dat[,7:9]			  # collect temperature at each field session
 month &lt;- dat[,10:12]     # collect month of each field session
 obscov &lt;- list(temp = temp, month = month)	# make a list with session covariates
+
+str(obscov) # look at the covariates
+```
+
+```
+List of 2
+ $ temp :'data.frame':	70 obs. of  3 variables:
+  ..$ temp1: num [1:70] 21.2 21.7 22.7 23.5 24.2 23.9 15.6 23.3 23.2 18.9 ...
+  ..$ temp2: num [1:70] 24.8 23.8 22.5 22.4 24.8 26.3 22.4 24.9 26.3 26 ...
+  ..$ temp3: num [1:70] 21.6 23.8 24.2 18.3 20.1 23.9 23.4 21.6 23.8 27.4 ...
+ $ month:'data.frame':	70 obs. of  3 variables:
+  ..$ p1: chr [1:70] "April" "April" "April" "April" ...
+  ..$ p2: chr [1:70] "May" "May" "May" "May" ...
+  ..$ p3: chr [1:70] "June" "June" "June" "June" ...
 ```
 ---
 # Prepare the data for unmarked (3)
@@ -2008,7 +2042,7 @@ Fit a constant model just to check
 res0 &lt;- pcount(~1 ~1, count, K = 100, mixture = c("P"))
 ```
 ---
-# Explore the resulting object
+# Explore the returned object
 
 
 ```r
