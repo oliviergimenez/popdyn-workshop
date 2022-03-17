@@ -169,8 +169,8 @@ pre code {
 </div>
 
 
-<div id="how-to-install-program-mark-and-package-rmark-on-a-mac" class="section level1">
-<h1>How to install program MARK and package RMark on a Mac</h1>
+<div id="how-to-install-program-mark-and-package-rmark-on-a-mac" class="section level2">
+<h2>How to install program MARK and package RMark on a Mac</h2>
 <p>The <code>R</code> package <code>RMark</code> requires that program <code>MARK</code> be on your Mac (just the Mark.exe file). You won’t have to run <code>MARK</code> directly, we will call it from <code>R</code>. Here are the steps to follow from <a href="http://www.phidot.org/forum/viewtopic.php?f=21&amp;t=3233">here</a> and updated <a href="www.gilbertresearch.org/s/Directions-for-installing-program-MARK-and-package-RMark-on-a-mac.docx">there</a>.</p>
 <ol style="list-style-type: decimal">
 <li>Install the <code>RMark</code> package in <code>R</code>, then load the library with:</li>
@@ -203,6 +203,13 @@ Name : Phi(~1)p(~1) </code></pre>
 <ol start="12" style="list-style-type: decimal">
 <li>If you do, you are good to go! If not, try to google the error message you probably got earlier.</li>
 </ol>
+</div>
+<div id="troubleshootings" class="section level2">
+<h2>Troubleshootings</h2>
+<p>From Dāvis Ūlands</p>
+<blockquote>
+<p>when installing mark on osx Big sur (or newer?), there is permission issue with it — when running in R I got error message like this: sh: /usr/local/bin/mark: Permission denied Error in run.mark.model(model, invisible = invisible, adjust = adjust, : To solve this, user has to change permissions to program. I used sudo chmod 755 /usr/local/bin/mark so to change permissions only to program (hopefully) not the whole bin folder. Maybee if someone else encounters those errors and can’t find solution, this helps!</p>
+</blockquote>
 </div>
 
 

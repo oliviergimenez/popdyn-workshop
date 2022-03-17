@@ -8,7 +8,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# How to install program MARK and package RMark on a Mac
+## How to install program MARK and package RMark on a Mac
 
 The `R` package `RMark` requires that program `MARK` be on your Mac (just the Mark.exe file). You won't have to run `MARK` directly, we will call it from `R`. Here are the steps to follow from [here](http://www.phidot.org/forum/viewtopic.php?f=21&t=3233) and updated [there](www.gilbertresearch.org/s/Directions-for-installing-program-MARK-and-package-RMark-on-a-mac.docx).
 
@@ -61,3 +61,14 @@ Name : Phi(~1)p(~1)
 ```
 
 12.	If you do, you are good to go! If not, try to google the error message you probably got earlier.
+
+## Troubleshootings
+
+From Dāvis Ūlands
+
+> when installing mark on osx Big sur (or newer?), there is permission issue with it — when running in R I got error message like this:
+sh: /usr/local/bin/mark: Permission denied Error in run.mark.model(model, invisible = invisible, adjust = adjust, :
+To solve this, user has to change permissions to program. I used
+sudo chmod 755 /usr/local/bin/mark
+so to change permissions only to program (hopefully) not the whole bin folder.
+Maybee if someone else encounters those errors and can’t find solution, this helps!
