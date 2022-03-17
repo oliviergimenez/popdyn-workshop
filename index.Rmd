@@ -14,7 +14,9 @@ knitr::opts_chunk$set(echo = FALSE)
 
 **How**: The format of the workshop will be a combination of lectures and live demonstrations in R with packages `popbio`, `Distance`, `RMark`, `AICcmodavg` and `unmarked`.
 
-**Who**: [Olivier Gimenez](https://twitter.com/oaggimenez), [Aurélien Besnard](https://twitter.com/abesnardEPHE) and [Sarah Cubaynes](https://twitter.com/sarahcubaynes).  
+**Who**:   
+Lecturers: [Olivier Gimenez](https://twitter.com/oaggimenez), [Aurélien Besnard](https://twitter.com/abesnardEPHE) and [Sarah Cubaynes](https://twitter.com/sarahcubaynes).  
+Helpers: Coline Cannone, Thierry Chambert, [Thibaut Couturier](https://twitter.com/ThibautCouturie), [Valentin Lauret](https://twitter.com/ValentinLauret)
 
 **When**: March 21-22, 2022
 
