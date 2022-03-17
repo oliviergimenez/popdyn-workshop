@@ -28,7 +28,7 @@ navbar:
         - text: "Demo 2: Demographic parameters"
           href: tutorials/survival-tutorial.html
         - text: "Demo 3: Population projection models"
-#          href: worksheets/tp4-marked-survival.pdf
+          href: tutorials/matrix-tutorial.R
     - text: "Miscellaneous"
       menu:
         - text: "Install RMark on a Mac"
