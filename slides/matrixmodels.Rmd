@@ -22,14 +22,14 @@ theme_set(theme_light())
 update_geom_defaults("point", list(size = 2)) 
 ```
 
-# What we've learned during this class
+# What we've learned so far
 
-### Obj. 1: Know current and past trends in population abundance
+### Obj. 1: Assess current and past trends in population abundance
 - see class 1
 
 --
 
-### Obj. 2: Estimate demographic parameters and identify the causes of variation
+### Obj. 2: Estimate demographic parameters and identify causes of variation
 - see class 2
 
 --
@@ -40,33 +40,33 @@ update_geom_defaults("point", list(size = 2))
 ---
 # Population Viability Analysis (PVA)
 
-Morris et al. 1999. A practical handbook for population viability analysis. The Nature Conservancy :
+Morris et al. (1999). *A practical handbook for population viability analysis*. The Nature Conservancy.
 
-+ use of **quantitative methods** to predict the **likely future status** of a population or collection of populations of conservation concern 
++ Use of **quantitative methods** to predict the **likely future status** of a population or collection of populations of conservation concern
 
 
-+ **tentative assessments** based upon what we now know **rather than as iron-clad predictions **of population fate
++ **Tentative assessments** based upon what we now know **rather than as iron-clad predictions **of population fate
 
 
 ---
 # Why is PVA useful ? 
 
-+ quantify the rate of population change over time
++ Quantify rate of population change over time
 
 --
 
-+ estimate extinction risks (used by the IUCN)
++ Estimate extinction risks (used by IUCN)
 
 --
 
-+ identify key parameters for population management
++ Identify key parameters for population management
 
 --
 
-+ evaluate and compare the relative impact of population management actions
++ Evaluate and compare relative impact of population management actions
 
 ---
-## Can we assess population viability from population counts ?
+## Can we assess population viability from counts ?
 
 ```{r, echo=FALSE, out.width="60%", fig.align='center'}
 knitr::include_graphics("img/pop_size.png")
@@ -75,7 +75,7 @@ knitr::include_graphics("img/pop_size.png")
 ---
 class: center, middle
 
-# 1- Count based PVA
+# 1- Count-based PVA
 
 ---
 # Finite population growth rate $\lambda$
@@ -122,11 +122,11 @@ p + theme(legend.position = "none")
 
 .pull-right[
 
-- exponential growth or decay at a constant rate of change
+- Exponential growth or decay at a constant rate of change
 
-- $\lambda = \frac{N_{t+1}}{N_{t}}$ gives the **proportional change** in population size
+- $\lambda = \displaystyle{\frac{N_{t+1}}{N_{t}}}$ gives the **proportional change** in population size
 
-- after t time steps, the population will be $N_{t} = N_{0} \cdot \lambda^{t}$
+- After $t$ time steps, population size will be $N_{t} = N_{0} \cdot \lambda^{t}$
 
 - $\lambda$ is log-normally distributed
 
@@ -136,14 +136,14 @@ p + theme(legend.position = "none")
 
 # Growth rate versus intrinsic rate of increase
 
-- **Population growth rate** $\lambda \sim Lognormal(\mu,\sigma^{2})$
+- **Population growth rate** $\lambda \sim \mbox{Lognormal}(\mu,\sigma^{2})$
 
-- easier to work with the **intrinsic rate of increase** 
-`$$r = \log(\lambda) = \log(\frac{N_{t+1}}{N_{t}}) = \log(N_{t+1}) - \log(N_{t})$$`
+- Easier to work with the **intrinsic rate of increase** 
+$$r = \log(\lambda) = \log\left(\frac{N_{t+1}}{N_{t}}\right) = \log(N_{t+1}) - \log(N_{t})$$
 
 --
 
-- which is normally distributed
+- Which is normally distributed
 $r \sim N(\mu,\sigma^{2})$
 
 --
@@ -155,19 +155,21 @@ $r \sim N(\mu,\sigma^{2})$
 ---
 # Environmental variance
 
-- if the mean rate of increase $\mu < 0$ extinction will certainly occur. 
+- If the mean rate of increase $\mu < 0$, extinction will certainly occur. 
 
 --
 
-- a population can still decline or go extinct even if the mean rate of increase $\mu>0$ because of environmental variance $\sigma^{2}$.
+- A population can still decline or go extinct even if the mean rate of increase $\mu>0$, because of environmental variance $\sigma^{2}$
 
 --
-- variable environments increase extinction risks.
+
+- Variable environments increase extinction risks
 
 
 ---
 ## Example of the Yellowstone grizzly bear population 
-from Morris & Doak. 2002. Quantitative conservation biology: Theory and practice of population viability analysis. Massachusetts, USA.
+
+From Morris & Doak (2002). *Quantitative conservation biology: Theory and practice of population viability analysis*. Massachusetts, USA.
 
 .pull-left[
 ```{r echo = FALSE,dev = "svg", out.width="85%"}
@@ -190,7 +192,7 @@ knitr::include_graphics("img/bear.jpg")
 ]
 
 ---
-# Step 1 : Calculate $\mu$ and $\sigma^{2}$  from the data
+# Step 1: Calculate $\mu$ and $\sigma^{2}$  from the data
 
 ```{r echo = TRUE}
 # rate of increase over years
@@ -207,11 +209,11 @@ data.frame(mu=mu,sigma2=sigma2)
 
 --
 
-- $\mu >0$ in average the population is growing
+- $\mu >0$ so on average the population is growing
 
 --
 
-- $\sigma^{2} = 0.013$ reflect low inter-annual variance in the rate of increase
+- $\sigma^{2} = 0.013$ reflects low inter-annual variance in the rate of increase
 
 
 ---
@@ -220,9 +222,9 @@ data.frame(mu=mu,sigma2=sigma2)
 ```{r echo = TRUE}
 x <- sqrt(grizzly$year[-1] - grizzly$year[-length(grizzly$year)]) # sqrt time intervals
 y <- logN / x
-mod <- lm(y ~ 0 + x) # forcing a y-intercept of zero
+mod <- lm(y ~ 0 + x) # forcing a intercept of zero
 mod
-mu <- coef(mod) # the slope = mean intrinsic rate of increase
+mu <- coef(mod) # slope = mean intrinsic rate of increase
 ```
 
 ---
@@ -242,7 +244,7 @@ sigma2 <- anova(mod)[["Mean Sq"]][2] # environmental variance
 ## Confidence interval for mu
 confint(mod, 1)
 ```
-- confidence interval of mean rate of increase encompasses 0, we cannot rule out potential risk of decline!
+- Confidence interval of mean rate of increase encompasses 0, therefore we cannot rule out a potential risk of decline!
 
 --
 
@@ -255,7 +257,7 @@ df1 * sigma2 / qchisq(c(.975, .025), df = df1)
 
 ---
 
-## Back-transform to get finite population growth rate $\bar{\lambda}$  :
+## Back-transform to get finite population growth rate $\bar{\lambda}$
  
 ```{r echo = TRUE}
 lambda <- exp(mu) 
@@ -265,30 +267,30 @@ lambda # average growth rate
 
 --
 
-- here $\bar{\lambda} > 1$, so the grizzly population is growing in average
+- Here $\bar{\lambda} > 1$, so the grizzly population is growing on average
 
-- it does not rule out the possibility of a decline owing to the chance occurrence of a sequence of bad years (remember confidence interval)
+- It does not rule out the possibility of a decline owing to the chance occurrence of a sequence of bad years (remember confidence interval)
 
 ---
 
-# Step 2 : Project the population
+# Step 2: Project the population
 
 - Expected population size using mean rate of increase and ignoring environmental variance (not recommended)
 
-`$$N_{t} =  N_{0} \cdot \mu^{t}$$`
+$$N_{t} =  N_{0} \cdot \mu^{t}$$
 
-`$$ln(N_{t}) =  ln(N_{0}) + \mu \cdot t$$`
+$$\ln(N_{t}) =  \ln(N_{0}) + \mu \cdot t$$
 
 --
 
-* initial population $N_{0}=44$
+* Initial population $N_{0}=44$
 
-* time steps to project over : $t =38$ years (nb. years - 1)
+* Time steps to project over: $t = 38$ years (nb. years - 1)
 
-* mean rate of increase $\mu = 0.021$ 
+* Mean rate of increase $\mu = 0.021$ 
 
 ---
-# Step 2 : Project the population
+# Step 2: Project the population
 
 ```{r,echo=FALSE, fig.width = 7.5, fig.asp = 0.718, message = FALSE, warning = FALSE, dev = "svg", fig.align='center'}
 grizzly$type <- "data"
@@ -303,7 +305,7 @@ ylab("Population size")
 ```
 
 ---
-# Step 2 : Project the population
+# Step 2: Project the population
 ## Let's account for observed variation in growth rate
 
 - First, set the initial population, number of time steps, and number of repetitions: 
@@ -311,16 +313,16 @@ ylab("Population size")
 ```{r,echo=TRUE}
 n0 <- grizzly$N[1] # initial pop.
 
-T<-50 # time iterations to project over
+T <- 50 # time iterations to project over
 
-runs<-500  # number of repetitions (pop. trajectories)
+runs <- 500  # number of repetitions (pop. trajectories)
 
-stoch.pop<-matrix(NA,T,runs) # to store resuts       
-stoch.pop[1,]<-n0 # initiate
+stoch.pop <- matrix(NA,T,runs) # to store resuts       
+stoch.pop[1,] <- n0 # initiate
 ```
 
 ---
-# Step 2 : Project the population
+# Step 2: Project the population
 ## Let's account for observed variation in growth rate
 
 
@@ -334,7 +336,7 @@ Ne <- 30  # threshold for minimum viable pop.
 
 - 1 female or a minimum viable population (genetic drift, demographic stochasticity)
 
-- can also be the lowest level of abundance at which it remains feasible to attempt intervention to prevent further decline. 
+- Can also be the lowest level of abundance at which it remains feasible to attempt intervention to prevent further decline. 
 
 ---
 ## Now run the projections
@@ -343,15 +345,15 @@ Ne <- 30  # threshold for minimum viable pop.
 for (i in 1:runs){ #<<
   for (t in 2:T){	#<< 
 # Draw r from normal using estimates of mu and sigma2
-        r <- rnorm(1,mu,sqrt(sigma2)) 
+        r <- rnorm(n = 1, mean = mu, sd = sqrt(sigma2)) 
 # back-transform to get lambda and get pop. size
-    lambda<-exp(r) 
+    lambda <- exp(r) 
 #project one time step from the current pop size
-    stoch.pop[t,i]<-stoch.pop[(t-1),i]*lambda 
+    stoch.pop[t,i] <- stoch.pop[(t-1),i] * lambda 
 # leave the loop if pop <= threshold
-    if(stoch.pop[t,i]<=Ne){ 
+    if(stoch.pop[t,i] <= Ne){ 
       stoch.pop[t,i] <- 0 
-      i<i+1}  
+      i < i+1}  
   }
 }
 ```
@@ -363,15 +365,15 @@ for (i in 1:runs){ #<<
 for (i in 1:runs){ # loop over repetitions
   for (t in 2:T){	# loop over years
 # Draw r from normal using estimates of mu and sigma2
-        r <- rnorm(1,mu,sqrt(sigma2)) #<<
+        r <- rnorm(n = 1, mean = mu, sd = sqrt(sigma2)) #<<
 # back-transform to get lambda and get pop. size
-    lambda<-exp(r) 
+    lambda <- exp(r) 
 #project one time step from the current pop size
-    stoch.pop[t,i]<-stoch.pop[(t-1),i]*lambda 
+    stoch.pop[t,i] <- stoch.pop[(t-1),i] * lambda 
 # leave the loop if pop <= threshold
-    if(stoch.pop[t,i]<=Ne){ 
+    if(stoch.pop[t,i] <= Ne){ 
       stoch.pop[t,i] <- 0 
-      i<i+1}  
+      i < i+1}  
   }
 }
 ```
@@ -383,15 +385,15 @@ for (i in 1:runs){ # loop over repetitions
 for (i in 1:runs){ # loop over repetitions
   for (t in 2:T){	# loop over years
 # Draw r from normal using estimates of mu and sigma2
-        r <- rnorm(1,mu,sqrt(sigma2)) 
+        r <- rnorm(n = 1, mean = mu, sd = sqrt(sigma2))
 # back-transform to get lambda and get pop. size
-    lambda<-exp(r) #<<
+    lambda <- exp(r) #<<
 #project one time step from the current pop size
-    stoch.pop[t,i]<-stoch.pop[(t-1),i]*lambda #<<
+    stoch.pop[t,i] <- stoch.pop[(t-1),i] * lambda #<<
 # leave the loop if pop <= threshold
-    if(stoch.pop[t,i]<=Ne){ 
+    if(stoch.pop[t,i] <= Ne){ 
       stoch.pop[t,i] <- 0 
-      i<i+1}  
+      i < i+1}  
   }
 }
 ```
@@ -404,21 +406,21 @@ for (i in 1:runs){ # loop over repetitions
 for (i in 1:runs){ # loop over repetitions
   for (t in 2:T){	# loop over years
 # Draw r from normal using estimates of mu and sigma2
-        r <- rnorm(1,mu,sqrt(sigma2)) 
+        r <- rnorm(n = 1, mean = mu, sd = sqrt(sigma2)) 
 # back-transform to get lambda and get pop. size
-    lambda<-exp(r)
+    lambda <- exp(r)
 #project one time step from the current pop size
-    stoch.pop[t,i]<-stoch.pop[(t-1),i]*lambda 
+    stoch.pop[t,i] <- stoch.pop[(t-1),i] * lambda 
 # leave the loop if pop <= threshold
-    if(stoch.pop[t,i]<=Ne){ #<<
+    if(stoch.pop[t,i] <= Ne){ #<<
       stoch.pop[t,i] <- 0 #<<
-      i<i+1}  #<<
+      i < i+1}  #<<
   }
 }
 ```
 
 ---
-## Step 3 : Examine the results
+## Step 3: Examine the results
 
 ```{r, echo=FALSE, fig.width = 7.5, fig.asp = 0.718,  dev = "svg", message = FALSE, warning = FALSE, fig.align='center'}
 
@@ -429,9 +431,9 @@ matplot(log(stoch.pop),type="l",
 ```
 
 ---
-## Step 3 : Examine the results
+## Step 3: Examine the results
 
-Plot population size at the last time step :
+Plot population size at the last time step:
 
 ```{r,echo=FALSE, dev = "svg", fig.width = 7.5, fig.asp = 0.618, message = FALSE, warning = FALSE, fig.align='center'}
 lastN <- data.frame(pop = stoch.pop[T,])
@@ -442,8 +444,8 @@ ggplot(lastN,aes(x=pop)) +
 ```
 
 ---
-## Step 3 : Examine the results
-Plot prediction together with observed counts :
+## Step 3: Examine the results
+Plot prediction together with observed counts:
 
 ```{r, echo=FALSE, dev = "svg", fig.width = 7.5, fig.asp = 0.618, message = FALSE, warning = FALSE, fig.align='center'}
 
@@ -470,19 +472,20 @@ p +  geom_line(aes(y=log(N)), colour="red") +
 ```
 
 ---
-# Step 4 : Quantify extinction risks
+# Step 4: Quantify extinction risks
 
-- The average population growth rate doesn’t do a good job of predicting what most population realizations will do
+- The average population growth rate doesn’t do a good job at predicting what most population realizations will do
 
 --
 
-- What are the chances that the population will go extinct at various times ? 
+- What are the chances that the population will go extinct at various times? 
 
-  + extinction risk
+  + Extinction risk
   
-  + time to extinction
+  + Time to extinction
+  
 ---
-# Step 4 : Quantify extinction risks
+# Step 4: Quantify extinction risks
 
 - Ultimate extinction probability = percentage of trajectories (over the 500 runs) reaching the extinction threshold at some point (over T years)
 
@@ -493,13 +496,13 @@ Pr.ext
 
 
 ---
-# Step 4 : Quantify extinction risks
+# Step 4: Quantify extinction risks
 - Cumulative extinction risk over the years
 
 ```{r,echo=FALSE, dev = "svg", fig.width = 7.5, fig.asp = 0.618, message = FALSE, warning = FALSE, fig.align='center'}
 
 # Cumulative extinction function
-ex <- extCDF(mu, sigma2, Nc=n0, Ne=Ne)
+ex <- extCDF(mu, sigma2, Nc = n0, Ne = Ne)
 # use bootstrap to get confidence intervals
 CIext <- countCDFxt(mu, sigma2, nt = T-1,Nc=n0, Ne=Ne, tmax = T, Nboot = 500,
       plot = FALSE)
@@ -517,24 +520,24 @@ ggplot(Prext, aes(x= years)) +
 ```
 
 ---
-# Step 5 : Quantify time to extinction
-- mean time to extinction is an overestimation (because of few pop. growing fast)
-- median time to extinction is a better measure
+# Step 5: Quantify time to extinction
+- Mean time to extinction is an overestimation (because of few pop. growing fast)
+- Median time to extinction is a better measure
 
 ```{r,echo=TRUE}
 # Time to reach extinction for extinct pop.
-maxt<-NULL	# empty vector to store results
+maxt <- NULL	# empty vector to store results
 for (i in 1:runs){	# loop over repetitions
   N <- stoch.pop[,i]
   # max time N > threshold
-  maxt[i]<-max(which(N>0)) } #<<
+  maxt[i] <- max(which(N>0)) } #<<
 # time at extinction for pseudo-extinct populations
-time.ext <- maxt[maxt<T] #<<
+time.ext <- maxt[maxt < T] #<<
 median(time.ext)
 ```
 
 ---
-# Step 5 : Quantify time to extinction
+# Step 5: Quantify time to extinction
 
 ```{r,echo=FALSE, dev = "svg", fig.width = 7.5, fig.asp = 0.618, message = FALSE, warning = FALSE, fig.align='center'}
 df <- data.frame(time.ext=time.ext) 
@@ -549,48 +552,49 @@ df <- data.frame(time.ext=time.ext)
 ```
 
 ---
-# Step 6 : Perturb and run the model
+# Step 6: Perturb and run the model
 
-### Interesting to evaluate the sensitivity of the results to changes in :
+### Interesting to evaluate the sensitivity of the results to changes in:
 
-- initial population size
-- extinction threshold
-- amount of environmental variance
-- number of time steps
+- Initial population size
+- Extinction threshold
+- Amount of environmental variance
+- Number of time steps
 
 ---
 # Live demo on grizzly bears 
-from Morris & Doak. 2002. Quantitative conservation biology: Theory and practice of population viability analysis. Massachusetts, USA.
+
+From Morris & Doak (2002). *Quantitative conservation biology: Theory and practice of population viability analysis*. Massachusetts, USA.
 
 ```{r, echo=FALSE, , out.width="40%", message = FALSE, warning = FALSE, fig.align='center'}
 knitr::include_graphics("img/bear.jpg")
 ```
 
 ---
-# Count based extinction analyses are based on strong hypotheses
+# Count-based extinction analyses are based on strong hypotheses
 
-- exhaustive counts (no sampling error)
-
---
-
-- no density-dependence (exponential growth)
+- Exhaustive counts (no sampling error)
 
 --
 
-- only source of variation is environmental stochasticity (no demographic stochasticity, no trends in mean or variance over time, uncorrelated environment among successive  years)
+- No density-dependence (exponential growth)
 
 --
 
-- moderate environmental variability (no catastrophe, no bonanzas)
+- Only source of variation is environmental stochasticity (no demographic stochasticity, no trends in mean or variance over time, uncorrelated environment among successive years)
+
+--
+
+- Moderate environmental variability (no catastrophe, no bonanzas)
 
 ---
-# Avantages
+# Advantages
 
-- simplicity (data requirement at least 10 censuses and calculation)
+- Simplicity (data requirement at least 10 censuses and calculation)
  
-- work relatively well when assumptions are met
+- Work relatively well when assumptions are met
  
-- assess model quality by hindcasting
+- Assess model quality by hindcasting
 
 ---
 
@@ -600,13 +604,13 @@ knitr::include_graphics("img/bear.jpg")
 
 --
 
-- no info about the mechanisms governing the dynamics
+- No info about the mechanisms governing the dynamics
 
 --
 
-- no hints about which management action might be most efficient? 
+- No hints about which management action might be most efficient? 
 
-- is it better to act on survival ? fecundity ? of adults ? juveniles ?
+- Is it better to act on survival? Fecundity? That of adults? Of juveniles?
 
 ---
 # Can we assess population viability from demographic parameters ?
@@ -635,7 +639,7 @@ class: center, middle
 ---
 # Demographic parameters (see class 2)
 
-- demographic parameters are often **heterogeneous across the life cycle** : survival and fecundity vary with age and/or stage in many species.
+- Demographic parameters are often **heterogeneous across the life cycle**: survival and fecundity vary with age and/or stage in many species.
 
 ```{r, echo=FALSE, fig.align='center', out.width="60%"}
 knitr::include_graphics("img/oak-tree.jpg")
@@ -662,12 +666,12 @@ knitr::include_graphics("img/barnswallowlifecycle.png")
 ---
 # Demographic parameters
 
-Survival rates :
+Survival rates:
 - $S_{0}$ chick survival 
 - $S_{1}$ juvenile survival (1 yo)
 - $S_{2}$ adult survival (2+ yo)
 
-Fecundity : 
+Fecundity: 
 - $F_{1}$ number of females produced by a juvenile female
 - $F_{2}$ number of females produced by an adult female
 
@@ -678,7 +682,7 @@ Fecundity :
 knitr::include_graphics("img/PreBreeding.png")
 ```
 
-+ pre-breeding census
++ Pre-breeding census
 
 ---
 # Timing of data collection ?
@@ -687,11 +691,11 @@ knitr::include_graphics("img/PreBreeding.png")
 knitr::include_graphics("img/PostBreeding.png")
 ```
 
-+ post-breeding census
++ Post-breeding census
 
 ---
 
-# Step 1 : write the agenda of events
+# Step 1: write the agenda of events
 
 + Let's first consider a pre-breeding census
 
@@ -702,7 +706,7 @@ knitr::include_graphics("img/AgendaPreB1.png")
 
 ---
 
-# Step 1 : write the agenda of events
+# Step 1: write the agenda of events
 
 + Let's first consider a pre-breeding census
 
@@ -712,24 +716,26 @@ knitr::include_graphics("img/AgendaPreB2.png")
 
 ---
 
-# Step 1 : write the agenda of events
+# Step 1: write the agenda of events
 
 + Let's first consider a pre-breeding census
 
 ```{r, echo=FALSE, out.width="100%", fig.align='center'}
 knitr::include_graphics("img/AgendaPreB3.png")
-# a life cycle diagram (or directed graph) is composed of 2 things :
+# a life cycle diagram (or directed graph) is composed of 2 things:
 #nodes which rep discrete stage or age class 
 # and edges which represent the transitions between stages/ages
 # caswell 2001 intro to pop.biology
 ```
+
 --
-+ Note that newborn are not observed directly !
+
++ Note that newborn are not observed directly!
 
 ---
-# Step 2 : Translate into life cycle graph or 'Caswell representation'
+# Step 2: Translate into life cycle graph or 'Caswell representation'
 
-- a trick is to go 'up the arrows'
+- A trick is to go 'up the arrows'
 
 ```{r, echo=FALSE, out.width="35%", fig.align='center'}
 knitr::include_graphics("img/preBLifeCycle.png")
@@ -737,19 +743,19 @@ knitr::include_graphics("img/preBLifeCycle.png")
 
 ---
 
-# Step 3 : Translate into equations
+# Step 3: Translate into equations
 
 - Link $N_{(t+1)}$ to $N_{(t)}$ via survival and fertility rates
-- a trick is to read the parameters going up the arrows
+- A trick is to read the parameters going up the arrows
 
 $N_{(1,t+1)} = F_{1} \cdot S_{0} \cdot N_{(1,t)}+ F_{2} \cdot S_{0} \cdot N_{(2,t)}$
 
 $N_{(2,t+1)} = S_{1} . N_{(1,t)} + S_{2} . N_{(2,t)}$
 
 ---
-# Step 4 : Arrange in a matrix format
+# Step 4: Arrange in a matrix format
 
-+ called the **transition matrix**, or the **projection matrix** 
++ Called the **transition matrix**, or the **projection matrix** 
 
 
 $$N_{(t+1)} = \begin{bmatrix}F_{1} \cdot S_{0} & F_{2} \cdot S_{0}\\
@@ -757,9 +763,9 @@ S_{1} & S_{2}
 \end{bmatrix} \cdot N_{(t)}$$
 
 ---
-# Step 4 : Arrange in a matrix format
+# Step 4: Arrange in a matrix format
 
-+ with $S_{0} = 0.2$, $S_{1} = 0.5$ and $S_{2} = 0.65$
++ With $S_{0} = 0.2$, $S_{1} = 0.5$ and $S_{2} = 0.65$
 + $F_{1} = 3/2$ and $F_{2} = 6/2$
 
 
@@ -768,7 +774,7 @@ $$N_{(t+1)} = \begin{bmatrix}0.3 & 0.6\\
 \end{bmatrix} \cdot N_{(t)}$$
 
 ---
-# What is the difference with a post-breeeding census ?
+## What is the difference with a post-breeeding census ?
 
 --
 
@@ -776,10 +782,10 @@ $$N_{(t+1)} = \begin{bmatrix}0.3 & 0.6\\
 knitr::include_graphics("img/PostBreeding.png")
 ```
 
-+ post-breeding census
++ Post-breeding census
 
 ---
-# Step 1 : write the agenda of events
+# Step 1: write the agenda of events
 
 ```{r, echo=FALSE, out.width="100%", fig.align='center'}
 knitr::include_graphics("img/AgendaPostB1.png")
@@ -787,7 +793,7 @@ knitr::include_graphics("img/AgendaPostB1.png")
 
 ---
 
-# Step 1 : write the agenda of events
+# Step 1: write the agenda of events
 
 ```{r, echo=FALSE, out.width="100%", fig.align='center'}
 knitr::include_graphics("img/AgendaPostB2.png")
@@ -795,7 +801,7 @@ knitr::include_graphics("img/AgendaPostB2.png")
 
 ---
 
-# Step 1 : write the agenda of events
+# Step 1: write the agenda of events
 
 ```{r, echo=FALSE, out.width="100%", fig.align='center'}
 knitr::include_graphics("img/AgendaPostB3.png")
@@ -805,10 +811,11 @@ knitr::include_graphics("img/AgendaPostB3.png")
 # caswell 2001 intro to pop.biology
 ```
 --
-+ Note that newborn are now observed !
+
++ Note that newborn are now observed!
 
 ---
-# Step 2 : Translate into life cycle graph or 'Caswell representation'
+# Step 2: Translate into life cycle graph or 'Caswell representation'
 
 ```{r, echo=FALSE, out.width="70%", fig.align='center'}
 knitr::include_graphics("img/postBLifeCycle.png")
@@ -816,7 +823,7 @@ knitr::include_graphics("img/postBLifeCycle.png")
 
 ---
 
-# Step 3 : Translate into equations
+# Step 3: Translate into equations
 
 $N_{(0,t+1)} =  S_{0} \cdot F_{1} \cdot  N_{(0,t)} + S_{1} \cdot F_{2} \cdot N_{(1,t)}+ S_{2} \cdot F_{2} \cdot  N_{(2,t)}$
 
@@ -825,7 +832,8 @@ $N_{(1,t+1)} = S_{0} \cdot N_{(0,t)}$
 $N_{(2,t+1)} = S_{1} \cdot N_{(1,t)} + S_{2} \cdot N_{(2,t)}$
 
 --
-# Step 4 : Arrange in a matrix format
+
+# Step 4: Arrange in matrix format
 
 $$N_{(t+1)} = \begin{bmatrix} S_{0} \cdot F_{1} & S_{1} \cdot F_{2} & S_{2} \cdot F _{2} \\
 S_{0} & 0 & 0 \\
@@ -835,11 +843,11 @@ S_{0} & 0 & 0 \\
 ---
 # Why is the matrix format interesting ? 
 
-- easier to read than multiple equations
+- Easier to read than multiple equations
 
-- intrinsic numeric features (back to it later)
+- Intrinsic numeric features (back to it later)
 
-- work the same way for complex life cycles 
+- Work the same way for complex life cycles 
   
 ---
 # Examples 
@@ -849,21 +857,21 @@ knitr::include_graphics("img/Compadre.png")
 ```
 
 ---
-## Several sites : Barn swallow example
+## Several sites: Barn swallow example
 
 ```{r, echo=FALSE, out.width="80%", fig.align='center'}
 knitr::include_graphics("img/twosites.png")
 ```
 
 ---
-## Variable age at first reproduction : Slender-billed gull example
+## Variable age at first reproduction: Slender-billed gull example
 
 ```{r, echo=FALSE, out.width="80%", fig.align='center'}
 knitr::include_graphics("img/recruitment.png")
 ```
 
 ---
-## Transition among stages : Peony example
+## Transition among stages: Peony example
 
 ```{r, echo=FALSE, out.width="80%", fig.align='center'}
 knitr::include_graphics("img/stages.png")
@@ -872,10 +880,11 @@ knitr::include_graphics("img/stages.png")
 
 ---
 # The projection matrix
-- How many age classes / stages in the life cycle ?
-- age at first reproduction ?
-- maximum age at death fixed or not ?
-- pre- or post-breeding census ?
+
+- How many age classes / stages in the life cycle?
+- Age at first reproduction?
+- Maximum age at death fixed or not?
+- Pre- or post-breeding census?
 
 
 ```{r, echo=FALSE, out.width="60%", fig.align='center'}
@@ -890,7 +899,7 @@ class: center, middle
 ---
 # Step 5: Project the population
 
-+ write the transition matrix in R :
++ Write the transition matrix in R:
   
 ```{r, echo=TRUE}
 A.swallow <- matrix(c(0.3, 0.6, 0.5, 0.65), # pre-breeding leslie matrix
@@ -902,7 +911,7 @@ A.swallow
 
 # Step 5: Project the population
 
-+ start from an initial population $n_{0}$ at time $t =0$
++ Start from an initial population $n_{0}$ at time $t=0$:
   
 ```{r, echo=TRUE}
 n0 <- c(50,30) # vector with initial population
@@ -912,7 +921,7 @@ n0
 ---
 # Step 5: Project the population
 
-+ project to the next time step :
++ Project to the next time step:
   
 ```{r, echo=TRUE}
 n1 <-  A.swallow %*% n0 # matrix product
@@ -921,7 +930,7 @@ n1
 ---
 # Step 5: Project the population
 
-+ project the population over 10 years :
++ Project the population over 10 years:
   
 ```{r, echo=TRUE,message=FALSE}
 require(matrixcalc)
@@ -935,18 +944,18 @@ n10
 ---
 # Step 5: Project the population
 
-+ or using built-in function from package popbio :
++ Or using built-in functions from package `popbio`:
   
 ```{r, echo=TRUE,results='hide'}
 library(popbio) # load package
-t <-11
+t <- 11
 # project the population
 results <- pop.projection(A.swallow,n0,iterations = t) #<<
 results
 ```
 
 ---
-## Step 6 : Examine the results 
+## Step 6: Examine the results 
 
 Let's plot the projection
 
@@ -969,18 +978,18 @@ legend("topleft",
 ---
 ## Convergence to a stable distribution
 
-Transient dynamics :
-+ depends on the initial population
-+ damping ratio measures how fast the population converges toward the equilibrium
+Transient dynamics:
++ Depends on the initial population
++ Damping ratio measures how fast the population converges toward equilibrium
 
-Stationary phase :
-+ independent of initial conditions
-+ depends on the transition matrix only
-+ constant growth rate = stable or **asymptotic population growth rate** ( $\lambda$ )
-+ constant proportion of individuals per age/stage = **stable age/stage structure**
+Stationary phase:
++ Independent of initial conditions
++ Depends on the transition matrix only
++ Constant growth rate = stable or **asymptotic population growth rate** ( $\lambda$ )
++ Constant proportion of individuals per age/stage = **stable age/stage structure**
 
 ---
-## Step 6 : Examine the results 
+## Step 6: Examine the results 
   
 ```{r, echo=TRUE}
 results <- pop.projection(A.swallow, n0, iterations = t) 
@@ -988,7 +997,7 @@ names(results)
 ```
 
 ---
-## Step 6 : Examine the results 
+## Step 6: Examine the results 
 
 First element contains the average growth rate in stationary phase
 = **asymptotic growth rate** 
@@ -998,7 +1007,7 @@ results$lambda
 ```
 
 ---
-## Step 6 : Examine the results 
+## Step 6: Examine the results 
 
 Second element contains the **stable age/stage structure**
 = % of each age/stage in the population in stationary phase
@@ -1008,7 +1017,7 @@ results$stable.stage
 ```
 
 ---
-## Step 6 : Examine the results 
+## Step 6: Examine the results 
 
 Third element contains pop. sizes per age/stage class at each time step
 
@@ -1017,7 +1026,7 @@ results$stage.vectors
 ```
 
 ---
-## Step 6 : Examine the results 
+## Step 6: Examine the results 
 
 Fourth element contains total pop. size at each time step
 
@@ -1026,9 +1035,9 @@ results$pop.sizes
 ```
 
 ---
-## Step 6 : Examine the results 
+## Step 6: Examine the results 
 
-Fifth element is the rate of change ($\lambda_{t}$) at each time step
+Fifth element is $\lambda_{t}$ the rate of change at each time step
 
 ```{r, echo=TRUE}
 results$pop.changes
@@ -1037,7 +1046,7 @@ results$pop.changes
 ---
 ## Quantities in stationary phase
 
-Calculated directly from the transition matrix : 
+Calculated directly from the transition matrix: 
 
 ```{r, echo=TRUE}
 lambda(A.swallow) #stable population growth rate
@@ -1046,7 +1055,7 @@ lambda(A.swallow) #stable population growth rate
 ---
 ## Quantities in stationary phase
 
-Calculated directly from the transition matrix : 
+Calculated directly from the transition matrix: 
 
 ```{r, echo=TRUE}
 stable.stage(A.swallow) # stable age/stage structure
@@ -1055,7 +1064,7 @@ stable.stage(A.swallow) # stable age/stage structure
 ---
 ## Quantities in stationary phase
 
-Calculated directly from the transition matrix : 
+Calculated directly from the transition matrix: 
 
 ```{r, echo=TRUE}
 # relative contribution of each age/stage to the next generation
@@ -1065,7 +1074,7 @@ reproductive.value(A.swallow)
 ---
 ## Quantities in stationary phase
 
-Calculated directly from the transition matrix : 
+Calculated directly from the transition matrix: 
 
 ```{r, echo=TRUE}
 generation.time(A.swallow) # average time between generations
@@ -1073,9 +1082,9 @@ generation.time(A.swallow) # average time between generations
 ```
 
 ---
-# Step 7 : Sensitivity analysis
+# Step 7: Sensitivity analysis
 
-Let's perturb the model : what happens if female adult survival is reduced by 50% ?
+Let's perturb the model: What happens if female adult survival is reduced by 50%?
 
 ```{r, echo=TRUE}
 A.swallow.modified <- matrix(c(0.3, 0.6, 0.5, 0.65/2), # pre-breeding leslie matrix
@@ -1085,18 +1094,18 @@ A.swallow.modified
 ```
 
 ---
-# Step 7 : Sensitivity analysis
+# Step 7: Sensitivity analysis
 
 ```{r, echo=TRUE,results=FALSE}
 n0 <- c(100,100)
-t<-10
+t <- 10
 results.modified <- pop.projection(A.swallow.modified,
                                    n0,
                                    iterations = t) 
 ```
 
 ---
-# Step 7 : Sensitivity analysis
+# Step 7: Sensitivity analysis
 
 ```{r, dev = "svg", echo=FALSE, fig.width = 7.5, fig.asp = 0.718, message = FALSE, warning = FALSE, fig.align='center'}
 pop.age  <- t(results.modified$stage.vectors) # pop size par âge
@@ -1110,18 +1119,19 @@ matplot(1:t,pop.age,type='l',xlab = "Time",
 legend("topright", legend = c("age 1","age 2"),
        lty = c(1,1), col = c("blue","red"),bty = "n")
 ```
+
 ---
-# Step 7 : Sensitivity analysis
+# Step 7: Sensitivity analysis
 
 ```{r, echo=TRUE}
 lambda(A.swallow.modified)
 ```
 
-+ the population is now declining
-+ adult survival is important to population growth
++ The population is now declining
++ Adult survival is important to population growth
 
 ---
-# Step 7 : Sensitivity analysis
+# Step 7: Sensitivity analysis
 
 
 + What happens if juvenile survival is reduced ?
@@ -1132,23 +1142,24 @@ lambda(A.swallow.modified)
 + Which demographic parameter contributes most to population dynamics ?
 
 ---
-# Step 7 : Sensitivity analysis
+# Step 7: Sensitivity analysis
 
-+ measuring the **impact of a change in a specific demographic parameter on population dynamics** 
++ Measuring the **impact of a change in a specific demographic parameter on population dynamics** 
 
-+ **sensitivity** measure **absolute change** (e.g. -0.1 in parameter)
++ **Sensitivity** measures **absolute change** (e.g. -0.1 in parameter)
 $$\frac{\delta \lambda}{\delta \theta}$$ 
 
 --
 
-+ **elasticity** measures **relative change** (e.g. -0.1% change in parameter)
++ **Elasticity** measures **relative change** (e.g. -0.1% change in parameter)
 $$\frac{\delta \lambda}{\delta \theta} \cdot \frac{\theta}{\lambda}$$ 
 
 --
-+ both are useful, elasticity is better to compare parameters that are on different scales (change in survival versus fertility)
+
++ Both are useful, elasticity is better to compare parameters that are on different scales (change in survival versus fertility)
 
 ---
-# Step 7 : Sensitivity analysis
+# Step 7: Sensitivity analysis
 
 ```{r, echo=TRUE}
 swallow.param <- list(s0 = 0.20,
@@ -1162,7 +1173,7 @@ VS <- vitalsens(swallow.equation, swallow.param)
 ```
 
 ---
-# Step 7 : Sensitivity analysis
+# Step 7: Sensitivity analysis
 
 ```{r, echo=TRUE}
 VS <- vitalsens(swallow.equation, swallow.param)
@@ -1170,7 +1181,7 @@ VS
 ```
 
 ---
-# Step 7 : Sensitivity analysis
+# Step 7: Sensitivity analysis
 
 ```{r, echo=FALSE, dev = "svg", fig.width = 7.5, fig.asp = 0.718, message = FALSE, warning = FALSE, fig.align='center'}
 barplot(t(VS[,2:3]), beside=TRUE, las=1, xlab="Demographic parameter",
@@ -1183,11 +1194,11 @@ abline(h=0)
 ---
 # Implications for management
 
-+ identify key parameters for population management
-  - best strategy here is to reduce adult mortality
++ Identify key parameters for population management
+  - Best strategy here is to reduce adult mortality
 
-+ evaluate the impact of relative management actions
- - actions focused on fecundity (e.g. nest protection) will have little impact
++ Evaluate the impact of relative management actions
+ - Actions focused on fecundity (e.g. nest protection) will have little impact
 
 ---
 # Live demo on the barn swallow
@@ -1197,33 +1208,33 @@ knitr::include_graphics("img/swallow.jpg")
 ```
 
 ---
-# Assumptions and limitations of deterministic MPMs
+## Assumptions and limitations of deterministic MPMs
 
-+ one sex model : females drive the demography, males are not limiting
++ One sex model: Females drive the demography, males are not limiting
 
-+ synchronous breeding : discrete time
++ Synchronous breeding: discrete time
 
-+ no density-dependence (exponential growth or decay)
++ No density-dependence (exponential growth or decay)
 
 --
 
-+ demographic parameters are constant in time
++ Demographic parameters are constant in time
 
-+ no environmental stochasticity
++ No environmental stochasticity
 
-+ no demographic stochasticity 
++ No demographic stochasticity 
 
 ---
 # Interest of deterministic models
 
-+ species living in constant environment
++ Species living in constant environment
 
-+ recolonization, recovering from over-exploitation
++ Recolonization, recovering from over-exploitation
 
-+ very stable environments such as protected areas
++ Very stable environments such as protected areas
 
 --
-+ sensitivity analyses provide useful information to identify key parameters for population management
++ Sensitivity analyses provide useful information to identify key parameters for population management
 
 ---
 class: center, middle
@@ -1233,31 +1244,33 @@ class: center, middle
 ---
 # Environmental stochasticity 
 
-- unpredictable fluctuations in environmental conditions
+- Unpredictable fluctuations in environmental conditions
 
 --
-- demographic rates vary over the years
+
+- Demographic rates vary over the years
 
 --
-- stochastic fluctuations in survival and reproductive rates reduce long-run population growth rate
+
+- Stochastic fluctuations in survival and reproductive rates reduce long-run population growth rate
 
 --
-- the chance of occurrence of consecutive periods of unfavourable environmental conditions can drive small populations to extinctions
+
+- The chance of occurrence of consecutive periods of unfavourable environmental conditions can drive small populations to extinctions
 
 --
-- **MPMs in stochastic environments** project the population using a series of annual stochastic transition matrices 
-(instead of one transition matrix)
+- **MPMs in stochastic environments** project the population using a series of annual stochastic transition matrices (instead of one transition matrix)
 
 ---
 # The crested newt example
 
-High inter-annual variation in demographic parameters : 
+High inter-annual variation in demographic parameters: 
 
-- mean adult survival = 0.52 varied between 0.22 et 0.74 in 8 years of monitoring
+- Mean adult survival = 0.52 varied between 0.22 et 0.74 in 8 years of monitoring
 
-- mean adult fecundity = 3.07 juvenile females / adult female varied form 0.31 to 5.40 in 10 years
+- Mean adult fecundity = 3.07 juvenile females / adult female varied form 0.31 to 5.40 in 10 years
 
-- bad years with dry pond in Spring (about 1 out of 3 years) induces quasi-complete failure of reproduction
+- Bad years with dry pond in spring (about 1 out of 3 years) induces quasi-complete failure of reproduction
 
 ---
 # Crested newt (*Triturus cristatus*) life cycle and transtion matrix
@@ -1267,31 +1280,31 @@ knitr::include_graphics("img/tritionlifecycle.png")
 ```
 
 ---
-## Several options exist to include annual variability on demographic parameters :
+## Several options exist to include annual variability on demographic parameters
 
-- random annual variation around mean values
+- Random annual variation around mean values
 
-- catastrophic events
-
----
-## Several options exist to include annual variability on demographic parameters :
-
-- **random annual variation around mean values**
-
-- catastrophic events
+- Catastrophic events
 
 ---
-# Step 1 : Start from the deterministic transition matrix
+## Several options exist to include annual variability on demographic parameters
+
+- **Random annual variation around mean values**
+
+- Catastrophic events
+
+---
+## Step 1: Start from the deterministic transition matrix
 
 ```{r, echo=FALSE}
 # définir les parametres
-s0 = 0.42 # first year survival of newborn
-s1 = 0.48 # immature survival
-s2 = 0.52 # subadult survival
-s3 = 0.52 # adult survival
-alpha2 = 0.8 # subadult breeding prob.
-alpha3 = 1 # adult breeding prob.
-f = 3.07 # fecundity (nb of females produced / female)
+s0 <- 0.42 # first year survival of newborn
+s1 <- 0.48 # immature survival
+s2 <- 0.52 # subadult survival
+s3 <- 0.52 # adult survival
+alpha2 <- 0.8 # subadult breeding prob.
+alpha3 <- 1 # adult breeding prob.
+f <- 3.07 # fecundity (nb of females produced / female)
 # pre-breeding transition matrix
 A.newt <- matrix( c(0, s0 * alpha2 * f, s0 * alpha3 * f,
                         s1, 0, 0, 
@@ -1303,7 +1316,7 @@ A.newt
 ```
 
 ---
-## Step 2 : Draw annual values for each demographic parameters from a normal distribution
+## Step 2: Draw annual values for each demographic parameters from a normal distribution
 
 ```{r,echo=TRUE,results='hide'}
 s0stoch <- rnorm(n=1500,mean=s0,sd=0.15)
@@ -1314,7 +1327,7 @@ fstoch <- rnorm(n=1500,mean=f,sd=0.5)
 ```
 
 ---
-## Step 2 : Draw annual values for each demographic parameters from a normal distribution
+## Step 2: Draw annual values for each demographic parameters from a normal distribution
 
 ```{r,echo=FALSE, dev = "svg", out.width= "40%", fig.align='center'}
 
@@ -1337,7 +1350,7 @@ abline(v=f, col="purple")
 ```
 
 ---
-## Step 3 : Pile up the stochastic transition matrices
+## Step 3: Pile up the stochastic transition matrices
 
 ```{r, echo=TRUE}
 
@@ -1351,65 +1364,66 @@ A.newtSE[[i]] <- matrix( c( 0,
     sample(s1stoch,1), 0, 0,#<<
     0, sample(s2stoch,1), sample(s3stoch,1) ) ,#<<
     nrow = 3, 
-    ncol= 3)
+    ncol = 3)
 }
 ```
 
 ---
-## Step 4 : Project the population using the stochastic transition matrices
+## Step 4: Project the population using the stochastic transition matrices
 
 ```{r, echo=TRUE, eval=FALSE}
-T = 30
+T <- 30
 runSE <- stoch.projection(A.newtSE, #<<
-          n0 = c(50,50, 50),
+          n0 = c(50, 50, 50),
           tmax = T, 
-          nreps=1000, 
-          verbose=FALSE )
+          nreps = 1000, 
+          verbose = FALSE)
 head(runSE)
 ```
 
 ---
-## Step 4 : Project the population using the stochastic transition matrices
+## Step 4: Project the population using the stochastic transition matrices
 
 ```{r, echo=TRUE, eval=FALSE}
 runSE <- stoch.projection(A.newtSE, 
           # initial population                
-          n0 = c(50,50, 50),#<<
+          n0 = c(50, 50, 50),#<<
           tmax = T, 
-          nreps=1000, 
-          verbose=FALSE)
+          nreps = 1000, 
+          verbose = FALSE)
 runSE
 ```
 
 ---
-## Step 4 : Project the population using the stochastic transition matrices
+## Step 4: Project the population using the stochastic transition matrices
 
 ```{r, echo=TRUE, eval=FALSE}
 runSE <- stoch.projection(A.newtSE, 
-          n0 = c(50,50, 50),
+          n0 = c(50, 50, 50),
           # number of time steps to project over
           tmax = T,#<<
-          nreps=1000, 
-          verbose=FALSE )
+          nreps = 1000, 
+          verbose = FALSE)
 runSE
 ```
 
 ---
-## Step 4 : Project the population using the stochastic transition matrices
+## Step 4: Project the population using the stochastic transition matrices
 
 ```{r, echo=TRUE, eval=TRUE}
 runSE <- stoch.projection(A.newtSE, 
-          n0 = c(50,50, 50),
+          n0 = c(50, 50, 50),
           tmax = T,
           # number of repetitions
-          nreps=1000,#<<
-          verbose=FALSE )
+          nreps = 1000,#<<
+          verbose = FALSE)
 runSE
 ```
 
 ---
-## Step 5 : Examine the results
-Distribution of population sizes after T=20 years ?
+## Step 5: Examine the results
+
+Distribution of population sizes after $T=20$ years?
 
 ```{r, echo=FALSE, dev = "svg", fig.align='center', out.width="40%"}
 pop.size <- data.frame( pop=apply(runSE, 1, sum))
@@ -1419,19 +1433,19 @@ ggplot(pop.size,aes(x=pop)) +
 ```
 
 ---
-## Step 5 : Examine the results
+## Step 5: Examine the results
 
 Long-run stochastic growth rate $\lambda_{s}$: 
 
 ```{r, echo=TRUE, message='hide'}
 lambdastoch <- stoch.growth.rate(A.newtSE, 
                                  maxt = T, 
-                                 verbose=FALSE )
+                                 verbose = FALSE)
 names(lambdastoch)
 ```
 
 ---
-## Step 5 : Examine the results
+## Step 5: Examine the results
 
 Long-run stochastic growth rate $\lambda_{s}$ on a log-scale: 
 ```{r, echo=TRUE}
@@ -1441,7 +1455,7 @@ lambdastoch$sim.CI # with confidence interval
 ```
 
 ---
-## Step 5 : Examine the results
+## Step 5: Examine the results
 
 Long-run stochastic growth rate $\lambda_{s}$: 
 
@@ -1450,9 +1464,9 @@ exp(lambdastoch$approx) # exponentiate to get stochastic growth rate
 ```
 
 ---
-## Step 5 : Examine the results
+## Step 5: Examine the results
 
-Probability of extinction : 
+Probability of extinction: 
 
 ```{r, echo=TRUE, eval = FALSE}
 proba.ext <- stoch.quasi.ext(A.newtSE,
@@ -1468,17 +1482,17 @@ proba.ext
 ```
 
 ---
-## Step 5 : Examine the results
+## Step 5: Examine the results
 
-Probability of extinction : 
+Probability of extinction: 
 
 ```{r, echo=FALSE, eval = TRUE}
 proba.ext <- stoch.quasi.ext(A.newtSE,
    # initial population size
-   n0 = c(50,50, 50),#<<
+   n0 = c(50, 50, 50),#<<
    Nx = 30, 
    nreps = 1000, 
-   tmax=50, 
+   tmax = 50, 
    maxruns = 10, 
    verbose = FALSE)
 
@@ -1486,17 +1500,17 @@ proba.ext
 ```
 
 ---
-## Step 5 : Examine the results
+## Step 5: Examine the results
 
-Probability of extinction : 
+Probability of extinction: 
 
 ```{r, echo=TRUE,eval=FALSE}
 proba.ext <- stoch.quasi.ext(A.newtSE,
-   n =c(50,50,50),
+   n = c(50, 50, 50),
    # quasi-extinction threshold
    Nx = 30, #<<
    nreps = 1000, 
-   tmax=50, 
+   tmax = 50, 
    maxruns = 10, 
    verbose = FALSE)
 
@@ -1504,17 +1518,17 @@ proba.ext
 ```
 
 ---
-## Step 4 : Examine the results
+## Step 5: Examine the results
 
-Probability of extinction : 
+Probability of extinction: 
 
 ```{r, echo=TRUE,eval=FALSE}
 proba.ext <- stoch.quasi.ext(A.newtSE,
-   n =c(50,50,50),
+   n = c(50, 50, 50),
    Nx = 30, 
    # number of runs
    nreps = 1000, #<<
-   tmax=50, 
+   tmax = 50, 
    maxruns = 10, 
    verbose = FALSE)
 
@@ -1522,17 +1536,17 @@ proba.ext
 ```
 
 ---
-## Step 5 : Examine the results
+## Step 5: Examine the results
 
-Probability of extinction : 
+Probability of extinction: 
 
 ```{r, echo=TRUE,eval=FALSE}
 proba.ext <- stoch.quasi.ext(A.newtSE,
-   n =c(50,50,50),
+   n = c(50, 50, 50),
    Nx = 30, 
    nreps = 1000, 
    # number of time steps
-   tmax=50, #<<
+   tmax = 50, #<<
    maxruns = 10, 
    verbose = FALSE)
 
@@ -1540,16 +1554,16 @@ proba.ext
 ```
 
 ---
-## Step 5 : Examine the results
+## Step 5: Examine the results
 
-Probability of extinction : 
+Probability of extinction: 
 
 ```{r, echo=TRUE,eval=FALSE}
 proba.ext <- stoch.quasi.ext(A.newtSE,
-   n =c(50,50,50),
+   n = c(50, 50, 50),
    Nx = 30, 
    nreps = 1000, 
-   tmax=50, 
+   tmax = 50, 
    # repeat to get robust estimates
    maxruns = 10, #<<
    verbose = FALSE)
@@ -1558,23 +1572,23 @@ proba.ext
 ```
 
 ---
-## Step 5 : Examine the results
+## Step 5: Examine the results
 
-Probability of extinction : 
+Probability of extinction: 
 
 ```{r, echo=FALSE, dev = "svg", fig.align='center', out.width="40%"}
 matplot(proba.ext, xlab = "Years", ylab = "Extinction probability", 
         type = "l", 
         lty = 1, 
-        las=TRUE,
+        las = TRUE,
         col = rainbow(10))
 ```
 
 
 ---
-## Step 5 : Examine the results
+## Step 5: Examine the results
 
-Probability of extinction : 
+Probability of extinction: 
 
 ```{r, echo=TRUE}
 proba.ext.mean <- apply(proba.ext,1,mean)
@@ -1582,16 +1596,16 @@ proba.ext.mean[20] # in 20 years
 ```
 
 ---
-### Several options to  generate the stochastic transition matrices :
+## Several options to generate stochastic transition matrices
 
-Include annual variability on demographic parameters :
+Include annual variability on demographic parameters:
 
-- random annual variation around mean values
+- Random annual variation around mean values
 
-- **catastrophic events**
+- **Catastrophic events**
 
 ---
-# Step 1 : Define the transition matrix in good versus bad years
+## Step 1: Define transition matrix in good vs bad years
 
 
 ```{r, echo=TRUE}
@@ -1602,34 +1616,35 @@ fbad <- 0 # fecundity in years with Spring dryness of the pond
 ```
 
 ---
-# Step 1 : Define the transition matrix in good versus bad years
+## Step 1: Define transition matrix in good vs bad years
 
 
 ```{r, echo=TRUE}
 
-# Transition matrix in normal years :
+# Transition matrix in normal years
 A.newtGood <- matrix( c(0, s0 * alpha2 * fgood, s0 * alpha3 * fgood,
                         s1, 0, 0, 0, s2, s3) , 
-                      nrow = 3, ncol= 3, byrow = TRUE)
-# Transition matrix in bad years :
+                      nrow = 3, ncol = 3, byrow = TRUE)
+
+# Transition matrix in bad years
 A.newtBad <- matrix( c(0, s0 * alpha2 * fbad, s0 * alpha3 * fbad,
                             s1, 0, 0, 0, s2, s3) , 
-                          nrow = 3, ncol= 3, byrow = TRUE)
+                          nrow = 3, ncol = 3, byrow = TRUE)
 ```
 
 ---
-# Step 1 : Define the transition matrix in good versus bad years
+## Step 1: Define transition matrix in good vs bad years
 
 
 ```{r, echo=FALSE}
 
 #3 Create a list with both transition matrices
-A.newtCATA <- list(good = A.newtGood, bad= A.newtBad)
+A.newtCATA <- list(good = A.newtGood, bad = A.newtBad)
 A.newtCATA
 ```
 
 ---
-# Step 2 : Define the frequency of catastrophic events
+## Step 2: Define frequency of catastrophic events
 
 
 ```{r, echo=TRUE}
@@ -1640,123 +1655,123 @@ freqbad <- 1/3
 ```
 
 ---
-## Step 3 : Project the population
+## Step 3: Project the population
 
-Project using the 'good' or 'bad' transition matrix with probabillity defined above : 
+Project using the 'good' or 'bad' transition matrix with probabillity defined above: 
 ```{r, echo=TRUE}
 stochCATA <- stoch.projection(A.newtCATA, #<<
                               prob = c( (1-freqbad), (freqbad)), 
-                              n0 = c(50,50,50), 
+                              n0 = c(50, 50, 50), 
                               tmax = 100,
-                              nreps=1000, 
-                              verbose=FALSE )
+                              nreps = 1000, 
+                              verbose = FALSE)
 head(stochCATA)
 ```
 
 ---
-# Step 3 : Project the population
+# Step 3: Project the population
 
-Project using the 'good' or 'bad' transition matrix with probabillity defined above : 
+Project using the 'good' or 'bad' transition matrix with probabillity defined above: 
 
 ```{r, echo=TRUE,eval=FALSE}
 stochCATA <- stoch.projection(A.newtCATA, 
                               # frequency of castastrophic events
                               prob = c( (1-freqbad), (freqbad)), #<<
-                              n0 = c(50,50,50), 
+                              n0 = c(50, 50, 50), 
                               tmax = 100, 
-                              nreps=1000, 
-                              verbose=FALSE) 
+                              nreps = 1000, 
+                              verbose = FALSE) 
 
 stochCATA
 ```
 
 ---
-# Step 3 : Project the population
+# Step 3: Project the population
 
-Project using the 'good' or 'bad' transition matrix with probabillity defined above : 
+Project using the 'good' or 'bad' transition matrix with probabillity defined above: 
 
 ```{r, echo=TRUE,eval=FALSE}
 stochCATA <- stoch.projection(A.newtCATA, 
                               prob = c( (1-freqbad), (freqbad)), 
                               # initial population
-                              n0 = c(50,50,50),#<< 
+                              n0 = c(50, 50, 50),#<< 
                               tmax = 100, 
-                              nreps=1000, 
-                              verbose=FALSE ) 
+                              nreps = 1000, 
+                              verbose = FALSE) 
 
 stochCATA
 ```
 
 ---
-# Step 3 : Project the population
+# Step 3: Project the population
 
-Project using the 'good' or 'bad' transition matrix with probabillity defined above : 
+Project using the 'good' or 'bad' transition matrix with probabillity defined above: 
 
 ```{r, echo=TRUE,eval=FALSE}
 stochCATA <- stoch.projection(A.newtCATA, 
                               prob = c( (1-freqbad), (freqbad)), 
-                              n0 = c(50,50,50), 
+                              n0 = c(50, 50, 50), 
                               # number of time steps
                               tmax = 100,#<< 
-                              nreps=1000, 
-                              verbose=FALSE ) 
+                              nreps = 1000, 
+                              verbose = FALSE) 
 
 stochCATA
 ```
 
 
 ---
-# Step 3 : Project the population
+# Step 3: Project the population
 
-Project using the 'good' or 'bad' transition matrix with probabillity defined above : 
+Project using the 'good' or 'bad' transition matrix with probabillity defined above: 
 
 ```{r, echo=TRUE,eval=FALSE}
 stochCATA <- stoch.projection(A.newtCATA, 
                               prob = c( (1-freqbad), (freqbad)), 
-                              n0 = c(50,50,50), 
+                              n0 = c(50, 50, 50), 
                               tmax = 100, 
                               # number of replicates
-                              nreps=1000, #<<
-                              verbose=FALSE ) 
+                              nreps = 1000, #<<
+                              verbose = FALSE) 
 
 stochCATA
 ```
 
 ---
-# Step 4 : Examine the results
+# Step 4: Examine the results
 
-Long-run stochastic growth rate :
+Long-run stochastic growth rate:
 
 ```{r, echo=TRUE}
 lambdaCATA <- stoch.growth.rate(A.newtCATA, 
                                 prob = c( (1-freqbad), (freqbad)), 
                                 maxt = 100, 
-                                verbose=FALSE )
-exp( lambdaCATA$approx)
+                                verbose = FALSE)
+exp(lambdaCATA$approx)
 ```
 
 ---
-# Step 4 : Examine the results
+# Step 4: Examine the results
 
-Probability of extinction :
+Probability of extinction:
 
 
 ```{r, echo=TRUE}
 proba.extCATA <- stoch.quasi.ext(A.newtCATA, 
                                  prob = c( (1-freqbad), (freqbad)),
-                                 n =c(50,15,50), # initial population
+                                 n = c(50, 15, 50), # initial population
                                  Nx = 30,  # Quasi-extinction threshold
                                  nreps = 1000, # nb. of replicates
-                                 tmax=50, # nb. of time steps
+                                 tmax = 50, # nb. of time steps
                                  maxruns = 10, # nb of repetitions
                                  verbose = TRUE)
 proba.extCATA
 ```
 
 ---
-# Step 4 : Examine the results
+# Step 4: Examine the results
 
-Probability of extinction :
+Probability of extinction:
 ```{r, echo=FALSE, dev = "svg", fig.align='center', out.width="40%"}
 matplot(proba.extCATA, xlab = "Years", ylab = "Probability of extinction", 
         type = "l", 
@@ -1766,9 +1781,9 @@ matplot(proba.extCATA, xlab = "Years", ylab = "Probability of extinction",
 ```
 
 ---
-# Step 4 : Examine the results
+# Step 4: Examine the results
 
-Probability of extinction :
+Probability of extinction:
 
 ```{r, echo=TRUE}
 proba.ext.mean <- apply(proba.extCATA,1,mean)
@@ -1776,18 +1791,18 @@ proba.ext.mean[20] # in 20 years
 ```
 
 ---
-# Step 5 : Interesting to evaluate the sensitivity of the results to changes in :
+# Step 5: Interesting to evaluate the sensitivity of the results to changes in:
 
-- amount of environmental variance
+- Amount of environmental variance
 
-- frequency of catastrophic events
+- Frequency of catastrophic events
 
 --
-- initial population size
+- Initial population size
 
-- extinction threshold
+- Extinction threshold
 
-- number of time steps
+- Number of time steps
 
 ---
 # Live demo on crested newts
@@ -1800,55 +1815,56 @@ knitr::include_graphics("img/triton.jpg")
 
 # Limitations of MPMs
 
-- no density-dependence, no demographic stochasticity
+- No density-dependence, no demographic stochasticity
 
-- no trend or change of mean in environmental variance 
+- No trend or change of mean in environmental variance 
 
-- we are making assumptions about demographic parameters in the future
+- We are making assumptions about demographic parameters in the future
 
-- short-term studies (or small populations) = underestimation of variance in demograhic rates while extinction risks increase with increased temporal variance in pop size
+- Short-term studies (or small populations) = underestimation of variance in demographic rates while extinction risks increase with increased temporal variance in pop size
 
-- keep a critical eyes on results : efficiency of PVAs debated in the litterature
+- Keep a critical eyes on results: efficiency of PVAs debated in the litterature
 
-- in any case, sensitivity analyses remain a powerful tool to identify key demographic parameters and evalute management actions.
+- In any case, sensitivity analyses remain a powerful tool to identify key demographic parameters and evalute management actions.
 
 
 ---
-# In which cases constant MPMs are useful despite its limitations ?
+# In which cases constant MPMs are useful despite its limitations?
 
-- especially for big populations (little impact of demographic stochasticity)
+- Especially for big populations (little impact of demographic stochasticity)
 
-- when survival and fertility are best structured by age or stage
+- When survival and fertility are best structured by age or stage
 
-- strong knowledge of the species biology, life cycle and estimate of demographic parameters are critical 
+- Good knowledge of the species biology, life cycle and estimate of demographic parameters are critical 
 
-- models with both deterministic and stochastic components can be fitted to data to separate them through statistical model selection processes
+- Models with both deterministic and stochastic components can be fitted to data to separate them through statistical model selection processes
 
 ---
 # Other (more complicated) models exist 
 
 - MPMs including demographic stochasticity for small populations
 
-- density-dependent MPMs 
+- Density-dependent MPMs 
 
-- two sex models for species with skewed reproductive success
+- Two-sex models for species with skewed reproductive success
 
-- integral projection models for size-structured demography
+- Integral projection models for size-structured demography
 
-- continuous-time models 
+- Continuous-time models 
 
-- multi-species models...
+- Multi-species models...
 
 ---
+
 # Useful references
 
-Morris, William, et al. "A practical handbook for population viability analysis." The Nature Conservancy (1999).
+Morris, William, et al. (1999). *A practical handbook for population viability analysis.* The Nature Conservancy.
 
-Caswell, H., 2000. Matrix population models (Vol. 1). Sunderland, MA: Sinauer.
+Caswell, H. (2000). *Matrix population models (Vol. 1)*. Sunderland, MA: Sinauer.
 
-Brook, Barry W., et al. "Predictive accuracy of population viability analysis in conservation biology." Nature 404.6776 (2000): 385-387.
+Brook, Barry W., et al. (2000). Predictive accuracy of population viability analysis in conservation biology. *Nature* 404.6776: 385-387.
 
-Beissinger, Steven R., and Dale R. McCullough, eds. Population viability analysis. University of Chicago Press, 2002.
+Beissinger, Steven R., and Dale R. McCullough, eds. (2002). *Population viability analysis*. University of Chicago Press.
 
-Reed, J. Michael, et al. "Emerging issues in population viability analysis." Conservation biology 16.1 (2002): 7-19.
+Reed, J. Michael, et al. (2002). Emerging issues in population viability analysis. *Conservation Biology* 16.1: 7-19.
 

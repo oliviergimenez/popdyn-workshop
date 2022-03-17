@@ -21,14 +21,14 @@ class: center, middle, title-slide
 
 
 
-# What we've learned during this class
+# What we've learned so far
 
-### Obj. 1: Know current and past trends in population abundance
+### Obj. 1: Assess current and past trends in population abundance
 - see class 1
 
 --
 
-### Obj. 2: Estimate demographic parameters and identify the causes of variation
+### Obj. 2: Estimate demographic parameters and identify causes of variation
 - see class 2
 
 --
@@ -39,40 +39,40 @@ class: center, middle, title-slide
 ---
 # Population Viability Analysis (PVA)
 
-Morris et al. 1999. A practical handbook for population viability analysis. The Nature Conservancy :
+Morris et al. (1999). *A practical handbook for population viability analysis*. The Nature Conservancy.
 
-+ use of **quantitative methods** to predict the **likely future status** of a population or collection of populations of conservation concern 
++ Use of **quantitative methods** to predict the **likely future status** of a population or collection of populations of conservation concern
 
 
-+ **tentative assessments** based upon what we now know **rather than as iron-clad predictions **of population fate
++ **Tentative assessments** based upon what we now know **rather than as iron-clad predictions **of population fate
 
 
 ---
 # Why is PVA useful ? 
 
-+ quantify the rate of population change over time
++ Quantify rate of population change over time
 
 --
 
-+ estimate extinction risks (used by the IUCN)
++ Estimate extinction risks (used by IUCN)
 
 --
 
-+ identify key parameters for population management
++ Identify key parameters for population management
 
 --
 
-+ evaluate and compare the relative impact of population management actions
++ Evaluate and compare relative impact of population management actions
 
 ---
-## Can we assess population viability from population counts ?
+## Can we assess population viability from counts ?
 
 &lt;img src="img/pop_size.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 class: center, middle
 
-# 1- Count based PVA
+# 1- Count-based PVA
 
 ---
 # Finite population growth rate `\(\lambda\)`
@@ -85,11 +85,11 @@ class: center, middle
 
 .pull-right[
 
-- exponential growth or decay at a constant rate of change
+- Exponential growth or decay at a constant rate of change
 
-- `\(\lambda = \frac{N_{t+1}}{N_{t}}\)` gives the **proportional change** in population size
+- `\(\lambda = \displaystyle{\frac{N_{t+1}}{N_{t}}}\)` gives the **proportional change** in population size
 
-- after t time steps, the population will be `\(N_{t} = N_{0} \cdot \lambda^{t}\)`
+- After `\(t\)` time steps, population size will be `\(N_{t} = N_{0} \cdot \lambda^{t}\)`
 
 - `\(\lambda\)` is log-normally distributed
 
@@ -99,14 +99,14 @@ class: center, middle
 
 # Growth rate versus intrinsic rate of increase
 
-- **Population growth rate** `\(\lambda \sim Lognormal(\mu,\sigma^{2})\)`
+- **Population growth rate** `\(\lambda \sim \mbox{Lognormal}(\mu,\sigma^{2})\)`
 
-- easier to work with the **intrinsic rate of increase** 
-`$$r = \log(\lambda) = \log(\frac{N_{t+1}}{N_{t}}) = \log(N_{t+1}) - \log(N_{t})$$`
+- Easier to work with the **intrinsic rate of increase** 
+`$$r = \log(\lambda) = \log\left(\frac{N_{t+1}}{N_{t}}\right) = \log(N_{t+1}) - \log(N_{t})$$`
 
 --
 
-- which is normally distributed
+- Which is normally distributed
 `\(r \sim N(\mu,\sigma^{2})\)`
 
 --
@@ -118,19 +118,21 @@ class: center, middle
 ---
 # Environmental variance
 
-- if the mean rate of increase `\(\mu &lt; 0\)` extinction will certainly occur. 
+- If the mean rate of increase `\(\mu &lt; 0\)`, extinction will certainly occur. 
 
 --
 
-- a population can still decline or go extinct even if the mean rate of increase `\(\mu&gt;0\)` because of environmental variance `\(\sigma^{2}\)`.
+- A population can still decline or go extinct even if the mean rate of increase `\(\mu&gt;0\)`, because of environmental variance `\(\sigma^{2}\)`
 
 --
-- variable environments increase extinction risks.
+
+- Variable environments increase extinction risks
 
 
 ---
 ## Example of the Yellowstone grizzly bear population 
-from Morris &amp; Doak. 2002. Quantitative conservation biology: Theory and practice of population viability analysis. Massachusetts, USA.
+
+From Morris &amp; Doak (2002). *Quantitative conservation biology: Theory and practice of population viability analysis*. Massachusetts, USA.
 
 .pull-left[
 &lt;img src="matrixmodels_files/figure-html/unnamed-chunk-3-1.svg" width="85%" /&gt;
@@ -141,7 +143,7 @@ from Morris &amp; Doak. 2002. Quantitative conservation biology: Theory and prac
 ]
 
 ---
-# Step 1 : Calculate `\(\mu\)` and `\(\sigma^{2}\)`  from the data
+# Step 1: Calculate `\(\mu\)` and `\(\sigma^{2}\)`  from the data
 
 
 ```r
@@ -161,11 +163,11 @@ logN &lt;- log(N[-1]/N[-length(N)]) # log(Nt+1) - log(Nt)
 
 --
 
-- `\(\mu &gt;0\)` in average the population is growing
+- `\(\mu &gt;0\)` so on average the population is growing
 
 --
 
-- `\(\sigma^{2} = 0.013\)` reflect low inter-annual variance in the rate of increase
+- `\(\sigma^{2} = 0.013\)` reflects low inter-annual variance in the rate of increase
 
 
 ---
@@ -175,7 +177,7 @@ logN &lt;- log(N[-1]/N[-length(N)]) # log(Nt+1) - log(Nt)
 ```r
 x &lt;- sqrt(grizzly$year[-1] - grizzly$year[-length(grizzly$year)]) # sqrt time intervals
 y &lt;- logN / x
-mod &lt;- lm(y ~ 0 + x) # forcing a y-intercept of zero
+mod &lt;- lm(y ~ 0 + x) # forcing a intercept of zero
 mod
 ```
 
@@ -190,7 +192,7 @@ Coefficients:
 ```
 
 ```r
-mu &lt;- coef(mod) # the slope = mean intrinsic rate of increase
+mu &lt;- coef(mod) # slope = mean intrinsic rate of increase
 ```
 
 ---
@@ -229,7 +231,7 @@ confint(mod, 1)
         2.5 %     97.5 %
 x -0.01620969 0.05889023
 ```
-- confidence interval of mean rate of increase encompasses 0, we cannot rule out potential risk of decline!
+- Confidence interval of mean rate of increase encompasses 0, therefore we cannot rule out a potential risk of decline!
 
 --
 
@@ -247,7 +249,7 @@ df1 * sigma2 / qchisq(c(.975, .025), df = df1)
 
 ---
 
-## Back-transform to get finite population growth rate `\(\bar{\lambda}\)`  :
+## Back-transform to get finite population growth rate `\(\bar{\lambda}\)`
  
 
 ```r
@@ -262,35 +264,35 @@ lambda # average growth rate
 
 --
 
-- here `\(\bar{\lambda} &gt; 1\)`, so the grizzly population is growing in average
+- Here `\(\bar{\lambda} &gt; 1\)`, so the grizzly population is growing on average
 
-- it does not rule out the possibility of a decline owing to the chance occurrence of a sequence of bad years (remember confidence interval)
+- It does not rule out the possibility of a decline owing to the chance occurrence of a sequence of bad years (remember confidence interval)
 
 ---
 
-# Step 2 : Project the population
+# Step 2: Project the population
 
 - Expected population size using mean rate of increase and ignoring environmental variance (not recommended)
 
 `$$N_{t} =  N_{0} \cdot \mu^{t}$$`
 
-`$$ln(N_{t}) =  ln(N_{0}) + \mu \cdot t$$`
+`$$\ln(N_{t}) =  \ln(N_{0}) + \mu \cdot t$$`
 
 --
 
-* initial population `\(N_{0}=44\)`
+* Initial population `\(N_{0}=44\)`
 
-* time steps to project over : `\(t =38\)` years (nb. years - 1)
+* Time steps to project over: `\(t = 38\)` years (nb. years - 1)
 
-* mean rate of increase `\(\mu = 0.021\)` 
+* Mean rate of increase `\(\mu = 0.021\)` 
 
 ---
-# Step 2 : Project the population
+# Step 2: Project the population
 
 &lt;img src="matrixmodels_files/figure-html/unnamed-chunk-12-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
-# Step 2 : Project the population
+# Step 2: Project the population
 ## Let's account for observed variation in growth rate
 
 - First, set the initial population, number of time steps, and number of repetitions: 
@@ -299,16 +301,16 @@ lambda # average growth rate
 ```r
 n0 &lt;- grizzly$N[1] # initial pop.
 
-T&lt;-50 # time iterations to project over
+T &lt;- 50 # time iterations to project over
 
-runs&lt;-500  # number of repetitions (pop. trajectories)
+runs &lt;- 500  # number of repetitions (pop. trajectories)
 
-stoch.pop&lt;-matrix(NA,T,runs) # to store resuts       
-stoch.pop[1,]&lt;-n0 # initiate
+stoch.pop &lt;- matrix(NA,T,runs) # to store resuts       
+stoch.pop[1,] &lt;- n0 # initiate
 ```
 
 ---
-# Step 2 : Project the population
+# Step 2: Project the population
 ## Let's account for observed variation in growth rate
 
 
@@ -323,7 +325,7 @@ Ne &lt;- 30  # threshold for minimum viable pop.
 
 - 1 female or a minimum viable population (genetic drift, demographic stochasticity)
 
-- can also be the lowest level of abundance at which it remains feasible to attempt intervention to prevent further decline. 
+- Can also be the lowest level of abundance at which it remains feasible to attempt intervention to prevent further decline. 
 
 ---
 ## Now run the projections
@@ -333,15 +335,15 @@ Ne &lt;- 30  # threshold for minimum viable pop.
 *for (i in 1:runs){
 * for (t in 2:T){
 # Draw r from normal using estimates of mu and sigma2
-        r &lt;- rnorm(1,mu,sqrt(sigma2)) 
+        r &lt;- rnorm(n = 1, mean = mu, sd = sqrt(sigma2)) 
 # back-transform to get lambda and get pop. size
-    lambda&lt;-exp(r) 
+    lambda &lt;- exp(r) 
 #project one time step from the current pop size
-    stoch.pop[t,i]&lt;-stoch.pop[(t-1),i]*lambda 
+    stoch.pop[t,i] &lt;- stoch.pop[(t-1),i] * lambda 
 # leave the loop if pop &lt;= threshold
-    if(stoch.pop[t,i]&lt;=Ne){ 
+    if(stoch.pop[t,i] &lt;= Ne){ 
       stoch.pop[t,i] &lt;- 0 
-      i&lt;i+1}  
+      i &lt; i+1}  
   }
 }
 ```
@@ -354,15 +356,15 @@ Ne &lt;- 30  # threshold for minimum viable pop.
 for (i in 1:runs){ # loop over repetitions
   for (t in 2:T){	# loop over years
 # Draw r from normal using estimates of mu and sigma2
-*       r &lt;- rnorm(1,mu,sqrt(sigma2))
+*       r &lt;- rnorm(n = 1, mean = mu, sd = sqrt(sigma2))
 # back-transform to get lambda and get pop. size
-    lambda&lt;-exp(r) 
+    lambda &lt;- exp(r) 
 #project one time step from the current pop size
-    stoch.pop[t,i]&lt;-stoch.pop[(t-1),i]*lambda 
+    stoch.pop[t,i] &lt;- stoch.pop[(t-1),i] * lambda 
 # leave the loop if pop &lt;= threshold
-    if(stoch.pop[t,i]&lt;=Ne){ 
+    if(stoch.pop[t,i] &lt;= Ne){ 
       stoch.pop[t,i] &lt;- 0 
-      i&lt;i+1}  
+      i &lt; i+1}  
   }
 }
 ```
@@ -375,15 +377,15 @@ for (i in 1:runs){ # loop over repetitions
 for (i in 1:runs){ # loop over repetitions
   for (t in 2:T){	# loop over years
 # Draw r from normal using estimates of mu and sigma2
-        r &lt;- rnorm(1,mu,sqrt(sigma2)) 
+        r &lt;- rnorm(n = 1, mean = mu, sd = sqrt(sigma2))
 # back-transform to get lambda and get pop. size
-*   lambda&lt;-exp(r)
+*   lambda &lt;- exp(r)
 #project one time step from the current pop size
-*   stoch.pop[t,i]&lt;-stoch.pop[(t-1),i]*lambda
+*   stoch.pop[t,i] &lt;- stoch.pop[(t-1),i] * lambda
 # leave the loop if pop &lt;= threshold
-    if(stoch.pop[t,i]&lt;=Ne){ 
+    if(stoch.pop[t,i] &lt;= Ne){ 
       stoch.pop[t,i] &lt;- 0 
-      i&lt;i+1}  
+      i &lt; i+1}  
   }
 }
 ```
@@ -397,51 +399,52 @@ for (i in 1:runs){ # loop over repetitions
 for (i in 1:runs){ # loop over repetitions
   for (t in 2:T){	# loop over years
 # Draw r from normal using estimates of mu and sigma2
-        r &lt;- rnorm(1,mu,sqrt(sigma2)) 
+        r &lt;- rnorm(n = 1, mean = mu, sd = sqrt(sigma2)) 
 # back-transform to get lambda and get pop. size
-    lambda&lt;-exp(r)
+    lambda &lt;- exp(r)
 #project one time step from the current pop size
-    stoch.pop[t,i]&lt;-stoch.pop[(t-1),i]*lambda 
+    stoch.pop[t,i] &lt;- stoch.pop[(t-1),i] * lambda 
 # leave the loop if pop &lt;= threshold
-*   if(stoch.pop[t,i]&lt;=Ne){
+*   if(stoch.pop[t,i] &lt;= Ne){
 *     stoch.pop[t,i] &lt;- 0
-*     i&lt;i+1}
+*     i &lt; i+1}
   }
 }
 ```
 
 ---
-## Step 3 : Examine the results
+## Step 3: Examine the results
 
 &lt;img src="matrixmodels_files/figure-html/unnamed-chunk-19-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
-## Step 3 : Examine the results
+## Step 3: Examine the results
 
-Plot population size at the last time step :
+Plot population size at the last time step:
 
 &lt;img src="matrixmodels_files/figure-html/unnamed-chunk-20-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
-## Step 3 : Examine the results
-Plot prediction together with observed counts :
+## Step 3: Examine the results
+Plot prediction together with observed counts:
 
 &lt;img src="matrixmodels_files/figure-html/unnamed-chunk-21-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
-# Step 4 : Quantify extinction risks
+# Step 4: Quantify extinction risks
 
-- The average population growth rate doesn’t do a good job of predicting what most population realizations will do
+- The average population growth rate doesn’t do a good job at predicting what most population realizations will do
 
 --
 
-- What are the chances that the population will go extinct at various times ? 
+- What are the chances that the population will go extinct at various times? 
 
-  + extinction risk
+  + Extinction risk
   
-  + time to extinction
+  + Time to extinction
+  
 ---
-# Step 4 : Quantify extinction risks
+# Step 4: Quantify extinction risks
 
 - Ultimate extinction probability = percentage of trajectories (over the 500 runs) reaching the extinction threshold at some point (over T years)
 
@@ -452,84 +455,85 @@ Pr.ext
 ```
 
 ```
-[1] 0.198
+[1] 0.204
 ```
 
 
 ---
-# Step 4 : Quantify extinction risks
+# Step 4: Quantify extinction risks
 - Cumulative extinction risk over the years
 
 &lt;img src="matrixmodels_files/figure-html/unnamed-chunk-23-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
-# Step 5 : Quantify time to extinction
-- mean time to extinction is an overestimation (because of few pop. growing fast)
-- median time to extinction is a better measure
+# Step 5: Quantify time to extinction
+- Mean time to extinction is an overestimation (because of few pop. growing fast)
+- Median time to extinction is a better measure
 
 
 ```r
 # Time to reach extinction for extinct pop.
-maxt&lt;-NULL	# empty vector to store results
+maxt &lt;- NULL	# empty vector to store results
 for (i in 1:runs){	# loop over repetitions
   N &lt;- stoch.pop[,i]
   # max time N &gt; threshold
-* maxt[i]&lt;-max(which(N&gt;0)) }
+* maxt[i] &lt;- max(which(N&gt;0)) }
 # time at extinction for pseudo-extinct populations
-*time.ext &lt;- maxt[maxt&lt;T]
+*time.ext &lt;- maxt[maxt &lt; T]
 median(time.ext)
 ```
 
 ```
-[1] 9
+[1] 10.5
 ```
 
 ---
-# Step 5 : Quantify time to extinction
+# Step 5: Quantify time to extinction
 
 &lt;img src="matrixmodels_files/figure-html/unnamed-chunk-25-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
-# Step 6 : Perturb and run the model
+# Step 6: Perturb and run the model
 
-### Interesting to evaluate the sensitivity of the results to changes in :
+### Interesting to evaluate the sensitivity of the results to changes in:
 
-- initial population size
-- extinction threshold
-- amount of environmental variance
-- number of time steps
+- Initial population size
+- Extinction threshold
+- Amount of environmental variance
+- Number of time steps
 
 ---
 # Live demo on grizzly bears 
-from Morris &amp; Doak. 2002. Quantitative conservation biology: Theory and practice of population viability analysis. Massachusetts, USA.
+
+From Morris &amp; Doak (2002). *Quantitative conservation biology: Theory and practice of population viability analysis*. Massachusetts, USA.
 
 &lt;img src="img/bear.jpg" width="40%" style="display: block; margin: auto;" /&gt;
 
 ---
-# Count based extinction analyses are based on strong hypotheses
+# Count-based extinction analyses are based on strong hypotheses
 
-- exhaustive counts (no sampling error)
-
---
-
-- no density-dependence (exponential growth)
+- Exhaustive counts (no sampling error)
 
 --
 
-- only source of variation is environmental stochasticity (no demographic stochasticity, no trends in mean or variance over time, uncorrelated environment among successive  years)
+- No density-dependence (exponential growth)
 
 --
 
-- moderate environmental variability (no catastrophe, no bonanzas)
+- Only source of variation is environmental stochasticity (no demographic stochasticity, no trends in mean or variance over time, uncorrelated environment among successive years)
+
+--
+
+- Moderate environmental variability (no catastrophe, no bonanzas)
 
 ---
-# Avantages
+# Advantages
 
-- simplicity (data requirement at least 10 censuses and calculation)
+- Simplicity (data requirement at least 10 censuses and calculation)
  
-- work relatively well when assumptions are met
+- Work relatively well when assumptions are met
  
-- assess model quality by hindcasting
+- Assess model quality by hindcasting
 
 ---
 
@@ -539,13 +543,13 @@ from Morris &amp; Doak. 2002. Quantitative conservation biology: Theory and prac
 
 --
 
-- no info about the mechanisms governing the dynamics
+- No info about the mechanisms governing the dynamics
 
 --
 
-- no hints about which management action might be most efficient? 
+- No hints about which management action might be most efficient? 
 
-- is it better to act on survival ? fecundity ? of adults ? juveniles ?
+- Is it better to act on survival? Fecundity? That of adults? Of juveniles?
 
 ---
 # Can we assess population viability from demographic parameters ?
@@ -572,7 +576,7 @@ class: center, middle
 ---
 # Demographic parameters (see class 2)
 
-- demographic parameters are often **heterogeneous across the life cycle** : survival and fecundity vary with age and/or stage in many species.
+- Demographic parameters are often **heterogeneous across the life cycle**: survival and fecundity vary with age and/or stage in many species.
 
 &lt;img src="img/oak-tree.jpg" width="60%" style="display: block; margin: auto;" /&gt;
 
@@ -595,12 +599,12 @@ class: center, middle
 ---
 # Demographic parameters
 
-Survival rates :
+Survival rates:
 - `\(S_{0}\)` chick survival 
 - `\(S_{1}\)` juvenile survival (1 yo)
 - `\(S_{2}\)` adult survival (2+ yo)
 
-Fecundity : 
+Fecundity: 
 - `\(F_{1}\)` number of females produced by a juvenile female
 - `\(F_{2}\)` number of females produced by an adult female
 
@@ -609,18 +613,18 @@ Fecundity :
 
 &lt;img src="img/PreBreeding.png" width="100%" style="display: block; margin: auto;" /&gt;
 
-+ pre-breeding census
++ Pre-breeding census
 
 ---
 # Timing of data collection ?
 
 &lt;img src="img/PostBreeding.png" width="100%" style="display: block; margin: auto;" /&gt;
 
-+ post-breeding census
++ Post-breeding census
 
 ---
 
-# Step 1 : write the agenda of events
+# Step 1: write the agenda of events
 
 + Let's first consider a pre-breeding census
 
@@ -629,7 +633,7 @@ Fecundity :
 
 ---
 
-# Step 1 : write the agenda of events
+# Step 1: write the agenda of events
 
 + Let's first consider a pre-breeding census
 
@@ -637,36 +641,38 @@ Fecundity :
 
 ---
 
-# Step 1 : write the agenda of events
+# Step 1: write the agenda of events
 
 + Let's first consider a pre-breeding census
 
 &lt;img src="img/AgendaPreB3.png" width="100%" style="display: block; margin: auto;" /&gt;
+
 --
-+ Note that newborn are not observed directly !
+
++ Note that newborn are not observed directly!
 
 ---
-# Step 2 : Translate into life cycle graph or 'Caswell representation'
+# Step 2: Translate into life cycle graph or 'Caswell representation'
 
-- a trick is to go 'up the arrows'
+- A trick is to go 'up the arrows'
 
 &lt;img src="img/preBLifeCycle.png" width="35%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Step 3 : Translate into equations
+# Step 3: Translate into equations
 
 - Link `\(N_{(t+1)}\)` to `\(N_{(t)}\)` via survival and fertility rates
-- a trick is to read the parameters going up the arrows
+- A trick is to read the parameters going up the arrows
 
 `\(N_{(1,t+1)} = F_{1} \cdot S_{0} \cdot N_{(1,t)}+ F_{2} \cdot S_{0} \cdot N_{(2,t)}\)`
 
 `\(N_{(2,t+1)} = S_{1} . N_{(1,t)} + S_{2} . N_{(2,t)}\)`
 
 ---
-# Step 4 : Arrange in a matrix format
+# Step 4: Arrange in a matrix format
 
-+ called the **transition matrix**, or the **projection matrix** 
++ Called the **transition matrix**, or the **projection matrix** 
 
 
 `$$N_{(t+1)} = \begin{bmatrix}F_{1} \cdot S_{0} &amp; F_{2} \cdot S_{0}\\
@@ -674,9 +680,9 @@ S_{1} &amp; S_{2}
 \end{bmatrix} \cdot N_{(t)}$$`
 
 ---
-# Step 4 : Arrange in a matrix format
+# Step 4: Arrange in a matrix format
 
-+ with `\(S_{0} = 0.2\)`, `\(S_{1} = 0.5\)` and `\(S_{2} = 0.65\)`
++ With `\(S_{0} = 0.2\)`, `\(S_{1} = 0.5\)` and `\(S_{2} = 0.65\)`
 + `\(F_{1} = 3/2\)` and `\(F_{2} = 6/2\)`
 
 
@@ -685,41 +691,42 @@ S_{1} &amp; S_{2}
 \end{bmatrix} \cdot N_{(t)}$$`
 
 ---
-# What is the difference with a post-breeeding census ?
+## What is the difference with a post-breeeding census ?
 
 --
 
 &lt;img src="img/PostBreeding.png" width="100%" style="display: block; margin: auto;" /&gt;
 
-+ post-breeding census
++ Post-breeding census
 
 ---
-# Step 1 : write the agenda of events
+# Step 1: write the agenda of events
 
 &lt;img src="img/AgendaPostB1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Step 1 : write the agenda of events
+# Step 1: write the agenda of events
 
 &lt;img src="img/AgendaPostB2.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Step 1 : write the agenda of events
+# Step 1: write the agenda of events
 
 &lt;img src="img/AgendaPostB3.png" width="100%" style="display: block; margin: auto;" /&gt;
 --
-+ Note that newborn are now observed !
+
++ Note that newborn are now observed!
 
 ---
-# Step 2 : Translate into life cycle graph or 'Caswell representation'
+# Step 2: Translate into life cycle graph or 'Caswell representation'
 
 &lt;img src="img/postBLifeCycle.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Step 3 : Translate into equations
+# Step 3: Translate into equations
 
 `\(N_{(0,t+1)} =  S_{0} \cdot F_{1} \cdot  N_{(0,t)} + S_{1} \cdot F_{2} \cdot N_{(1,t)}+ S_{2} \cdot F_{2} \cdot  N_{(2,t)}\)`
 
@@ -728,7 +735,8 @@ S_{1} &amp; S_{2}
 `\(N_{(2,t+1)} = S_{1} \cdot N_{(1,t)} + S_{2} \cdot N_{(2,t)}\)`
 
 --
-# Step 4 : Arrange in a matrix format
+
+# Step 4: Arrange in matrix format
 
 `$$N_{(t+1)} = \begin{bmatrix} S_{0} \cdot F_{1} &amp; S_{1} \cdot F_{2} &amp; S_{2} \cdot F _{2} \\
 S_{0} &amp; 0 &amp; 0 \\
@@ -738,11 +746,11 @@ S_{0} &amp; 0 &amp; 0 \\
 ---
 # Why is the matrix format interesting ? 
 
-- easier to read than multiple equations
+- Easier to read than multiple equations
 
-- intrinsic numeric features (back to it later)
+- Intrinsic numeric features (back to it later)
 
-- work the same way for complex life cycles 
+- Work the same way for complex life cycles 
   
 ---
 # Examples 
@@ -750,27 +758,28 @@ S_{0} &amp; 0 &amp; 0 \\
 &lt;img src="img/Compadre.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 ---
-## Several sites : Barn swallow example
+## Several sites: Barn swallow example
 
 &lt;img src="img/twosites.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 ---
-## Variable age at first reproduction : Slender-billed gull example
+## Variable age at first reproduction: Slender-billed gull example
 
 &lt;img src="img/recruitment.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 ---
-## Transition among stages : Peony example
+## Transition among stages: Peony example
 
 &lt;img src="img/stages.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 
 ---
 # The projection matrix
-- How many age classes / stages in the life cycle ?
-- age at first reproduction ?
-- maximum age at death fixed or not ?
-- pre- or post-breeding census ?
+
+- How many age classes / stages in the life cycle?
+- Age at first reproduction?
+- Maximum age at death fixed or not?
+- Pre- or post-breeding census?
 
 
 &lt;img src="img/Leslie.png" width="60%" style="display: block; margin: auto;" /&gt;
@@ -783,7 +792,7 @@ class: center, middle
 ---
 # Step 5: Project the population
 
-+ write the transition matrix in R :
++ Write the transition matrix in R:
   
 
 ```r
@@ -802,7 +811,7 @@ A.swallow
 
 # Step 5: Project the population
 
-+ start from an initial population `\(n_{0}\)` at time `\(t =0\)`
++ Start from an initial population `\(n_{0}\)` at time `\(t=0\)`:
   
 
 ```r
@@ -817,7 +826,7 @@ n0
 ---
 # Step 5: Project the population
 
-+ project to the next time step :
++ Project to the next time step:
   
 
 ```r
@@ -833,7 +842,7 @@ n1
 ---
 # Step 5: Project the population
 
-+ project the population over 10 years :
++ Project the population over 10 years:
   
 
 ```r
@@ -854,19 +863,19 @@ n10
 ---
 # Step 5: Project the population
 
-+ or using built-in function from package popbio :
++ Or using built-in functions from package `popbio`:
   
 
 ```r
 library(popbio) # load package
-t &lt;-11
+t &lt;- 11
 # project the population
 *results &lt;- pop.projection(A.swallow,n0,iterations = t)
 results
 ```
 
 ---
-## Step 6 : Examine the results 
+## Step 6: Examine the results 
 
 Let's plot the projection
 
@@ -875,18 +884,18 @@ Let's plot the projection
 ---
 ## Convergence to a stable distribution
 
-Transient dynamics :
-+ depends on the initial population
-+ damping ratio measures how fast the population converges toward the equilibrium
+Transient dynamics:
++ Depends on the initial population
++ Damping ratio measures how fast the population converges toward equilibrium
 
-Stationary phase :
-+ independent of initial conditions
-+ depends on the transition matrix only
-+ constant growth rate = stable or **asymptotic population growth rate** ( `\(\lambda\)` )
-+ constant proportion of individuals per age/stage = **stable age/stage structure**
+Stationary phase:
++ Independent of initial conditions
++ Depends on the transition matrix only
++ Constant growth rate = stable or **asymptotic population growth rate** ( `\(\lambda\)` )
++ Constant proportion of individuals per age/stage = **stable age/stage structure**
 
 ---
-## Step 6 : Examine the results 
+## Step 6: Examine the results 
   
 
 ```r
@@ -900,7 +909,7 @@ names(results)
 ```
 
 ---
-## Step 6 : Examine the results 
+## Step 6: Examine the results 
 
 First element contains the average growth rate in stationary phase
 = **asymptotic growth rate** 
@@ -915,7 +924,7 @@ results$lambda
 ```
 
 ---
-## Step 6 : Examine the results 
+## Step 6: Examine the results 
 
 Second element contains the **stable age/stage structure**
 = % of each age/stage in the population in stationary phase
@@ -930,7 +939,7 @@ results$stable.stage
 ```
 
 ---
-## Step 6 : Examine the results 
+## Step 6: Examine the results 
 
 Third element contains pop. sizes per age/stage class at each time step
 
@@ -949,7 +958,7 @@ results$stage.vectors
 ```
 
 ---
-## Step 6 : Examine the results 
+## Step 6: Examine the results 
 
 Fourth element contains total pop. size at each time step
 
@@ -964,9 +973,9 @@ results$pop.sizes
 ```
 
 ---
-## Step 6 : Examine the results 
+## Step 6: Examine the results 
 
-Fifth element is the rate of change ($\lambda_{t}$) at each time step
+Fifth element is `\(\lambda_{t}\)` the rate of change at each time step
 
 
 ```r
@@ -981,7 +990,7 @@ results$pop.changes
 ---
 ## Quantities in stationary phase
 
-Calculated directly from the transition matrix : 
+Calculated directly from the transition matrix: 
 
 
 ```r
@@ -995,7 +1004,7 @@ lambda(A.swallow) #stable population growth rate
 ---
 ## Quantities in stationary phase
 
-Calculated directly from the transition matrix : 
+Calculated directly from the transition matrix: 
 
 
 ```r
@@ -1009,7 +1018,7 @@ stable.stage(A.swallow) # stable age/stage structure
 ---
 ## Quantities in stationary phase
 
-Calculated directly from the transition matrix : 
+Calculated directly from the transition matrix: 
 
 
 ```r
@@ -1024,7 +1033,7 @@ reproductive.value(A.swallow)
 ---
 ## Quantities in stationary phase
 
-Calculated directly from the transition matrix : 
+Calculated directly from the transition matrix: 
 
 
 ```r
@@ -1040,9 +1049,9 @@ generation.time(A.swallow) # average time between generations
 ```
 
 ---
-# Step 7 : Sensitivity analysis
+# Step 7: Sensitivity analysis
 
-Let's perturb the model : what happens if female adult survival is reduced by 50% ?
+Let's perturb the model: What happens if female adult survival is reduced by 50%?
 
 
 ```r
@@ -1059,23 +1068,24 @@ A.swallow.modified
 ```
 
 ---
-# Step 7 : Sensitivity analysis
+# Step 7: Sensitivity analysis
 
 
 ```r
 n0 &lt;- c(100,100)
-t&lt;-10
+t &lt;- 10
 results.modified &lt;- pop.projection(A.swallow.modified,
                                    n0,
                                    iterations = t) 
 ```
 
 ---
-# Step 7 : Sensitivity analysis
+# Step 7: Sensitivity analysis
 
 &lt;img src="matrixmodels_files/figure-html/unnamed-chunk-64-1.svg" style="display: block; margin: auto;" /&gt;
+
 ---
-# Step 7 : Sensitivity analysis
+# Step 7: Sensitivity analysis
 
 
 ```r
@@ -1086,11 +1096,11 @@ lambda(A.swallow.modified)
 [1] 0.8603652
 ```
 
-+ the population is now declining
-+ adult survival is important to population growth
++ The population is now declining
++ Adult survival is important to population growth
 
 ---
-# Step 7 : Sensitivity analysis
+# Step 7: Sensitivity analysis
 
 
 + What happens if juvenile survival is reduced ?
@@ -1101,23 +1111,24 @@ lambda(A.swallow.modified)
 + Which demographic parameter contributes most to population dynamics ?
 
 ---
-# Step 7 : Sensitivity analysis
+# Step 7: Sensitivity analysis
 
-+ measuring the **impact of a change in a specific demographic parameter on population dynamics** 
++ Measuring the **impact of a change in a specific demographic parameter on population dynamics** 
 
-+ **sensitivity** measure **absolute change** (e.g. -0.1 in parameter)
++ **Sensitivity** measures **absolute change** (e.g. -0.1 in parameter)
 `$$\frac{\delta \lambda}{\delta \theta}$$` 
 
 --
 
-+ **elasticity** measures **relative change** (e.g. -0.1% change in parameter)
++ **Elasticity** measures **relative change** (e.g. -0.1% change in parameter)
 `$$\frac{\delta \lambda}{\delta \theta} \cdot \frac{\theta}{\lambda}$$` 
 
 --
-+ both are useful, elasticity is better to compare parameters that are on different scales (change in survival versus fertility)
+
++ Both are useful, elasticity is better to compare parameters that are on different scales (change in survival versus fertility)
 
 ---
-# Step 7 : Sensitivity analysis
+# Step 7: Sensitivity analysis
 
 
 ```r
@@ -1132,7 +1143,7 @@ VS &lt;- vitalsens(swallow.equation, swallow.param)
 ```
 
 ---
-# Step 7 : Sensitivity analysis
+# Step 7: Sensitivity analysis
 
 
 ```r
@@ -1150,18 +1161,18 @@ f2     3.00  0.08695652 0.24844720
 ```
 
 ---
-# Step 7 : Sensitivity analysis
+# Step 7: Sensitivity analysis
 
 &lt;img src="matrixmodels_files/figure-html/unnamed-chunk-68-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 # Implications for management
 
-+ identify key parameters for population management
-  - best strategy here is to reduce adult mortality
++ Identify key parameters for population management
+  - Best strategy here is to reduce adult mortality
 
-+ evaluate the impact of relative management actions
- - actions focused on fecundity (e.g. nest protection) will have little impact
++ Evaluate the impact of relative management actions
+ - Actions focused on fecundity (e.g. nest protection) will have little impact
 
 ---
 # Live demo on the barn swallow
@@ -1169,33 +1180,33 @@ f2     3.00  0.08695652 0.24844720
 &lt;img src="img/swallow.jpg" width="328" style="display: block; margin: auto;" /&gt;
 
 ---
-# Assumptions and limitations of deterministic MPMs
+## Assumptions and limitations of deterministic MPMs
 
-+ one sex model : females drive the demography, males are not limiting
++ One sex model: Females drive the demography, males are not limiting
 
-+ synchronous breeding : discrete time
++ Synchronous breeding: discrete time
 
-+ no density-dependence (exponential growth or decay)
++ No density-dependence (exponential growth or decay)
 
 --
 
-+ demographic parameters are constant in time
++ Demographic parameters are constant in time
 
-+ no environmental stochasticity
++ No environmental stochasticity
 
-+ no demographic stochasticity 
++ No demographic stochasticity 
 
 ---
 # Interest of deterministic models
 
-+ species living in constant environment
++ Species living in constant environment
 
-+ recolonization, recovering from over-exploitation
++ Recolonization, recovering from over-exploitation
 
-+ very stable environments such as protected areas
++ Very stable environments such as protected areas
 
 --
-+ sensitivity analyses provide useful information to identify key parameters for population management
++ Sensitivity analyses provide useful information to identify key parameters for population management
 
 ---
 class: center, middle
@@ -1205,31 +1216,33 @@ class: center, middle
 ---
 # Environmental stochasticity 
 
-- unpredictable fluctuations in environmental conditions
+- Unpredictable fluctuations in environmental conditions
 
 --
-- demographic rates vary over the years
+
+- Demographic rates vary over the years
 
 --
-- stochastic fluctuations in survival and reproductive rates reduce long-run population growth rate
+
+- Stochastic fluctuations in survival and reproductive rates reduce long-run population growth rate
 
 --
-- the chance of occurrence of consecutive periods of unfavourable environmental conditions can drive small populations to extinctions
+
+- The chance of occurrence of consecutive periods of unfavourable environmental conditions can drive small populations to extinctions
 
 --
-- **MPMs in stochastic environments** project the population using a series of annual stochastic transition matrices 
-(instead of one transition matrix)
+- **MPMs in stochastic environments** project the population using a series of annual stochastic transition matrices (instead of one transition matrix)
 
 ---
 # The crested newt example
 
-High inter-annual variation in demographic parameters : 
+High inter-annual variation in demographic parameters: 
 
-- mean adult survival = 0.52 varied between 0.22 et 0.74 in 8 years of monitoring
+- Mean adult survival = 0.52 varied between 0.22 et 0.74 in 8 years of monitoring
 
-- mean adult fecundity = 3.07 juvenile females / adult female varied form 0.31 to 5.40 in 10 years
+- Mean adult fecundity = 3.07 juvenile females / adult female varied form 0.31 to 5.40 in 10 years
 
-- bad years with dry pond in Spring (about 1 out of 3 years) induces quasi-complete failure of reproduction
+- Bad years with dry pond in spring (about 1 out of 3 years) induces quasi-complete failure of reproduction
 
 ---
 # Crested newt (*Triturus cristatus*) life cycle and transtion matrix
@@ -1237,21 +1250,21 @@ High inter-annual variation in demographic parameters :
 &lt;img src="img/tritionlifecycle.png" width="2560" style="display: block; margin: auto;" /&gt;
 
 ---
-## Several options exist to include annual variability on demographic parameters :
+## Several options exist to include annual variability on demographic parameters
 
-- random annual variation around mean values
+- Random annual variation around mean values
 
-- catastrophic events
-
----
-## Several options exist to include annual variability on demographic parameters :
-
-- **random annual variation around mean values**
-
-- catastrophic events
+- Catastrophic events
 
 ---
-# Step 1 : Start from the deterministic transition matrix
+## Several options exist to include annual variability on demographic parameters
+
+- **Random annual variation around mean values**
+
+- Catastrophic events
+
+---
+## Step 1: Start from the deterministic transition matrix
 
 
 ```
@@ -1262,7 +1275,7 @@ High inter-annual variation in demographic parameters :
 ```
 
 ---
-## Step 2 : Draw annual values for each demographic parameters from a normal distribution
+## Step 2: Draw annual values for each demographic parameters from a normal distribution
 
 
 ```r
@@ -1274,12 +1287,12 @@ fstoch &lt;- rnorm(n=1500,mean=f,sd=0.5)
 ```
 
 ---
-## Step 2 : Draw annual values for each demographic parameters from a normal distribution
+## Step 2: Draw annual values for each demographic parameters from a normal distribution
 
 &lt;img src="matrixmodels_files/figure-html/unnamed-chunk-73-1.svg" width="40%" style="display: block; margin: auto;" /&gt;
 
 ---
-## Step 3 : Pile up the stochastic transition matrices
+## Step 3: Pile up the stochastic transition matrices
 
 
 ```r
@@ -1293,1078 +1306,1079 @@ A.newtSE[[i]] &lt;- matrix( c( 0,
 *   sample(s1stoch,1), 0, 0,
 *   0, sample(s2stoch,1), sample(s3stoch,1) ) ,
     nrow = 3, 
-    ncol= 3)
+    ncol = 3)
 }
 ```
 
 ---
-## Step 4 : Project the population using the stochastic transition matrices
+## Step 4: Project the population using the stochastic transition matrices
 
 
 ```r
-T = 30
+T &lt;- 30
 *runSE &lt;- stoch.projection(A.newtSE,
-          n0 = c(50,50, 50),
+          n0 = c(50, 50, 50),
           tmax = T, 
-          nreps=1000, 
-          verbose=FALSE )
+          nreps = 1000, 
+          verbose = FALSE)
 head(runSE)
 ```
 
 ---
-## Step 4 : Project the population using the stochastic transition matrices
+## Step 4: Project the population using the stochastic transition matrices
 
 
 ```r
 runSE &lt;- stoch.projection(A.newtSE, 
           # initial population                
-*         n0 = c(50,50, 50),
+*         n0 = c(50, 50, 50),
           tmax = T, 
-          nreps=1000, 
-          verbose=FALSE)
+          nreps = 1000, 
+          verbose = FALSE)
 runSE
 ```
 
 ---
-## Step 4 : Project the population using the stochastic transition matrices
+## Step 4: Project the population using the stochastic transition matrices
 
 
 ```r
 runSE &lt;- stoch.projection(A.newtSE, 
-          n0 = c(50,50, 50),
+          n0 = c(50, 50, 50),
           # number of time steps to project over
 *         tmax = T,
-          nreps=1000, 
-          verbose=FALSE )
+          nreps = 1000, 
+          verbose = FALSE)
 runSE
 ```
 
 ---
-## Step 4 : Project the population using the stochastic transition matrices
+## Step 4: Project the population using the stochastic transition matrices
 
 
 ```r
 runSE &lt;- stoch.projection(A.newtSE, 
-          n0 = c(50,50, 50),
+          n0 = c(50, 50, 50),
           tmax = T,
           # number of repetitions
-*         nreps=1000,
-          verbose=FALSE )
+*         nreps = 1000,
+          verbose = FALSE)
 runSE
 ```
 
 ```
-                [,1]         [,2]         [,3]
-   [1,]  240.0851807   617.627012   967.422731
-   [2,]  198.2847242   374.200670   489.782176
-   [3,]   61.1602791    91.240911    54.720370
-   [4,]  101.9293089    96.468048   182.719018
-   [5,]  296.3657168   383.382411   430.429582
-   [6,]   84.8530481   602.529463   414.885023
-   [7,]    5.9046777     9.619035    11.764682
-   [8,]   80.8105930   144.574214   123.787543
-   [9,]  830.2900695  2659.218861  2058.457067
-  [10,]  390.7131894   514.260713   463.750165
-  [11,]   91.7728872   307.401402   292.031941
-  [12,]  674.5519458   960.293757   930.816395
-  [13,]  149.6890319   394.607189   631.791991
-  [14,]   79.3399956   159.910981   125.244580
-  [15,]   80.0918186   599.007378   535.017070
-  [16,]  229.6396924   557.217207   625.531396
-  [17,] 2514.7421108  2364.777625  3384.064283
-  [18,]   83.6527876   527.445154   462.553711
-  [19,]  165.0909525  1267.554140  1406.827323
-  [20,]  513.7721437  1409.296908   886.222409
-  [21,]  106.4893406   168.265644   129.314168
-  [22,]  628.8647476  1249.372017  1787.474464
-  [23,]  161.2363218   269.657079   327.586046
-  [24,]   98.1572298   335.401838   423.367802
-  [25,]  102.1666331   258.288310   155.303591
-  [26,]   62.6636782    78.031236   145.237214
-  [27,] 1044.5355030  4089.989352  3318.089451
-  [28,] 1344.2041616  1280.187396  1444.292694
-  [29,] 5018.1748095  4375.379661  4311.523603
-  [30,]  125.4885202   260.873105   288.424476
-  [31,]   10.4895503    15.426908    20.406604
-  [32,]  160.2088218   228.113464   398.125079
-  [33,]  170.0138946   852.774580  1112.555713
-  [34,]   78.4139663    91.544885   106.114012
-  [35,]  266.1435452   322.405503   507.495427
-  [36,]  750.0426425  2209.200738  2006.381104
-  [37,]  387.5007684   307.386998   303.586655
-  [38,]  134.9646741   374.076178   170.295066
-  [39,]  175.3334377   491.724520   248.475798
-  [40,]  187.1675748   390.723593   395.757442
-  [41,]   33.7877692   200.286561   215.103594
-  [42,]  241.2021748  1498.481361  2640.949305
-  [43,]  125.8259845   476.926028   583.812933
-  [44,]  455.9045725   968.153863   919.904632
-  [45,] 1244.0798657  2332.644914  2775.884192
-  [46,]  360.0625988   513.736946   661.361044
-  [47,]   74.6086383   116.338049   160.479738
-  [48,]  194.1672623   335.461915   381.362927
-  [49,]  214.4240506   270.747401   206.710209
-  [50,]  204.8514269   367.663405   512.646891
-  [51,]  109.6100389   466.875487   434.989315
-  [52,] 2495.8135511  4819.954191  5623.512183
-  [53,]  109.7684535   853.336131   782.637188
-  [54,]  136.7566763   124.791562   142.212057
-  [55,]  634.4355831  3081.936514  3758.123996
-  [56,]   99.2064287   312.545128   225.787930
-  [57,]   10.5476310    31.465349    13.884899
-  [58,]  560.2778702   580.833086   680.133021
-  [59,]   55.9265078    85.379107    95.227673
-  [60,]   25.4482292    30.059826    70.517984
-  [61,]  554.7595376  2246.376426  2077.635497
-  [62,]  147.6088580   344.237544   320.160768
-  [63,] 2079.2195890  2379.741749  2808.446085
-  [64,]  420.0903078  2276.476167  1571.266960
-  [65,]  716.8743567  1654.260163  1231.217458
-  [66,]  500.4631423  1259.588439   886.489425
-  [67,]  913.3636216  2416.620258  1657.327678
-  [68,]  130.7171988   284.059459   425.842196
-  [69,]  163.9961486   412.225663   463.282373
-  [70,] 2385.9649536  3563.634053  4467.621169
-  [71,] 2503.9816370  1677.134856  1747.533355
-  [72,]  957.7460777   534.757987   639.609587
-  [73,]  667.7162372  3293.640727  1410.944857
-  [74,]  364.6215430   410.463636   569.322047
-  [75,]   28.4254623    40.364263    58.290129
-  [76,]  572.9020752  1400.027551  1299.423783
-  [77,]  513.8278019  1685.974611   909.375740
-  [78,]   27.4086025   249.605102   176.617238
-  [79,]  603.7575696  1208.178743  1432.983366
-  [80,]   73.9682565    58.677791   112.913411
-  [81,]  927.4904836   957.208616  1029.048996
-  [82,]   10.3118237    41.111065    73.540981
-  [83,]  199.0090112   576.076875   565.022475
-  [84,]  759.2549008  1254.307774  1749.193846
-  [85,]  534.4135780  1342.513305  1740.789435
-  [86,]  150.3455784   282.072671   189.761060
-  [87,] 1341.4208511  1644.145786  2340.406878
-  [88,]  769.5147013  1440.069053  2662.545157
-  [89,]  372.0876327  1647.762956  1629.276000
-  [90,]  679.0578477   924.287023   539.320130
-  [91,]  196.4414157   601.845278  1128.626581
-  [92,]  521.9167666  1764.443567  1264.457823
-  [93,]  117.6141774   111.461495   128.000999
-  [94,]   84.4449839   139.212413   228.506937
-  [95,]  472.0727308  1124.734353  1128.563508
-  [96,]  152.9205209   397.766471   286.045973
-  [97,]  368.6110381   625.682972   429.666313
-  [98,]  791.9565490  1715.589928  1849.080402
-  [99,]   79.8419836   145.112752   213.760664
- [100,]  125.3272401   201.012676   225.673470
- [101,] 4153.9354519  7789.986735  5944.095416
- [102,]  164.1437790   732.370771  1214.469191
- [103,]   82.1276594   198.134304   128.218767
- [104,]  426.6466984  1197.610586  2957.038496
- [105,]    8.7861568    36.986211    44.509389
- [106,]  910.9742768   774.021753   912.300808
- [107,]   52.0300015    65.380635   103.789934
- [108,]  318.8729371   700.374556   637.217117
- [109,]   56.6028994    69.386954   141.509358
- [110,]  401.6273284   391.719111   361.288592
- [111,]   19.5236659    60.206209    81.639625
- [112,]  130.7895849   546.537596   387.155568
- [113,]   53.6222253   263.061766   460.647167
- [114,]  156.2480871   253.337291   404.931574
- [115,]  325.5480288   542.101772   606.466494
- [116,]   31.6174757    68.322632    97.753827
- [117,]   22.4623991   140.763330   222.521601
- [118,]  504.3818227   424.744747   552.731928
- [119,]  589.7555116  1219.647597  2484.867857
- [120,]  477.1611834  1112.369656   832.480808
- [121,]   44.4327701   113.106502   101.236345
- [122,]  666.7132380  1663.339594  1567.298832
- [123,]  163.0201525   835.145713   710.384250
- [124,]   37.6764640   157.701658   154.236869
- [125,]  141.3783342   480.255553   730.118510
- [126,]  413.3572873   479.096424   521.661155
- [127,]  119.0222789   158.929935    71.005261
- [128,]   69.8545657   333.330429   395.684408
- [129,]  536.7545792   865.714873  1161.558066
- [130,]   78.5565337   212.734309   199.026922
- [131,] 1374.1985327  2780.032439  2130.531621
- [132,] 1914.0967403  3147.757049  5109.275953
- [133,]  670.2872096   423.307294   565.345223
- [134,]  239.8623890   329.530127   396.961017
- [135,]  275.3552579   489.906898   613.709141
- [136,]  561.4462844   562.546185   789.126521
- [137,]  165.2873873   228.001423   191.458270
- [138,]  422.3261017  1040.581370  1008.307610
- [139,]  878.5941214  3499.081654  3460.147646
- [140,]   63.5385898   534.159576   452.446024
- [141,]  849.1895748  1650.544771  1411.497974
- [142,]   98.6089422   598.739616   471.444090
- [143,]  100.4407705   206.581034   207.511164
- [144,]   82.4153364   157.427861   132.592689
- [145,]  379.8007994  1984.594175  2120.738224
- [146,]  183.1948997   836.342510   833.450485
- [147,]  425.1838349   958.539638   776.348553
- [148,]  460.0165739   758.871861   854.088548
- [149,]   82.1129895   439.909337   348.529575
- [150,]  140.2279673   174.949523   182.367320
- [151,]   18.5953296    15.933362    76.922462
- [152,]  148.9004517   251.315386   314.021504
- [153,]   40.2045917   132.718707   118.984057
- [154,]   72.7266007   246.094451   321.935419
- [155,]  212.1456027   214.652254   205.680474
- [156,]  997.8210336  2074.157321  2994.239972
- [157,]  564.7521684   480.442875   667.482218
- [158,]   33.8645956    98.331504    95.047913
- [159,] 1068.0300498  6775.617875  6130.753455
- [160,]   77.3123615   219.359174   167.948198
- [161,]  261.3992151   508.715747   377.750631
- [162,]  162.6445109  1461.237840   982.883337
- [163,]  651.6226382  1633.365968   985.000210
- [164,]  444.0231321  1410.774863  1730.074053
- [165,]  163.5900958   506.358893   560.658801
- [166,]   81.7600988   354.768520   254.748817
- [167,]  129.7391360   270.357594   505.065186
- [168,] 2117.2144048  5483.237496  3504.059142
- [169,]  177.0388971   478.047850   357.808611
- [170,]  153.8125007   208.192946   587.698543
- [171,] 1007.2062267  1995.981773  2262.813222
- [172,]  104.5901200   242.637119   299.782795
- [173,]   84.1751786   157.319449   201.533385
- [174,] 3249.2337085  5593.924400  7871.089029
- [175,]  180.2319976   518.089371   574.084601
- [176,]  101.4603520   180.513278   213.715397
- [177,]   45.9775314   144.142729   129.897933
- [178,] 1269.2103859  5896.881245  4118.054243
- [179,]   58.5466095   515.979975   632.634791
- [180,]  184.5206271   433.137662   456.100231
- [181,]  214.0160012   471.147359   474.238424
- [182,]   59.2256384   134.873387   187.765755
- [183,]  147.2864967   127.614247   199.653759
- [184,]  378.7079126   964.962609   572.981355
- [185,]  428.3366218   990.734956  1423.509781
- [186,]  383.8868433   701.423650   562.104836
- [187,]   69.6009782   231.077240   202.375600
- [188,]  261.6591148   346.844084   403.274105
- [189,]  302.2272716  1439.466664  1154.195793
- [190,]  122.3527624   312.579825   245.774135
- [191,]  572.5611854  1752.313316  1956.783066
- [192,]  308.6270438   398.739531   382.041758
- [193,]  300.8562475   212.748235   324.251928
- [194,]   95.8428059   259.573773   259.039232
- [195,]   84.3425101   216.750330   170.521324
- [196,]  512.9014595   809.068958   580.987839
- [197,]  140.5354522   269.839056   308.648494
- [198,]  523.4572358   926.184861  1049.936643
- [199,]  498.8554209  2027.510025  2431.268315
- [200,]  371.0455647   356.799752   423.198868
- [201,]  620.3515250  1103.591163  1010.225798
- [202,]  109.6254664   282.821840   490.032121
- [203,]   97.2338160   250.515886   263.009728
- [204,]  104.8769657   257.718411   245.533909
- [205,]   98.0018936   147.180415   159.737478
- [206,]  170.6805928   378.832932   311.005747
- [207,]  418.0595836  1036.115600  1137.513104
- [208,]  155.6858637   225.612473   175.144502
- [209,]   85.2991477   172.361670   196.885718
- [210,]  713.3372759   867.558624   950.499062
- [211,]  402.5179906   514.274358   590.212516
- [212,]  128.7458060  1575.608588  1515.206297
- [213,]  332.1493132   217.125258   288.335347
- [214,]  688.9015282  1453.234613  1132.522568
- [215,]  126.4997732   283.602472   224.289588
- [216,]  730.4423527  2204.292661  1479.679816
- [217,]  549.7276165  2885.680185  3050.854708
- [218,]  710.3362939  1452.688987  1703.582852
- [219,]   39.1208555    72.217616    84.015211
- [220,]   35.9325994    94.982321   107.683315
- [221,]  121.1300185   314.163577   306.124100
- [222,]  143.4214217   259.338017   230.123379
- [223,]   79.9053684    92.340012    42.374568
- [224,]  375.2559582   965.930018   955.590611
- [225,]  236.4302859   229.866102   299.175856
- [226,] 1136.2302411  2121.944735  2962.431497
- [227,]  140.4955916   296.978700   391.724721
- [228,]   68.5879739   104.664750   112.585742
- [229,]    5.8571573    11.849829    10.223783
- [230,]  627.0068727   916.514504   893.725004
- [231,]  118.5641082   251.041763   232.272301
- [232,]  107.7365663   177.697049   173.956242
- [233,] 1244.5747680  2421.298255  2516.614050
- [234,]  897.6466091  2477.407658  2334.652909
- [235,]  209.3770598   578.339181   658.988194
- [236,]    9.9710856    70.499711    61.726400
- [237,]  185.0602674   458.323137   799.022189
- [238,]  118.5738653   289.656092   436.296050
- [239,]   76.7219649   266.084522   367.157236
- [240,]  366.6244412  1129.280748  2975.459976
- [241,]   78.5447987   149.307974   126.422636
- [242,]  204.7063037   146.344047   233.094148
- [243,]  114.2206998   108.277905   110.402978
- [244,]  519.1458132   847.696351  1019.195859
- [245,]   29.7338192    69.604815    51.450867
- [246,]  444.5015786  2685.688655  1991.136949
- [247,]    6.4152016    12.377956    16.112400
- [248,]   89.8092635   253.847722   225.228367
- [249,]   25.9116157   102.223227   157.067131
- [250,]  467.8830209  1360.630014  1299.494956
- [251,]  127.6240342   117.603635   304.845265
- [252,]  834.6712232   911.818521  1022.659874
- [253,]  310.6013543   687.129625   961.559773
- [254,]  137.4711111   799.851712   783.863938
- [255,]   42.2168778    58.743740    86.385168
- [256,]  235.0918278   565.651133   775.265981
- [257,]  291.9708218   914.183932   798.308260
- [258,] 1635.9032657  8068.202755  5757.575909
- [259,]  144.7087507   331.640755   254.833170
- [260,]  581.3614938   625.688463   875.682928
- [261,]   41.1425435   205.547890   197.919243
- [262,]   31.3960971   168.399574   132.471707
- [263,]  289.3027424   146.012384   307.258276
- [264,]  762.4822900   558.559718   750.632750
- [265,]   21.4181765   345.219013   750.485230
- [266,]   42.5781532    58.245596    75.781302
- [267,]  149.7815880   275.533254   386.087662
- [268,] 1298.8870867  5964.533737  3870.472409
- [269,]  345.2505756   753.076776   543.496198
- [270,]  632.0220239  1113.761618  1703.141957
- [271,]   44.2530266   162.453509   173.344006
- [272,] 3429.9868239  3480.726297  5895.455558
- [273,]    7.8456985    23.745584    18.306621
- [274,] 1217.6612605  2632.613316  3109.441811
- [275,]  139.1691981   270.068686   475.257783
- [276,]  695.7955031   985.585588  1334.732020
- [277,]  159.0194999  1189.509857  1087.507728
- [278,]  313.4034172   907.520845   950.386395
- [279,]  156.9471464   459.229458   342.827299
- [280,]  465.1663929   550.739604   894.155389
- [281,]   52.7687310   122.035956   250.419198
- [282,] 1567.6141125  7978.443232 12516.224258
- [283,]   13.9025246    47.690685    36.076584
- [284,]  369.1989366   800.507872   728.156359
- [285,]   58.5897042   126.149120   125.847532
- [286,]  303.0121901   607.534079   548.169798
- [287,]  226.9466242   629.161769   772.868556
- [288,]  435.9758849   614.506450  1731.492101
- [289,]  502.0569541   883.433666  3036.669706
- [290,]   50.3547750   239.174371   342.829237
- [291,]   36.8744371   272.132244   176.254549
- [292,]  123.4640179   320.114762   245.942746
- [293,] 1096.3054629  2796.334044  3040.655246
- [294,]   89.8047062   206.096696   208.775711
- [295,]  249.5761879  1301.315689  1251.763340
- [296,]  135.7411942   910.845648   985.794212
- [297,]  275.0386549   676.036211   924.196202
- [298,] 1001.9713411  1086.570270  2101.263346
- [299,]  209.7221615   513.857006   639.003070
- [300,]  495.1724214  1713.767810  1702.398802
- [301,]  270.4110642  1371.236259   978.829913
- [302,]  699.4843837   945.795513  1409.507713
- [303,]  407.9445220   726.557648   893.428952
- [304,]  470.1162763   571.436300   569.085501
- [305,]  508.6151123  1477.967455  1519.986832
- [306,]  143.8927432   158.193500   206.133054
- [307,]  401.5775254  2168.011316  1222.927817
- [308,]  464.2758672   918.655224   987.343072
- [309,]   45.9765443   133.373399   152.359550
- [310,]   26.6867649   131.287631   163.601582
- [311,]  837.5099232  2897.651550  3120.263713
- [312,]  221.4779386   406.452776   481.978290
- [313,]   37.7784409   152.134094   216.241959
- [314,]   83.8624760   426.015306   446.478012
- [315,] 1644.5116752  4210.240392  2792.161184
- [316,]  874.2900317  3093.278632  2609.893109
- [317,]   15.1017563    88.008916    75.690868
- [318,]  633.3578465  1181.296260   856.291275
- [319,]   58.4107288   137.730033   116.934771
- [320,]  459.8794572  1460.214335   888.016331
- [321,]   24.7058836    78.329333   102.919548
- [322,]  517.7253258  1725.810111   891.109636
- [323,]   27.7958635    43.791125    31.293240
- [324,]  277.8077813  1709.150716  2192.826916
- [325,]  517.6124235   634.445664   772.679048
- [326,]   73.9250667    85.151227   108.674414
- [327,]  166.8984473   456.364735   665.639787
- [328,]   62.5532163   145.902215   499.469514
- [329,]  199.6449180   221.248346   367.855311
- [330,] 1165.5072482  3339.742666  2360.511288
- [331,]  123.9335868    76.869364   280.225998
- [332,]  646.3836824   644.622263   654.593863
- [333,]  249.6498699   195.623010   405.097551
- [334,]   70.3558968   188.352377   253.571245
- [335,]  102.5552322   179.628036   165.619852
- [336,]  573.5809356   561.610161   902.940571
- [337,] 1532.8263959  1771.606565  1055.926674
- [338,]    8.2476747    16.935643    27.595297
- [339,]   88.1429040   152.428631   197.504056
- [340,]  461.3811248   816.476654   588.379119
- [341,]   18.7966922    43.285028    32.434827
- [342,]   88.9594339    89.424091   127.414875
- [343,]   25.0180428   140.155610   112.448462
- [344,]  129.3029991   255.491693   143.780979
- [345,]   43.9216705    76.136594   107.571970
- [346,]  957.2314661  2512.612178  2584.401843
- [347,]  736.3542308  2480.071872  1685.742682
- [348,]  822.7187272  1996.721534  1596.297665
- [349,]  159.3761304   113.313910   240.769239
- [350,]  188.6438392   408.155866   296.426323
- [351,]  220.5502879  1730.146284   938.524820
- [352,]  255.6119074   797.053690   746.188561
- [353,]   96.2834070   444.116394   473.098321
- [354,]   32.7936679   132.885440   178.793524
- [355,]  290.8189146   554.582617   255.260002
- [356,]  117.3970607   457.201862   505.495123
- [357,]  149.1905797   460.855480   334.896921
- [358,]  115.4358058   461.495692   232.034768
- [359,] 1689.6641631  2075.536249  2919.580554
- [360,]  163.2276278   321.564199   418.606620
- [361,]  141.3683053   245.208659   267.291144
- [362,]   27.2273244   103.471671   115.365573
- [363,]   33.4003804   165.332721   245.702129
- [364,]  145.1627558   178.787459   367.437746
- [365,]    1.9954161    25.081880    23.993742
- [366,]  522.7910918   816.918245   943.166991
- [367,]   19.5076866    64.952794    80.242916
- [368,]  473.7648490  1780.791759  1187.844428
- [369,]  227.4288381   631.877889   646.913933
- [370,]  319.6410185   460.356830   632.354887
- [371,]  477.7289845   709.961307  2026.176359
- [372,]  194.6942247   744.057168   317.102712
- [373,]   41.1677489    66.901878    33.921410
- [374,]   25.8893565    58.506415    57.995354
- [375,]   33.6420053   100.034314   215.164490
- [376,] 1564.5296081  2361.452041  2747.558478
- [377,] 1338.4003442  3073.421029  1800.133574
- [378,]  604.0538524  1239.692613  3395.362560
- [379,]   71.3819304   183.048910   173.213875
- [380,]   81.2623619   854.321735   840.330855
- [381,]   20.7610785    60.094495    69.938233
- [382,]  111.4035837   650.430449   464.016409
- [383,]  697.6077168  1651.647100  2120.230503
- [384,]  623.1275032  2075.959203  1281.580788
- [385,]  328.6215361   394.209788   569.964651
- [386,]   52.9668719   254.888794   124.016028
- [387,]  230.2590871   163.004251   306.016839
- [388,] 1849.9561168  4228.833159  3646.830630
- [389,]  240.1545278   956.919318   770.675617
- [390,]   38.9275722    78.061404    68.013468
- [391,]  241.9879816   573.636933   994.034488
- [392,]  113.4540252   271.195279   187.916727
- [393,]  123.5774342   182.770244   306.307449
- [394,]  175.4069624   583.215902   455.793773
- [395,]  168.8694302   379.800540   335.737363
- [396,]  148.7500935   750.430381   604.713687
- [397,]   15.7409256   128.015689    68.840739
- [398,]  655.4288851  4823.281055  4625.993040
- [399,]  163.6798516   191.228347   368.497683
- [400,]  156.7336760   441.880153   466.347469
- [401,]  317.8829775   328.755247   779.355665
- [402,]  405.8679257   973.663589  1016.108906
- [403,]   78.4963900   162.759367   167.923859
- [404,]  590.0689352  1332.106863  2185.609430
- [405,]  282.1597412   462.278090   400.465304
- [406,]   10.1268680    17.453160    16.146793
- [407,]   47.2408801    76.576220    64.959038
- [408,]  414.8650817   978.531602  1393.040076
- [409,]  205.5354371   571.304004   444.714791
- [410,]  757.7583251  1063.062918  1668.391632
- [411,]  693.1619005   963.654434   881.360314
- [412,]  126.4418106   127.236594   140.281292
- [413,]  492.9034509  1400.899971  1814.739587
- [414,]  296.9579024  1188.590742  1081.898798
- [415,]   45.1453390   242.757007   135.600980
- [416,] 1516.4706957  5292.732249  7592.570269
- [417,]   45.8527543   106.234302   112.967994
- [418,]  235.4990376   363.469097   388.656878
- [419,]   94.9266025   142.004483   163.955512
- [420,]  253.9595302  1103.460599  1595.301038
- [421,]  880.2240866  1355.137835  1080.999074
- [422,]  449.1022727  1096.647469  1600.374515
- [423,]   60.7602957   205.742292   112.322514
- [424,]  314.3455768   919.038213  1542.357937
- [425,]  150.5609935   208.270004   279.629318
- [426,] 3305.7835263 13055.875609 10858.562393
- [427,]  521.0311130   795.059008   883.495418
- [428,]  178.9065938   305.376020   375.065631
- [429,]  453.4354138  1168.527166  1348.428604
- [430,]  111.8568663   176.158936   130.140066
- [431,]  265.9978942   663.871430  1031.774347
- [432,]   73.7892281   225.705079   170.543455
- [433,]   57.5396375   141.408715   122.038475
- [434,]  406.9728648   903.627645   814.089701
- [435,]  137.0438984   408.015102   338.561150
- [436,]  797.8380010  3588.629707  2541.927548
- [437,]  585.6853549  1982.567845  1638.699848
- [438,]  234.6583507   323.032650   310.334785
- [439,]  485.4203813  1731.230678  1204.445234
- [440,]  101.6796349   247.688184   293.674760
- [441,]   42.5947287   148.651829   172.261626
- [442,] 1020.8212301  1985.068470  1317.772452
- [443,]  662.0759839  1055.577569   603.233967
- [444,]  589.3733014  1559.663193  3633.919678
- [445,]  123.2273713   485.642694   521.752838
- [446,]  284.4814408   956.547004   825.511922
- [447,]  185.1323392   485.571775   636.487191
- [448,]  205.8182538   217.604074   535.743915
- [449,]   49.9567385   211.636183   483.174005
- [450,]   73.4465451   264.443165   256.369521
- [451,]   13.1865072    67.691842   107.279531
- [452,]  268.8798573   492.596331   437.131540
- [453,]  102.4892414   259.888489   418.797264
- [454,]   58.4798625    55.369096    76.625406
- [455,]  130.4798704   231.602976   212.578805
- [456,]  199.4564991   273.684804   329.415920
- [457,]   52.3874760    65.425147    71.722502
- [458,]  267.4546039   407.638766   662.827463
- [459,]   15.2090470   107.152963    96.861087
- [460,]   12.2254280    37.272070    53.549680
- [461,]   23.9219481   111.246132   151.056072
- [462,]  236.8046186   385.750493   537.053327
- [463,]   95.3517776   466.664327   588.826321
- [464,]  860.3642124  1047.367510  1233.098674
- [465,]  294.3995283   538.905406   705.482933
- [466,]  562.7590280   642.958623   558.769799
- [467,]   92.2583703   343.450625   502.776467
- [468,]   23.6632647   135.341525    86.701372
- [469,]  378.0592235  1512.927210  1135.966748
- [470,]  677.3696270  2266.911359  1595.916044
- [471,]  120.2487863   168.702327   311.715549
- [472,]  811.9985228  5967.017453  5078.388439
- [473,]  120.0187941   481.882262   432.833801
- [474,]   64.0189493   227.178512   337.173619
- [475,]  800.0919549  1136.780857  1789.223897
- [476,]  281.1971561   561.112472   603.076668
- [477,]  302.1969344   748.189522   751.610003
- [478,]  221.4396017   641.109180   289.074375
- [479,]   65.2108353   765.390521   490.126375
- [480,]  829.4552140  1339.602952  1031.841174
- [481,]  618.8057380  2920.890551  3110.929668
- [482,]   49.8741754   138.314304   137.727262
- [483,] 1120.5788155  4073.772166  5069.864484
- [484,]  235.6285080   756.138248   795.366127
- [485,]   80.7210049    85.184720   119.380504
- [486,]  222.4303886   494.715146   483.099990
- [487,]  561.4815766  1278.190452  1452.758194
- [488,]  618.2265612   697.330368   715.591919
- [489,]  184.1025211   165.976336   163.943313
- [490,]   17.3416691   109.987222    81.383172
- [491,]  239.7840988   709.053911   517.629472
- [492,] 2655.3426569  1792.114858  4267.415812
- [493,] 1409.6188104  2079.052438  2477.840350
- [494,]  191.0958802   496.822875   436.479762
- [495,]  196.0052079   291.659065   404.649160
- [496,]  277.8176205   532.596613   778.524675
- [497,]   54.0403905    57.740318    93.198654
- [498,]   20.9491175    47.124224    59.238219
- [499,]  359.2098672   725.239782   892.502815
- [500,]  806.9388384  5450.962309  5596.366364
- [501,] 1318.8945157  2179.022476  2008.697405
- [502,]   52.2378664   100.031869   123.681120
- [503,]  267.1831671   484.556107   526.950858
- [504,]  385.6456210   690.073927  1498.790769
- [505,]   47.7185857   126.310587    75.328110
- [506,]  255.4828129   416.183464   457.466134
- [507,]  302.5394108   228.694198   318.997759
- [508,]  205.3618861   420.136675   640.155465
- [509,]  366.8974598   317.049972   534.424556
- [510,]   37.3747981    37.086430    59.462487
- [511,]   57.9277410    89.555615   115.820991
- [512,]   65.0640016   169.701969   205.391862
- [513,]  204.8235321   299.107599   323.471415
- [514,]   91.0895582   362.292369   374.139372
- [515,]  659.6146761  1088.014003  2043.137709
- [516,]   47.8727436   112.663909   208.275823
- [517,]  543.3340783   961.124647  1227.281699
- [518,]   74.8894845   133.137800   121.551867
- [519,]  110.8515494   289.500005   273.826075
- [520,]  774.0468219  1065.523906  1300.550582
- [521,]   94.7083758   301.891301   473.407886
- [522,]  218.2558195   411.342204   370.253455
- [523,]   62.8712216   157.318428   162.263573
- [524,]  189.5468240   806.361179   442.637439
- [525,]  174.5916098   424.652187   633.725427
- [526,]  931.5638797  2253.007310  2058.036351
- [527,]  217.5565110  1163.732146  1155.973868
- [528,]  445.0017480  1184.888559  1151.256463
- [529,]  902.4104220  2320.156667  2285.357835
- [530,]   56.4574484   113.833546    95.376644
- [531,] 1029.4138297  1178.799590  1307.548333
- [532,]  234.6075037   571.415312   548.260095
- [533,]   15.1999978    55.590130    80.081211
- [534,]  249.6861250   395.038518   793.898940
- [535,]  637.3540906   674.471239   788.620534
- [536,]  251.4329644   977.747804  1247.099713
- [537,]  758.9978063  1416.889947  1895.390906
- [538,]   96.0047736   665.292592   717.426612
- [539,]  559.3565540  1118.453903  1831.530045
- [540,]   34.9611317    90.676285    82.207263
- [541,]  220.2292335   290.083717   378.239148
- [542,]  291.8071635  1063.897879  1804.307026
- [543,]  140.0456853   179.530092   160.723225
- [544,]  304.4920246   961.435802   771.518948
- [545,]  603.2396589  1238.778082  1428.266398
- [546,]  705.3538144  1565.817194  1621.054103
- [547,]   37.5722055    56.279786    84.102632
- [548,]  176.9290166   268.404795   241.540352
- [549,]  180.4356363   838.054844  1681.165176
- [550,]  253.3731162   386.379614   416.026610
- [551,]   42.4520327   140.791030   193.072962
- [552,]   86.9867782   225.092218   229.532330
- [553,]  670.9913897   740.828388  1064.035087
- [554,]  483.4476480   548.693725   652.552563
- [555,]  237.3926508   518.106258   780.605853
- [556,]  526.0716862  1258.960511   671.912574
- [557,]  117.1915960   832.429900   748.507550
- [558,]  502.1685316   676.688746   794.273811
- [559,]   88.5643752   183.786544   216.931146
- [560,]  100.5150046   387.995241   309.071978
- [561,]  102.0165353   286.774544   368.863964
- [562,]   75.9125236    91.877098    58.869738
- [563,]  123.5488813   359.543019   333.890066
- [564,]  112.4386576   181.510050   252.068401
- [565,]   54.4342083   105.226780   128.705186
- [566,]    4.3720762     8.535989     7.708914
- [567,]   22.0210508    34.993967    46.396090
- [568,]  114.3801297   226.984557   306.454829
- [569,]  899.8317518  2854.633846  3174.611797
- [570,]  536.4686854  1215.067173   795.599417
- [571,]   92.5582402    81.360812    95.309198
- [572,] 3645.5116632 10525.169335  7526.168362
- [573,]   30.3511396   220.430181   118.897819
- [574,]   95.4020527   149.694102   189.040617
- [575,]  327.5698392  1228.659387  1167.274259
- [576,]  210.7279449   339.717589   426.882936
- [577,]   90.3638743   147.120915   207.595481
- [578,]   60.8248456   191.750912   161.682352
- [579,]   49.9362941   202.081583   317.646646
- [580,]  785.5300012   782.144482   672.614506
- [581,]  161.8022884   442.865475   320.667645
- [582,]  861.1921870  2771.062506  4302.639359
- [583,]   81.7202283   206.675230   172.906336
- [584,]  192.0114220   684.140416   409.855940
- [585,]  140.0594981   781.322897   588.818859
- [586,]   84.6068880   119.343953   193.330517
- [587,]  400.6924665  3461.929109  2289.573295
- [588,]  328.1062703   607.467122   673.307506
- [589,]  221.4934103   276.515205   649.678034
- [590,]  191.2466840   338.866678   467.863482
- [591,]   28.4458025    90.940757   189.756491
- [592,] 1084.3424957  2266.621293  2079.557010
- [593,]  108.2109370   291.650450   322.495010
- [594,]  875.1666500  1043.010939  1542.864010
- [595,]  171.0307899   202.577140   885.062269
- [596,]  281.0898652   375.227229   501.889729
- [597,]  103.5838397   211.677308   302.942796
- [598,] 1206.3845121  2186.037566  1758.460126
- [599,]  273.1205517   877.914276   952.310868
- [600,] 1255.5231045  1621.095459  2722.056714
- [601,] 1049.3025034  4955.652181  4408.234299
- [602,]  101.0207703   406.227268   649.115517
- [603,]   59.6824284   131.941594   115.479120
- [604,]  176.1966627   319.491192   242.554938
- [605,]   74.3030588   125.056804   117.664367
- [606,]  630.6968111   940.860580  1084.706017
- [607,]   69.1451675   120.039706   159.377306
- [608,]  186.2909613   302.088454   210.140337
- [609,] 1490.7091859  2011.620503  1909.180476
- [610,]  978.8143994  1845.707401  2639.579595
- [611,]  136.3630635    42.872745    81.532536
- [612,]  214.6388557   301.343841   388.380149
- [613,]  467.2418140   864.451935  1322.460805
- [614,] 1665.5192026  1536.836626  1306.041116
- [615,] 1628.2120226  2227.078474  4790.038890
- [616,]  150.9351976   243.199327   482.097325
- [617,]  156.6003792   612.789984   492.188151
- [618,]  357.8099085   569.472588   588.184300
- [619,]  577.5688119  1460.464023  1796.516374
- [620,]  565.8581419   625.534580   659.741816
- [621,]  213.2761915   271.355650   430.299184
- [622,] 2376.8154762  3144.652361  3743.643620
- [623,]  457.6145642   751.369060  1008.098522
- [624,]  200.7603291   516.659272   594.710690
- [625,]  556.9027453  1245.486915  1108.603807
- [626,]   82.8180993   215.406455   177.233665
- [627,]  395.4625736   667.834222   917.760303
- [628,] 1200.3770370  1231.581197  1537.768283
- [629,] 1937.1901736  4483.779451  8167.988178
- [630,]  606.4782741   929.928742  1643.048227
- [631,]  188.9964188   323.234831   718.220497
- [632,] 1124.8920797  1915.963838  2481.278058
- [633,]  143.8681443   183.137021   178.925671
- [634,]  823.2835045  2035.801432  1844.943899
- [635,]  346.7976144   929.083987  1303.584625
- [636,]   22.6101586    81.753342    79.873768
- [637,]  845.9521785  1500.476397  1299.349266
- [638,]    8.3290008    17.212825    34.630950
- [639,]   81.1648917   109.528086   129.534564
- [640,] 1317.2463358  3801.195949  3834.512756
- [641,]   70.9444892  1078.204621   918.357902
- [642,]  111.5557737   170.868234   240.419828
- [643,]  417.5686368  1875.975734  1254.517157
- [644,]  418.3161088   672.894537   829.470147
- [645,]  209.3771986   854.699260  1053.844047
- [646,]  561.0928345  1204.577535  4182.127324
- [647,]   81.1118741   153.411321   186.019391
- [648,]  160.9743531   235.869302   309.116074
- [649,]    8.6482084    47.238782    51.883688
- [650,]  214.8283166   521.537042   399.946215
- [651,]  409.9387713   422.213652   599.862725
- [652,]   50.6107125    85.016451    56.190635
- [653,]  224.9216550   287.134890   316.783864
- [654,]  455.9120142   594.032300   512.662397
- [655,]  147.3604630   422.804953   440.247832
- [656,] 1874.9215063  2561.970676  3535.437265
- [657,]  878.5758410  2504.845856  3051.365085
- [658,]  465.6311663  1156.529633  1952.894081
- [659,]  125.0407407   456.217314   576.014771
- [660,]   44.3239189   136.941087   102.276005
- [661,]  387.3902359  1150.314969   997.520983
- [662,]  696.4444395  1025.258027   756.793524
- [663,]  448.9511329   410.766343   499.993697
- [664,]  896.6992440  1379.718711  1963.523665
- [665,]   68.0667773   333.398883   351.174545
- [666,]  276.4022256   309.648709   502.978234
- [667,]  162.3084067   151.960081   134.488293
- [668,]  510.8895736  2644.221599  2453.939010
- [669,]  230.0674618   561.454961   485.182583
- [670,]  519.9495700   755.172636   697.071495
- [671,]  141.1238040   200.032774   385.169414
- [672,]   49.3573207   104.387477   136.240337
- [673,]  168.8094105   680.802111   654.527583
- [674,]  224.0440158   538.388956  1034.720197
- [675,] 1263.7845738  2431.852155  1638.759980
- [676,]   62.8104806    86.627453   141.991681
- [677,] 1932.4102248  1727.382121  3555.515494
- [678,]  301.0567154   577.562397   594.868641
- [679,]  108.9888384   308.740156   247.669514
- [680,]  551.5243163  1616.529068  1514.896907
- [681,] 1798.8745478  1979.052102  1195.648706
- [682,]  177.5011210   300.480888   373.297676
- [683,]   58.5406186   172.444791   327.015424
- [684,]  150.0950825   209.350323   363.617855
- [685,]   64.0907280   243.770976   187.304334
- [686,]  438.7289940  1611.085355   744.958383
- [687,]   18.1924509    32.173147    89.334780
- [688,]  493.8377106  2269.035691  1138.551214
- [689,] 2122.2667962  6529.917857  8520.415079
- [690,]  214.3011311   472.985125   386.291840
- [691,]  291.2692349   594.032966   535.372854
- [692,]   97.3773680   165.478229   197.515173
- [693,]  148.9572419   446.152416   329.986531
- [694,]   48.6716931   233.838581   224.944611
- [695,]  444.1829618  2617.822932  1840.821121
- [696,]  741.0202675  1640.477223  1228.742806
- [697,]  480.7193056   464.621108   732.414461
- [698,]   76.9584400    74.430688   115.211225
- [699,]  350.4184848   766.869580   561.767450
- [700,]   63.5899199   191.541234   274.873854
- [701,]  379.5199685  1331.455005  1756.635685
- [702,]  186.1071900   299.193195   249.189730
- [703,]  524.4848979  3238.054178  3484.452297
- [704,]  120.6164550   210.657807    97.717177
- [705,]  431.4213759   734.409600   914.604884
- [706,]  224.0120197   495.097773   488.442905
- [707,]  152.1894689   528.264906   615.644282
- [708,]  332.4664145   639.536284   545.800452
- [709,]  110.4656554   270.692167   226.618161
- [710,]  113.9176568   198.612492   223.476366
- [711,]   52.3998297   276.374858   307.198680
- [712,]  722.2436420   930.896553   810.383203
- [713,]  127.2591089   339.821429   235.198138
- [714,]  173.9863699   786.468452   688.885717
- [715,] 1310.5651068  1777.756434  1886.135462
- [716,]  192.0271185   789.064338  2644.935996
- [717,]   79.1784287   159.816807   248.476139
- [718,]  162.4478774   427.321060   360.120341
- [719,]  111.2045878    54.288848   169.868871
- [720,]  675.1761208   812.589142  1042.283707
- [721,] 4235.5018818 13172.540129  8399.405182
- [722,]  129.5612617  1060.318846   756.059935
- [723,]  154.5309847   518.108816   592.945134
- [724,]   28.6241420   239.000695   124.963401
- [725,]  289.2420695   377.790489   365.218290
- [726,]  236.1880589   962.320200   816.186709
- [727,]  213.6925264   441.997603   358.519540
- [728,]  263.6082162   554.280670   547.882303
- [729,]   36.3409230   131.336642   183.986099
- [730,]  216.8373950   325.345368   245.377389
- [731,]  602.9251671   968.663943  1055.138417
- [732,]  475.1393636   322.392173   584.574880
- [733,]   24.2542690    29.328802    80.651804
- [734,] 2121.1268346  5824.918202  4306.542200
- [735,]  374.6022698   468.968130   765.109922
- [736,]  460.7762535   817.967495   820.886595
- [737,]  630.9849804  1061.790813   699.479689
- [738,]    0.7226891   335.436930   482.055923
- [739,]   60.5089351   158.047158   178.464921
- [740,]  113.7292896   288.519578   428.274781
- [741,]  305.5906450  1211.736695   981.390682
- [742,] 1128.9912899  1156.036292  1633.007185
- [743,]   49.3065771    84.169693   143.536772
- [744,]  224.5295461   439.119708   385.894645
- [745,]  117.3022240   223.674784   193.695144
- [746,]  158.0462346   292.228834   152.932092
- [747,] 3333.1151985  2722.127555  3099.189010
- [748,] 3776.3602226  4845.928997  4812.677762
- [749,]  270.9125225   971.499337  1074.538316
- [750,]   78.2007913   100.896196    66.223358
- [751,]  116.7141614   147.242321   299.367431
- [752,]  114.4062236   130.342237   104.461402
- [753,]   29.1356746   294.643215   249.028012
- [754,] 1406.3639729  2525.102808  6219.190670
- [755,]  104.4692488   868.091324   947.918639
- [756,] 1091.8071248   757.786465   985.843593
- [757,]   26.1632541    28.759827    31.031066
- [758,]   69.7720715   105.052239   103.172784
- [759,]  908.7832008  2830.773493  3211.593365
- [760,]  389.0897471  1024.195975   838.759197
- [761,]  111.9671989   327.636245   827.427055
- [762,]  189.0859517   512.228008   736.296924
- [763,]   54.6187078   207.025516   312.288961
- [764,]   73.5852018   400.847907   225.209335
- [765,]  109.0881468   287.829678   340.521647
- [766,]  236.9284599   601.685348   572.714969
- [767,]   85.8828364   182.393343   223.104769
- [768,]  232.6623332   560.162504   573.192507
- [769,]   48.5447445    38.471880    57.491807
- [770,]   28.6005207    36.262658    62.643623
- [771,]   80.1779587    74.660349    89.690070
- [772,]   78.5180445   176.804826   370.337458
- [773,]  415.9784338  1217.937241  1358.155195
- [774,]  423.7150374   964.254456   594.216475
- [775,]  308.4078554   323.304653   485.222981
- [776,]  111.5765047   210.303459   153.282860
- [777,] 1323.5795412  3432.990323  3712.742137
- [778,]  109.8912636   192.861761   224.550111
- [779,]  444.6714641  1683.144797  1768.525809
- [780,]  246.7603421   700.169547   701.214221
- [781,]   38.8688450    97.118513   167.703303
- [782,]  236.5605449   953.502053   870.288577
- [783,]  130.6985209    71.507202   164.630277
- [784,]  142.3536971   481.182342   270.291736
- [785,]   39.4356166    75.344454   124.228976
- [786,]  420.2891418  1596.904714  1159.381454
- [787,]  126.4990599   790.351767   611.347526
- [788,]   21.5400057    38.582654    69.757993
- [789,]  374.2135137  1083.221750  1571.343985
- [790,]   45.4671467    73.567318    71.494720
- [791,]  175.3290326   261.167839   376.836699
- [792,] 1656.1428176  2331.868007  2367.158638
- [793,]   90.7317656   350.992444   231.399552
- [794,] 1495.5601602  1766.855151  2584.257180
- [795,]   32.2388978    86.706968   114.120117
- [796,]   64.6301996   166.153539   149.471097
- [797,] 1964.3267036  3395.880336  5593.212190
- [798,]  490.2558953   992.032210  1471.313982
- [799,]  871.0915714  1146.435136  1067.848861
- [800,]   76.8922168   292.622172   329.236260
- [801,]   15.6678880    57.926851    51.874734
- [802,] 1041.5954180  3410.021225  3017.862898
- [803,]  419.3447663  2218.199681  2330.235981
- [804,]   74.3692753   363.164354   368.108055
- [805,]   99.6526094   310.398557   320.400127
- [806,]  410.4121123   892.706183  1502.610509
- [807,] 1086.4438144  4756.573685  5348.111327
- [808,]  515.1165525  1883.843658  2101.099492
- [809,]  417.7577440  2086.764724  2096.597989
- [810,]  217.3900395   268.824199   627.013560
- [811,]  780.0042593   572.448552  1028.764233
- [812,]  857.7675934   776.504147  3601.671336
- [813,]  303.9821163  1496.808271   865.455773
- [814,]  580.6743296  1413.039128  1292.168039
- [815,]  131.3381372   437.034845   996.885168
- [816,]  337.6384885  1228.742896  2370.432027
- [817,]  138.2913043   229.582115   277.595938
- [818,]  143.1380767   285.200191   565.413491
- [819,] 1057.4547348  1861.178949  2802.150363
- [820,]   85.3275246   144.971848   171.028897
- [821,]   86.5342434   214.002103   298.289541
- [822,]   52.8136007   113.692585   181.638406
- [823,]  170.8772085   386.746718   417.979506
- [824,]   16.3761325    28.587675    79.301847
- [825,]  155.8376821   655.405669   467.309648
- [826,]  527.1056692  1675.251784   714.095277
- [827,]   59.8634054   113.618723   174.415825
- [828,]  131.7904015   352.541568   358.328262
- [829,]  141.6565476   284.949722   296.686787
- [830,]  146.1919550   379.354633   399.577736
- [831,]  274.0059050   254.824266   597.226474
- [832,]   86.7437151    71.243679    60.065935
- [833,] 1163.2687367  2232.396854  1129.653342
- [834,]  209.6471008   326.137439   510.434272
- [835,]   97.2264168   242.440892   256.884290
- [836,]   22.0401508    35.992151    31.004222
- [837,]   57.2803690   126.613302    84.371307
- [838,]  639.3696661  1934.836768  1905.901589
- [839,]   67.2915378    92.698890   104.629717
- [840,]  364.5567740  1786.283808   820.682123
- [841,]  644.9015843  1931.947197  2599.807716
- [842,]  179.8647476   264.752119   235.416572
- [843,]   24.2609101   114.238251    89.250479
- [844,]  820.1445872   633.295593   567.927441
- [845,]   43.6838985   274.416622   216.880371
- [846,]   98.3859891   296.422152   301.251566
- [847,]   41.0510116    96.700925    87.355431
- [848,]  146.2837504   130.099012   170.896299
- [849,] 1884.3252493  3750.314121  3519.683205
- [850,]   61.5513592   151.836845   203.774404
- [851,]   65.5336483   166.563196   304.963659
- [852,]   40.3339471   122.862678   113.132370
- [853,] 1048.6176084  6612.963043  4435.515944
- [854,] 1011.9137611  3612.868456  3851.760583
- [855,] 1890.8975652  6534.847455  7628.645463
- [856,]  166.8781745   765.940418  1113.075689
- [857,]  257.8517832   821.431597   918.580152
- [858,]  271.3022557   195.218833   182.907057
- [859,]   56.0691169   583.296851   771.291022
- [860,]  653.3847817  1452.364581  1717.767091
- [861,]  114.9113620   500.306148   620.025500
- [862,]  555.8446455  1486.563302  1331.689285
- [863,]   30.8326617   153.313960   111.918606
- [864,]  311.8611101   549.241754   525.417674
- [865,] 1640.5968764  2204.086653  3111.380959
- [866,] 1721.0153849  3856.692672  3772.522995
- [867,]   19.9292333   196.684583   282.577719
- [868,]  212.3627793   162.854367   586.202382
- [869,]   49.4337618   393.685844   461.329598
- [870,]  282.6963639  1283.577458  1268.196319
- [871,]  188.7529354  1420.857818  1331.901217
- [872,]  321.5982020   324.238272   356.625038
- [873,]   71.3155212   487.429481   679.847061
- [874,]  766.6419257  1199.935939  1181.040695
- [875,]  507.1549975   493.708689   438.810559
- [876,]  159.7959845   413.210146   428.542325
- [877,]  122.0690400   101.779400    87.917750
- [878,]  231.6351771   410.788463   496.088846
- [879,]   51.0021059   350.098540   513.661454
- [880,]   31.4554062   223.956088   107.847453
- [881,]  231.3616858   571.459972   709.167256
- [882,]  227.0737714   371.658858   436.280808
- [883,]  632.4047033  1045.561589  1294.202272
- [884,]  951.4631716  1440.028975  2626.865023
- [885,]  213.9489275   533.920740   611.934906
- [886,]  693.3413344  1197.720669   948.621230
- [887,]  157.0222901   279.449338   394.689670
- [888,]  507.3231427  1223.457978  1300.907741
- [889,]   32.7131113    95.268933    90.952394
- [890,]   47.6904559   135.606440   126.803028
- [891,]  694.6854570  1940.294428  2719.305263
- [892,]  242.8354884  1233.406851  1699.124136
- [893,]  764.6245511   965.298880   819.874986
- [894,]  757.8881835  1432.207559  1358.654922
- [895,] 2565.4210844  8473.767679  5963.172297
- [896,]  110.0307959   178.915851   151.627433
- [897,]  296.7836757   411.074586   798.738263
- [898,]   79.8910539   130.220998   275.630770
- [899,]   37.6501064    79.125864    58.363968
- [900,] 1417.8937733  2916.501094  2249.517238
- [901,]   52.9190488    90.973692    61.251233
- [902,]  185.9794322   442.110124   433.647855
- [903,]   20.4206904    51.724462    79.053144
- [904,]  556.8110259  1722.904036  1599.031650
- [905,]  356.3428080   984.889946   764.315698
- [906,]  133.0517766   157.806180   243.670712
- [907,] 1244.2030750  1108.133162  1915.957587
- [908,]  107.0538310   367.231439   466.441901
- [909,]  198.3542799   626.102067  1056.188286
- [910,]  363.8853712   949.686625   769.008132
- [911,] 1444.9223165  1519.451808  1440.541180
- [912,]   66.9703280   159.413260   204.279916
- [913,]   37.2593926  1967.080871  1161.764418
- [914,] 2319.6166500  6043.739739  3039.574071
- [915,]  108.8583637   130.595354   129.934617
- [916,]  133.9643019   218.771310   168.279678
- [917,]   50.7029887   375.891208   378.511143
- [918,]  487.4504426  1578.050572  1617.828056
- [919,]   99.0234195    93.394381   110.410928
- [920,]   68.0783752   167.981333   215.934327
- [921,]   43.1277765    97.417002    85.669322
- [922,]  127.0669197   181.360854   261.691316
- [923,]  376.2254749  1229.112637  1186.809517
- [924,]  134.6316646   226.090656   108.640220
- [925,]  709.5035736  1137.657952  1773.167648
- [926,]  260.8071736   634.745441   558.311711
- [927,]  661.3892333  1987.067252  2396.989762
- [928,]  245.1781754   579.919422   639.269817
- [929,] 1051.8291420   843.161740  1562.285620
- [930,]  416.9225934   348.307889   847.102145
- [931,]   36.0726578    83.266357   135.118157
- [932,] 1111.4971507  2845.688273  3311.276745
- [933,]   62.4743062    75.651324   132.792075
- [934,]   34.8802378    88.988867    40.567453
- [935,]  709.3750199  1098.756441  1831.991581
- [936,]   81.0212792    73.693012    89.521612
- [937,]  305.1720894   532.878678   589.245999
- [938,]  297.9429851   630.212940   934.316978
- [939,]   55.2435402   131.149352   166.502489
- [940,]   81.9847105   198.144212   282.800838
- [941,]   43.5672108   126.873553   133.291950
- [942,]  714.0812235  1100.501556  1415.695568
- [943,]  263.2963792   217.038327   411.988673
- [944,]   28.1067100   130.809644   149.826154
- [945,]   83.5930327   167.305484   160.888568
- [946,] 2715.2565731  6098.196929  5801.934818
- [947,]  987.7891120   852.139889   871.561216
- [948,]   85.6913044   223.898960   307.004276
- [949,]  223.6272083   657.506369   599.950950
- [950,]  221.8616389  1917.768251  1840.844904
- [951,]   66.3273616   286.180330   154.063063
- [952,]  137.7958938   561.024431   888.853361
- [953,]  133.9735665   538.378958   553.331609
- [954,]  937.9947118   427.559121   674.598651
- [955,]  556.4680635  2067.776130  2352.358787
- [956,]  615.4576084   498.687438   592.499402
- [957,]  264.6908852  1029.712362   916.059135
- [958,]  110.7176434   163.274897   238.064017
- [959,]  103.0099075   183.376460   235.675246
- [960,]  767.5665478  1620.478608  1924.269869
- [961,]  106.4351056   971.873823  1112.463707
- [962,]  559.3010348  1049.434613  1108.091291
- [963,]  228.6221755   398.347885   363.093600
- [964,]  199.4461729   549.927745   765.753341
- [965,] 1471.1386304   979.579002  1338.802513
- [966,]   34.8263767    88.153392   159.808792
- [967,]   94.3058378   258.773152   249.198988
- [968,]  548.0749393   544.622911   701.228188
- [969,]   54.1419726   110.144195   358.080761
- [970,]  207.6894173   452.093066   675.496192
- [971,]  979.6307572  1026.111573  1695.294537
- [972,]  118.0558291   378.802657   480.850837
- [973,]  359.5944386   449.081267   683.546265
- [974,]  215.9513617   303.413695   324.426505
- [975,]   47.2756369   328.063789   244.644391
- [976,] 1096.5570519  1005.127903  1059.794441
- [977,]   98.1906685   379.044063   274.797068
- [978,]  377.0225478  2129.166529  1457.562800
- [979,]  882.5898435  2018.593623  1792.479202
- [980,] 4405.6487226  9856.317711  5776.350265
- [981,]   61.8017663   270.309755   384.765570
- [982,]  536.9394142  1182.252048   572.400581
- [983,]   72.3626358   118.990878   142.890921
- [984,]  562.8714503  1742.517827  1656.370693
- [985,] 1311.5948942  2926.199500  3697.206730
- [986,] 2807.4827343  3411.541590  3734.648102
- [987,]  581.7341000   754.672234  1104.110450
- [988,]  373.1507508  1173.066627   607.273247
- [989,]  121.7727971   279.557663   301.383151
- [990,]  316.9731020  1187.275469  2198.636687
- [991,]  792.3626379   756.181441  1200.705269
- [992,]  227.2788075   432.758086   740.554518
- [993,]   57.7297172   288.196288   168.390618
- [994,]  107.5790570   287.253273   260.220890
- [995,]   65.9092763   102.848301   189.601551
- [996,]  251.9607010  1574.820898  1331.493635
- [997,] 2534.0625513  4452.297613  4850.608837
- [998,]  114.3036340   182.079745   432.493277
- [999,]  691.2108129  1153.942987  1031.934589
-[1000,]  617.9930236  1795.964494  2422.809074
+               [,1]        [,2]        [,3]
+   [1,]   45.203332   189.86149   174.98095
+   [2,]  119.429584   150.60892   626.56424
+   [3,]   33.637386   163.02204   180.56912
+   [4,]  193.933242   921.03323   892.18356
+   [5,]   44.962503   183.51853   245.35773
+   [6,]  234.695015  1095.79301   850.69892
+   [7,]  152.587332   366.47972   467.10554
+   [8,]  178.441898   342.31581   386.93695
+   [9,]  869.485724   979.26058  1136.54434
+  [10,]  423.827350   532.89047   518.21742
+  [11,]   47.745889    79.90710   110.74772
+  [12,]  252.765098   783.97680   613.73581
+  [13,]   96.943320    96.62452   101.22028
+  [14,]  166.922060   375.23350   509.54737
+  [15,]   43.182104    90.98169    75.86592
+  [16,]  111.604882   475.95049   695.53237
+  [17,] 1811.921663  3157.24170  2907.72783
+  [18,]  936.478352  5512.99893  7058.72709
+  [19,]   50.887170    90.03887   105.42355
+  [20,]   70.574697    69.51028   146.65773
+  [21,]  423.316081   546.56732   806.75615
+  [22,]  382.995892   582.95079   451.41600
+  [23,]   80.880853   231.96569   195.66041
+  [24,]  190.391656   567.28809   944.43909
+  [25,]  120.537312   289.77612   358.34118
+  [26,]  204.067802   360.78538   506.01440
+  [27,]   58.027327   283.89874   233.78630
+  [28,]   46.904057    60.62398    93.08420
+  [29,]   33.199973   158.43516   248.79354
+  [30,]  257.297541   914.32839  1306.27759
+  [31,]  288.514487   727.47172   611.24859
+  [32,]  111.777090   192.40928   315.16880
+  [33,]  844.407099  5978.57217  2546.00377
+  [34,]  693.398636  2849.25495  2722.67591
+  [35,]  318.026655   823.93037  1602.76315
+  [36,]  972.568761  2871.22448  2329.72988
+  [37,]  103.422125   239.81679   327.15468
+  [38,]  259.085350   529.79429   708.61374
+  [39,]   55.832927   152.50190   182.95367
+  [40,]   59.711357   152.21771   152.54613
+  [41,]  447.715891  1023.42811  1316.64293
+  [42,]  346.695608   872.77626  1399.14567
+  [43,]  215.194940   311.77132   355.90163
+  [44,]   38.333605   178.51268   161.15278
+  [45,]   35.700077    57.95287    87.85477
+  [46,]  121.928690   494.71416   595.28975
+  [47,]   62.687508   808.55852  1136.06266
+  [48,]  537.645973  1024.61139   983.52292
+  [49,]  216.148389   417.12421   212.04954
+  [50,]  463.948932   538.99191   761.57127
+  [51,] 1595.761320  4556.51003  4892.58196
+  [52,]   75.844749    61.27767    75.51571
+  [53,]   43.545751   143.52364   179.12229
+  [54,]  596.388710   657.66337  1104.91888
+  [55,]   61.503663   190.12113   288.04618
+  [56,]  113.977719   652.73974  1103.42748
+  [57,]  909.920889  3052.14082  3463.41053
+  [58,]  421.166545   442.04002   586.23346
+  [59,]   58.803607    87.24870    68.35280
+  [60,]   87.735894   156.01894   170.12580
+  [61,] 1327.914002  4561.94247  3183.68151
+  [62,]  283.985194   474.22225   558.84531
+  [63,]  113.201506   388.87072   623.37220
+  [64,] 2825.017001  2802.87862  3348.03514
+  [65,]   35.448682   344.45519   416.52533
+  [66,]  427.996772   921.36551   819.00127
+  [67,]  912.603734  2910.50187  3280.58704
+  [68,] 1233.433902  2376.34035  3740.72546
+  [69,]  424.358357   944.20361  1296.97129
+  [70,]  585.158637  2297.18661  1316.88105
+  [71,]  624.354197   737.66401   819.77975
+  [72,]  103.335627   323.10781   308.35048
+  [73,]  282.400229   380.49788   366.78003
+  [74,]   51.870192    95.12334    57.40707
+  [75,]  121.046699   287.44148   474.35901
+  [76,]  351.763815   302.68244   957.60278
+  [77,]  132.244475  1296.03823   464.83678
+  [78,]   98.897525   374.98990   247.50669
+  [79,]  122.224169   799.98677   930.09237
+  [80,]  548.850189  1037.29103   819.66449
+  [81,] 1311.017327  1451.09878  1869.98675
+  [82,]   85.352158    96.38019   122.97511
+  [83,]  154.565587   284.11019   551.45317
+  [84,]  313.079327  1149.72813   848.75571
+  [85,]   67.246406   278.78902   309.90471
+  [86,]   54.514753   191.51063   177.97845
+  [87,]  870.102655  2096.16366  1671.53045
+  [88,]  494.718290   272.42084   561.07425
+  [89,]  201.676285   733.45418   376.82433
+  [90,]  138.155394   310.24529   347.36810
+  [91,]   52.624011    51.29710   103.59789
+  [92,]  118.831597   254.79138   478.56562
+  [93,]  384.963793  1237.43027  1230.80453
+  [94,]  742.267436  1639.13859  1066.54797
+  [95,]  953.493418  3459.73585  3211.94533
+  [96,]   57.706335   114.13608   132.69304
+  [97,]   48.608556   404.19504   336.27013
+  [98,]  203.421545   297.96650   438.05866
+  [99,]   73.841593    72.18298    70.48870
+ [100,]  694.342254   658.70525  1283.17662
+ [101,]   54.021961   123.43698    92.80061
+ [102,] 1670.389717  2521.39826  2918.81917
+ [103,] 1191.521285  1001.07368  1132.94706
+ [104,]  129.529352   292.23098   498.00481
+ [105,] 1018.788927  3300.30381  1842.69998
+ [106,]  275.727713   381.64819   633.92236
+ [107,]  186.246386   197.05218   192.73018
+ [108,]   43.460686   157.28987   184.17037
+ [109,] 1660.786951  5539.19118  8688.33221
+ [110,]   23.950794    49.68634    72.82997
+ [111,]  115.507110   222.27265   264.77228
+ [112,]  210.743913   600.45410   427.63568
+ [113,]   93.199642   327.30468   194.56255
+ [114,]  666.548058  1123.41691  1973.39747
+ [115,]   30.617463    73.49456    96.20108
+ [116,]   33.574140   124.32294    89.29308
+ [117,]  625.960191   434.29994   497.53828
+ [118,]  144.931684   402.10844   457.63822
+ [119,]   52.686600    98.55773   109.57996
+ [120,]  431.827351  1155.22178   770.28293
+ [121,]  631.688533  1405.36381  1902.85314
+ [122,]  755.392641  1399.51894   894.58732
+ [123,]  771.251082  1071.73273  1122.47114
+ [124,]  525.994632   755.70810   812.59091
+ [125,]  108.824836   245.42185   250.73750
+ [126,]  190.681057   423.19545   341.47765
+ [127,]   14.934976    47.10362   117.95415
+ [128,]  580.754114  1692.46516   683.12625
+ [129,] 1054.138789  1515.68695  2820.60105
+ [130,] 1041.557890  1540.72711  1708.58795
+ [131,]  286.463601   987.03176  1443.20049
+ [132,]  483.012638   656.31432   576.27802
+ [133,]  391.695415  1222.66584   762.26666
+ [134,]  214.708330   252.15565   293.93242
+ [135,]  146.117136  1709.46576  2078.63062
+ [136,]   93.230757   301.45772   374.23788
+ [137,]  100.047563   172.13519   200.65723
+ [138,]  740.896943  1015.72391  1424.57775
+ [139,]  433.116369   930.06416   650.37320
+ [140,]   76.492796    78.87098    66.29785
+ [141,]  211.511967   248.17687   345.15615
+ [142,] 2364.488027  2371.12242  4347.73382
+ [143,] 1030.445641   747.18273   617.78928
+ [144,]  354.348213   609.46470   951.49952
+ [145,]  301.629092   201.63940   273.96492
+ [146,]  261.591079   481.65976   578.81616
+ [147,]   72.743144   267.75516   174.90713
+ [148,]   24.544068    41.42490    39.90688
+ [149,]  162.861046   997.83491  1113.08810
+ [150,]  150.169667   581.59369   774.63382
+ [151,]   60.457314   173.79425   257.15601
+ [152,]   32.073399   117.99664   124.30409
+ [153,]  108.171094   368.56856   673.83578
+ [154,]  845.616448  1244.18785  1539.36807
+ [155,] 1358.177519  2600.21353  2106.52444
+ [156,]  484.489543  1273.65425  1009.23172
+ [157,]  430.837836   550.21857   606.49784
+ [158,]   43.011719   278.00563   297.99775
+ [159,]   81.260874    55.84771    70.22274
+ [160,]  164.108622   413.43723   470.94226
+ [161,]  316.238639   745.11865   499.08346
+ [162,]   20.794969   117.38607   116.83924
+ [163,]    9.884367    89.69354    93.39532
+ [164,]  330.041417   887.91924   929.26024
+ [165,]   74.451752   104.35333   174.07936
+ [166,]  123.509913   187.24215   236.55838
+ [167,]  725.617617  1364.37573  1882.77675
+ [168,]   35.580920    58.74678    69.99586
+ [169,]  279.629475   996.96884  1139.17362
+ [170,] 5425.508825 10516.12663 11196.95950
+ [171,]  354.132423  1015.81540  1381.48166
+ [172,]  630.316755  1475.32157  1774.52695
+ [173,]   91.532664   433.63447   487.60047
+ [174,]   68.550504   125.40038   198.18947
+ [175,]  479.833100   623.72668   702.42268
+ [176,]  372.811432  1100.52542  1014.98301
+ [177,]  699.498404  1954.27427  2576.63914
+ [178,]  701.090144   833.03520  1310.33098
+ [179,]  419.806403   770.88317   707.94076
+ [180,]   42.287897    48.30797    72.05328
+ [181,]  100.334341   219.75101   276.05157
+ [182,] 1733.271366  3976.69372  2264.91685
+ [183,]  252.563104   424.27412   622.26688
+ [184,]  341.178624   515.56464   621.46050
+ [185,]  140.617047   320.58968   337.71231
+ [186,]  106.196106   251.94344   391.46604
+ [187,]  299.805003  1130.32041   740.15903
+ [188,]   44.949095    56.69383    79.07556
+ [189,]  860.374609   489.69255   868.86136
+ [190,]  290.796657   419.80281   567.31074
+ [191,]   48.519923   114.23234   128.70458
+ [192,]   97.729263   229.36970   245.45529
+ [193,]   90.066784   113.34469   282.14801
+ [194,]  154.407416   309.12984   394.90921
+ [195,]  400.516139   443.47413   322.57402
+ [196,]   24.682185    74.75601   118.56694
+ [197,]   39.565961    68.06722    87.30615
+ [198,]  717.908988   962.67162   808.41538
+ [199,]  497.643984  1097.50071  1544.11349
+ [200,]  538.923717   937.86793  1179.63340
+ [201,]   76.462230   130.43180   125.84557
+ [202,]   65.490975   138.35660   113.62108
+ [203,]  155.819151   625.73022   430.62315
+ [204,]  249.217715   731.01737   842.62797
+ [205,]  265.194413   442.38931   756.75135
+ [206,]   59.832297   140.58686   165.05801
+ [207,]   26.795168    88.89822   105.92198
+ [208,]  179.878796   560.03305   657.53528
+ [209,]  179.097805   235.97063   310.58604
+ [210,]  171.573074   143.85936   218.36494
+ [211,]  727.916800   815.36423   935.31648
+ [212,]   78.191140   601.19891   514.49550
+ [213,]  289.808882   561.86276   407.49975
+ [214,]  291.915869   662.96259   946.29171
+ [215,]   71.807009   134.52023   157.26595
+ [216,]  331.838922   609.08051   709.68311
+ [217,]  274.544357   562.45771   861.28203
+ [218,]   84.930370   167.40713   226.03528
+ [219,]   17.625418    36.67301   107.16799
+ [220,]   79.597139   260.68663   346.19970
+ [221,]   47.650852   210.44525   390.68921
+ [222,]    9.172059    16.54646    20.11476
+ [223,]  382.822135  1259.23205   831.15155
+ [224,]    3.473511    26.98106     9.88572
+ [225,]  579.226779  1501.59492  1743.97320
+ [226,]  182.474105   359.96001   380.16283
+ [227,]   68.686596   158.64377   131.60559
+ [228,]   89.328614    79.99378   131.37927
+ [229,]  417.489279  1197.28700   699.95558
+ [230,]   28.831543   154.60233   301.28859
+ [231,]  136.124200   293.28403   358.31844
+ [232,]  248.258880   750.15564   634.57733
+ [233,]  103.219195   112.24785   137.82140
+ [234,]  441.074808   949.46343  1291.00938
+ [235,]   90.450561   118.82739   151.94265
+ [236,]  270.798437   364.51754   728.86409
+ [237,]  316.955167   881.43915   612.20432
+ [238,]  276.617290   746.58493   835.60488
+ [239,]  368.958681   883.44397   692.89766
+ [240,]  137.371411   313.53928   249.94016
+ [241,]   27.297453   119.44305    80.90588
+ [242,] 1109.673185  1536.17704  1320.34903
+ [243,]   33.521939   268.20641   286.55375
+ [244,]  138.598270   172.92750   331.01073
+ [245,]   53.247940   228.89682   280.74958
+ [246,]  902.071801  3190.53591  4702.75270
+ [247,]  125.344434   304.27059   380.87395
+ [248,]  258.902389  4168.69171  2891.98308
+ [249,]   57.423707   160.85284   135.65065
+ [250,]   99.893753   258.83259   386.93102
+ [251,]   61.826804   296.29276   315.75326
+ [252,]   34.560152   170.31351   182.76660
+ [253,]  244.415365   677.61231   304.31004
+ [254,]  185.825385   514.43699   484.00572
+ [255,]  629.605772  1070.68387  1196.70341
+ [256,]  123.400482   801.10489   705.08582
+ [257,]  169.494009   533.67377   358.83605
+ [258,]  945.041443  2001.45188  1833.59916
+ [259,]   45.528573   355.66678   225.16541
+ [260,]   18.968214   236.04589   328.34731
+ [261,]  723.099747  3590.82331  1243.07737
+ [262,]  114.757228   332.84462   700.88212
+ [263,]   39.571351    87.12493    89.24918
+ [264,] 1685.510172  1810.39751  4084.26527
+ [265,]  251.215170   596.57252   325.69520
+ [266,]   77.001653   299.33945   367.26760
+ [267,]  452.355785  2244.60108  2609.94139
+ [268,]   53.112969   183.56013   224.65234
+ [269,]  138.948955   275.56639   198.71629
+ [270,]  131.000291   232.79733   162.39717
+ [271,]   48.515150   225.72912   324.72543
+ [272,]  334.673881  1070.81521   946.09962
+ [273,]  622.294615  2033.07448  1240.41462
+ [274,]  314.803261   428.31165   805.66803
+ [275,]   80.116493   112.72249    74.36500
+ [276,]  101.479815   105.77434   193.14163
+ [277,]  762.130616  1627.27946  1946.39483
+ [278,]   16.034042   114.79707   134.77023
+ [279,]  119.045577   758.81688   770.68167
+ [280,]  186.394491   379.85586   300.54367
+ [281,]  671.074903  1162.43664   642.37241
+ [282,]  135.581083   289.88429   314.58154
+ [283,]   19.122759   101.51783    81.44476
+ [284,] 2785.358790  3550.45999  3400.60385
+ [285,]  249.669023   493.30062   828.81348
+ [286,]  230.562136   746.77062  1164.65124
+ [287,]  344.398816   990.00422  1083.68376
+ [288,]   95.376408   330.04044   336.28743
+ [289,]  195.030323   413.34418   401.73702
+ [290,]  181.795792   344.80725   284.96851
+ [291,]  542.097876  1168.93165   767.97106
+ [292,]  301.431153  1168.99484  1156.57566
+ [293,]   56.037454   118.95209   168.65589
+ [294,]  289.587815  1046.28860  1422.69257
+ [295,]  176.965539   411.47282   381.20804
+ [296,]  243.436140   552.73526   685.72987
+ [297,]   72.558700   118.11010   176.62656
+ [298,]  116.468040   441.08730   402.08822
+ [299,]  801.814728  2960.02579  4415.06524
+ [300,]  585.781618  1107.56033   839.29889
+ [301,]   74.912254    85.85114    98.04668
+ [302,] 7677.442793 13522.30932 14906.94028
+ [303,]  181.564047   449.73355   374.26271
+ [304,]   64.444091   136.32564    91.13829
+ [305,]  105.935375   143.21465   131.42520
+ [306,]  110.446750   273.15399   451.18489
+ [307,]  152.134973   267.26419   190.16597
+ [308,]  137.148468   190.85336   229.77198
+ [309,]  347.537742   787.75645   957.45852
+ [310,]   36.682734   187.09604   167.90557
+ [311,]  379.365136   877.43583   703.72668
+ [312,] 4725.281522  2524.03111  8169.08016
+ [313,]  344.609725   532.15510   367.05807
+ [314,]  942.822963  1594.58698  2024.11181
+ [315,]   71.898580   322.02353   466.76371
+ [316,]  245.843987   727.97015   843.49835
+ [317,]  139.555603   208.40835   298.96040
+ [318,] 1118.824975  1043.50876   627.09732
+ [319,] 1262.511766  2960.73038  4529.26803
+ [320,]  170.062896   492.15589   507.74340
+ [321,] 1007.662566  1992.46580  2761.42159
+ [322,]   85.386814   288.00190   306.57933
+ [323,] 1062.326958  1399.76552  1050.63330
+ [324,]  684.035504  1556.27191  1722.32052
+ [325,]  275.761286   497.29880   580.53768
+ [326,]  388.922536   356.80424   564.50599
+ [327,]  172.800803   183.05816   214.55558
+ [328,]  240.752953   190.64783   309.04819
+ [329,]  753.341894  1034.07607   878.02579
+ [330,]  130.250273   256.52634   350.91096
+ [331,]  140.348815  1017.44215   658.25408
+ [332,]   34.468683   100.49868    86.83095
+ [333,]  364.470160   430.39253   666.31118
+ [334,]   18.794940   122.13218   122.27324
+ [335,]   61.860364   129.97340   120.91425
+ [336,]   27.954402    85.61469    76.88379
+ [337,]  287.768532   670.10179   774.11820
+ [338,]  408.444254  1573.56403  2163.96307
+ [339,]   24.761330   108.49317    90.94938
+ [340,]   28.922469    74.35825    52.67080
+ [341,]   31.216891    46.30148    53.29140
+ [342,]  190.631462   465.37032   398.88812
+ [343,]   74.413319   151.80880   175.38860
+ [344,]  210.196632   433.05657   376.26262
+ [345,]  466.205802  2791.73372  2057.64552
+ [346,]  130.312556   592.36524   375.02447
+ [347,]    4.837906    41.87679    53.88581
+ [348,]  135.819014   349.92442   469.71457
+ [349,] 1147.280417  4025.01791  3845.45117
+ [350,]  400.030181   532.11412   554.72664
+ [351,]   43.018276    63.46058    89.08421
+ [352,]  218.752012   347.42848   632.60719
+ [353,]  554.489654   492.02764   549.99608
+ [354,]   81.158293   232.63803   282.94342
+ [355,]  129.916470   357.19879   306.62756
+ [356,]   70.797766   222.77406   214.41489
+ [357,]   84.722490   235.80022   270.30860
+ [358,]  670.039911   817.92254   688.23756
+ [359,] 1026.098397  1089.32651  2519.17714
+ [360,]  571.798963   616.40894  1619.61513
+ [361,]   88.013554   224.91699   273.01736
+ [362,]  181.725523   295.41818   599.89526
+ [363,]  411.359799  1271.54489  1785.73761
+ [364,]   82.248843   135.41317   140.95786
+ [365,]   98.156218   373.15287   362.77249
+ [366,]   49.992906   333.75331   259.94414
+ [367,]  326.072997   627.86345   576.32103
+ [368,]  480.893300  1266.73564  1337.61039
+ [369,]  134.815820   154.97977    97.72878
+ [370,]  303.752743   578.37448   374.24630
+ [371,]  241.224075   614.47032   817.02991
+ [372,]   98.672605   207.37129   320.61250
+ [373,]  523.282098  1119.17518  1174.56089
+ [374,]  101.540921   246.09880   307.86252
+ [375,]  122.256071    73.19362   133.18757
+ [376,]   84.464770   400.31409   326.18062
+ [377,]  110.579684   231.73211   268.33057
+ [378,]   99.305409   559.84839   493.10646
+ [379,]  478.788604  1565.08655  2348.45938
+ [380,]  193.801227   116.74694   363.70175
+ [381,]  340.654221   356.50780   495.50716
+ [382,]   74.555380   404.71956   395.62086
+ [383,]  664.834252  7790.69456  9809.63067
+ [384,]  361.368512   916.24016   581.39317
+ [385,]  271.736040   443.35751   378.28495
+ [386,]  397.912813   739.66771   940.34678
+ [387,]   73.087170   371.92445   320.96255
+ [388,]  399.603149   784.25118  1295.33701
+ [389,]   99.723184   335.34299   629.41572
+ [390,]  201.119385   468.06427   412.95111
+ [391,]  469.052416   732.07023   734.02548
+ [392,]  221.943133   565.52765   565.93081
+ [393,]  147.541533   285.78533   394.69064
+ [394,]  568.767755  2099.09791  2934.08885
+ [395,]   78.492230   262.26283   176.73310
+ [396,]   36.695081   134.74874   185.57283
+ [397,] 2733.605488  6521.24690  7213.22659
+ [398,]  122.944904   477.52726   365.22857
+ [399,]  549.278343  2719.21953  2834.48735
+ [400,]  464.528645   515.89357   600.93476
+ [401,]   30.968826    71.23740    55.18486
+ [402,]  103.770143   333.39262   151.70705
+ [403,]  148.207392   781.96911   920.49352
+ [404,]   12.969509    53.99725    41.61401
+ [405,]  275.889764   544.95103   496.01771
+ [406,]  996.143791  1518.36978  1046.51038
+ [407,]  384.859630   922.17648  1441.71642
+ [408,]  727.241389  2557.14603  2124.65441
+ [409,]   21.575797    51.38062    74.23968
+ [410,]  115.192800   205.63961   193.12886
+ [411,] 1057.216369  2510.92338  3785.08081
+ [412,]  125.587815   306.08545   211.31702
+ [413,]   38.558719   107.10716   120.91911
+ [414,]  152.087972   185.57072   426.08503
+ [415,]  337.723817   505.85459   967.50932
+ [416,]  244.421516   522.89815   589.00723
+ [417,]   40.384213   144.86126   106.06667
+ [418,] 2437.853994  2861.40860  2188.20348
+ [419,]  415.492249  1041.45934  1298.44226
+ [420,] 1535.383425  5278.31377  6351.91554
+ [421,]  243.190376   262.62244   447.97245
+ [422,]  288.061098  1284.66322  1025.16043
+ [423,]   81.442790   226.28025   197.83305
+ [424,] 1624.509338  1703.24229  1583.20950
+ [425,]  883.651424   822.55774   755.09712
+ [426,]  693.160872  1069.08793  1805.59610
+ [427,]   85.675647   184.31914   180.11057
+ [428,]  205.914381   615.00689   545.19551
+ [429,]   60.949227   246.81083   296.56102
+ [430,]  158.711618   240.37720   355.64208
+ [431,]   60.773210   382.49209   504.10503
+ [432,]   86.184486   196.75793   191.58468
+ [433,]  272.826157   987.85454   573.06991
+ [434,]  174.648310   430.35126   248.88004
+ [435,]  133.865510   521.46476   455.79517
+ [436,]  222.443974   408.39126   779.89537
+ [437,]  192.812921   225.64348   252.48204
+ [438,]   84.275020   138.14709   246.17745
+ [439,]  823.423982  1941.38393  2197.32510
+ [440,]  167.363590   209.49617   207.84591
+ [441,] 2119.270751  3073.53340  3929.57664
+ [442,]   54.469947    66.23385   117.13080
+ [443,]  124.752129   493.84260   512.59596
+ [444,]  156.997267   517.89679   497.30933
+ [445,]   31.313319    70.48967   139.55357
+ [446,]   56.870407    66.89645    48.19186
+ [447,]   19.722465    17.92166    22.04080
+ [448,]  172.024871   423.54469   641.29251
+ [449,]  548.266459   904.67487   869.67294
+ [450,]  203.508582   480.87496   448.87829
+ [451,]  513.060651   877.86171  1524.95401
+ [452,]  201.226227   868.00470   985.78885
+ [453,]  597.116571   596.74066   861.38102
+ [454,] 1587.509801  7343.15160  8904.14703
+ [455,]  497.025677  1050.94126  1132.57246
+ [456,]  153.251469   790.64991   462.06683
+ [457,]   40.631492   151.93921   132.45926
+ [458,]  140.991719   182.77195   199.72129
+ [459,]   47.231465   116.49991   101.26606
+ [460,]  372.072659   638.44371   520.05709
+ [461,]   53.612252   742.52454   476.41492
+ [462,]   61.532009    83.35419   108.70593
+ [463,]  383.878666   767.21324   571.89020
+ [464,]  213.461012   620.48287   742.51756
+ [465,] 6572.110514  7286.14440  8465.23833
+ [466,]  202.165116   352.70330   539.84198
+ [467,]  181.194581   688.32354   822.62542
+ [468,]  379.553240  1262.26821  1434.18797
+ [469,]   43.292658   267.39040   255.87222
+ [470,]   98.403662   212.92425   255.73758
+ [471,] 1447.983728  1719.94339  2840.53979
+ [472,]  147.716100   394.90747   443.80327
+ [473,] 1005.307376  2265.33413  2096.16112
+ [474,]  302.334745   553.89996   321.36024
+ [475,]  805.590294  1196.09994  1558.07186
+ [476,]   14.542673    39.21464    38.92616
+ [477,]  442.305975  2011.14846  1691.46444
+ [478,]   91.025057   125.98244   281.49866
+ [479,]  220.699702   362.17316   492.25313
+ [480,]  588.934039   769.58907  1229.53932
+ [481,]  289.608263   329.30696   461.05194
+ [482,] 2057.371900  1690.39809  2294.12631
+ [483,]  183.569296   464.72377   348.35719
+ [484,]  446.598293  1357.15616  2134.41492
+ [485,]   22.754306    69.56711   138.20040
+ [486,]  461.592099  1699.20356  1221.60515
+ [487,]   47.746846   305.45080   308.69584
+ [488,]  277.279577   976.63387   688.35660
+ [489,]  169.735268   410.21704   475.06069
+ [490,] 1177.394084  1803.77924  2129.86038
+ [491,]  181.530298   553.36183   785.51320
+ [492,]   22.482654    51.07560    63.42299
+ [493,]  176.243438   518.75418   688.75255
+ [494,]  199.647285   861.22039  1481.11572
+ [495,] 1164.076819  2102.27892  2737.87169
+ [496,]  479.682128  1111.71798  1153.31019
+ [497,]  148.359452   509.23689   390.69942
+ [498,]  283.536445  1813.43967  1786.70887
+ [499,]  508.570801  1740.85819  1247.22147
+ [500,] 1179.889974   931.68116  1128.43002
+ [501,] 1458.361459  5710.94206  7416.32340
+ [502,]   93.546462   448.80158   735.88040
+ [503,]  167.509547   115.27054   192.41827
+ [504,] 1156.658037  2901.40485  2791.24387
+ [505,]  915.122331  1802.95916  1491.41221
+ [506,]   27.674535    43.98193    69.63660
+ [507,]  402.031443   688.30472   893.85824
+ [508,]  131.921428   769.48592   957.76370
+ [509,]  130.040907   327.90726   423.96997
+ [510,]  548.954951   439.46510   642.61975
+ [511,]  530.126046  2255.17066  1848.90872
+ [512,] 2279.077281  5517.54153  8254.61973
+ [513,]  128.139390   439.19344   287.51866
+ [514,] 1311.795838  2046.00908  3481.48303
+ [515,]   43.382505   124.73569    45.67562
+ [516,]  201.474096   243.17845   310.64144
+ [517,]  642.844876  1083.19938  1033.55900
+ [518,]  236.657707   220.57663   248.76785
+ [519,]  355.904234  1315.59992   851.48594
+ [520,] 1819.078498  2433.06492  4406.08523
+ [521,]  944.989510  1260.92092  1184.76912
+ [522,]   57.448477   252.48926   295.89756
+ [523,]  333.567840  2375.92184  2320.89939
+ [524,] 1057.148352  1224.81446  1469.02618
+ [525,]  604.503086   490.91167  1458.66700
+ [526,]  493.601760   860.72662   689.36491
+ [527,]  495.300540   719.97028  1262.61305
+ [528,]   96.147301   329.32952   336.81995
+ [529,]  585.887898  1277.73984  2839.42971
+ [530,]  113.453923   115.19181   200.53752
+ [531,]  747.773128   748.33336  1124.05731
+ [532,]  329.150236   687.06065   913.07076
+ [533,]  104.329251   373.08477   373.51390
+ [534,]   82.894507   126.31829   176.91330
+ [535,]  224.017420   321.19331   946.88841
+ [536,]  372.333611   488.79948   736.71277
+ [537,]   74.949765    67.84427    81.44378
+ [538,]   72.266740   242.58972   316.04492
+ [539,]   58.669665   105.32107   183.63239
+ [540,]   41.801523   161.88391   262.18806
+ [541,]  156.672175   214.69512   164.32266
+ [542,]  223.865861   421.98477   445.27751
+ [543,]  140.547640   392.97204   359.76186
+ [544,]  313.582576   842.98620   691.23657
+ [545,]  726.336472   955.40012  1966.80326
+ [546,]  442.522964   600.55719   601.06356
+ [547,]  952.394262  2162.73330  1591.17606
+ [548,]  124.106038   169.21092   111.69940
+ [549,]  305.317081   779.89642   862.54779
+ [550,]   11.879587    20.33346    28.76888
+ [551,]  854.691856   961.95790   805.63397
+ [552,]  308.778013   838.72754   985.09240
+ [553,]  143.242910   245.13948   180.32625
+ [554,]   55.285891    86.78862   159.65675
+ [555,]  195.701242   697.72796   303.10414
+ [556,]  176.101485   183.91903   213.09347
+ [557,]  165.906453   340.67140   395.14263
+ [558,]  126.471069   588.23868   525.51312
+ [559,]   28.172395    43.52768    44.31792
+ [560,]   53.992520   135.21050   155.86152
+ [561,]  133.461949   479.45150   963.54037
+ [562,]  201.741023   737.62088   412.88522
+ [563,]  349.515077  1051.03511   366.16504
+ [564,]   69.791862   220.37850   250.48150
+ [565,]   82.829355   360.12023   208.63826
+ [566,]  594.163168   590.64307   486.07233
+ [567,]  426.883857  1581.81046  1887.56302
+ [568,]  353.758951   315.34594   312.86117
+ [569,]  495.412290   449.31152   604.93280
+ [570,]  148.648506   297.85119   361.71782
+ [571,] 1187.860245  2072.82149  1278.11761
+ [572,] 1601.804754  1877.71884  1927.81748
+ [573,]  270.603754   319.52309   268.04702
+ [574,]   43.514481   174.72992   269.77666
+ [575,]   72.839690   450.08808   464.59560
+ [576,]   90.366664   190.20063   208.05281
+ [577,]  126.764790  1058.28361  1011.60001
+ [578,]  202.238739   404.07445   486.85643
+ [579,]  762.665139  2360.03944  1721.12795
+ [580,]  387.624663   376.66038   437.93970
+ [581,]  335.665885   685.89113   895.34281
+ [582,]  101.241018   339.38047   482.03434
+ [583,]  447.282377   516.23359   641.99956
+ [584,]  114.031076   294.73871   232.64877
+ [585,]  192.676170   950.56697  1061.75068
+ [586,]   32.496576    75.47444    96.63301
+ [587,] 1818.853260  1878.87165  3384.38220
+ [588,]   27.854038    84.27889    77.08433
+ [589,]   37.925709    39.12958    51.92825
+ [590,] 4576.203887  2203.22366  8385.87940
+ [591,]  141.962613   270.71100   305.25190
+ [592,]  119.688799   209.45701   517.99429
+ [593,]  151.059248   372.58339   346.12515
+ [594,]  244.886752   483.37885   620.76843
+ [595,]  259.434221   576.73126   556.68159
+ [596,]  202.895895   500.16375   897.48669
+ [597,]  598.537759  1055.59758  1512.88553
+ [598,]  303.217457  1027.05062  1600.36480
+ [599,]  270.737562   675.99783   810.19113
+ [600,]  124.756363   192.23259   309.38488
+ [601,]   63.284082   330.50723   321.01178
+ [602,]  440.926439  1248.28326  1453.88756
+ [603,]  205.511954   380.82410   496.87225
+ [604,]  340.184105   740.24151  1078.08611
+ [605,]  543.268763   803.02383  1401.32807
+ [606,]  134.146279   234.90616   278.24805
+ [607,]  230.284894   208.16369   353.51373
+ [608,]  460.856557  1235.37271  1575.85707
+ [609,]  154.004448   209.61318   408.99763
+ [610,]  340.466777   632.74693   838.43104
+ [611,]  190.754750   185.46744   120.95824
+ [612,]  295.295821   641.12593   553.33653
+ [613,]  466.308914   902.77507  1307.02927
+ [614,]   55.303797    64.52018    99.91653
+ [615,]   57.660303   151.07604   199.56825
+ [616,]   14.813610    34.89523    40.27143
+ [617,]  340.327140   828.10462   676.49883
+ [618,]   35.028388    93.29309   167.03379
+ [619,]  897.172341  2029.93075  1620.52718
+ [620,] 1580.948074  4476.70783  3919.36237
+ [621,]   12.472633    37.90506    34.58193
+ [622,]   67.245222   131.44117   209.91360
+ [623,]   28.844768    86.29003    88.85104
+ [624,] 1871.860075   818.05735  2581.12468
+ [625,]  628.002282   619.51233  1156.01311
+ [626,]  145.634970   279.50768   304.56128
+ [627,]  646.080604  1001.63570  1298.82903
+ [628,]  676.316009  1190.13866  2141.55731
+ [629,]   90.090374   428.29491   427.81253
+ [630,]  126.627181   181.49409   264.69886
+ [631,]  155.644941   264.63553   265.73370
+ [632,]   15.485356    67.28033    55.24392
+ [633,]   25.246070   100.60221    52.60064
+ [634,]   57.045293   137.21324   156.93463
+ [635,]  468.450333  1351.67764  1403.34043
+ [636,] 1126.954653  4079.65649  5245.29688
+ [637,]   22.718201    71.00865    65.64844
+ [638,]    9.498902    50.41237    59.57086
+ [639,]  117.105261   422.65257   337.05994
+ [640,]   21.443642   154.88410   144.55742
+ [641,]   62.847816   415.59594   824.34300
+ [642,]  309.125792   339.52334   363.30385
+ [643,]  438.706487   646.94960   547.17099
+ [644,]  199.603767   341.18588   399.56632
+ [645,]  102.351664   351.01883   485.93396
+ [646,]  105.225109   418.78003   419.68315
+ [647,]   52.752419   208.18911   147.31982
+ [648,]  100.513925   109.09950   100.12484
+ [649,] 2371.833247  4177.19614  4065.30791
+ [650,]  260.598220   711.95374   613.22492
+ [651,]  142.225540   316.81176   323.60794
+ [652,] 1266.113317  1500.94189  1971.89192
+ [653,]   41.596546    37.13957    68.20129
+ [654,]  108.036930   478.82465   498.58816
+ [655,]  455.933366  1525.37419  1123.28335
+ [656,]  487.566180   618.52529   915.64199
+ [657,]  183.966976   520.89643   763.52860
+ [658,]   43.069152   113.36813   147.12126
+ [659,]  138.210108   163.12525   154.27066
+ [660,]  193.367307   367.32802   899.64329
+ [661,]  471.879498  1123.62521  1030.47261
+ [662,]   73.598646   240.74432   329.42118
+ [663,] 1581.710309  2176.37698  1772.51788
+ [664,]  745.717745  3279.18725  3498.92156
+ [665,]  530.056595  1262.87040  1274.46119
+ [666,]  184.139567   705.99979   659.05424
+ [667,]   26.307778    62.45480    42.51402
+ [668,]   39.911795   206.28481   191.35669
+ [669,]  293.669475   617.71324   567.23354
+ [670,]   49.569367    50.68533    51.68320
+ [671,]   86.319738   252.36756   200.66893
+ [672,] 1002.329189  1023.74254  1839.60869
+ [673,] 3309.130033  6173.61706  5638.82411
+ [674,]  285.712651   623.27543   669.27734
+ [675,]  216.011906  1256.93837  1175.70487
+ [676,]  466.381926  1304.56432   568.89153
+ [677,]  308.289028   398.89542   495.66406
+ [678,]  559.804077   728.25221   731.70118
+ [679,]  501.888953   705.08640   899.75143
+ [680,]  247.246185   390.62983   433.67501
+ [681,] 1080.196672  3019.39803  3059.05564
+ [682,]  495.063110   553.88566   491.48386
+ [683,]  247.993144   386.07340   725.37016
+ [684,]  404.437768   680.14204   434.66234
+ [685,]  471.871001   538.52781   416.35809
+ [686,]  228.750322   582.62723   578.10612
+ [687,] 5379.419790  6936.08734  7222.91053
+ [688,]  383.552169  1209.56514   981.10962
+ [689,]   37.136095   118.90029    92.01891
+ [690,]  609.878862  1838.74555  1639.15433
+ [691,]   55.050748   114.78289   146.47724
+ [692,] 2821.487366  3416.86328  3147.13087
+ [693,]   40.796144   129.33182   109.01750
+ [694,]  700.999873  1103.44543   994.53073
+ [695,]   94.656638   196.39507   194.49398
+ [696,]  585.905809  1027.06691  1678.97826
+ [697,]  165.656755   306.68672   466.20381
+ [698,]   48.559185   108.88474   197.71774
+ [699,]  366.308344  1201.13516  1537.48725
+ [700,]   83.979890   161.66724   157.48326
+ [701,]  201.604848  1371.07841  1582.86090
+ [702,]   76.790653   511.16587   642.70306
+ [703,]  849.064112  1258.75756  1222.68139
+ [704,]  862.885724  1774.27807  1655.76940
+ [705,]  389.232343  1010.79129  1607.30230
+ [706,]  143.532507   400.38772   434.22373
+ [707,]  212.124242   189.23395   246.91141
+ [708,]   57.114614   115.22484   135.25996
+ [709,] 1150.128517  1424.04738  2235.48818
+ [710,]   43.941292    79.80307   118.33067
+ [711,]  277.668997   666.70236   971.41449
+ [712,]  286.188113   536.71498   639.51582
+ [713,]  379.005054  1079.37942   580.25074
+ [714,]  541.812670   429.82176   713.63448
+ [715,]  124.987460   236.40325   225.92432
+ [716,]  114.015245   477.87923   903.75947
+ [717,]   46.021449   102.36124   134.87168
+ [718,]  926.312448   663.73059  1582.66159
+ [719,]  714.334260   617.50155   358.44152
+ [720,]   54.334560   392.65250   130.60788
+ [721,]  322.825733  1020.04545   913.48668
+ [722,]  204.415099   681.39417   643.99689
+ [723,]  265.263541   207.90908   361.35418
+ [724,]  167.778162   410.28735   415.29967
+ [725,]   10.923672    25.97498    36.19498
+ [726,]   23.707586    55.03903    62.37108
+ [727,]   51.535178   152.15481   206.82684
+ [728,]  187.692828   367.93405   370.79827
+ [729,]  341.931884  1303.18600  1080.60036
+ [730,]  145.505906   335.24430   737.33548
+ [731,]  427.735019   355.21915   488.14785
+ [732,]  987.152635  1113.43788  2297.41057
+ [733,]  181.701261   519.73362   593.06425
+ [734,]   87.557839    65.07831   134.13026
+ [735,] 2178.706642  9628.61711  9001.81347
+ [736,]   21.389719    77.95023    79.60829
+ [737,]  754.042576  1311.24041  1251.55269
+ [738,]  265.904476   341.23545   205.59990
+ [739,]  104.130144   226.27838   300.28967
+ [740,]  522.401775   852.93206   509.84012
+ [741,]   95.475666   447.63521   535.28140
+ [742,]  313.995937   950.76586   615.84729
+ [743,]  473.950331   470.95827   859.38431
+ [744,]  105.025811   343.61551   350.36242
+ [745,] 2354.570300  4511.86079  5224.25782
+ [746,]  155.135268   315.23498   358.58562
+ [747,]   83.727753   131.15722    59.16275
+ [748,]  821.320907  2326.40103  2585.33218
+ [749,]  298.964112  1073.51064  1952.68524
+ [750,]  838.483183  2701.50210  1754.88514
+ [751,]   10.388863    22.69940    25.01652
+ [752,]  291.268454   882.36505   816.23656
+ [753,]   49.857944   187.17877   332.77198
+ [754,]  245.643009   346.41835   545.19799
+ [755,]  501.209715   785.65344  1436.51982
+ [756,]  186.260655   471.04122   547.55395
+ [757,]  486.184562  1357.85114  1385.01560
+ [758,]   71.412996   278.45162   257.25942
+ [759,]  256.382878   797.44468   476.59047
+ [760,] 1838.416861  4772.85187  6064.87111
+ [761,]  391.492347   338.89525   403.72039
+ [762,]  105.114863   204.59721   214.94513
+ [763,]   24.211871   145.03913   254.28978
+ [764,]   69.338865   296.37905   340.99579
+ [765,]  342.812036   359.04695   589.69010
+ [766,]  209.592410  1044.57677   947.81747
+ [767,]  408.879055   634.41540   920.33556
+ [768,]  319.609853   347.96003   424.63592
+ [769,]  439.398785  1021.78969  1242.05335
+ [770,] 1271.661664  3303.47558  2783.09160
+ [771,]  765.989214  1212.33347  1102.57605
+ [772,]  143.842434  2090.63847  1345.84998
+ [773,]  156.819879   251.46515   335.56031
+ [774,]   10.880703    40.15351    51.92939
+ [775,]  708.419318   438.77585  1883.82176
+ [776,]   30.915586   178.31998   174.77494
+ [777,]   30.108364    90.74660   112.11372
+ [778,]  229.188612   754.93704   605.18696
+ [779,]  179.422599   430.59967   307.17360
+ [780,]  309.615372   566.87009   602.02277
+ [781,]  151.943600   477.88496   781.23177
+ [782,]   71.680939   178.24111   275.47516
+ [783,]   53.170515    42.82361    51.35167
+ [784,]  254.517519   427.77034   677.10853
+ [785,]  799.540265  1113.61413  1399.43178
+ [786,]  318.359506   784.06998   989.23472
+ [787,]  385.910076   780.44084  1035.08618
+ [788,]  124.203406   125.69280   115.23177
+ [789,]  345.940735   466.32124   390.38221
+ [790,]  331.365846   646.56608   673.29776
+ [791,]   97.279994   131.98247   145.92605
+ [792,]   39.177157   112.01157   163.62142
+ [793,]  182.868296   864.23604   518.06295
+ [794,]   37.639395    98.47342   131.24736
+ [795,]  223.500315   220.35441   480.36157
+ [796,]   12.427791    15.66565    31.66010
+ [797,]  127.863309   110.10834   120.31583
+ [798,]   24.685029   151.33303    85.53723
+ [799,]  705.066402   879.16481  1317.18373
+ [800,]   92.891190   471.75370   397.58466
+ [801,]  748.690256  1392.23266  2816.14476
+ [802,]   49.207846   156.06896    91.44640
+ [803,]   37.090363    77.70676   158.66787
+ [804,] 1418.461552  3605.39913  3169.26551
+ [805,]  499.984022  2825.32994  2350.20267
+ [806,]  315.925057   405.35310   310.55514
+ [807,]  126.834917   422.94186   337.86253
+ [808,]  403.075345   572.66980   499.40507
+ [809,]  162.055852   217.24498   387.49441
+ [810,]  201.778640   249.53879   405.28180
+ [811,]  142.557007   564.95326   396.93649
+ [812,]   96.581616   572.38590   532.17352
+ [813,]  367.808946  1065.30134   625.36175
+ [814,]  100.246159   244.30749   205.69256
+ [815,]  428.228747   649.81061   621.65077
+ [816,]   66.493278   215.71117   249.25964
+ [817,]  100.020852   203.03245   310.47856
+ [818,]   28.941315    47.77151    87.01547
+ [819,]  744.823974   954.62313   738.76524
+ [820,]  136.898748   359.14492   429.36536
+ [821,]  360.977960  2364.33909  2513.79601
+ [822,]  262.910591   892.62387  1554.78467
+ [823,]  585.412182  4846.87344  3131.69665
+ [824,]  126.806994   264.23102   331.23750
+ [825,]  442.987796  1648.21066  1481.80899
+ [826,]  231.235104   337.45317   375.87785
+ [827,]  733.240313  2953.43992  2368.45250
+ [828,]   75.852840   249.11073   174.21406
+ [829,]  115.029406   295.63738   403.41538
+ [830,]   80.423552   237.08560   309.59852
+ [831,]  362.315647   734.22103   630.85875
+ [832,]  335.914737   274.99233   464.91530
+ [833,]  114.565524   282.95648   375.96342
+ [834,]  925.207525   480.19121   672.88353
+ [835,]  113.040682   202.71932   119.71051
+ [836,] 1930.091715  3710.79113  7132.23743
+ [837,]  241.649718   301.57384   488.24052
+ [838,]   61.538349   120.47826   172.10317
+ [839,]  185.653858   202.06977   118.13377
+ [840,]  119.445462   228.38475   306.79029
+ [841,] 1141.491166  4141.26637  4315.01260
+ [842,]  920.605440  5940.51563  6133.26752
+ [843,] 1115.960287  3044.98933  2186.90604
+ [844,]  104.571571   144.98450   200.04493
+ [845,] 2073.067388  2521.68160  4540.48121
+ [846,] 1478.615728  3254.73938  4454.34681
+ [847,]   35.960290    76.04231    81.00776
+ [848,]   49.156479   168.20518   166.07672
+ [849,]  173.999533   874.01451   687.63873
+ [850,]  559.468672  1070.04568  1150.30867
+ [851,]  249.163335   957.46794   879.89437
+ [852,]  891.602658  1425.42627  1276.11969
+ [853,]   44.496369    34.38730    41.62590
+ [854,]  505.419649   418.84677   999.91619
+ [855,]   95.039674   272.64291   366.28256
+ [856,]   90.097874   855.48544   784.89549
+ [857,]  296.397703   802.45535  1557.71225
+ [858,]  150.154996   153.88289   374.70255
+ [859,]  604.649149   723.15970  1133.70883
+ [860,]  360.446025   821.21992   789.32801
+ [861,]   76.590819   168.72620   230.85756
+ [862,]  180.831546  1034.85950   725.83754
+ [863,]   90.032562   191.27192   173.92479
+ [864,]   37.776401   115.09819    96.47359
+ [865,]  624.778981  1545.16776  1160.88280
+ [866,] 1251.870053  2370.44736  1763.38342
+ [867,]   69.144150   360.19989   387.78721
+ [868,]  133.193893   848.17198  1062.43830
+ [869,]  221.783781   524.14420   334.71148
+ [870,]  319.930833   964.56797  1631.52024
+ [871,]  457.483222  1261.11990  2333.12802
+ [872,]  904.455991   599.75250   671.07632
+ [873,]  484.417906  1352.16852  1876.99311
+ [874,]  973.871208  5028.99634  3801.97937
+ [875,]  160.367458   434.99506   537.55188
+ [876,] 3317.727811  5107.28443  6358.92139
+ [877,]  544.654480  1179.68309   795.83290
+ [878,]  131.127697   324.61465   284.03281
+ [879,]  759.719279  1120.65233  1432.90637
+ [880,]  166.083158   343.98396   358.14576
+ [881,]  372.982320   676.62181   565.78220
+ [882,]   35.950814   125.76836    74.48377
+ [883,]  599.386712  3599.92720  3407.33000
+ [884,]  471.498417  1616.62030  2308.86407
+ [885,]   80.335038   161.61452   128.63094
+ [886,]  350.292071   654.41344   618.07652
+ [887,] 1575.101770  4263.14815  2856.85413
+ [888,]  159.162193   259.46544   268.49916
+ [889,]   53.650252    90.55660    79.78449
+ [890,]  203.028177   323.13282   276.52766
+ [891,] 1755.289406  1553.74634   816.22636
+ [892,]  167.599168   254.29707   479.08848
+ [893,]  786.297079  1207.51081  1887.03574
+ [894,]   64.195926    93.99329   101.11616
+ [895,]  217.976628   295.26074   273.48827
+ [896,]  124.733678   323.94764   285.43637
+ [897,]  318.426065   503.87507   559.95614
+ [898,]  384.303584  1049.93081  1141.36226
+ [899,]  162.733052   679.27972   594.42488
+ [900,]   90.111923   236.93447   219.61780
+ [901,]   68.752685   176.83175   197.30967
+ [902,]  220.069409   335.53382   259.59482
+ [903,]   77.072801   157.36419   225.77972
+ [904,]  524.429072  2044.20033  2720.67863
+ [905,]    7.901401    50.63593    47.44108
+ [906,]  225.306566   203.25927   458.50599
+ [907,]  555.477388  1639.42518  1442.33683
+ [908,]  230.300700   680.91398   625.19374
+ [909,]  103.221532   155.24347   205.71897
+ [910,]  201.952490  1441.71554  1912.14761
+ [911,]   72.265111   146.06386   203.99248
+ [912,]  122.252519   487.38606   781.74298
+ [913,]  277.404974   476.55274  1063.66898
+ [914,]   29.195031   100.15369   156.04644
+ [915,]  514.987076   734.75997   643.10351
+ [916,]  495.551322   636.12838  1263.31334
+ [917,]  192.841830   293.64893   211.13806
+ [918,]   84.895999    96.62581   106.37924
+ [919,]   62.256993   279.83638   257.49617
+ [920,]  538.384940   845.63356  1523.54215
+ [921,]  183.752077   326.12641   360.58880
+ [922,]   49.730638   101.91114   105.90178
+ [923,]   50.920848   121.88447   128.91070
+ [924,]   65.873550   156.53324   274.11505
+ [925,]  299.099282   305.89785   259.54777
+ [926,]  404.295355   715.48779   578.91479
+ [927,]   58.519139    81.24134    98.87427
+ [928,]  183.827700   280.29056   201.57936
+ [929,]   92.291731   170.44725   191.13471
+ [930,] 1052.121316  2335.79718  3822.04294
+ [931,]  415.238817   462.56658   459.57444
+ [932,]   59.763566   654.34224   486.87221
+ [933,]   91.343491   525.49837   778.33943
+ [934,]  117.640215   456.37447   481.25428
+ [935,]  331.050882   625.44784  1259.92801
+ [936,]  206.397614   490.84535   736.21591
+ [937,]  127.356150   221.88451   191.23333
+ [938,]  306.380711  1411.35514  1080.91693
+ [939,]  787.687766  2328.13798  2369.93970
+ [940,]  889.661124  1331.27821  2869.75263
+ [941,]  426.541109  1140.88103  2129.29985
+ [942,]  241.864553   537.06805   447.14156
+ [943,]   49.482504   222.89707   233.13081
+ [944,]   49.930121   122.28133   164.21609
+ [945,]   26.243470    35.50990    38.65982
+ [946,]  790.807243   648.23268  1388.17057
+ [947,]  110.699220   327.47498   649.30553
+ [948,]   90.499362   624.30686   608.29256
+ [949,] 1100.649426  1822.32627  2150.69963
+ [950,]  366.438337  1364.81218   996.80600
+ [951,] 1178.282961  1579.27149  2466.91646
+ [952,]  404.989809   809.27590   867.51752
+ [953,]  158.690349   917.20207   784.06710
+ [954,]   79.483591   158.14839   318.66890
+ [955,]  147.097328   300.73765   331.26433
+ [956,]  907.296015  1271.04223  2946.00193
+ [957,]  447.611800   462.04680   420.57674
+ [958,] 1544.821768  3623.95494  7271.67438
+ [959,]  218.370664   259.87044   473.29932
+ [960,]  342.300784  1314.32293   794.84688
+ [961,]  900.801459  1582.33058  1983.90417
+ [962,]  361.737545   977.87674  1147.26731
+ [963,]  146.440728   149.70938   205.49940
+ [964,]  360.422985   356.74996   254.99512
+ [965,]  117.639747   171.18480   156.93993
+ [966,]  317.907185  1023.63736  1785.71090
+ [967,]  141.832998   184.33142   136.45847
+ [968,] 1754.422450  2043.20765  2564.55911
+ [969,]  159.452914   910.13858  1283.35765
+ [970,]  518.202736  1197.71510   940.35520
+ [971,]  651.569393  1314.85110  1411.59640
+ [972,]  350.570757   580.30079   682.59021
+ [973,]   21.988808    40.63426    52.79389
+ [974,]  104.377567   241.03691   287.95831
+ [975,]   53.745834   203.73850   131.67896
+ [976,]  214.058280   470.24011   371.56264
+ [977,]  278.062559   394.21129   277.18533
+ [978,]  526.249568  2231.80041  2384.68342
+ [979,]  154.717891   832.13263   814.25702
+ [980,]  109.603486   283.10475   331.59594
+ [981,]   43.365550    69.97303    68.45622
+ [982,]   51.751052    81.53941    68.04410
+ [983,]   68.879734   524.10620   615.13086
+ [984,]  286.139459   431.90592   479.87553
+ [985,]  840.361144  1120.71040  2684.98062
+ [986,]  456.511168  1646.53219  2106.53097
+ [987,]  598.327474  1634.99058  3690.68306
+ [988,]  720.688061  2971.46086  2819.57354
+ [989,]  409.364901  1400.66109   810.00441
+ [990,]  635.639795  1382.17138   834.14766
+ [991,]  513.747738   622.23857  1022.62349
+ [992,]  703.994848   923.25752   838.92342
+ [993,]  108.468273   103.78022   187.70835
+ [994,]  168.164689   400.23545   307.48476
+ [995,]   60.376893   145.55996    93.86045
+ [996,]  218.403063   444.99092   530.16744
+ [997,]  326.419502   549.50825   892.54963
+ [998,]  550.966541  5972.85490  8095.65382
+ [999,]   99.514047   414.67804   369.00440
+[1000,]   41.014626   119.76244   170.89328
 ```
 
 ---
-## Step 5 : Examine the results
-Distribution of population sizes after T=20 years ?
+## Step 5: Examine the results
+
+Distribution of population sizes after `\(T=20\)` years?
 
 &lt;img src="matrixmodels_files/figure-html/unnamed-chunk-79-1.svg" width="40%" style="display: block; margin: auto;" /&gt;
 
 ---
-## Step 5 : Examine the results
+## Step 5: Examine the results
 
 Long-run stochastic growth rate `\(\lambda_{s}\)`: 
 
@@ -2372,7 +2386,7 @@ Long-run stochastic growth rate `\(\lambda_{s}\)`:
 ```r
 lambdastoch &lt;- stoch.growth.rate(A.newtSE, 
                                  maxt = T, 
-                                 verbose=FALSE )
+                                 verbose = FALSE)
 names(lambdastoch)
 ```
 
@@ -2381,7 +2395,7 @@ names(lambdastoch)
 ```
 
 ---
-## Step 5 : Examine the results
+## Step 5: Examine the results
 
 Long-run stochastic growth rate `\(\lambda_{s}\)` on a log-scale: 
 
@@ -2390,7 +2404,7 @@ lambdastoch$approx # by Tuljapukar's approximation
 ```
 
 ```
-[1] 0.04123506
+[1] 0.04139382
 ```
 
 ```r
@@ -2398,7 +2412,7 @@ lambdastoch$sim # by simulation
 ```
 
 ```
-[1] 0.03915686
+[1] 0.06787389
 ```
 
 ```r
@@ -2406,11 +2420,11 @@ lambdastoch$sim.CI # with confidence interval
 ```
 
 ```
-[1] -0.01845767  0.09677138
+[1] 0.008229106 0.127518682
 ```
 
 ---
-## Step 5 : Examine the results
+## Step 5: Examine the results
 
 Long-run stochastic growth rate `\(\lambda_{s}\)`: 
 
@@ -2420,13 +2434,13 @@ exp(lambdastoch$approx) # exponentiate to get stochastic growth rate
 ```
 
 ```
-[1] 1.042097
+[1] 1.042262
 ```
 
 ---
-## Step 5 : Examine the results
+## Step 5: Examine the results
 
-Probability of extinction : 
+Probability of extinction: 
 
 
 ```r
@@ -2443,9 +2457,9 @@ proba.ext
 ```
 
 ---
-## Step 5 : Examine the results
+## Step 5: Examine the results
 
-Probability of extinction : 
+Probability of extinction: 
 
 
 ```
@@ -2456,65 +2470,65 @@ Probability of extinction :
  [4,] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
  [5,] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
  [6,] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
- [7,] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
- [8,] 0.001 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
- [9,] 0.001 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
-[10,] 0.001 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
-[11,] 0.001 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
-[12,] 0.001 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
-[13,] 0.001 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
-[14,] 0.001 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.001 0.000
-[15,] 0.001 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.001 0.000
-[16,] 0.001 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.001 0.000
-[17,] 0.001 0.000 0.001 0.001 0.000 0.000 0.000 0.000 0.001 0.001
-[18,] 0.003 0.000 0.001 0.001 0.000 0.000 0.000 0.000 0.001 0.001
-[19,] 0.003 0.000 0.001 0.001 0.000 0.000 0.000 0.000 0.001 0.001
-[20,] 0.004 0.000 0.001 0.001 0.000 0.000 0.000 0.000 0.001 0.001
-[21,] 0.005 0.000 0.001 0.001 0.000 0.000 0.000 0.000 0.001 0.001
-[22,] 0.005 0.000 0.001 0.001 0.001 0.000 0.000 0.000 0.001 0.001
-[23,] 0.005 0.000 0.001 0.001 0.002 0.000 0.000 0.000 0.001 0.001
-[24,] 0.005 0.000 0.002 0.001 0.002 0.000 0.000 0.000 0.001 0.001
-[25,] 0.005 0.000 0.002 0.001 0.003 0.000 0.000 0.000 0.001 0.001
-[26,] 0.005 0.000 0.002 0.001 0.003 0.000 0.000 0.000 0.001 0.001
-[27,] 0.005 0.000 0.002 0.001 0.003 0.000 0.000 0.000 0.001 0.001
-[28,] 0.005 0.000 0.002 0.001 0.003 0.000 0.000 0.000 0.001 0.001
-[29,] 0.005 0.000 0.002 0.001 0.003 0.000 0.000 0.000 0.002 0.001
-[30,] 0.005 0.000 0.002 0.001 0.004 0.000 0.000 0.000 0.002 0.001
-[31,] 0.005 0.000 0.002 0.001 0.004 0.000 0.000 0.000 0.002 0.001
-[32,] 0.005 0.000 0.002 0.001 0.004 0.000 0.000 0.000 0.002 0.001
-[33,] 0.005 0.000 0.002 0.001 0.004 0.000 0.000 0.000 0.002 0.001
-[34,] 0.005 0.001 0.003 0.001 0.004 0.001 0.000 0.000 0.002 0.001
-[35,] 0.005 0.002 0.003 0.001 0.004 0.001 0.000 0.000 0.002 0.001
-[36,] 0.006 0.003 0.004 0.001 0.004 0.001 0.000 0.000 0.002 0.001
-[37,] 0.007 0.003 0.004 0.001 0.005 0.002 0.000 0.000 0.003 0.001
-[38,] 0.007 0.003 0.004 0.001 0.006 0.002 0.000 0.000 0.003 0.001
-[39,] 0.007 0.003 0.005 0.002 0.006 0.002 0.000 0.000 0.003 0.002
-[40,] 0.007 0.003 0.005 0.002 0.007 0.002 0.000 0.000 0.003 0.002
-[41,] 0.007 0.003 0.005 0.002 0.007 0.002 0.000 0.000 0.003 0.002
-[42,] 0.007 0.003 0.005 0.002 0.007 0.002 0.000 0.001 0.004 0.002
-[43,] 0.007 0.003 0.005 0.002 0.007 0.004 0.000 0.001 0.004 0.002
-[44,] 0.007 0.003 0.005 0.002 0.007 0.004 0.000 0.001 0.004 0.002
-[45,] 0.007 0.003 0.005 0.002 0.007 0.004 0.000 0.001 0.004 0.002
-[46,] 0.007 0.003 0.005 0.002 0.007 0.004 0.001 0.001 0.004 0.002
-[47,] 0.007 0.004 0.005 0.003 0.007 0.004 0.001 0.001 0.005 0.002
-[48,] 0.007 0.004 0.005 0.004 0.007 0.004 0.001 0.001 0.005 0.002
-[49,] 0.008 0.004 0.005 0.004 0.007 0.004 0.001 0.001 0.005 0.002
-[50,] 0.008 0.004 0.005 0.004 0.007 0.004 0.002 0.001 0.005 0.002
+ [7,] 0.000 0.000 0.000 0.001 0.000 0.000 0.000 0.000 0.000 0.000
+ [8,] 0.000 0.001 0.000 0.001 0.000 0.000 0.000 0.000 0.000 0.000
+ [9,] 0.000 0.001 0.000 0.001 0.000 0.000 0.000 0.000 0.000 0.000
+[10,] 0.000 0.001 0.000 0.001 0.000 0.000 0.000 0.000 0.000 0.000
+[11,] 0.000 0.001 0.000 0.001 0.000 0.000 0.000 0.000 0.000 0.000
+[12,] 0.001 0.001 0.000 0.001 0.000 0.000 0.001 0.000 0.000 0.000
+[13,] 0.001 0.001 0.000 0.001 0.000 0.000 0.002 0.000 0.000 0.000
+[14,] 0.001 0.001 0.001 0.001 0.000 0.000 0.002 0.000 0.000 0.000
+[15,] 0.001 0.001 0.001 0.001 0.000 0.001 0.002 0.001 0.000 0.000
+[16,] 0.002 0.001 0.001 0.001 0.001 0.001 0.002 0.001 0.000 0.000
+[17,] 0.002 0.001 0.001 0.001 0.001 0.001 0.002 0.001 0.000 0.000
+[18,] 0.002 0.001 0.001 0.001 0.001 0.001 0.002 0.001 0.000 0.000
+[19,] 0.002 0.001 0.001 0.001 0.001 0.001 0.002 0.001 0.001 0.000
+[20,] 0.003 0.001 0.001 0.001 0.001 0.001 0.002 0.001 0.001 0.000
+[21,] 0.003 0.001 0.001 0.001 0.001 0.001 0.002 0.001 0.001 0.000
+[22,] 0.003 0.001 0.001 0.001 0.001 0.001 0.003 0.002 0.001 0.000
+[23,] 0.003 0.001 0.001 0.002 0.002 0.001 0.003 0.002 0.001 0.000
+[24,] 0.003 0.001 0.001 0.002 0.002 0.001 0.003 0.002 0.001 0.000
+[25,] 0.003 0.002 0.002 0.002 0.002 0.001 0.004 0.003 0.001 0.001
+[26,] 0.003 0.002 0.002 0.002 0.002 0.001 0.004 0.003 0.001 0.001
+[27,] 0.003 0.002 0.002 0.002 0.002 0.001 0.004 0.003 0.001 0.001
+[28,] 0.003 0.002 0.002 0.002 0.002 0.001 0.005 0.003 0.001 0.001
+[29,] 0.003 0.002 0.002 0.003 0.002 0.001 0.005 0.004 0.001 0.001
+[30,] 0.003 0.002 0.002 0.003 0.002 0.002 0.005 0.004 0.001 0.001
+[31,] 0.003 0.002 0.002 0.004 0.002 0.002 0.005 0.004 0.001 0.001
+[32,] 0.003 0.003 0.002 0.005 0.002 0.002 0.005 0.004 0.002 0.001
+[33,] 0.003 0.003 0.002 0.005 0.002 0.003 0.006 0.004 0.002 0.001
+[34,] 0.003 0.003 0.002 0.006 0.002 0.004 0.006 0.004 0.003 0.002
+[35,] 0.003 0.003 0.002 0.006 0.002 0.004 0.006 0.004 0.003 0.002
+[36,] 0.003 0.003 0.002 0.006 0.002 0.004 0.007 0.004 0.003 0.002
+[37,] 0.003 0.003 0.003 0.006 0.002 0.004 0.007 0.004 0.003 0.002
+[38,] 0.003 0.003 0.003 0.006 0.002 0.004 0.007 0.004 0.003 0.002
+[39,] 0.003 0.003 0.003 0.006 0.002 0.004 0.007 0.004 0.003 0.002
+[40,] 0.003 0.003 0.003 0.006 0.002 0.004 0.007 0.004 0.003 0.002
+[41,] 0.003 0.003 0.004 0.006 0.002 0.005 0.007 0.004 0.003 0.002
+[42,] 0.003 0.004 0.004 0.006 0.002 0.005 0.008 0.004 0.003 0.002
+[43,] 0.003 0.004 0.004 0.006 0.002 0.006 0.008 0.004 0.003 0.002
+[44,] 0.003 0.004 0.004 0.006 0.002 0.006 0.008 0.004 0.003 0.002
+[45,] 0.003 0.005 0.004 0.006 0.002 0.006 0.008 0.004 0.003 0.002
+[46,] 0.003 0.005 0.004 0.006 0.002 0.006 0.008 0.004 0.003 0.002
+[47,] 0.003 0.005 0.004 0.006 0.002 0.006 0.008 0.004 0.003 0.002
+[48,] 0.003 0.005 0.004 0.006 0.002 0.006 0.008 0.004 0.003 0.002
+[49,] 0.003 0.005 0.004 0.006 0.002 0.006 0.008 0.004 0.003 0.002
+[50,] 0.003 0.005 0.004 0.006 0.002 0.006 0.008 0.004 0.003 0.002
 ```
 
 ---
-## Step 5 : Examine the results
+## Step 5: Examine the results
 
-Probability of extinction : 
+Probability of extinction: 
 
 
 ```r
 proba.ext &lt;- stoch.quasi.ext(A.newtSE,
-   n =c(50,50,50),
+   n = c(50, 50, 50),
    # quasi-extinction threshold
 *  Nx = 30,
    nreps = 1000, 
-   tmax=50, 
+   tmax = 50, 
    maxruns = 10, 
    verbose = FALSE)
 
@@ -2522,18 +2536,18 @@ proba.ext
 ```
 
 ---
-## Step 4 : Examine the results
+## Step 5: Examine the results
 
-Probability of extinction : 
+Probability of extinction: 
 
 
 ```r
 proba.ext &lt;- stoch.quasi.ext(A.newtSE,
-   n =c(50,50,50),
+   n = c(50, 50, 50),
    Nx = 30, 
    # number of runs
 *  nreps = 1000,
-   tmax=50, 
+   tmax = 50, 
    maxruns = 10, 
    verbose = FALSE)
 
@@ -2541,18 +2555,18 @@ proba.ext
 ```
 
 ---
-## Step 5 : Examine the results
+## Step 5: Examine the results
 
-Probability of extinction : 
+Probability of extinction: 
 
 
 ```r
 proba.ext &lt;- stoch.quasi.ext(A.newtSE,
-   n =c(50,50,50),
+   n = c(50, 50, 50),
    Nx = 30, 
    nreps = 1000, 
    # number of time steps
-*  tmax=50,
+*  tmax = 50,
    maxruns = 10, 
    verbose = FALSE)
 
@@ -2560,17 +2574,17 @@ proba.ext
 ```
 
 ---
-## Step 5 : Examine the results
+## Step 5: Examine the results
 
-Probability of extinction : 
+Probability of extinction: 
 
 
 ```r
 proba.ext &lt;- stoch.quasi.ext(A.newtSE,
-   n =c(50,50,50),
+   n = c(50, 50, 50),
    Nx = 30, 
    nreps = 1000, 
-   tmax=50, 
+   tmax = 50, 
    # repeat to get robust estimates
 *  maxruns = 10,
    verbose = FALSE)
@@ -2579,17 +2593,17 @@ proba.ext
 ```
 
 ---
-## Step 5 : Examine the results
+## Step 5: Examine the results
 
-Probability of extinction : 
+Probability of extinction: 
 
 &lt;img src="matrixmodels_files/figure-html/unnamed-chunk-89-1.svg" width="40%" style="display: block; margin: auto;" /&gt;
 
 
 ---
-## Step 5 : Examine the results
+## Step 5: Examine the results
 
-Probability of extinction : 
+Probability of extinction: 
 
 
 ```r
@@ -2598,20 +2612,20 @@ proba.ext.mean[20] # in 20 years
 ```
 
 ```
-[1] 8e-04
+[1] 0.0012
 ```
 
 ---
-### Several options to  generate the stochastic transition matrices :
+## Several options to generate stochastic transition matrices
 
-Include annual variability on demographic parameters :
+Include annual variability on demographic parameters:
 
-- random annual variation around mean values
+- Random annual variation around mean values
 
-- **catastrophic events**
+- **Catastrophic events**
 
 ---
-# Step 1 : Define the transition matrix in good versus bad years
+## Step 1: Define transition matrix in good vs bad years
 
 
 
@@ -2622,23 +2636,24 @@ fbad &lt;- 0 # fecundity in years with Spring dryness of the pond
 ```
 
 ---
-# Step 1 : Define the transition matrix in good versus bad years
+## Step 1: Define transition matrix in good vs bad years
 
 
 
 ```r
-# Transition matrix in normal years :
+# Transition matrix in normal years
 A.newtGood &lt;- matrix( c(0, s0 * alpha2 * fgood, s0 * alpha3 * fgood,
                         s1, 0, 0, 0, s2, s3) , 
-                      nrow = 3, ncol= 3, byrow = TRUE)
-# Transition matrix in bad years :
+                      nrow = 3, ncol = 3, byrow = TRUE)
+
+# Transition matrix in bad years
 A.newtBad &lt;- matrix( c(0, s0 * alpha2 * fbad, s0 * alpha3 * fbad,
                             s1, 0, 0, 0, s2, s3) , 
-                          nrow = 3, ncol= 3, byrow = TRUE)
+                          nrow = 3, ncol = 3, byrow = TRUE)
 ```
 
 ---
-# Step 1 : Define the transition matrix in good versus bad years
+## Step 1: Define transition matrix in good vs bad years
 
 
 
@@ -2657,7 +2672,7 @@ $bad
 ```
 
 ---
-# Step 2 : Define the frequency of catastrophic events
+## Step 2: Define frequency of catastrophic events
 
 
 
@@ -2667,115 +2682,115 @@ freqbad &lt;- 1/3
 ```
 
 ---
-## Step 3 : Project the population
+## Step 3: Project the population
 
-Project using the 'good' or 'bad' transition matrix with probabillity defined above : 
+Project using the 'good' or 'bad' transition matrix with probabillity defined above: 
 
 ```r
 *stochCATA &lt;- stoch.projection(A.newtCATA,
                               prob = c( (1-freqbad), (freqbad)), 
-                              n0 = c(50,50,50), 
+                              n0 = c(50, 50, 50), 
                               tmax = 100,
-                              nreps=1000, 
-                              verbose=FALSE )
+                              nreps = 1000, 
+                              verbose = FALSE)
 head(stochCATA)
 ```
 
 ```
              [,1]         [,2]         [,3]
-[1,] 7.840048e-06 6.608306e-06 0.0000031618
-[2,] 0.000000e+00 0.000000e+00 0.0088943799
-[3,] 1.375913e-03 1.270073e-03 0.0005548895
-[4,] 0.000000e+00 1.237050e-03 0.0017775115
-[5,] 0.000000e+00 0.000000e+00 0.0255361970
-[6,] 7.068949e-04 3.220751e-04 0.0003172986
+[1,] 0.0000000000 0.0359011435 0.0319642119
+[2,] 0.0067086425 0.0030523813 0.0030120455
+[3,] 0.0031044074 0.0015845427 0.0013639096
+[4,] 0.0040345248 0.0000000000 0.0017798962
+[5,] 0.0012151147 0.0006071229 0.0005359262
+[6,] 0.0004728303 0.0000000000 0.0002085488
 ```
 
 ---
-# Step 3 : Project the population
+# Step 3: Project the population
 
-Project using the 'good' or 'bad' transition matrix with probabillity defined above : 
+Project using the 'good' or 'bad' transition matrix with probabillity defined above: 
 
 
 ```r
 stochCATA &lt;- stoch.projection(A.newtCATA, 
                               # frequency of castastrophic events
 *                             prob = c( (1-freqbad), (freqbad)),
-                              n0 = c(50,50,50), 
+                              n0 = c(50, 50, 50), 
                               tmax = 100, 
-                              nreps=1000, 
-                              verbose=FALSE) 
+                              nreps = 1000, 
+                              verbose = FALSE) 
 
 stochCATA
 ```
 
 ---
-# Step 3 : Project the population
+# Step 3: Project the population
 
-Project using the 'good' or 'bad' transition matrix with probabillity defined above : 
+Project using the 'good' or 'bad' transition matrix with probabillity defined above: 
 
 
 ```r
 stochCATA &lt;- stoch.projection(A.newtCATA, 
                               prob = c( (1-freqbad), (freqbad)), 
                               # initial population
-*                             n0 = c(50,50,50),
+*                             n0 = c(50, 50, 50),
                               tmax = 100, 
-                              nreps=1000, 
-                              verbose=FALSE ) 
+                              nreps = 1000, 
+                              verbose = FALSE) 
 
 stochCATA
 ```
 
 ---
-# Step 3 : Project the population
+# Step 3: Project the population
 
-Project using the 'good' or 'bad' transition matrix with probabillity defined above : 
+Project using the 'good' or 'bad' transition matrix with probabillity defined above: 
 
 
 ```r
 stochCATA &lt;- stoch.projection(A.newtCATA, 
                               prob = c( (1-freqbad), (freqbad)), 
-                              n0 = c(50,50,50), 
+                              n0 = c(50, 50, 50), 
                               # number of time steps
 *                             tmax = 100,
-                              nreps=1000, 
-                              verbose=FALSE ) 
+                              nreps = 1000, 
+                              verbose = FALSE) 
 
 stochCATA
 ```
 
 
 ---
-# Step 3 : Project the population
+# Step 3: Project the population
 
-Project using the 'good' or 'bad' transition matrix with probabillity defined above : 
+Project using the 'good' or 'bad' transition matrix with probabillity defined above: 
 
 
 ```r
 stochCATA &lt;- stoch.projection(A.newtCATA, 
                               prob = c( (1-freqbad), (freqbad)), 
-                              n0 = c(50,50,50), 
+                              n0 = c(50, 50, 50), 
                               tmax = 100, 
                               # number of replicates
-*                             nreps=1000,
-                              verbose=FALSE ) 
+*                             nreps = 1000,
+                              verbose = FALSE) 
 
 stochCATA
 ```
 
 ---
-# Step 4 : Examine the results
+# Step 4: Examine the results
 
-Long-run stochastic growth rate :
+Long-run stochastic growth rate:
 
 
 ```r
 lambdaCATA &lt;- stoch.growth.rate(A.newtCATA, 
                                 prob = c( (1-freqbad), (freqbad)), 
                                 maxt = 100, 
-                                verbose=FALSE )
-exp( lambdaCATA$approx)
+                                verbose = FALSE)
+exp(lambdaCATA$approx)
 ```
 
 ```
@@ -2783,19 +2798,19 @@ exp( lambdaCATA$approx)
 ```
 
 ---
-# Step 4 : Examine the results
+# Step 4: Examine the results
 
-Probability of extinction :
+Probability of extinction:
 
 
 
 ```r
 proba.extCATA &lt;- stoch.quasi.ext(A.newtCATA, 
                                  prob = c( (1-freqbad), (freqbad)),
-                                 n =c(50,15,50), # initial population
+                                 n = c(50, 15, 50), # initial population
                                  Nx = 30,  # Quasi-extinction threshold
                                  nreps = 1000, # nb. of replicates
-                                 tmax=50, # nb. of time steps
+                                 tmax = 50, # nb. of time steps
                                  maxruns = 10, # nb of repetitions
                                  verbose = TRUE)
 ```
@@ -2848,66 +2863,66 @@ proba.extCATA
        [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]
  [1,] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
  [2,] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
- [3,] 0.037 0.037 0.041 0.041 0.030 0.030 0.046 0.046 0.036 0.037
- [4,] 0.122 0.119 0.127 0.118 0.099 0.101 0.119 0.105 0.104 0.127
- [5,] 0.174 0.182 0.206 0.173 0.171 0.167 0.168 0.168 0.166 0.179
- [6,] 0.242 0.238 0.280 0.246 0.237 0.230 0.231 0.243 0.242 0.238
- [7,] 0.303 0.315 0.335 0.307 0.299 0.293 0.292 0.304 0.310 0.308
- [8,] 0.352 0.384 0.381 0.360 0.354 0.348 0.331 0.356 0.379 0.352
- [9,] 0.406 0.423 0.432 0.419 0.405 0.403 0.392 0.403 0.422 0.407
-[10,] 0.452 0.466 0.479 0.467 0.459 0.452 0.431 0.449 0.470 0.468
-[11,] 0.513 0.518 0.529 0.532 0.504 0.506 0.482 0.497 0.543 0.524
-[12,] 0.572 0.573 0.577 0.589 0.572 0.555 0.533 0.553 0.599 0.579
-[13,] 0.617 0.618 0.618 0.640 0.611 0.597 0.594 0.602 0.639 0.615
-[14,] 0.661 0.654 0.658 0.677 0.658 0.638 0.654 0.656 0.693 0.654
-[15,] 0.697 0.683 0.699 0.708 0.683 0.682 0.695 0.685 0.728 0.683
-[16,] 0.732 0.714 0.738 0.740 0.720 0.725 0.737 0.726 0.758 0.714
-[17,] 0.767 0.739 0.765 0.774 0.756 0.750 0.763 0.749 0.783 0.749
-[18,] 0.794 0.766 0.794 0.795 0.790 0.783 0.802 0.775 0.814 0.778
-[19,] 0.826 0.802 0.815 0.816 0.811 0.807 0.818 0.801 0.838 0.815
-[20,] 0.846 0.820 0.836 0.838 0.836 0.836 0.841 0.835 0.856 0.840
-[21,] 0.862 0.839 0.851 0.861 0.858 0.858 0.860 0.858 0.875 0.857
-[22,] 0.875 0.858 0.870 0.883 0.878 0.881 0.879 0.879 0.886 0.878
-[23,] 0.893 0.874 0.889 0.895 0.890 0.895 0.891 0.885 0.904 0.895
-[24,] 0.906 0.883 0.901 0.907 0.899 0.906 0.900 0.897 0.914 0.902
-[25,] 0.915 0.896 0.908 0.917 0.907 0.916 0.916 0.905 0.923 0.915
-[26,] 0.931 0.909 0.917 0.926 0.920 0.921 0.923 0.919 0.933 0.926
-[27,] 0.948 0.923 0.927 0.932 0.929 0.933 0.929 0.929 0.945 0.935
-[28,] 0.954 0.936 0.937 0.940 0.933 0.945 0.937 0.937 0.952 0.947
-[29,] 0.960 0.950 0.943 0.947 0.940 0.957 0.946 0.948 0.961 0.953
-[30,] 0.968 0.954 0.948 0.951 0.946 0.965 0.950 0.958 0.967 0.958
-[31,] 0.972 0.963 0.952 0.956 0.950 0.969 0.958 0.964 0.970 0.960
-[32,] 0.974 0.969 0.956 0.959 0.960 0.972 0.964 0.970 0.973 0.968
-[33,] 0.974 0.975 0.961 0.966 0.966 0.980 0.970 0.971 0.977 0.972
-[34,] 0.974 0.978 0.965 0.972 0.973 0.984 0.977 0.975 0.979 0.973
-[35,] 0.977 0.980 0.969 0.976 0.976 0.987 0.979 0.976 0.981 0.975
-[36,] 0.980 0.983 0.972 0.978 0.977 0.988 0.981 0.978 0.983 0.978
-[37,] 0.981 0.984 0.976 0.981 0.980 0.989 0.982 0.983 0.985 0.979
-[38,] 0.982 0.984 0.976 0.983 0.987 0.990 0.985 0.986 0.988 0.983
-[39,] 0.983 0.985 0.981 0.983 0.988 0.992 0.987 0.986 0.989 0.987
-[40,] 0.984 0.988 0.981 0.988 0.989 0.992 0.989 0.988 0.990 0.988
-[41,] 0.988 0.988 0.982 0.990 0.989 0.994 0.990 0.988 0.991 0.989
-[42,] 0.989 0.991 0.985 0.991 0.990 0.997 0.991 0.989 0.991 0.990
-[43,] 0.990 0.992 0.987 0.991 0.992 0.997 0.991 0.990 0.993 0.991
-[44,] 0.993 0.992 0.993 0.991 0.992 0.998 0.993 0.993 0.993 0.993
-[45,] 0.994 0.994 0.993 0.992 0.993 0.999 0.993 0.994 0.994 0.994
-[46,] 0.994 0.994 0.994 0.993 0.993 0.999 0.993 0.996 0.995 0.994
-[47,] 0.995 0.995 0.994 0.994 0.993 0.999 0.994 0.997 0.996 0.995
-[48,] 0.996 0.995 0.996 0.995 0.994 0.999 0.996 0.998 0.996 0.996
-[49,] 0.996 0.995 0.997 0.996 0.996 0.999 0.997 0.998 0.996 0.996
-[50,] 0.996 0.995 0.997 0.997 0.996 0.999 0.997 0.998 0.996 0.996
+ [3,] 0.036 0.036 0.035 0.043 0.046 0.036 0.043 0.049 0.033 0.043
+ [4,] 0.128 0.117 0.105 0.122 0.115 0.108 0.120 0.121 0.110 0.109
+ [5,] 0.203 0.190 0.172 0.182 0.187 0.178 0.185 0.190 0.168 0.194
+ [6,] 0.261 0.237 0.236 0.236 0.249 0.248 0.246 0.260 0.239 0.246
+ [7,] 0.325 0.289 0.306 0.318 0.324 0.319 0.317 0.320 0.305 0.308
+ [8,] 0.379 0.340 0.360 0.370 0.378 0.371 0.364 0.376 0.352 0.357
+ [9,] 0.433 0.403 0.402 0.426 0.422 0.419 0.413 0.428 0.403 0.401
+[10,] 0.474 0.449 0.454 0.471 0.475 0.475 0.469 0.480 0.453 0.460
+[11,] 0.524 0.506 0.502 0.530 0.526 0.529 0.520 0.541 0.511 0.505
+[12,] 0.570 0.558 0.565 0.583 0.576 0.584 0.586 0.599 0.564 0.554
+[13,] 0.611 0.601 0.607 0.633 0.620 0.634 0.631 0.636 0.608 0.594
+[14,] 0.660 0.648 0.657 0.669 0.671 0.666 0.676 0.667 0.652 0.636
+[15,] 0.695 0.684 0.693 0.708 0.703 0.702 0.710 0.708 0.688 0.679
+[16,] 0.738 0.719 0.712 0.739 0.737 0.723 0.740 0.739 0.726 0.716
+[17,] 0.757 0.749 0.741 0.769 0.768 0.750 0.771 0.768 0.755 0.745
+[18,] 0.788 0.777 0.779 0.794 0.793 0.775 0.791 0.800 0.790 0.771
+[19,] 0.824 0.800 0.804 0.815 0.818 0.809 0.816 0.823 0.820 0.804
+[20,] 0.844 0.823 0.825 0.838 0.841 0.834 0.834 0.843 0.845 0.832
+[21,] 0.863 0.851 0.842 0.852 0.859 0.850 0.863 0.865 0.861 0.846
+[22,] 0.881 0.870 0.863 0.868 0.879 0.866 0.878 0.882 0.877 0.861
+[23,] 0.895 0.884 0.873 0.885 0.895 0.883 0.886 0.899 0.887 0.889
+[24,] 0.906 0.890 0.884 0.899 0.905 0.895 0.904 0.909 0.892 0.899
+[25,] 0.914 0.906 0.900 0.910 0.921 0.911 0.918 0.917 0.905 0.909
+[26,] 0.924 0.917 0.911 0.923 0.927 0.923 0.926 0.928 0.917 0.921
+[27,] 0.928 0.922 0.927 0.930 0.937 0.931 0.936 0.939 0.926 0.929
+[28,] 0.936 0.932 0.939 0.938 0.946 0.939 0.943 0.951 0.938 0.936
+[29,] 0.941 0.942 0.949 0.943 0.955 0.947 0.954 0.953 0.946 0.941
+[30,] 0.950 0.955 0.955 0.949 0.964 0.952 0.959 0.959 0.954 0.948
+[31,] 0.958 0.960 0.965 0.957 0.970 0.955 0.962 0.965 0.957 0.958
+[32,] 0.965 0.963 0.972 0.964 0.978 0.961 0.966 0.972 0.962 0.966
+[33,] 0.971 0.966 0.972 0.970 0.983 0.966 0.971 0.974 0.967 0.969
+[34,] 0.974 0.971 0.974 0.975 0.986 0.971 0.978 0.975 0.969 0.973
+[35,] 0.977 0.976 0.979 0.978 0.988 0.974 0.982 0.977 0.973 0.978
+[36,] 0.980 0.981 0.980 0.980 0.991 0.976 0.985 0.980 0.975 0.979
+[37,] 0.985 0.983 0.981 0.982 0.991 0.977 0.987 0.985 0.979 0.983
+[38,] 0.988 0.988 0.986 0.984 0.992 0.979 0.989 0.987 0.981 0.984
+[39,] 0.988 0.990 0.988 0.986 0.993 0.981 0.990 0.987 0.982 0.986
+[40,] 0.990 0.991 0.989 0.987 0.993 0.983 0.993 0.989 0.984 0.987
+[41,] 0.992 0.991 0.992 0.989 0.994 0.985 0.994 0.990 0.987 0.990
+[42,] 0.992 0.992 0.993 0.990 0.994 0.987 0.994 0.991 0.988 0.992
+[43,] 0.994 0.992 0.994 0.990 0.995 0.989 0.995 0.993 0.991 0.993
+[44,] 0.995 0.992 0.995 0.991 0.997 0.991 0.995 0.994 0.992 0.993
+[45,] 0.999 0.993 0.996 0.993 0.997 0.991 0.996 0.994 0.993 0.993
+[46,] 0.999 0.993 0.997 0.994 0.998 0.991 0.996 0.995 0.994 0.994
+[47,] 0.999 0.995 0.997 0.994 0.998 0.992 0.996 0.997 0.994 0.995
+[48,] 0.999 0.995 0.998 0.995 0.999 0.992 0.997 0.998 0.995 0.998
+[49,] 0.999 0.995 0.999 0.997 1.000 0.994 0.998 0.998 0.996 0.998
+[50,] 1.000 0.995 0.999 0.997 1.000 0.995 0.999 0.998 0.996 0.998
 ```
 
 ---
-# Step 4 : Examine the results
+# Step 4: Examine the results
 
-Probability of extinction :
+Probability of extinction:
 &lt;img src="matrixmodels_files/figure-html/unnamed-chunk-102-1.svg" width="40%" style="display: block; margin: auto;" /&gt;
 
 ---
-# Step 4 : Examine the results
+# Step 4: Examine the results
 
-Probability of extinction :
+Probability of extinction:
 
 
 ```r
@@ -2916,22 +2931,22 @@ proba.ext.mean[20] # in 20 years
 ```
 
 ```
-[1] 0.8384
+[1] 0.8359
 ```
 
 ---
-# Step 5 : Interesting to evaluate the sensitivity of the results to changes in :
+# Step 5: Interesting to evaluate the sensitivity of the results to changes in:
 
-- amount of environmental variance
+- Amount of environmental variance
 
-- frequency of catastrophic events
+- Frequency of catastrophic events
 
 --
-- initial population size
+- Initial population size
 
-- extinction threshold
+- Extinction threshold
 
-- number of time steps
+- Number of time steps
 
 ---
 # Live demo on crested newts
@@ -2942,57 +2957,58 @@ proba.ext.mean[20] # in 20 years
 
 # Limitations of MPMs
 
-- no density-dependence, no demographic stochasticity
+- No density-dependence, no demographic stochasticity
 
-- no trend or change of mean in environmental variance 
+- No trend or change of mean in environmental variance 
 
-- we are making assumptions about demographic parameters in the future
+- We are making assumptions about demographic parameters in the future
 
-- short-term studies (or small populations) = underestimation of variance in demograhic rates while extinction risks increase with increased temporal variance in pop size
+- Short-term studies (or small populations) = underestimation of variance in demographic rates while extinction risks increase with increased temporal variance in pop size
 
-- keep a critical eyes on results : efficiency of PVAs debated in the litterature
+- Keep a critical eyes on results: efficiency of PVAs debated in the litterature
 
-- in any case, sensitivity analyses remain a powerful tool to identify key demographic parameters and evalute management actions.
+- In any case, sensitivity analyses remain a powerful tool to identify key demographic parameters and evalute management actions.
 
 
 ---
-# In which cases constant MPMs are useful despite its limitations ?
+# In which cases constant MPMs are useful despite its limitations?
 
-- especially for big populations (little impact of demographic stochasticity)
+- Especially for big populations (little impact of demographic stochasticity)
 
-- when survival and fertility are best structured by age or stage
+- When survival and fertility are best structured by age or stage
 
-- strong knowledge of the species biology, life cycle and estimate of demographic parameters are critical 
+- Good knowledge of the species biology, life cycle and estimate of demographic parameters are critical 
 
-- models with both deterministic and stochastic components can be fitted to data to separate them through statistical model selection processes
+- Models with both deterministic and stochastic components can be fitted to data to separate them through statistical model selection processes
 
 ---
 # Other (more complicated) models exist 
 
 - MPMs including demographic stochasticity for small populations
 
-- density-dependent MPMs 
+- Density-dependent MPMs 
 
-- two sex models for species with skewed reproductive success
+- Two-sex models for species with skewed reproductive success
 
-- integral projection models for size-structured demography
+- Integral projection models for size-structured demography
 
-- continuous-time models 
+- Continuous-time models 
 
-- multi-species models...
+- Multi-species models...
 
 ---
+
 # Useful references
 
-Morris, William, et al. "A practical handbook for population viability analysis." The Nature Conservancy (1999).
+Morris, William, et al. (1999). *A practical handbook for population viability analysis.* The Nature Conservancy.
 
-Caswell, H., 2000. Matrix population models (Vol. 1). Sunderland, MA: Sinauer.
+Caswell, H. (2000). *Matrix population models (Vol. 1)*. Sunderland, MA: Sinauer.
 
-Brook, Barry W., et al. "Predictive accuracy of population viability analysis in conservation biology." Nature 404.6776 (2000): 385-387.
+Brook, Barry W., et al. (2000). Predictive accuracy of population viability analysis in conservation biology. *Nature* 404.6776: 385-387.
 
-Beissinger, Steven R., and Dale R. McCullough, eds. Population viability analysis. University of Chicago Press, 2002.
+Beissinger, Steven R., and Dale R. McCullough, eds. (2002). *Population viability analysis*. University of Chicago Press.
 
-Reed, J. Michael, et al. "Emerging issues in population viability analysis." Conservation biology 16.1 (2002): 7-19.
+Reed, J. Michael, et al. (2002). Emerging issues in population viability analysis. *Conservation Biology* 16.1: 7-19.
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
