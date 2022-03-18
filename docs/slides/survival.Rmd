@@ -1066,18 +1066,24 @@ class: middle
 ]
 
 
+<!-- --- -->
+<!-- class: middle, center -->
+<!-- background-color: #230404 -->
+
+<!-- ## <span style="color: white;">Thank you Canada!</span> -->
+
+
+<!-- ![](img/deadpool.gif) -->
+
+<!-- --- -->
+<!-- background-image: url(https://media.giphy.com/media/26BRGxMMN3Pn1MMdG/source.gif) -->
+<!-- background-size: cover -->
+
 ---
 class: middle, center
-background-color: #230404
 
-## <span style="color: white;">Thank you Canada!</span>
+## Sites may be states.
 
-
-![](img/deadpool.gif)
-
----
-background-image: url(https://media.giphy.com/media/26BRGxMMN3Pn1MMdG/source.gif)
-background-size: cover
 
 ---
 
@@ -1086,11 +1092,6 @@ background-size: cover
 ]
 
 
-
----
-class: middle, center
-
-## Sites may be states.
 
 ---
 ## Examples of multistate models

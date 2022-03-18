@@ -36,7 +36,7 @@ navbar:
         - text: "Live demos R scripts"
           href: tutorials/Rscriptsdemos.R
         - text: "Datasets"
-          href: tutorials/data.zip
+          href: tutorials/dat.zip
         - text: "Install RMark on a Mac"
           href: tutorials/rmark-mac.html
     - icon: fab fa-github
