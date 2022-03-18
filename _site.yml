@@ -31,6 +31,12 @@ navbar:
           href: tutorials/matrix-tutorial.R
     - text: "Miscellaneous"
       menu:
+        - text: "Lectures slides"
+          href: quantitative-methods-for-population-dynamics.pdf
+        - text: "Live demos R scripts"
+          href: tutorials/matrix-tutorial.R
+        - text: "Datasets"
+          href: tutorials/data.zip
         - text: "Install RMark on a Mac"
           href: tutorials/rmark-mac.html
     - icon: fab fa-github
