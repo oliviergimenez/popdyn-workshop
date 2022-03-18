@@ -34,7 +34,7 @@ navbar:
         - text: "Lectures slides"
           href: quantitative-methods-for-population-dynamics.pdf
         - text: "Live demos R scripts"
-          href: tutorials/matrix-tutorial.R
+          href: tutorials/Rscriptsdemos.R
         - text: "Datasets"
           href: tutorials/data.zip
         - text: "Install RMark on a Mac"
