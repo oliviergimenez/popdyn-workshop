@@ -66,7 +66,9 @@ knitr::include_graphics("img/Diapositive3.JPG")
 ```{r, echo=FALSE, out.width="75%", fig.align='center'}
 knitr::include_graphics("img/Diapositive4.JPG")
 ```
+
 Detectability (usually) varies over space
+
 ---
 
 # Background - Detectability issues
@@ -93,7 +95,7 @@ Detectability (usually) varies over time
 
 + We have $E(C)=pN$
 
-+ where $p$ is the probability of counting an individual in the study area
++ Where $p$ is the probability of counting an individual in the study area
 
 ---
 # Background - Detectability issues
@@ -106,7 +108,7 @@ $$N = \frac{C}{\alpha \times p}$$
 
 + *p* needs to be estimated to provide unbiased estimates 
 
-+ and allow inference regarding abundance variations over time and space
++ And allows inference regarding abundance variations over time and space
 
 
 ---
@@ -118,7 +120,7 @@ $$N = \frac{C}{\alpha \times p}$$
 
 + Several sampling designs exist: Random, systematic, stratified, spatially balanced, etc
 
-+ Not covered is this course
++ Not covered in this course
 
 ---
 # Some useful reading on sampling design
@@ -145,7 +147,7 @@ knitr::include_graphics("img/book_thompson.jpg")
 
 + Open populations: Capture-recapture, open N-mixture
 
-+ In this course : 
++ In this course: 
  - Capture-recapture for closed populations
  - Distance sampling
  - N-mixture for closed populations
@@ -211,7 +213,7 @@ Make a second visit, capture a second independent sample of individuals
 ```{r, echo=FALSE, out.width="75%", fig.align='center'}
 knitr::include_graphics("img/Diapositive10.JPG")
 ```
-Among newly captured individuals, some are marked, noted $m$, others aren't, noted $n_2$
+Among newly captured individuals, noted $n_2$, some are marked, noted $m$, others aren't 
 
 ---
 ## Capture-recapture methods for closed populations
@@ -225,6 +227,39 @@ Among newly captured individuals, some are marked, noted $m$, others aren't, not
 + Then the proportion of marked individuals in the second sample, *m*, is the proportion of marked individuals in the entire population:
 
 $$\hat{N}=\displaystyle{\frac{n_1 \times n_2}{m}}$$
+---
+## Capture-recapture methods for closed populations
+
+Another way of writing the Lincoln-Petersen index
+
+
+$n_{10}=N \times p_1 \times (1-p_2)$
+
+$n_{01}=N \times (1-p_1) \times p_2$
+
+$n_{11}=N \times p_1 \times p_2$
+
+with $p_1$ and $p_2$ the capture probability at first and second session respectively
+
+3 equations, 3 unknown values N, $p_1, p_2, \ldots$, no difficulties
+
+
+---
+## Capture-recapture methods for closed populations
+
+Rearranging the equations also leads to: 
+
+$$N=\displaystyle{\frac{n_{10}+n_{01}+n_{11}}{1 - (1-p_1) \times (1-p_2)}}$$
+or  
+
+$$N=\displaystyle{\frac{n_{10}+n_{01}+n_{11}}{p*}}$$
+
+with $p*$ the probability to be captured at least once and ${n_{10}+n_{01}+n_{11}}$ the total number of different individuals captured
+
+*Remember* $$N = \frac{C}{p}$$
+
+
+
 ---
 ## The Lincoln-Petersen index
 
@@ -360,11 +395,13 @@ knitr::kable(tableproba)
 ---
 # Maximum likelihood
 
-+ The number of individuals with history 111 is provided by $n_{111}=Np^3$
++ The number of individuals with history 111 is provided by $n_{111}=N \times p \times p \times p$
 
-+ We can do that for all histories
++ We can do that for all histories, remember the equations we wrote for the Lincoln-Petersen index
 
-+ Then using a method called "maximum likelihood" we can search for the values of $p$ and $N$ that lead to the closest match between the number of observed histories $n_{111}$, $n_{110}$, etc and the number predicted given $\hat{p}$ and $\hat{N}$
++ Solving the equation system becomes more and more challenging as the number of field sessions increases 
+
++ Then using an algorithm called "maximum likelihood" we can search for the values of p and N that lead to the closest match between the number of observed histories ( $n_{111}$, $n_{110}$, etc) and their expected number given $\hat{p}$ and $\hat{N}$
 
 ---
 # More than two sessions
@@ -379,7 +416,7 @@ knitr::kable(tableproba)
 ---
 # Model Mt
 
-+ Capture probabilities vary with session (climatic conditions, field effort, observer experience, etc)
++ Capture probabilities vary with session (weather conditions, field effort, observer experience, etc)
 
 + With $K$ sessions, $K+1$ parameters to estimate: $N, p_1, p_2, \ldots, p_K$
 
@@ -515,7 +552,7 @@ knitr::kable(tableproba, format = 'html')
 
 + And $(1-\pi)$ to the second group with $p_L$
 
-+ Then $p=\pi \times p_L + (1-\pi) \times p_H$
++ Then $p=\pi \times p_H + (1-\pi) \times p_L$
 
 + We can just use this equation in $M_0$ and get four parameters: $N, \pi, p_H$ and $p_L$
 
@@ -547,7 +584,7 @@ knitr::kable(tableproba, format = 'html')
 
 $$AIC = Deviance + 2 K$$
 
-+ With $Deviance$ a measure of the unexplained variance of the model 
++ with $Deviance$, a measure of the unexplained variance of the model 
 
 + $K$ the number of parameters in the model
 
@@ -564,20 +601,20 @@ $$AIC = Deviance + 2 K$$
 
 + Yet very sensitive to other sources of variations such as capture heterogeneity
 
-+ Poor performance when $p$ is low
++ Low performance when p is low
 
-+ Some authors now rely more on ecological justification than statistical tests
++ Some authors now rely more on ecological justification than statistical tests 
 
 ---
 # Cited references
 
-Huggins R. M.  (1989)  On the statistical analysis of capture-recapture experiments.  Biometrika 76:133-140.
+Huggins R. M. (1989). On the statistical analysis of capture-recapture experiments.  *Biometrika* 76:133-140.
 
-Otis, D. L., Burnham, K. P., White, G. C. and Anderson, D. R. (1978) Statistical inference from capture data on closed animal populations. Wildlife Monographs 62, 1–135.
+Otis, D. L., Burnham, K. P., White, G. C. and Anderson, D. R. (1978). Statistical inference from capture data on closed animal populations. *Wildlife Monographs* 62: 1–135.
 
-Pledger S. (2000) Unified Maximum Likelihood Estimates for Closed Capture–Recapture Models Using Mixtures. Biometrics, 56: 434-442. 
+Pledger S. (2000). Unified Maximum Likelihood Estimates for Closed Capture–Recapture Models Using Mixtures. *Biometrics* 56: 434-442. 
 
-Stanley, T. R. and Burnham, K. P. (1999) A closure test for time-specific capture–recapture data. Environmental and Ecological Statistics 6, 197–209.
+Stanley, T. R. and Burnham, K. P. (1999). A closure test for time-specific capture–recapture data. *Environmental and Ecological Statistics* 6:197–209.
 
 ---
 # Further reading
@@ -650,16 +687,16 @@ knitr::include_graphics("img/Diapositive15.JPG")
 
 + Using raw counts in the sample strips/circles
 
-+ Density is easily estimated using : 
++ Density is easily estimated using: 
 
 $$\hat{D}=\frac{\sum_{i=1}^ny_i}{\sum_{i=1}^n{a_i}}$$
 
 + With $y_i$ the count at each sample unit, and $a_i$ the surface of each sample unit
 
-+ That can be translated into abundance N with : 
++ That can be translated into abundance $N$ with: 
 $$\hat{N} = \frac{\sum_{i=1}^ny_i}{\alpha}$$
 
-+ with $\alpha$ the proportion of the study area eventually sampled
++ Where $\alpha$ is the the proportion of the study area eventually sampled
 
 
 ---
@@ -693,17 +730,18 @@ $$\hat{D}=\frac{\sum_{i=1}^ny_i}{\sum_{i=1}^n\pi \times w_i^2}$$
 
 + It can vary between sample units and even in sample units (depending on vegetation cover for instance)
 
-+ *Note also that some observations are wasted (those outside the strips/circles)*
 
 
 ---
 # Distance sampling - background (1)
 
++ Distance sampling rational was formulated by Steve Buckland, early 1980
+
 + The number of detections tends to decrease with distance to observer...
 
 + ...some information on detection probability is encapsulated in distances
 
-+ What if we record the distances of detected individuals rather than only their presence ?
++ Can we estimate detection probability by recording the distances of detected individuals rather than their presence only ?
 
 ---
 # Distance sampling - background (2)
@@ -747,12 +785,12 @@ knitr::include_graphics("img/Diapositive19.JPG")
 ---
 # Estimating density when detection < 1
 
+* Remember first lecture on detection issue, but also Capture-recapture: $N = \frac{C}{p}$
 
 $$\hat{D}=\frac{\sum_{i=1}^ny_i}{a \times \hat{p}}$$
 
 + With $p$ the mean detection probability on the entire sampled area of surface $a$
 
-+ Note the match with capture-recapture methods $\hat{N}=\displaystyle{\frac{C}{\hat{p}}}$
 
 + How to estimate $p$ using distance data ?
 
@@ -765,7 +803,7 @@ $$\hat{D}=\frac{\sum_{i=1}^ny_i}{a \times \hat{p}}$$
 knitr::include_graphics("img/Diapositive22.JPG")
 ```
 
-+ If $p$ was equal to one, the histrogram would be flat
++ If $p$ was equal to one, the histogram would be flat
 
 + The decrease results from a decreasing detection prob with distance to observer
 
@@ -783,7 +821,7 @@ knitr::include_graphics("img/Diapositive21.JPG")
 
 For instance, if 100 individuals are observed, 70% of the individuals are detected (below the curve) and 30% not detected
 
-$$\hat{D} = \frac{100}{0.70} = 143$$
+$$\hat{N} = \frac{100}{0.70} = 143$$
 
 ```{r, echo=FALSE, out.width="60%", fig.align='center'}
 knitr::include_graphics("img/Diapositive21.JPG")
@@ -810,9 +848,9 @@ knitr::include_graphics("img/Diapositive21.JPG")
 
 .pull-right[
 
-$\displaystyle{\hat{p}=\frac{\int_{0}^{w} \hat{g}(x)\,dx}{w}}$
+$\displaystyle{\hat{p}=\frac{\int_{0}^{w} \hat{g}(y)\,dy}{w}}$
 
-with $w$ the distance at which data are truncated and $g(x)$ the detection curve 
+with $w$ the distance at which data are truncated and $g(y)$ the detection curve 
 
 it is the $\frac{\mbox{area under the curve}}{\mbox{area of the rectangle}}$ 
 ]
@@ -820,11 +858,11 @@ it is the $\frac{\mbox{area under the curve}}{\mbox{area of the rectangle}}$
 ---
 # Modelling the detection function (1)
 
-+ $g(x)$, detection probability given the distance, needs to be estimated
++ $g(y)$, detection probability given the distance, needs to be estimated
 
-+ $g(x)$ is not known and may vary a lot due to observer experience and environment
++ $g(y)$ is not known and may vary a lot due to observer experience and environment
 
-+ Distance sampling strategy is to go for a few models for $g(x)$ with good properties:
++ Distance sampling strategy is to go for a few models for $g(y)$ with good properties:
 
     - model robustness
     - shape criterion
@@ -851,7 +889,7 @@ it is the $\frac{\mbox{area under the curve}}{\mbox{area of the rectangle}}$
 ---
 # Modelling the detection function (3)
 
-Two components for $g(x)$ :
+Two components for $g(y)$:
 
 - A ‘key’ function: Uniform, half-normal, hazard-rate
 
@@ -931,7 +969,7 @@ knitr::include_graphics("img/Diapositive28.JPG")
 
 - Individuals are detected at their initial location
 
-- Measures are recorded accurately
+- Distances are recorded accurately
 
 ---
 # Individuals on the line or point are all detected
@@ -1101,17 +1139,19 @@ knitr::include_graphics("img/Diapositive34.JPG")
 
 + N-mixture models take advantage of these variations between counts at the same sample unit
 
-+ Requires some spatial replications (several sampling units) and temporal replications (repeated counts at the same units)
++ Requires some spatial replications (several sampling units) and temporal replications (repeated counts at the same units) - same design as *site occupancy models*
 
-+ Some strong assumptions :
++ Some strong assumptions:
 
     - Abundance at a sampling unit does not change between successive counts ("closed population")
     - Individuals have the same detection probability (no heterogeneity)
-    - Abundance at the sampling units is Poisson distributed
-    - Visits are independent (no trap-dependence)
+    - Abundances at the sampling units are Poisson distributed
+    - Sampling sessions are independent (no trap-dependence)
 
 ---
-# Typical dataset used for N-mixture models
+# N-mixture models (Royle 2004)
+
+Typical dataset used for N-mixture models
 
 ```{r, echo=FALSE, out.width="50%", fig.align='center'}
 set.seed(254)
@@ -1138,7 +1178,7 @@ with $\lambda$ the mean abundance at the sites
 
 + An observation process corresponding to detection issues
 
-$$y_{it} \sim \mbox{Binomial}(N_i,p_{it})$$
+$$y_{it} \sim \mbox{Binomial}(N_i,p)$$
 
 + Covariates can be added on abundance (e.g. vegetation cover, elevation) and on detection probability (e.g. vegetation cover, date, observer experience)
 
@@ -1151,11 +1191,11 @@ $$y_{it} \sim \mbox{Binomial}(N_i,p_{it})$$
 
 + Barker et al. 2017 - Without auxillary information about $p$, count data cannot distinguish between N-mixture model or other possible models of $N$
 
-+ Dennis 2015, Kéry 2017 - Some parameters not identifiability especially with negative binomial distribution instead of Poisson  
++ Dennis 2015, Kéry 2017 - Some parameters not identifiable especially with negative binomial distribution instead of Poisson  
 
 + Link et al. 2018 - Estimates sensitive to violation of double counting and constant $\lambda / p$ - GOF unable to detect this
 
-+ Recommendations : Check parameter $K$ (see live demo), perform GOF, do not rely on negative binomial distribution
++ Conclusion: check parameter $K$ (see live demo), perform GOF, do not rely on negative binomial distribution
 
 ---
 # N-mixture models - further reading
@@ -1170,28 +1210,28 @@ $$y_{it} \sim \mbox{Binomial}(N_i,p_{it})$$
 ---
 # Cited references (1)
 
-Barker, R.J., Schofield, M.R., Link, W.A. and Sauer, J.R. (2018), On the reliability of N-mixture models for count data. Biom, 74: 369-377.
+Barker, R.J., Schofield, M.R., Link, W.A. and Sauer, J.R. (2018). On the reliability of N-mixture models for count data. *Biometrics* 74: 369-377.
 
-Chandler, R.B., Royle, J.A. and King, D.I. (2011), Inference about density and temporary emigration in unmarked populations. Ecology, 92: 1429-1435.
+Chandler, R.B., Royle, J.A. and King, D.I. (2011). Inference about density and temporary emigration in unmarked populations. *Ecology* 92: 1429-1435.
 
-Couturier, T., Cheylan, M., Bertolero, A., Astruc, G. and Besnard, A. (2013), Estimating abundance and population trends when detection is low and highly variable: A comparison of three methods for the Hermann's tortoise. The Journal of Wildlife Management, 77: 454-462. 
+Couturier, T., Cheylan, M., Bertolero, A., Astruc, G. and Besnard, A. (2013). Estimating abundance and population trends when detection is low and highly variable: A comparison of three methods for the Hermann's tortoise. *Journal of Wildlife Management* 77: 454-462. 
 
-Dail, D. and Madsen, L. (2011), Models for Estimating Abundance from Repeated Counts of an Open Metapopulation. Biometrics, 67: 577-587.
+Dail, D. and Madsen, L. (2011). Models for Estimating Abundance from Repeated Counts of an Open Metapopulation. *Biometrics* 67: 577-587.
 
-Dennis, E.B., Morgan, B.J. and Ridout, M.S. (2015), Computational aspects of N-mixture models. Biom, 71: 237-246. 
+Dennis, E.B., Morgan, B.J. and Ridout, M.S. (2015). Computational aspects of N-mixture models. *Biometrics* 71: 237-246. 
 
 ---
 # Cited references (2)
 
-Hostetler, J.A. and Chandler, R.B. (2015), Improved state-space models for inference about spatial and temporal variation in abundance from count data. Ecology, 96: 1713-1723.
+Hostetler, J.A. and Chandler, R.B. (2015). Improved state-space models for inference about spatial and temporal variation in abundance from count data. *Ecology* 96: 1713-1723.
 
-Kéry, M. (2018), Identifiability in N-mixture models: a large-scale screening test with bird data. Ecology, 99: 281-288.
+Kéry, M. (2018). Identifiability in N-mixture models: a large-scale screening test with bird data. *Ecology* 99: 281-288.
 
-Link, W.A., Schofield, M.R., Barker, R.J. and Sauer, J.R. (2018), On the robustness of N-mixture models. Ecology, 99: 1547-1551.
+Link, W.A., Schofield, M.R., Barker, R.J. and Sauer, J.R. (2018). On the robustness of N-mixture models. *Ecology* 99: 1547-1551.
 
-Royle, J.A. (2004), N-Mixture Models for Estimating Population Size from Spatially Replicated Counts. Biometrics, 60: 108-115.
+Royle, J.A. (2004). N-Mixture Models for Estimating Population Size from Spatially Replicated Counts. *Biometrics* 60: 108-115.
 
-Yamaura, Y., Royle, J.A., Shimada, N. et al. Biodiversity of man-made open habitats in an underused country: a class of multispecies abundance models for count data. Biodivers Conserv 21, 1365–1380 (2012). 
+Yamaura, Y., Royle, J.A., Shimada, N. et al. (2012). Biodiversity of man-made open habitats in an underused country: a class of multispecies abundance models for count data. *Biodivers Conserv* 21, 1365–1380. 
 
 
 
