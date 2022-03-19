@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = FALSE)
 Lecturers: [Olivier Gimenez](https://twitter.com/oaggimenez), [Aurélien Besnard](https://twitter.com/abesnardEPHE) and [Sarah Cubaynes](https://twitter.com/sarahcubaynes).  
 Helpers: Coline Cannone, Thierry Chambert, [Thibaut Couturier](https://twitter.com/ThibautCouturie), [Valentin Lauret](https://twitter.com/ValentinLauret)
 
-**When**: March 21-22, 2022
+**When**: March 21-22, 2022 <br> Mornings 9am-12am and afternoons 2pm-5pm (Paris time UTC+2 GMT+1)
 
 **Where**: On YouTube     
 Day 1: <https://youtu.be/iqlqc5a4r7w>    
