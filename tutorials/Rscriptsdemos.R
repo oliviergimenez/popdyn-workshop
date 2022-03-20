@@ -380,12 +380,16 @@ ms
 ################################################################
 ################################################################
 
-
+# rounding 2 decimals, and scientific notation
+options(htmltools.dir.version = FALSE,
+        scipen = 1, 
+        digits = 2)
 
 
 ## ---------------------------------------------------------------------------------
 library(RMark)
-
+library(tidyverse)
+theme_set(theme_light())
 
 ## ---------------------------------------------------------------------------------
 dipper_csv <- read_csv("dat/dipper.csv")
