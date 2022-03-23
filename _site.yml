@@ -21,6 +21,9 @@ navbar:
           href: slides/matrixmodels.html
         - text: "Conclusions"
           href: slides/conclusions.html
+        - text: "PDF of the slides"
+          href: quantitative-methods-for-population-dynamics.pdf
+
     - text: "Live demos"
       menu:
         - text: "Demo 1: Population abundance and density"
@@ -29,14 +32,12 @@ navbar:
           href: tutorials/survival-tutorial.html
         - text: "Demo 3: Population projection models"
           href: tutorials/matrix-tutorial.R
-    - text: "Miscellaneous"
-      menu:
-        - text: "Lectures slides"
-          href: quantitative-methods-for-population-dynamics.pdf
-        - text: "Live demos R scripts"
+        - text: "All R scripts together"
           href: tutorials/Rscriptsdemos.R
-        - text: "Datasets"
-          href: tutorials/dat.zip
+    - text: "Datasets"
+      href: tutorials/dat.zip
+    - text: "Software installation"
+      menu:
         - text: "Install RMark on a Mac"
           href: tutorials/rmark-mac.html
     - icon: fab fa-github
