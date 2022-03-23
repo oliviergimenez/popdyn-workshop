@@ -170,7 +170,7 @@ conversion.factor <- convert_units("meter", "kilometer","hectare")
 wren.hn <- ds(data = wren_lt, 
               key = "hn", 
               adjustment = NULL,
-              convert.units = conversion.factor)
+              convert_units = conversion.factor)
 
 
 ## ---------------------------------------------------------------------------------
@@ -199,10 +199,10 @@ wren.hn$dht
 
 
 ## ---- echo=FALSE------------------------------------------------------------------
-wren.unif.cos <- ds(wren_lt, key="unif", adjustment="cos",
-                  convert.units=conversion.factor)
-wren.hr.poly <- ds(wren_lt, key="hr", adjustment="poly", 
-                  convert.units=conversion.factor)
+wren.unif.cos <- ds(wren_lt, key = "unif", adjustment = "cos",
+                  convert_units = conversion.factor)
+wren.hr.poly <- ds(wren_lt, key = "hr", adjustment = "poly", 
+                  convert_units = conversion.factor)
 
 
 ## ---------------------------------------------------------------------------------

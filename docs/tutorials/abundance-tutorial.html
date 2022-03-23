@@ -14,7 +14,7 @@ class: center, middle, title-slide
 
 # Abundance - live demos
 ### Aurélien Besnard for the team
-### last updated: 2022-03-16
+### last updated: 2022-03-23
 
 ---
 
@@ -1523,7 +1523,7 @@ conversion.factor &lt;- convert_units("meter", "kilometer","hectare")
 wren.hn &lt;- ds(data = wren_lt, 
               key = "hn", 
               adjustment = NULL,
-              convert.units = conversion.factor)
+              convert_units = conversion.factor)
 ```
 ---
 # Fit a simple detection function model 
@@ -1833,12 +1833,12 @@ Density:
 wren.unif.cos &lt;- ds(wren_lt, 
                     key = "unif", 
                     adjustment = "cos",
-                    convert.units = conversion.factor)
+                    convert_units = conversion.factor)
 
 wren.hr.poly &lt;- ds(wren_lt, 
                    key = "hr", 
                    adjustment = "poly", 
-                   convert.units = conversion.factor)
+                   convert_units = conversion.factor)
 ```
 
 
