@@ -23,7 +23,6 @@ navbar:
           href: slides/conclusions.html
         - text: "PDF of the slides"
           href: quantitative-methods-for-population-dynamics.pdf
-
     - text: "Live demos"
       menu:
         - text: "Demo 1: Population abundance and density"
@@ -40,6 +39,8 @@ navbar:
       menu:
         - text: "Install RMark on a Mac"
           href: tutorials/rmark-mac.html
+    - text: "Questions and answers"
+      href: faq.pdf
     - icon: fab fa-github
       href: https://github.com/oliviergimenez/popdyn-workshop    
 output: distill::distill_article
