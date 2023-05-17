@@ -19,6 +19,7 @@ Lecturers: [Olivier Gimenez](https://twitter.com/oaggimenez), [Aurélien Besnard
 Helpers: Coline Cannone, Thierry Chambert, [Thibaut Couturier](https://twitter.com/ThibautCouturie), [Valentin Lauret](https://twitter.com/ValentinLauret), [Marwan Naciri](https://twitter.com/MarwanNaciri2), [Javi Fernández-López](https://twitter.com/javi_ferlop), [Lise Viollat](https://twitter.com/LiseViollat)
 
 **When**: June 1-2, 2023 <br> Mornings 9am-12am and afternoons 2pm-5pm (Paris time UTC/GMT +2 hours)
+
 ~~March 21-22, 2022 <br> Mornings 9am-12am and afternoons 2pm-5pm (Paris time UTC/GMT +2 hours)~~
 
 
@@ -40,6 +41,24 @@ Video recordings available at: <https://youtube.com/playlist?list=PL5CiXbb9zgjSS
 1. Count-based projection models
 2. Age- and stage-structured models, sensitivity analyses
 3. Deterministic and stochastic models
+
+### Schedule
+
+**June 1, 2023**         
+9am-9:50am - Introduction, conventional methods and the detectability issue, capture-recapture for closed populations part 1.      
+10am-10:50am - Capture-recapture for closed populations part 2.     
+11am-11:50am - Distance sampling.     
+2pm-2:50pm - N-mixture models.     
+3pm-3:50pm - Survival estimation.     
+4pm-4:50pm - Survival estimation with covariates.     
+
+**June 2, 2023**            
+9am-9:50am - Capture-recapture multistate models.     
+10am-10:50am - Count-based PVA.     
+11am-11:50am - PVA with matrix models - determinist.     
+2pm-2:50pm - PVA with matrix models - stochastics.     
+3pm-3:30pm - Conclusion.     
+
 
 ### Requirements
 
