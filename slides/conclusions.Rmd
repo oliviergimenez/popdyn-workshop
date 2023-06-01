@@ -1,6 +1,6 @@
 ---
 title: "Quantitative methods for population dynamics <br> Conclusions"
-author: "Olivier Gimenez, Sarah Cubaynes, Aurélien Besnard <br> Coline Canonne, Thierry Chambert, Thibaut Couturier, Valentin Lauret"
+author: "Olivier Gimenez, Sarah Cubaynes, Aurélien Besnard <br> Lise Viollat, Javi-Fernández-López, Thierry Chambert, Thibaut Couturier, Valentin Lauret, Marwan Naciri"
 #date: "last updated: `r Sys.Date()`"
 output:
   xaringan::moon_reader:
@@ -196,7 +196,7 @@ class: middle, center
 
 --
 
-+ Please, fill in feedback form at <https://forms.gle/XoXvz58RQq6kAMT38>. It will help us to improve materials and delivery for next time. 
++ Please, fill in feedback form at <https://forms.gle/Gw9qeg9a8qVgnJaZ7>. It will help us to improve materials and delivery for next time. 
 
 --
 
@@ -204,11 +204,11 @@ class: middle, center
 
 --
 
-+ A book is on its way. More in 2023 hopefully.
++ A book is on its way. More in 2024 hopefully.
 
 ???
 
 + And last, a book is on its way. Based on the material we used for the workshop and more stuff. 
-+ More in 2023 hopefully. 
++ More in 2024 hopefully. 
 
 

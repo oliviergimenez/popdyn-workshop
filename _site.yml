@@ -18,11 +18,11 @@ navbar:
         - text: "Class 2: Demographic parameters"
           href: slides/survival.html
         - text: "Class 3: Population projection models"
-          href: slides/matrixmodels.html
+          href: slides/matrixmodels2.html
         - text: "Conclusions"
           href: slides/conclusions.html
-        - text: "PDF of the slides"
-          href: quantitative-methods-for-population-dynamics.pdf
+        # - text: "PDF of the slides"
+        #   href: quantitative-methods-for-population-dynamics.pdf
     - text: "Live demos"
       menu:
         - text: "Demo 1: Population abundance and density"
@@ -30,9 +30,9 @@ navbar:
         - text: "Demo 2: Demographic parameters"
           href: tutorials/survival-tutorial.html
         - text: "Demo 3: Population projection models"
-          href: tutorials/matrix-tutorial.R
+          href: tutorials/LiveDemoClass3_script.R
         - text: "All R scripts together"
-          href: tutorials/Rscriptsdemos.R
+          href: tutorials/Rscriptsdemos2023.R
     - text: "Datasets"
       href: tutorials/dat.zip
     - text: "Software installation"

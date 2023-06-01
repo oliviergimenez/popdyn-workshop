@@ -1,6 +1,6 @@
 ---
 title: "Quantitative methods for population dynamics <br> Introduction"
-author: "Olivier Gimenez, Sarah Cubaynes, Aurélien Besnard <br> Coline Canonne, Thierry Chambert, Thibaut Couturier, Valentin Lauret"
+author: "Olivier Gimenez, Sarah Cubaynes, Aurélien Besnard <br> Lise Viollat, Javi-Fernández-López, Thierry Chambert, Thibaut Couturier, Valentin Lauret, Marwan Naciri"
 #date: "last updated: `r Sys.Date()`"
 output:
   xaringan::moon_reader:
@@ -171,9 +171,9 @@ knitr::include_graphics("img/Page1.png")
 + Thanks
 
 ---
-### The team - lecturers
+### The team - lecturers/helpers
 
-```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE}
+```{r eval=FALSE, fig.asp=0.718, fig.width=7.5, message=FALSE, warning=FALSE, dev="svg", include=FALSE}
 library(cowplot)
 p1 <- ggdraw() + 
   draw_image(here::here("slides","img","sarah.jpg"), scale = 0.9) + 
@@ -192,17 +192,17 @@ library(patchwork)
 p1 / p2 / p3
 ```
 
-Thierry (survie, matrice), Thibaut (effectif), Coline (survie, matrice) et Valentin
+<!-- Thierry (survie, matrice), Thibaut (effectif), Coline (survie, matrice) et Valentin -->
 
-???
+<!-- ??? -->
 
-+ We will be 3 teachers with you today and tomorrow.  
-+ Time for introductions I guess. 
+<!-- + We will be 3 teachers with you today and tomorrow.   -->
+<!-- + Time for introductions I guess.  -->
 
----
-### The team - helpers
+<!-- --- -->
+<!-- ### The team - helpers -->
 
-```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE}
+```{r eval=FALSE, fig.asp=0.718, fig.width=7.5, message=FALSE, warning=FALSE, dev="svg", include=FALSE}
 library(cowplot)
 p1 <- ggdraw() + 
   draw_image(here::here("slides","img","coline.jpg"), scale = 0.9) + 
@@ -225,10 +225,10 @@ library(patchwork)
 p1 / p2 / p3 / p4
 ```
 
-???
+<!-- ??? -->
 
-+ We will have the help of 4 young researchers with us today and tomorrow.  
-+ Time for introductions I guess. 
+<!-- + We will have the help of 4 young researchers with us today and tomorrow.   -->
+<!-- + Time for introductions I guess.  -->
 
 
 

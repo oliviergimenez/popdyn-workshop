@@ -1,6 +1,6 @@
 ---
 title: "Install RMark on a Mac"
-date: "January 2022, February 2023"
+date: "January 2022, February 2023, June 2023"
 output: html_document
 ---
 
@@ -63,6 +63,10 @@ Name : Phi(~1)p(~1)
 ```
 
 13.	If you do, you are good to go! If not, try to google the error message you probably got earlier.
+
+## Install Program MARK on Mac OS using homebrew
+
+Haven't had the chance to give it a try, but we had positive feedbacks about this procedure, check out <https://github.com/sjbonner/mark-on-mac>
 
 ## Troubleshootings
 
